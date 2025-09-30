@@ -23,128 +23,129 @@ const Header = () => {
 
   return (
     <>
-      {/* Top-Left Header Component - Frosted Glass */}
-      <div className="fixed top-4 left-4 z-50 flex flex-col gap-2">
-        {/* Primary Box: Hamburger + Name */}
-        <div className="bg-background/80 backdrop-blur-xl border border-border rounded-lg px-4 py-3 flex items-center gap-3 shadow-lg">
-          <button
-            onClick={toggleMenu}
-            className="text-foreground hover:text-primary transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-          <span className="text-sm md:text-base font-bold tracking-wider text-foreground uppercase">
-            HEIDI SIMELIUS
-          </span>
-        </div>
-        
-        {/* Secondary Box: Latest EP */}
-        <div className="bg-background/80 backdrop-blur-xl border border-border rounded-lg px-4 py-2 shadow-lg">
-          <span className="text-xs md:text-sm text-muted uppercase tracking-wide">
-            MÄ VASTAAN EP
-          </span>
-        </div>
-      </div>
-
-      {/* Full-Screen Overlay Menu */}
-      {isMenuOpen && (
-        <div
-          className="fixed inset-0 z-40 flex items-center md:items-start md:justify-start justify-center p-4 md:p-0"
-          onClick={toggleMenu}
-        >
-          {/* Frosted Glass Panel */}
-          <div
-            className="relative w-full max-w-[420px] h-full md:h-auto md:max-h-[90vh] md:ml-0 bg-background/80 backdrop-blur-xl border border-border rounded-none md:rounded-r-lg shadow-2xl flex flex-col items-center justify-between py-12 px-8"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Top: Logo Text */}
-            <div className="text-center">
-              <a href="/" onClick={toggleMenu}>
-                <h2 className="text-4xl md:text-5xl font-playfair text-primary hover:opacity-80 transition-opacity">
-                  Heidi Simelius
-                </h2>
-              </a>
-            </div>
-
-            {/* Center: Navigation Links */}
-            <nav className="flex-1 flex items-center">
-              <ul className="space-y-6 text-center">
-                {navLinks.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-2xl md:text-3xl font-bold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-
-            {/* Bottom: Social Media Icons */}
-            <div className="flex gap-6 flex-wrap justify-center">
-              <a
-                href="https://www.instagram.com/Heidisimelius/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground hover:text-primary transition-colors"
-                aria-label="Instagram"
-              >
-                <FaInstagram size={28} />
-              </a>
-              <a
-                href="https://vm.tiktok.com/ZMJoaem42/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground hover:text-primary transition-colors"
-                aria-label="TikTok"
-              >
-                <FaTiktok size={28} />
-              </a>
-              <a
-                href="https://www.facebook.com/HeidiSimelius/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground hover:text-primary transition-colors"
-                aria-label="Facebook"
-              >
-                <FaFacebook size={28} />
-              </a>
-              <a
-                href="https://music.apple.com/gb/artist/heidi-simelius/1486952057"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground hover:text-primary transition-colors"
-                aria-label="Apple Music"
-              >
-                <FaMusic size={28} />
-              </a>
-              <a
-                href="https://soundcloud.com/heidi-simelius"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground hover:text-primary transition-colors"
-                aria-label="Soundcloud"
-              >
-                <FaSoundcloud size={28} />
-              </a>
-              <a
-                href="https://open.spotify.com/artist/7wmdyUKDAcJfmWbgsARwl9"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground hover:text-primary transition-colors"
-                aria-label="Spotify"
-              >
-                <FaSpotify size={28} />
-              </a>
+      {/* Top Header Container - Always Visible */}
+      <div className="fixed top-4 left-4 z-50 w-[calc(100%-2rem)] max-w-[420px]">
+        <div className="bg-background/80 backdrop-blur-xl border border-border rounded-lg shadow-lg overflow-hidden">
+          {/* Top Row: Hamburger + Name */}
+          <div className="px-4 py-3 flex items-center justify-between">
+            <button
+              onClick={toggleMenu}
+              className="text-foreground hover:text-primary transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+            <a href="/" className="hover:opacity-80 transition-opacity">
+              <span className="text-lg md:text-xl font-playfair text-foreground">
+                Heidi Simelius
+              </span>
+            </a>
+          </div>
+          
+          {/* Marquee Tagline */}
+          <div className="border-t border-border overflow-hidden py-2">
+            <div className="whitespace-nowrap animate-marquee">
+              <span className="text-sm font-playfair italic text-muted inline-block px-4">
+                Laulaja, lauluntekijä ja esiintyjä • Laulaja, lauluntekijä ja esiintyjä • Laulaja, lauluntekijä ja esiintyjä • Laulaja, lauluntekijä ja esiintyjä
+              </span>
             </div>
           </div>
         </div>
-      )}
+      </div>
 
+      {/* Bottom Links Container - Only When Menu Open */}
+      {isMenuOpen && (
+        <>
+          {/* Backdrop overlay */}
+          <div
+            className="fixed inset-0 z-40 bg-background/20"
+            onClick={toggleMenu}
+          />
+          
+          {/* Links Container */}
+          <div className="fixed top-[140px] left-4 z-50 w-[calc(100%-2rem)] max-w-[420px]">
+            <div
+              className="bg-background/80 backdrop-blur-xl border border-border rounded-lg shadow-2xl p-8"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Navigation Links */}
+              <nav className="mb-12">
+                <ul className="space-y-6 text-center">
+                  {navLinks.map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        className="text-2xl md:text-3xl font-bold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+                        onClick={toggleMenu}
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+
+              {/* Social Media Icons */}
+              <div className="flex gap-6 flex-wrap justify-center pt-8 border-t border-border">
+                <a
+                  href="https://www.instagram.com/Heidisimelius/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:text-primary transition-colors"
+                  aria-label="Instagram"
+                >
+                  <FaInstagram size={28} />
+                </a>
+                <a
+                  href="https://vm.tiktok.com/ZMJoaem42/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:text-primary transition-colors"
+                  aria-label="TikTok"
+                >
+                  <FaTiktok size={28} />
+                </a>
+                <a
+                  href="https://www.facebook.com/HeidiSimelius/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:text-primary transition-colors"
+                  aria-label="Facebook"
+                >
+                  <FaFacebook size={28} />
+                </a>
+                <a
+                  href="https://music.apple.com/gb/artist/heidi-simelius/1486952057"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:text-primary transition-colors"
+                  aria-label="Apple Music"
+                >
+                  <FaMusic size={28} />
+                </a>
+                <a
+                  href="https://soundcloud.com/heidi-simelius"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:text-primary transition-colors"
+                  aria-label="Soundcloud"
+                >
+                  <FaSoundcloud size={28} />
+                </a>
+                <a
+                  href="https://open.spotify.com/artist/7wmdyUKDAcJfmWbgsARwl9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:text-primary transition-colors"
+                  aria-label="Spotify"
+                >
+                  <FaSpotify size={28} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };
