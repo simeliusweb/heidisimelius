@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Menu, X, Instagram, Facebook, Youtube } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { FaFacebook, FaInstagram, FaMusic, FaSoundcloud, FaSpotify, FaTiktok } from "react-icons/fa";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,12 +36,12 @@ const Header = () => {
       {/* Full-Screen Overlay Menu */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 z-40 flex items-center justify-center p-4 md:p-0"
+          className="fixed inset-0 z-40 flex items-center md:items-start md:justify-start justify-center p-4 md:p-0"
           onClick={toggleMenu}
         >
           {/* Frosted Glass Panel */}
           <div
-            className="relative w-full max-w-[420px] h-full md:h-auto md:max-h-[90vh] bg-background/80 backdrop-blur-xl border border-border rounded-none md:rounded-lg shadow-2xl flex flex-col items-center justify-between py-12 px-8"
+            className="relative w-full max-w-[420px] h-full md:h-auto md:max-h-[90vh] md:ml-0 bg-background/80 backdrop-blur-xl border border-border rounded-none md:rounded-r-lg shadow-2xl flex flex-col items-center justify-between py-12 px-8"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top: Logo Text */}
@@ -68,65 +69,66 @@ const Header = () => {
             </nav>
 
             {/* Bottom: Social Media Icons */}
-            <div className="flex gap-6">
+            <div className="flex gap-6 flex-wrap justify-center">
               <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground hover:text-primary transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram size={28} />
-              </a>
-              <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/HeidiSimelius/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-foreground hover:text-primary transition-colors"
                 aria-label="Facebook"
               >
-                <Facebook size={28} />
+                <FaFacebook size={28} />
               </a>
               <a
-                href="https://youtube.com"
+                href="https://www.instagram.com/Heidisimelius/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-foreground hover:text-primary transition-colors"
-                aria-label="YouTube"
+                aria-label="Instagram"
               >
-                <Youtube size={28} />
+                <FaInstagram size={28} />
+              </a>
+              <a
+                href="https://music.apple.com/gb/artist/heidi-simelius/1486952057"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors"
+                aria-label="Apple Music"
+              >
+                <FaMusic size={28} />
+              </a>
+              <a
+                href="https://soundcloud.com/heidi-simelius"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors"
+                aria-label="Soundcloud"
+              >
+                <FaSoundcloud size={28} />
+              </a>
+              <a
+                href="https://open.spotify.com/artist/7wmdyUKDAcJfmWbgsARwl9"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors"
+                aria-label="Spotify"
+              >
+                <FaSpotify size={28} />
+              </a>
+              <a
+                href="https://vm.tiktok.com/ZMJoaem42/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors"
+                aria-label="TikTok"
+              >
+                <FaTiktok size={28} />
               </a>
             </div>
           </div>
         </div>
       )}
 
-      {/* Fixed Bottom Branding */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 bg-background/95 backdrop-blur-sm border-t border-border py-4 px-6">
-        <div className="container mx-auto text-center">
-          {/* Large Stylized Name */}
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-playfair text-primary mb-2">
-            Heidi Simelius
-          </h1>
-          
-          {/* Quick Navigation Links */}
-          <div className="flex items-center justify-center gap-2 text-sm md:text-base text-muted">
-            {quickLinks.map((link, index) => (
-              <span key={link.label} className="flex items-center gap-2">
-                <a
-                  href={link.href}
-                  className="uppercase tracking-wider hover:text-primary transition-colors font-medium"
-                >
-                  {link.label}
-                </a>
-                {index < quickLinks.length - 1 && (
-                  <span className="text-muted">/</span>
-                )}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
     </>
   );
 };
