@@ -65,12 +65,12 @@ const Header = () => {
           {/* Links Container */}
           <div className="fixed top-[140px] left-4 z-50 w-[calc(100%-2rem)] max-w-[420px]">
             <div
-              className="bg-background/70 backdrop-blur-xl border border-border rounded-lg shadow-2xl p-8"
+              className="bg-background/70 backdrop-blur-xl border border-border rounded-lg shadow-2xl py-8 px-4"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Navigation Links */}
               <nav className="mb-12">
-                <ul className="space-y-6 text-center">
+                <ul className="space-y-6 text-center px-4">
                   {navLinks.map((link) => (
                     <li key={link.label}>
                       <a
