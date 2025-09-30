@@ -72,7 +72,7 @@ Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.
             <div>
               <h3 className="text-xl font-semibold mb-2">2025</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
-                <li>Kinky Boots | Oulun teatteri | Ensemble / Nicola Us</li>
+                <li><span className="text-foreground">Kinky Boots</span> | Oulun teatteri | Ensemble / Nicola Us</li>
               </ul>
             </div>
             <div>
