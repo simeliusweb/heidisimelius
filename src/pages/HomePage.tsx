@@ -111,7 +111,7 @@ const HomePage = () => {
   
           {/* Upcoming Gigs Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-3xl md:text-4xl font-playfair text-primary mb-8 text-center">
+            <h2 className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8 text-center">
               Tulevat keikat
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto mb-8">
@@ -154,7 +154,7 @@ const HomePage = () => {
   
           {/* Videos Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-3xl md:text-4xl font-playfair text-primary mb-8 text-center">
+            <h2 className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8 text-center">
               Videot
             </h2>
             
@@ -213,7 +213,7 @@ const HomePage = () => {
   
           {/* Instagram Feed Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-3xl md:text-4xl font-playfair text-primary mb-8 text-center">
+            <h2 className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8 text-center">
               Instagram
             </h2>
             <div className="max-w-4xl mx-auto mb-8">
