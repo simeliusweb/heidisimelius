@@ -174,7 +174,7 @@ const HomePage = () => {
             </div>
 
             {/* Video Grid */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto mb-8">
+            <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto mb-8">
               {[
                 "IR4VJkKmZ0",
                 "m-ZMCIMdZrQ",
@@ -184,7 +184,7 @@ const HomePage = () => {
                 "Ikfy983tspw",
                 "wmpajFyxkVE",
               ].map((videoId) => (
-                <div key={videoId} className="aspect-video rounded-lg overflow-hidden">
+                <div key={videoId} className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] aspect-video rounded-lg overflow-hidden">
                   <iframe
                     width="100%"
                     height="100%"
