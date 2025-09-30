@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Button } from "@/components/ui/button";
 import BottomBranding from "@/components/BottomBranding";
 import heroBgMobile from "@/assets/hero-bg-mobile.jpg";
 import heroBgDesktop from "@/assets/hero-bg-desktop.jpg";
@@ -88,6 +89,136 @@ const HomePage = () => {
         
         {/* Bottom Branding Overlay */}
         <BottomBranding />
+      </div>
+
+      {/* Content Sections */}
+      <div className="relative z-10 bg-background">
+        {/* Intro & Tagline Section */}
+        <section className="container mx-auto px-6 py-16 md:py-24 text-center">
+          <p className="text-xl md:text-2xl text-foreground font-source mb-8">
+            Heidi Simelius on laulaja, lauluntekijä ja esiintyjä.
+          </p>
+          <Button asChild size="lg" className="font-medium">
+            <a href="/bio">Tutustu Heidiin</a>
+          </Button>
+        </section>
+
+        {/* Upcoming Gigs Section */}
+        <section className="container mx-auto px-6 py-16 md:py-24">
+          <h2 className="text-3xl md:text-4xl font-playfair text-primary mb-8 text-center">
+            Tulevat keikat
+          </h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto mb-8">
+            {[1, 2, 3].map((gig) => (
+              <div
+                key={gig}
+                className="bg-card border border-border rounded-lg p-6 hover:border-primary/50 transition-colors"
+              >
+                <h3 className="text-xl font-playfair text-foreground mb-2">
+                  Keikka {gig}
+                </h3>
+                <p className="text-muted mb-1">25.12.2025 klo 19:00</p>
+                <p className="text-foreground">Tapahtumapaikka {gig}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center">
+            <Button asChild size="lg" variant="outline">
+              <a href="/keikat">Katso kaikki keikat</a>
+            </Button>
+          </div>
+        </section>
+
+        {/* Spotify Player Section */}
+        <section className="container mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-3xl mx-auto">
+            <iframe
+              src="https://open.spotify.com/embed/artist/YOUR_ARTIST_ID?utm_source=generator&theme=0"
+              width="100%"
+              height="352"
+              frameBorder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              className="rounded-lg"
+              title="Spotify Player"
+            />
+          </div>
+        </section>
+
+        {/* Videos Section */}
+        <section className="container mx-auto px-6 py-16 md:py-24">
+          <h2 className="text-3xl md:text-4xl font-playfair text-primary mb-8 text-center">
+            Videot
+          </h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto mb-8">
+            {[
+              "nNooz5tHV6U",
+              "IR4VJkKmZ0",
+              "m-ZMCIMOZrQ",
+              "xe9fczPexk",
+              "eqQEVrCPCxQ",
+              "EMVUePUaVAY",
+              "lkty983tspw",
+              "wmpajFyxkVE",
+            ].map((videoId) => (
+              <div key={videoId} className="aspect-video rounded-lg overflow-hidden">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={`https://www.youtube.com/embed/${videoId}`}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title={`YouTube video ${videoId}`}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="text-center">
+            <Button asChild size="lg">
+              <a
+                href="https://www.youtube.com/channel/YOUR_CHANNEL_ID"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Tilaa
+              </a>
+            </Button>
+          </div>
+        </section>
+
+        {/* Instagram Feed Section */}
+        <section className="container mx-auto px-6 py-16 md:py-24">
+          <h2 className="text-3xl md:text-4xl font-playfair text-primary mb-8 text-center">
+            Instagram
+          </h2>
+          <div className="max-w-4xl mx-auto mb-8">
+            {/* Placeholder for LightWidget embed */}
+            <div className="bg-card border border-border rounded-lg p-12 text-center">
+              <p className="text-muted">LightWidget embed placeholder</p>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Button asChild size="lg">
+              <a
+                href="https://www.instagram.com/heidisimelius/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Seuraa
+              </a>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <a
+                href="https://www.instagram.com/heidisimelius/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Katso lisää julkaisuja
+              </a>
+            </Button>
+          </div>
+        </section>
       </div>
     </div>
   );
