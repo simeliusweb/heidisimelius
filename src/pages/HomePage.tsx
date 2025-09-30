@@ -193,10 +193,8 @@ const HomePage = () => {
             Instagram
           </h2>
           <div className="max-w-4xl mx-auto mb-8">
-            {/* Placeholder for LightWidget embed */}
-            <div className="bg-card border border-border rounded-lg p-12 text-center">
-              <p className="text-muted">LightWidget embed placeholder</p>
-            </div>
+            {/* LightWidget embed */}
+            <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script><iframe src="//lightwidget.com/widgets/71dd661fedf55720848701cf279e6d14.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width:100%;border:0;overflow:hidden;"></iframe>
           </div>
           <div className="flex flex-wrap gap-4 justify-center">
             <Button asChild size="lg">
