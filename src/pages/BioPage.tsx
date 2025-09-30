@@ -78,39 +78,39 @@ Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.
             <div>
               <h3 className="text-xl font-semibold mb-2">2023</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
-                <li>Tootsie | Lahden Kaupunginteatteri | Ensemble</li>
+                <li><span className="text-foreground">Tootsie</span> | Lahden Kaupunginteatteri | Ensemble</li>
               </ul>
             </div>
             <div>
               <h3 className="text-xl font-semibold mb-2">2022</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
-                <li>Porin Teatteri | Rakastajatar / Ensemble</li>
-                <li>Songs For A New World | TAMK | Ensemble</li>
+                <li><span className="text-foreground">Rakastajatar</span> | Porin Teatteri / Ensemble</li>
+                <li><span className="text-foreground">Songs For A New World</span> | TAMK | Ensemble</li>
               </ul>
             </div>
             <div>
               <h3 className="text-xl font-semibold mb-2">2018</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
-                <li>Spring Awakening | Falmouth University, Englanti | Ensemble</li>
+                <li><span className="text-foreground">Spring Awakening</span> | Falmouth University, Englanti | Ensemble</li>
               </ul>
             </div>
             <div>
               <h3 className="text-xl font-semibold mb-2">2016</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
-                <li>Suruttomat | Sellosali, Juvenalia Musiikkiteatterilinja | Johanna</li>
+                <li><span className="text-foreground">Suruttomat</span> | Sellosali, Juvenalia Musiikkiteatterilinja | Johanna</li>
               </ul>
             </div>
             <div>
               <h3 className="text-xl font-semibold mb-2">2014</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
-                <li>Evita | Tampereen Työväen Teatteri | Ensemble / Rakastajatar Us</li>
+                <li><span className="text-foreground">Evita</span> | Tampereen Työväen Teatteri | Ensemble / Rakastajatar Us</li>
               </ul>
             </div>
             <div>
               <h3 className="text-xl font-semibold mb-2">2011</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
-                <li>Onnen Vuori -musikaali | Suomen Lähetysseura, kiertueita ympäri Suomea | Angelina</li>
-                <li>Stage – Silmistä Pois -musikaali | Helsinki Peacock ja Tampere-talo | Ensemble</li>
+                <li><span className="text-foreground">Onnen Vuori -musikaali</span> | Suomen Lähetysseura, kiertueita ympäri Suomea | Angelina</li>
+                <li><span className="text-foreground">Stage – Silmistä Pois -musikaali</span> | Helsinki Peacock ja Tampere-talo | Ensemble</li>
               </ul>
             </div>
           </div>
@@ -123,10 +123,9 @@ Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.
           </h2>
           <div className="space-y-4 font-source text-foreground">
             <div>
-              <h3 className="text-xl font-semibold mb-2">Musikaalit</h3>
+              <h3 className="text-xl font-semibold mb-2">2021</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
-                <li>Musikaalin nimi (Vuosi)</li>
-                <li>Musikaalin nimi (Vuosi)</li>
+                <li><span className="text-foreground">Legally Blonde / Laillisesti Blondi</span> | Musiikkiopisto Juvenalia</li>
               </ul>
             </div>
           </div>
@@ -141,38 +140,79 @@ Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.
             <div>
               <h3 className="text-2xl font-semibold mb-4">Sooloalbumit</h3>
               <ul className="space-y-2 text-muted">
-                <li className="border-l-2 border-primary pl-4">
-                  <span className="font-semibold text-foreground">Albumin nimi</span> (Vuosi)
-                </li>
-                <li className="border-l-2 border-primary pl-4">
-                  <span className="font-semibold text-foreground">Albumin nimi</span> (Vuosi)
-                </li>
+                <li className="border-l-2 border-primary pl-4"><span className="text-foreground">Mä vastaan EP (singlet Meitä ei ole enää ja Missä sä oot?)</span> | Heidi Simelius | (2023)</li>
               </ul>
             </div>
 
             <div>
-              <h3 className="text-2xl font-semibold mb-4">Yhtyeet ja yhteistyöt</h3>
+              <h3 className="text-2xl font-semibold mb-4">Singlet</h3>
               <ul className="space-y-2 text-muted">
                 <li className="border-l-2 border-primary pl-4">
-                  <span className="font-semibold text-foreground">Yhtye - Albumin nimi</span> (Vuosi)
+                  <span className="text-foreground">Mun sydän on mun</span> | Heidi Simelius | (2021)
                 </li>
                 <li className="border-l-2 border-primary pl-4">
-                  <span className="font-semibold text-foreground">Yhteistyö - Projektin nimi</span> (Vuosi)
+                  <span className="text-foreground">Seuraa</span> | Heidi Simelius | (2021)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Huulet</span> | Heidi Simelius | (2021)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Upee</span> | Heidi Simelius | (2021)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Tähän jää</span> | Heidi Simelius | (2020)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Ikiaikojen taa</span> | Heidi Simelius | (2019)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Sun sylissä (akustinen)</span> | Heidi Simelius | (2019)
                 </li>
               </ul>
             </div>
-
+            
             <div>
-              <h3 className="text-2xl font-semibold mb-4">Teatteritallenukset</h3>
+              <h3 className="text-2xl font-semibold mb-4">Yhteistyöt</h3>
               <ul className="space-y-2 text-muted">
                 <li className="border-l-2 border-primary pl-4">
-                  <span className="font-semibold text-foreground">Musikaalin nimi - Soundtrackin nimi</span> (Vuosi)
+                  <span className="text-foreground">Rautalanka-autot</span> | Pekka Simojoki | (2022)
                 </li>
                 <li className="border-l-2 border-primary pl-4">
-                  <span className="font-semibold text-foreground">Musikaalin nimi - Soundtrackin nimi</span> (Vuosi)
+                  <span className="text-foreground">Keskiyön Auringon Maa</span> | Saila | Yksityinen | (2019)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Häikäisevän kirkas</span> | Pekka Simojoki | Sisandi | (2018)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Valon samba -lattariylistyslevy</span> | Yksityinen | (2017)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Avara</span> | Pekka Simojoki | (2016)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Parasta laatua -lastenlevy</span> | Pekka Simojoki | Rainmaker | (2016)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Kutsu</span> | Poika & Maria | Päivä Osakeyhtiö | (2015)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Maksettu on – Lauluja riihikirkosta</span> | Rainmaker | (2014)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Ylistys</span> | Pekka Simojoki | Rainmaker | (2012)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Onnen vuori</span> | Pekka Simojoki ja Anna-Mari Kaskinen | Rainmaker | (2011)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Uniikki</span> | Aikamedia Oy | (2009)
+                </li>
+                <li className="border-l-2 border-primary pl-4">
+                  <span className="text-foreground">Tuhatta ja sataa</span> | Pekka Simojoki | Rainmaker | (2005)
                 </li>
               </ul>
             </div>
+            
           </div>
         </section>
       </div>
