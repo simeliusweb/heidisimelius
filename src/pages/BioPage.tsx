@@ -76,13 +76,15 @@ const BioPage = () => {
       // Apply parallax to all images (whichever is visible will show the effect)
       [image1Ref.current, image2Ref.current, image3Ref.current].forEach((image) => {
         if (image) {
-          gsap.to(image, {
-            y: -80,
+          gsap.fromTo(image, 
+          { y: -100 }, // Start 100px higher than the natural position
+          {
+            y: 0, // Animate to its natural position (moving down)
             ease: "none",
             scrollTrigger: {
               trigger: textContentRef.current,
-              start: "top bottom",
-              end: "bottom top",
+              start: "top bottom", // Start when the top of the text enters the bottom of the viewport
+              end: "bottom bottom-=128px", // End when the bottom of the text is 128px from the bottom of the viewport
               scrub: 1,
             },
           });
