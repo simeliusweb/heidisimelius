@@ -132,16 +132,7 @@ const HomePage = () => {
         {/* Spotify Player Section */}
         <section className="container mx-auto px-6 py-16 md:py-24">
           <div className="max-w-3xl mx-auto">
-            <iframe
-              src="https://open.spotify.com/embed/artist/YOUR_ARTIST_ID?utm_source=generator&theme=0"
-              width="100%"
-              height="352"
-              frameBorder="0"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              className="rounded-lg"
-              title="Spotify Player"
-            />
+            <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/artist/7wmdyUKDAcJfmWbgsARwl9?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
           </div>
         </section>
 
