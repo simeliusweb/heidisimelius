@@ -124,7 +124,7 @@ const BioPage = () => {
       </section>
 
       {/* Main Content */}
-      <div className="bg-background">
+      <div className="bg-background main-content-bio-page">
         <div className="container mx-auto px-6 py-16 md:py-24">
           {/* Two-Column Layout on Desktop */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 max-w-7xl mx-auto">
