@@ -6,7 +6,7 @@ const BottomBranding = () => {
   ];
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 bg-background/50 backdrop-blur-sm border-t border-border py-8 px-6">
+    <div className="absolute bottom-0 left-0 right-0 bg-background/50 backdrop-blur-sm border-t border-border py-8 px-6 bottom-branding">
       <div className="container mx-auto text-left">
         {/* Large Stylized Name */}
         <h2 className="text-3xl md:text-5xl lg:text-6xl font-playfair text-primary mb-2">

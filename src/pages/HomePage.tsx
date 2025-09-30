@@ -36,12 +36,6 @@ const HomePage = () => {
         return portraitAbsoluteTop_final - portraitAbsoluteTop_initial;
       };
 
-                console.log('portrait.getBoundingClientRect().top: ', portrait.getBoundingClientRect().top);
-                console.log('bottomBranding.getBoundingClientRect().top: ', bottomBranding.getBoundingClientRect().top);
-                console.log('bottomBranding.scrollHeight: ', bottomBranding.scrollHeight);
-                console.log('bottomBranding.clientHeight: ', bottomBranding.clientHeight);
-                console.log('portrait.offsetHeight: ', portrait.offsetHeight);
-
       gsap.to(portrait, {
         y: calculateDistanceToTravel,
         ease: "none",
@@ -93,9 +87,7 @@ const HomePage = () => {
         </div>
         
         {/* Bottom Branding Overlay */}
-        <div className="bottom-branding">
-          <BottomBranding />
-        </div>
+        <BottomBranding />
       </div>
     </div>
   );
