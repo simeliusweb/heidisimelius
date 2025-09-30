@@ -1,7 +1,12 @@
+import BottomBranding from "@/components/BottomBranding";
+
 const HomePage = () => {
   return (
-    <div className="min-h-screen">
-      {/* Placeholder for Heidi Simelius Homepage */}
+    <div className="relative min-h-screen">
+      {/* Main page content will go here */}
+      
+      {/* Bottom Branding Overlay */}
+      <BottomBranding />
     </div>
   );
 };
