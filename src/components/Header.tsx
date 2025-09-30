@@ -24,14 +24,29 @@ const Header = () => {
 
   return (
     <>
-      {/* Hamburger Menu Icon - Fixed Top Left */}
-      <button
-        onClick={toggleMenu}
-        className="fixed top-4 left-4 z-50 p-2 text-foreground hover:text-primary transition-colors"
-        aria-label="Toggle menu"
-      >
-        {isMenuOpen ? <X size={32} /> : <Menu size={32} />}
-      </button>
+      {/* Top-Left Header Component - Frosted Glass */}
+      <div className="fixed top-4 left-4 z-50 flex flex-col gap-2">
+        {/* Primary Box: Hamburger + Name */}
+        <div className="bg-background/80 backdrop-blur-xl border border-border rounded-lg px-4 py-3 flex items-center gap-3 shadow-lg">
+          <button
+            onClick={toggleMenu}
+            className="text-foreground hover:text-primary transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+          <span className="text-sm md:text-base font-bold tracking-wider text-foreground uppercase">
+            HEIDI SIMELIUS
+          </span>
+        </div>
+        
+        {/* Secondary Box: Latest EP */}
+        <div className="bg-background/80 backdrop-blur-xl border border-border rounded-lg px-4 py-2 shadow-lg">
+          <span className="text-xs md:text-sm text-muted uppercase tracking-wide">
+            MÄ VASTAAN EP
+          </span>
+        </div>
+      </div>
 
       {/* Full-Screen Overlay Menu */}
       {isMenuOpen && (

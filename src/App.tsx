@@ -16,15 +16,13 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div className="min-h-screen flex flex-col">
+        <div className="relative min-h-screen">
           <Header />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
           <Footer />
         </div>
       </BrowserRouter>
