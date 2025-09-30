@@ -32,8 +32,8 @@ const HomePage = () => {
         // This is where the portrait's top edge should be when its bottom is 20px above the branding's top.
         const portraitAbsoluteTop_final = brandingAbsoluteTop - portrait.offsetHeight - 20;
 
-        // The distance to travel is simply the difference between the final and initial positions.
-        return portraitAbsoluteTop_final - portraitAbsoluteTop_initial;
+        // The distance to travel is simply the difference between the final and initial positions minus branding element's height.
+        return portraitAbsoluteTop_final - portraitAbsoluteTop_initial - bottomBranding.clientHeight();
       };
 
       gsap.to(portrait, {
