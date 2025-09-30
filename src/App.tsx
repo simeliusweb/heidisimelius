@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
-import { gsap } from "gsap";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -16,6 +15,7 @@ declare global {
   interface Window {
     ScrollSmoother: any;
     ScrollTrigger: any;
+    gsap: any;
   }
 }
 
@@ -23,28 +23,37 @@ const queryClient = new QueryClient();
 
 const App = () => {
   useEffect(() => {
-    // Wait for ScrollSmoother to be loaded from CDN
+    // Check if GSAP and its plugins are loaded before running
     const initScrollSmoother = () => {
-      if (window.ScrollSmoother && window.ScrollTrigger) {
-        gsap.registerPlugin(window.ScrollTrigger);
-        
-        window.ScrollSmoother.create({
+      if (window.gsap && window.ScrollTrigger && window.ScrollSmoother) {
+        const { gsap } = window;
+        const { ScrollTrigger, ScrollSmoother } = window;
+
+        gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+        const smoother = ScrollSmoother.create({
           wrapper: "#smooth-wrapper",
           content: "#smooth-content",
           smooth: 1,
           effects: true,
-          smoothTouch: 0.1, // Slight smoothing on touch devices
+          smoothTouch: 0.1,
         });
+
+        // Cleanup function
+        return () => {
+          if (smoother) smoother.kill();
+        };
       }
     };
 
     // Check if scripts are already loaded
-    if (window.ScrollSmoother) {
-      initScrollSmoother();
+    if (window.gsap && window.ScrollSmoother) {
+      const cleanup = initScrollSmoother();
+      return cleanup;
     } else {
       // Wait for scripts to load
       const checkInterval = setInterval(() => {
-        if (window.ScrollSmoother) {
+        if (window.gsap && window.ScrollSmoother) {
           initScrollSmoother();
           clearInterval(checkInterval);
         }
