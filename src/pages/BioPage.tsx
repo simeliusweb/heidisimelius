@@ -85,7 +85,7 @@ Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.
               <h3 className="text-xl font-semibold mb-2">2022</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
                 <li>Porin Teatteri | Rakastajatar / Ensemble</li>
-                <li>Songs For A New World | Tamk | Ensemble</li>
+                <li>Songs For A New World | TAMK | Ensemble</li>
               </ul>
             </div>
             <div>
@@ -110,7 +110,7 @@ Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.
               <h3 className="text-xl font-semibold mb-2">2011</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
                 <li>Onnen Vuori -musikaali | Suomen Lähetysseura, kiertueita ympäri Suomea | Angelina</li>
-                <li>Stage – Silmistä Pois -musikaali | Helsinki Peacock ja Tampere Tampere-talo | Ensemble</li>
+                <li>Stage – Silmistä Pois -musikaali | Helsinki Peacock ja Tampere-talo | Ensemble</li>
               </ul>
             </div>
           </div>
