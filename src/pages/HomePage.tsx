@@ -172,7 +172,8 @@ const HomePage = () => {
                   <iframe
                     width="100%"
                     height="100%"
-                    src={`https://www.youtube.com/embed/${videoId}&embeds_referring_euri=https%3A%2F%2Fheidisimelius.fi%2F`}
+                    src={`https://www.youtube.com/embed/${videoId}`}
+                    {/* &embeds_referring_euri=https%3A%2F%2Fheidisimelius.fi%2F */}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
