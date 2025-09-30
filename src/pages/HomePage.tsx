@@ -20,41 +20,36 @@ const HomePage = () => {
 
     if (!bottomBranding) return;
 
-    // A context for GSAP to properly scope the animations and cleanup
     const ctx = gsap.context(() => {
-      // Get the portrait's initial layout position determined by CSS (Tailwind classes)
-      const initialY = portrait.offsetTop;
-
-      const calculateFinalY = () => {
-        const brandingRect = bottomBranding.getBoundingClientRect();
-        const portraitHeight = portrait.offsetHeight;
-        const containerTop = container.getBoundingClientRect().top + window.scrollY;
-        
-        // Calculate the target Y position where portrait's BOTTOM is 20px ABOVE branding's TOP
-        // This is the final destination relative to the container's top edge.
-        return brandingRect.top + window.scrollY - containerTop - portraitHeight - 20;
-      };
-
       const calculateDistanceToTravel = () => {
-        const finalY = calculateFinalY();
-        // The distance we need to animate is the destination minus the starting point
-        return finalY - initialY;
+        // Get the absolute top position of the branding element from the top of the document
+        const brandingAbsoluteTop = bottomBranding.getBoundingClientRect().top + window.scrollY;
+        
+        // Get the absolute top position of the portrait element in its starting state
+        const portraitAbsoluteTop_initial = portrait.getBoundingClientRect().top + window.scrollY;
+
+        // Calculate the desired FINAL absolute top position for the portrait.
+        // This is where the portrait's top edge should be when its bottom is 20px above the branding's top.
+        const portraitAbsoluteTop_final = brandingAbsoluteTop - portrait.offsetHeight - 20;
+
+        // The distance to travel is simply the difference between the final and initial positions.
+        return portraitAbsoluteTop_final - portraitAbsoluteTop_initial;
       };
 
       gsap.to(portrait, {
-        y: calculateDistanceToTravel, // Animate *by* this distance
+        y: calculateDistanceToTravel,
         ease: "none",
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          end: () => `+=${calculateDistanceToTravel()}`, // The scroll duration is the same as the travel distance
+          end: () => `+=${calculateDistanceToTravel()}`,
           scrub: 1,
           invalidateOnRefresh: true,
         },
       });
-    }, container); // Scope the context to the container
+    }, container);
 
-    return () => ctx.revert(); // Cleanup function to kill animations and triggers
+    return () => ctx.revert();
   }, []);
 
   return (
