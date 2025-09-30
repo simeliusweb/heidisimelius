@@ -33,7 +33,7 @@ const HomePage = () => {
         const portraitAbsoluteTop_final = brandingAbsoluteTop - portrait.offsetHeight - 20;
 
         // The distance to travel is simply the difference between the final and initial positions minus branding element's height.
-        return portraitAbsoluteTop_final - portraitAbsoluteTop_initial - bottomBranding.clientHeight();
+        return portraitAbsoluteTop_final - portraitAbsoluteTop_initial - bottomBranding.clientHeight;
       };
 
       gsap.to(portrait, {
