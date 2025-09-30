@@ -36,6 +36,9 @@ const HomePage = () => {
         return portraitAbsoluteTop_final - portraitAbsoluteTop_initial;
       };
 
+                console.log('bottomBranding.scrollHeight: ', bottomBranding.scrollHeight);
+                console.log('bottomBranding.clientHeight: ', bottomBranding.clientHeight);
+
       gsap.to(portrait, {
         y: calculateDistanceToTravel,
         ease: "none",
