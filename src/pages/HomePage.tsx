@@ -26,7 +26,7 @@ const HomePage = () => {
         const brandingAbsoluteTop = bottomBranding.getBoundingClientRect().top + window.scrollY;
         
         // Get the absolute top position of the portrait element in its starting state
-        const portraitAbsoluteTop_initial = portrait.getBoundingClientRect().top + window.scrollY + bottomBranding.scrollHeight;
+        const portraitAbsoluteTop_initial = portrait.getBoundingClientRect().top + window.scrollY;
 
         // Calculate the desired FINAL absolute top position for the portrait.
         // This is where the portrait's top edge should be when its bottom is 20px above the branding's top.
@@ -42,7 +42,7 @@ const HomePage = () => {
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          end: () => `+=${calculateDistanceToTravel()}`,
+          end: () => `+=${calculateDistanceToTravel() - bottomBranding.scrollHeight}`,
           scrub: 1,
           invalidateOnRefresh: true,
         },
