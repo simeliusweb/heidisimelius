@@ -17,8 +17,13 @@ const HomePage = () => {
       <div className="fixed inset-0 bg-background/40" />
       
       {/* Content Container */}
-      <div className="relative z-10 min-h-screen">
-        {/* Main page content will go here */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+        {/* Centered Portrait Placeholder - vertically centered between top and BottomBranding */}
+        <div className="flex-1 flex items-center justify-center pb-32">
+          <div className="w-64 h-96 md:w-80 md:h-[30rem] bg-card/50 backdrop-blur-sm border-2 border-primary/30 rounded-lg flex items-center justify-center">
+            <span className="text-muted text-sm">Portrait Placeholder</span>
+          </div>
+        </div>
         
         {/* Bottom Branding Overlay */}
         <BottomBranding />
