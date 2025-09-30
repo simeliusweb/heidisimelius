@@ -197,15 +197,6 @@ const BioPage = () => {
                 </div>
               </section>
 
-              {/* Mobile Image 3 */}
-              <div className="md:hidden">
-                <img 
-                  src={bioPress3} 
-                  alt="Heidi Simelius theatrical portrait"
-                  className="w-full h-auto rounded-lg shadow-lg"
-                />
-              </div>
-
               {/* Discography Section */}
               <section>
                 <h2 className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8">
@@ -291,10 +282,10 @@ const BioPage = () => {
                 </div>
               </section>
 
-              {/* Mobile Image 4 */}
+              {/* Mobile Image 3 */}
               <div className="md:hidden">
                 <img 
-                  src={bioPress4} 
+                  src={bioPress3} 
                   alt="Heidi Simelius performing with band"
                   className="w-full h-auto rounded-lg shadow-lg"
                 />
@@ -302,8 +293,8 @@ const BioPage = () => {
             </div>
 
             {/* Right Column - Parallax Images (Desktop Only) */}
-            <div className="hidden md:block md:col-span-5">
-              <div className="sticky top-24 space-y-8">
+            <div className="hidden md:block md:col-span-4">
+              <div className="sticky top-24 space-y-16">
                 <div 
                   ref={(el) => (parallaxImagesRef.current[0] = el)}
                   className="relative -mt-8"
@@ -320,7 +311,7 @@ const BioPage = () => {
                 >
                   <img 
                     src={bioPress2} 
-                    alt="Heidi Simelius in performance"
+                    alt="Heidi Simelius in performance with a band"
                     className="w-full h-auto rounded-lg shadow-lg"
                   />
                 </div>
@@ -331,16 +322,6 @@ const BioPage = () => {
                   <img 
                     src={bioPress3} 
                     alt="Heidi Simelius theatrical portrait"
-                    className="w-full h-auto rounded-lg shadow-lg"
-                  />
-                </div>
-                <div 
-                  ref={(el) => (parallaxImagesRef.current[3] = el)}
-                  className="relative -ml-8"
-                >
-                  <img 
-                    src={bioPress4} 
-                    alt="Heidi Simelius performing with band"
                     className="w-full h-auto rounded-lg shadow-lg"
                   />
                 </div>
