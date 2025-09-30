@@ -157,9 +157,25 @@ const HomePage = () => {
             <h2 className="text-3xl md:text-4xl font-playfair text-primary mb-8 text-center">
               Videot
             </h2>
+            
+            {/* Highlight Video */}
+            <div className="max-w-5xl mx-auto mb-8">
+              <div className="aspect-video rounded-lg overflow-hidden">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/nNooz5tHV6U"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title="Heidi Simelius featured video"
+                />
+              </div>
+            </div>
+
+            {/* Video Grid */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto mb-8">
               {[
-                "nNooz5tHV6U",
                 "IR4VJkKmZ0",
                 "m-ZMCIMdZrQ",
                 "xe9fczPexk",
@@ -178,10 +194,10 @@ const HomePage = () => {
                     allowFullScreen
                     title={`YouTube video ${videoId}`}
                   />
-                  {/* &embeds_referring_euri=https%3A%2F%2Fheidisimelius.fi%2F */}
                 </div>
               ))}
             </div>
+            
             <div className="text-center">
               <Button asChild size="lg">
                 <a
@@ -189,7 +205,7 @@ const HomePage = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Tilaa
+                  Tilaa kanava
                 </a>
               </Button>
             </div>
