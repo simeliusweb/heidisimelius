@@ -42,7 +42,7 @@ const HomePage = () => {
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          end: () => `+=${calculateDistanceToTravel() - bottomBranding.scrollHeight}`,
+          end: () => `+=${calculateDistanceToTravel()}`,
           scrub: 1,
           invalidateOnRefresh: true,
         },
