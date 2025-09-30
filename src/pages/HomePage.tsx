@@ -38,7 +38,10 @@ const HomePage = () => {
       scrollTrigger: {
         trigger: container,
         start: "top top",
-        end: () => `+=${calculateEndPosition() * 2}`, // Multiplied to create slower parallax
+        end: () => {
+          const endPos = calculateEndPosition();
+          return `+=${endPos}`;
+        },
         scrub: 1,
         invalidateOnRefresh: true,
       }
@@ -78,7 +81,7 @@ const HomePage = () => {
       {/* Content Container */}
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Portrait Placeholder with Parallax - starts higher than center */}
-        <div className="flex-1 flex items-start justify-center pt-24 md:pt-32 pb-32">
+        <div className="flex-1 flex items-start justify-center pt-32 md:pt-32 pb-32">
           <div 
             ref={portraitRef}
             className="w-64 h-96 md:w-80 md:h-[30rem] bg-card/50 backdrop-blur-sm border-2 border-primary/30 rounded-lg flex items-center justify-center"

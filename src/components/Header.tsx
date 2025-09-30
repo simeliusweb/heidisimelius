@@ -25,7 +25,7 @@ const Header = () => {
     <>
       {/* Top Header Container - Always Visible */}
       <div className="fixed top-4 left-4 z-50 w-[calc(100%-2rem)] max-w-[420px]">
-        <div className="bg-background/80 backdrop-blur-xl border border-border rounded-lg shadow-lg overflow-hidden">
+        <div className="bg-background/70 backdrop-blur-xl border border-border rounded-lg shadow-lg overflow-hidden">
           {/* Top Row: Hamburger + Name */}
           <div className="px-4 py-3 flex items-center justify-between">
             <button
@@ -65,7 +65,7 @@ const Header = () => {
           {/* Links Container */}
           <div className="fixed top-[140px] left-4 z-50 w-[calc(100%-2rem)] max-w-[420px]">
             <div
-              className="bg-background/80 backdrop-blur-xl border border-border rounded-lg shadow-2xl p-8"
+              className="bg-background/70 backdrop-blur-xl border border-border rounded-lg shadow-2xl p-8"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Navigation Links */}
