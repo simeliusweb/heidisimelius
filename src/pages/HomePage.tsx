@@ -26,14 +26,14 @@ const HomePage = () => {
         const brandingAbsoluteTop = bottomBranding.getBoundingClientRect().top + window.scrollY;
         
         // Get the absolute top position of the portrait element in its starting state
-        const portraitAbsoluteTop_initial = portrait.getBoundingClientRect().top + window.scrollY;
+        const portraitAbsoluteTop_initial = portrait.getBoundingClientRect().top + window.scrollY + bottomBranding.scrollHeight;
 
         // Calculate the desired FINAL absolute top position for the portrait.
         // This is where the portrait's top edge should be when its bottom is 20px above the branding's top.
         const portraitAbsoluteTop_final = brandingAbsoluteTop - portrait.offsetHeight - 20;
 
         // The distance to travel is simply the difference between the final and initial positions minus branding element's height.
-        return portraitAbsoluteTop_final - portraitAbsoluteTop_initial - bottomBranding.scrollHeight;
+        return portraitAbsoluteTop_final - portraitAbsoluteTop_initial;
       };
 
       gsap.to(portrait, {
