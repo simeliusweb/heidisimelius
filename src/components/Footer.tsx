@@ -12,7 +12,7 @@ import footerBg from "@/assets/footer-bg.jpg";
 
 const contactSchema = z.object({
   subject: z.string().trim().min(1, { message: "Aihe vaaditaan" }).max(100),
-  sender: z.string().trim().min(1, { message: "Lähettäjä vaaditaan" }).max(100),
+  email: z.string().trim().email({ message: "Syötä kelvollinen sähköpostiosoite" }).max(255),
   message: z.string().trim().min(1, { message: "Viesti vaaditaan" }).max(1000),
 });
 
@@ -21,7 +21,7 @@ const Footer = () => {
     resolver: zodResolver(contactSchema),
     defaultValues: {
       subject: "",
-      sender: "",
+      email: "",
       message: "",
     },
   });
@@ -80,12 +80,12 @@ const Footer = () => {
                 />
                 <FormField
                   control={form.control}
-                  name="sender"
+                  name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Lähettäjä</FormLabel>
+                      <FormLabel>Sähköpostisi</FormLabel>
                       <FormControl>
-                        <Input placeholder="Nimesi tai sähköpostisi..." {...field} />
+                        <Input type="email" placeholder="Kirjoita sähköpostisi..." {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -117,16 +117,11 @@ const Footer = () => {
             </Form>
           </div>
 
-          {/* Right Column: Direct Contact */}
-          <div className="flex flex-col justify-center items-center md:items-start">
-            <h3 className="text-2xl font-playfair text-primary mb-4">Suora yhteys</h3>
-            <a
-              href="mailto:heidi@heidisimelius.com"
-              className="flex items-center gap-3 text-foreground hover:text-primary transition-colors text-lg"
-            >
-              <Mail size={24} />
-              <span>heidi@heidisimelius.com</span>
-            </a>
+          {/* Right Column: Artist Photo */}
+          <div className="flex justify-center items-center">
+            <div className="w-full max-w-md aspect-[3/4] bg-muted/20 rounded-lg flex items-center justify-center border border-border">
+              <p className="text-muted text-sm">Heidin kuva tulossa</p>
+            </div>
           </div>
         </div>
 
@@ -148,15 +143,6 @@ const Footer = () => {
         {/* Social Media Icons */}
         <div className="flex gap-6 justify-center flex-wrap">
           <a
-            href="https://www.facebook.com/HeidiSimelius/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-foreground hover:text-primary transition-colors"
-            aria-label="Facebook"
-          >
-            <FaFacebook size={28} />
-          </a>
-          <a
             href="https://www.instagram.com/Heidisimelius/"
             target="_blank"
             rel="noopener noreferrer"
@@ -164,6 +150,24 @@ const Footer = () => {
             aria-label="Instagram"
           >
             <FaInstagram size={28} />
+          </a>
+          <a
+            href="https://vm.tiktok.com/ZMJoaem42/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground hover:text-primary transition-colors"
+            aria-label="TikTok"
+          >
+            <FaTiktok size={28} />
+          </a>
+          <a
+            href="https://www.facebook.com/HeidiSimelius/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground hover:text-primary transition-colors"
+            aria-label="Facebook"
+          >
+            <FaFacebook size={28} />
           </a>
           <a
             href="https://music.apple.com/gb/artist/heidi-simelius/1486952057"
@@ -191,15 +195,6 @@ const Footer = () => {
             aria-label="Spotify"
           >
             <FaSpotify size={28} />
-          </a>
-          <a
-            href="https://vm.tiktok.com/ZMJoaem42/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-foreground hover:text-primary transition-colors"
-            aria-label="TikTok"
-          >
-            <FaTiktok size={28} />
           </a>
         </div>
       </div>

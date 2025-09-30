@@ -87,15 +87,6 @@ const Header = () => {
             {/* Bottom: Social Media Icons */}
             <div className="flex gap-6 flex-wrap justify-center">
               <a
-                href="https://www.facebook.com/HeidiSimelius/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground hover:text-primary transition-colors"
-                aria-label="Facebook"
-              >
-                <FaFacebook size={28} />
-              </a>
-              <a
                 href="https://www.instagram.com/Heidisimelius/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -103,6 +94,24 @@ const Header = () => {
                 aria-label="Instagram"
               >
                 <FaInstagram size={28} />
+              </a>
+              <a
+                href="https://vm.tiktok.com/ZMJoaem42/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors"
+                aria-label="TikTok"
+              >
+                <FaTiktok size={28} />
+              </a>
+              <a
+                href="https://www.facebook.com/HeidiSimelius/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors"
+                aria-label="Facebook"
+              >
+                <FaFacebook size={28} />
               </a>
               <a
                 href="https://music.apple.com/gb/artist/heidi-simelius/1486952057"
@@ -130,15 +139,6 @@ const Header = () => {
                 aria-label="Spotify"
               >
                 <FaSpotify size={28} />
-              </a>
-              <a
-                href="https://vm.tiktok.com/ZMJoaem42/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground hover:text-primary transition-colors"
-                aria-label="TikTok"
-              >
-                <FaTiktok size={28} />
               </a>
             </div>
           </div>
