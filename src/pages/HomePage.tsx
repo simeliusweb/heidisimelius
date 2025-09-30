@@ -23,14 +23,14 @@ const HomePage = () => {
 
     const calculateEndPosition = () => {
       const brandingRect = bottomBranding.getBoundingClientRect();
+      const portraitRect = portrait.getBoundingClientRect();
       const portraitHeight = portrait.offsetHeight;
       const containerTop = container.getBoundingClientRect().top + window.scrollY;
       
-      // Calculate how far down we want the portrait to go
-      // It should stop when its bottom is 20px above BottomBranding
-      const endY = brandingRect.top + window.scrollY - containerTop - portraitHeight - 20;
+      // Calculate the target Y position where portrait bottom is 20px above branding top
+      const targetY = brandingRect.top + window.scrollY - containerTop - portraitHeight - 20;
       
-      return endY;
+      return targetY;
     };
 
     // Set up parallax animation
@@ -39,16 +39,20 @@ const HomePage = () => {
         trigger: container,
         start: "top top",
         end: () => {
-          const endPos = calculateEndPosition();
-          return `+=${endPos}`;
+          // Calculate when to end the animation based on final portrait position
+          const finalY = calculateEndPosition();
+          // The scroll distance needed is the same as the Y movement
+          return `+=${finalY}`;
         },
         scrub: 1,
         invalidateOnRefresh: true,
+        // Prevent further scrolling effects after end point
+        toggleActions: "play none none reverse"
       }
     });
 
     tl.to(portrait, {
-      y: calculateEndPosition(),
+      y: () => calculateEndPosition(),
       ease: "none"
     });
 
