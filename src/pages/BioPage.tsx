@@ -31,15 +31,25 @@ const BioPage = () => {
         <section className="container mx-auto px-6 py-16 md:py-24 max-w-4xl">
           <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
             <p>
-              Heidi Simelius on suomalainen laulaja, lauluntekijä ja esiintyjä, joka on tehnyt pitkän uran musiikki- ja teatterikentällä.
+              Heidi Simelius on laulaja, lauluntekijä ja esiintyjä. Hän keikkailee esittäen omaa musiikkiaan ja julkaisi vuonna 2023
+ensimmäisen EP:nsä Mä vastaan. Viiden biisin EP sisältää nimikkokappaleen lisäksi mm. kappaleet Missä sä oot? ja Meitä ei ole
+enää. Heidi on julkaissut aiemmin seitsemän singleä, mm. kappaleet Mun sydän on mun ja Upee. Heidin kappaleet ovat
+suomenkielisiä sekä vahvasti tekstilähtöisiä ja musiikki on tyyliltään soulahtavaa poppia.
             </p>
             <p>
-              Hänen monipuolinen taiteellinen työskentelynsä ulottuu soolourasta yhtyetoimintaan, teatterirooleista studiotyöskentelyyn. 
-              Heidi on tunnettu ainutlaatuisesta äänestään ja tunteella toteutetuista esityksistään.
+              Heidi oli mukana Voice of Finlandin uusimmalla kaudella, jossa hän lauloi tiensä semifinaaliin. Heidi esiintyy vaihtelevasti myös
+erilaisten kokoonpanojen kanssa ja hänet on voitu nähdä mm. Suomen varusmiessoittokunnan ” 80’s kiertueen” ja Gospel
+Helsinki -kuoron vierailevana solistina sekä keikoilla Pekka Simojoen kanssa.
             </p>
             <p>
-              Uransa aikana hän on esiintynyt lukuisilla näyttämöillä, tehnyt yhteistyötä monien arvostettujen taiteilijoiden kanssa 
-              ja jättänyt pysyvän jäljen suomalaiseen musiikkikulttuuriin.
+              Heidi on valmistunut Tampereen Ammattikorkeakoulussa musiikkiteatterin ammattilaiskesi vuonna 2023 sekä Metropolia
+Ammattikorkeakoulusta muusikoksi esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.
+            </p>
+            <p>
+              Kaudella 2023 – 2024 Heidi nähdään Lahden Kaupunginteatterin Tootsie-musikaalissa. Kaudella 2022 – 2023 hän ihastutti
+Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa. Tulevalla kaudella 2025 Heidi nähdään Oulun teatterin Kinky Boots
+-musikaalissa. Heidi tekee nimeä myös musikaali-suomentajana ja hänen ensimmäinen kokonaan suomentamansa musikaali
+Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.
             </p>
           </div>
 
@@ -60,29 +70,47 @@ const BioPage = () => {
           </h2>
           <div className="space-y-6 font-source text-foreground">
             <div>
-              <h3 className="text-xl font-semibold mb-2">Kansallisteatteri</h3>
+              <h3 className="text-xl font-semibold mb-2">2025</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
-                <li>Musikaali - Rooli (Vuosi)</li>
-                <li>Näytelmä - Rooli (Vuosi)</li>
+                <li>Kinky Boots | Oulun teatteri | Ensemble / Nicola Us</li>
               </ul>
             </div>
             <div>
-              <h3 className="text-xl font-semibold mb-2">Helsingin kaupunginteatteri</h3>
+              <h3 className="text-xl font-semibold mb-2">2023</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
-                <li>Musikaali - Rooli (Vuosi)</li>
-                <li>Näytelmä - Rooli (Vuosi)</li>
+                <li>Tootsie | Lahden Kaupunginteatteri | Ensemble</li>
               </ul>
             </div>
             <div>
-              <h3 className="text-xl font-semibold mb-2">Tampereen Teatteri</h3>
+              <h3 className="text-xl font-semibold mb-2">2022</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
-                <li>Musikaali - Rooli (Vuosi)</li>
+                <li>Porin Teatteri | Rakastajatar / Ensemble</li>
+                <li>Songs For A New World | Tamk | Ensemble</li>
               </ul>
             </div>
             <div>
-              <h3 className="text-xl font-semibold mb-2">Svenska Teatern</h3>
+              <h3 className="text-xl font-semibold mb-2">2018</h3>
               <ul className="list-disc list-inside space-y-1 text-muted">
-                <li>Musikaali - Rooli (Vuosi)</li>
+                <li>Spring Awakening | Falmouth University, Englanti | Ensemble</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-2">2016</h3>
+              <ul className="list-disc list-inside space-y-1 text-muted">
+                <li>Suruttomat | Sellosali, Juvenalia Musiikkiteatterilinja | Johanna</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-2">2014</h3>
+              <ul className="list-disc list-inside space-y-1 text-muted">
+                <li>Evita | Tampereen Työväen Teatteri | Ensemble / Rakastajatar Us</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-2">2011</h3>
+              <ul className="list-disc list-inside space-y-1 text-muted">
+                <li>Onnen Vuori -musikaali | Suomen Lähetysseura, kiertueita ympäri Suomea | Angelina</li>
+                <li>Stage – Silmistä Pois -musikaali | Helsinki Peacock ja Tampere Tampere-talo | Ensemble</li>
               </ul>
             </div>
           </div>
