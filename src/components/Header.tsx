@@ -8,12 +8,11 @@ const Header = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const navLinks = [
-    { label: "ETUSIVU", href: "/" },
     { label: "KEIKAT", href: "/keikat" },
     { label: "BIO", href: "/bio" },
     { label: "GALLERIA", href: "/galleria" },
     { label: "BILEBÄNDI", href: "/bilebandi" },
-    { label: "OTA YHTEYTTÄ", href: "/contact" },
+    { label: "OTA YHTEYTTÄ", href: "#contact-section" },
   ];
 
   const quickLinks = [
@@ -61,9 +60,11 @@ const Header = () => {
           >
             {/* Top: Logo Text */}
             <div className="text-center">
-              <h2 className="text-4xl md:text-5xl font-playfair text-primary">
-                Heidi Simelius
-              </h2>
+              <a href="/" onClick={toggleMenu}>
+                <h2 className="text-4xl md:text-5xl font-playfair text-primary hover:opacity-80 transition-opacity">
+                  Heidi Simelius
+                </h2>
+              </a>
             </div>
 
             {/* Center: Navigation Links */}

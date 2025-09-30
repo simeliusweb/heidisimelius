@@ -1,36 +1,209 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Mail } from "lucide-react";
+import { FaFacebook, FaInstagram, FaMusic, FaSoundcloud, FaSpotify, FaTiktok } from "react-icons/fa";
+import { toast } from "@/hooks/use-toast";
+import footerBg from "@/assets/footer-bg.jpg";
+
+const contactSchema = z.object({
+  subject: z.string().trim().min(1, { message: "Aihe vaaditaan" }).max(100),
+  sender: z.string().trim().min(1, { message: "Lähettäjä vaaditaan" }).max(100),
+  message: z.string().trim().min(1, { message: "Viesti vaaditaan" }).max(1000),
+});
+
 const Footer = () => {
-  const quickLinks = [
+  const form = useForm<z.infer<typeof contactSchema>>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      subject: "",
+      sender: "",
+      message: "",
+    },
+  });
+
+  const onSubmit = (data: z.infer<typeof contactSchema>) => {
+    console.log(data);
+    toast({
+      title: "Viesti lähetetty!",
+      description: "Palaamme sinulle mahdollisimman pian.",
+    });
+    form.reset();
+  };
+
+  const navLinks = [
     { label: "KEIKAT", href: "/keikat" },
     { label: "BIO", href: "/bio" },
     { label: "GALLERIA", href: "/galleria" },
+    { label: "BILEBÄNDI", href: "/bilebandi" },
+    { label: "OTA YHTEYTTÄ", href: "#contact-section" },
   ];
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border py-8 px-6">
-      <div className="container mx-auto text-center">
-        {/* Large Stylized Name */}
-        <h2 className="text-3xl md:text-5xl lg:text-6xl font-playfair text-primary mb-2">
-          Heidi Simelius
-        </h2>
-        
-        {/* Quick Navigation Links */}
-        <div className="flex items-center justify-center gap-2 text-sm md:text-base text-muted">
-          {quickLinks.map((link, index) => (
-            <span key={link.label} className="flex items-center gap-2">
+    <footer
+      id="contact-section"
+      className="relative bg-card mt-auto"
+      style={{
+        backgroundImage: `url(${footerBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-background/90" />
+
+      {/* Content */}
+      <div className="relative container mx-auto px-6 py-16">
+        {/* Two-Column Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+          {/* Left Column: Contact Form */}
+          <div>
+            <h2 className="text-3xl font-playfair text-primary mb-6">Ota yhteyttä</h2>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="subject"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Aihe</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Kirjoita aihe..." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="sender"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Lähettäjä</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Nimesi tai sähköpostisi..." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Viesti</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="Kirjoita viestisi..." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                {/* CAPTCHA Placeholder */}
+                <div className="border border-border rounded-md p-4 bg-muted/20">
+                  <p className="text-sm text-muted">CAPTCHA tulossa</p>
+                </div>
+
+                <Button type="submit" className="w-full">
+                  Lähetä
+                </Button>
+              </form>
+            </Form>
+          </div>
+
+          {/* Right Column: Direct Contact */}
+          <div className="flex flex-col justify-center items-center md:items-start">
+            <h3 className="text-2xl font-playfair text-primary mb-4">Suora yhteys</h3>
+            <a
+              href="mailto:heidi@heidisimelius.com"
+              className="flex items-center gap-3 text-foreground hover:text-primary transition-colors text-lg"
+            >
+              <Mail size={24} />
+              <span>heidi@heidisimelius.com</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Navigation Links */}
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-8 text-muted">
+          {navLinks.map((link, index) => (
+            <span key={link.label} className="flex items-center gap-4">
               <a
                 href={link.href}
-                className="uppercase tracking-wider hover:text-primary transition-colors font-medium"
+                className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm"
               >
                 {link.label}
               </a>
-              {index < quickLinks.length - 1 && (
-                <span className="text-muted">/</span>
-              )}
+              {index < navLinks.length - 1 && <span>•</span>}
             </span>
           ))}
         </div>
+
+        {/* Social Media Icons */}
+        <div className="flex gap-6 justify-center flex-wrap">
+          <a
+            href="https://www.facebook.com/HeidiSimelius/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground hover:text-primary transition-colors"
+            aria-label="Facebook"
+          >
+            <FaFacebook size={28} />
+          </a>
+          <a
+            href="https://www.instagram.com/Heidisimelius/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground hover:text-primary transition-colors"
+            aria-label="Instagram"
+          >
+            <FaInstagram size={28} />
+          </a>
+          <a
+            href="https://music.apple.com/gb/artist/heidi-simelius/1486952057"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground hover:text-primary transition-colors"
+            aria-label="Apple Music"
+          >
+            <FaMusic size={28} />
+          </a>
+          <a
+            href="https://soundcloud.com/heidi-simelius"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground hover:text-primary transition-colors"
+            aria-label="Soundcloud"
+          >
+            <FaSoundcloud size={28} />
+          </a>
+          <a
+            href="https://open.spotify.com/artist/7wmdyUKDAcJfmWbgsARwl9"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground hover:text-primary transition-colors"
+            aria-label="Spotify"
+          >
+            <FaSpotify size={28} />
+          </a>
+          <a
+            href="https://vm.tiktok.com/ZMJoaem42/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-foreground hover:text-primary transition-colors"
+            aria-label="TikTok"
+          >
+            <FaTiktok size={28} />
+          </a>
+        </div>
       </div>
-    </div>
+    </footer>
   );
 };
 
