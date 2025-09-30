@@ -46,7 +46,7 @@ Helsinki -kuoron vierailevana solistina sekä keikoilla Pekka Simojoen kanssa.
 Ammattikorkeakoulusta muusikoksi esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.
             </p>
             <p>
-              Kaudella 2023 – 2024 Heidi nähdään Lahden Kaupunginteatterin Tootsie-musikaalissa. Kaudella 2022 – 2023 hän ihastutti
+              Kaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin Tootsie-musikaalissa. Kaudella 2022 – 2023 hän ihastutti
 Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa. Tulevalla kaudella 2025 Heidi nähdään Oulun teatterin Kinky Boots
 -musikaalissa. Heidi tekee nimeä myös musikaali-suomentajana ja hänen ensimmäinen kokonaan suomentamansa musikaali
 Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.
