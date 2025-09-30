@@ -16,49 +16,45 @@ const HomePage = () => {
 
     const portrait = portraitRef.current;
     const container = containerRef.current;
-
-    // Calculate the end position: 20px above BottomBranding
     const bottomBranding = document.querySelector('.bottom-branding');
+
     if (!bottomBranding) return;
 
-    const calculateEndPosition = () => {
-      const brandingRect = bottomBranding.getBoundingClientRect();
-      const portraitRect = portrait.getBoundingClientRect();
-      const portraitHeight = portrait.offsetHeight;
-      const containerTop = container.getBoundingClientRect().top + window.scrollY;
-      
-      // Calculate the target Y position where portrait bottom is 20px above branding top
-      const targetY = brandingRect.top + window.scrollY - containerTop - portraitHeight - 20;
-      
-      return targetY;
-    };
+    // A context for GSAP to properly scope the animations and cleanup
+    const ctx = gsap.context(() => {
+      // Get the portrait's initial layout position determined by CSS (Tailwind classes)
+      const initialY = portrait.offsetTop;
 
-    // Set up parallax animation
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: container,
-        start: "top top",
-        end: () => {
-          // Calculate when to end the animation based on final portrait position
-          const finalY = calculateEndPosition();
-          // The scroll distance needed is the same as the Y movement
-          return `+=${finalY}`;
+      const calculateFinalY = () => {
+        const brandingRect = bottomBranding.getBoundingClientRect();
+        const portraitHeight = portrait.offsetHeight;
+        const containerTop = container.getBoundingClientRect().top + window.scrollY;
+        
+        // Calculate the target Y position where portrait's BOTTOM is 20px ABOVE branding's TOP
+        // This is the final destination relative to the container's top edge.
+        return brandingRect.top + window.scrollY - containerTop - portraitHeight - 20;
+      };
+
+      const calculateDistanceToTravel = () => {
+        const finalY = calculateFinalY();
+        // The distance we need to animate is the destination minus the starting point
+        return finalY - initialY;
+      };
+
+      gsap.to(portrait, {
+        y: calculateDistanceToTravel, // Animate *by* this distance
+        ease: "none",
+        scrollTrigger: {
+          trigger: container,
+          start: "top top",
+          end: () => `+=${calculateDistanceToTravel()}`, // The scroll duration is the same as the travel distance
+          scrub: 1,
+          invalidateOnRefresh: true,
         },
-        scrub: 1,
-        invalidateOnRefresh: true,
-        // Prevent further scrolling effects after end point
-        toggleActions: "play none none reverse"
-      }
-    });
+      });
+    }, container); // Scope the context to the container
 
-    tl.to(portrait, {
-      y: () => calculateEndPosition(),
-      ease: "none"
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+    return () => ctx.revert(); // Cleanup function to kill animations and triggers
   }, []);
 
   return (
@@ -84,7 +80,8 @@ const HomePage = () => {
       
       {/* Content Container */}
       <div className="relative z-10 min-h-screen flex flex-col">
-        {/* Portrait Placeholder with Parallax - starts higher than center */}
+        {/* Portrait Placeholder with Parallax */}
+        {/* The pt-32 class correctly sets the initial position */}
         <div className="flex-1 flex items-start justify-center pt-32 md:pt-32 pb-32">
           <div 
             ref={portraitRef}
