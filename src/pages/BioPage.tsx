@@ -12,20 +12,75 @@ import bioPress4 from "@/assets/bio-press-4.jpg";
 gsap.registerPlugin(ScrollTrigger);
 
 const BioPage = () => {
-  const parallaxImagesRef = useRef<(HTMLDivElement | null)[]>([]);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const image1Ref = useRef<HTMLDivElement>(null);
+  const image2Ref = useRef<HTMLDivElement>(null);
+  const image3Ref = useRef<HTMLDivElement>(null);
+  const textContentRef = useRef<HTMLDivElement>(null);
+  const teatteriHeadingRef = useRef<HTMLHeadingElement>(null);
+  const suomennoksetHeadingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    // Only apply parallax on desktop (768px and up)
     const mm = gsap.matchMedia();
 
     mm.add("(min-width: 768px)", () => {
-      parallaxImagesRef.current.forEach((image) => {
+      if (!imageContainerRef.current || !image1Ref.current || !image2Ref.current || !image3Ref.current || !textContentRef.current || !teatteriHeadingRef.current || !suomennoksetHeadingRef.current) return;
+
+      // Pin the image container
+      ScrollTrigger.create({
+        trigger: textContentRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        pin: imageContainerRef.current,
+        pinSpacing: false,
+      });
+
+      // Create timeline for image cross-fades controlled by scroll
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: textContentRef.current,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1,
+        }
+      });
+
+      // Teatteri heading trigger for first transition (image 1 -> 2)
+      ScrollTrigger.create({
+        trigger: teatteriHeadingRef.current,
+        start: "top 128px",
+        onEnter: () => {
+          gsap.to(image1Ref.current, { opacity: 0, duration: 0.8 });
+          gsap.to(image2Ref.current, { opacity: 1, duration: 0.8 });
+        },
+        onLeaveBack: () => {
+          gsap.to(image1Ref.current, { opacity: 1, duration: 0.8 });
+          gsap.to(image2Ref.current, { opacity: 0, duration: 0.8 });
+        }
+      });
+
+      // Suomennokset heading trigger for second transition (image 2 -> 3)
+      ScrollTrigger.create({
+        trigger: suomennoksetHeadingRef.current,
+        start: "top 128px",
+        onEnter: () => {
+          gsap.to(image2Ref.current, { opacity: 0, duration: 0.8 });
+          gsap.to(image3Ref.current, { opacity: 1, duration: 0.8 });
+        },
+        onLeaveBack: () => {
+          gsap.to(image2Ref.current, { opacity: 1, duration: 0.8 });
+          gsap.to(image3Ref.current, { opacity: 0, duration: 0.8 });
+        }
+      });
+
+      // Apply parallax to all images (whichever is visible will show the effect)
+      [image1Ref.current, image2Ref.current, image3Ref.current].forEach((image) => {
         if (image) {
           gsap.to(image, {
-            y: -100,
+            y: -80,
             ease: "none",
             scrollTrigger: {
-              trigger: image,
+              trigger: textContentRef.current,
               start: "top bottom",
               end: "bottom top",
               scrub: 1,
@@ -74,7 +129,7 @@ const BioPage = () => {
           {/* Two-Column Layout on Desktop */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 max-w-7xl mx-auto">
             {/* Left Column - Text Content */}
-            <div className="md:col-span-7 space-y-16">
+            <div ref={textContentRef} className="md:col-span-7 space-y-16">
               {/* Narrative Introduction */}
               <section>
                 <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
@@ -122,7 +177,7 @@ const BioPage = () => {
 
               {/* Theatre Section */}
               <section>
-                <h2 className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8">
+                <h2 ref={teatteriHeadingRef} className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8">
                   Teatteri
                 </h2>
                 <div className="space-y-6 font-source text-foreground">
@@ -184,7 +239,7 @@ const BioPage = () => {
 
               {/* Translations Section */}
               <section>
-                <h2 className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8">
+                <h2 ref={suomennoksetHeadingRef} className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8">
                   Suomennokset
                 </h2>
                 <div className="space-y-4 font-source text-foreground">
@@ -292,37 +347,40 @@ const BioPage = () => {
               </div>
             </div>
 
-            {/* Right Column - Parallax Images (Desktop Only) */}
+            {/* Right Column - Stacked Images with Scrollytelling (Desktop Only) */}
             <div className="hidden md:block md:col-span-4">
-              <div className="sticky top-24 space-y-16">
+              <div ref={imageContainerRef} className="relative h-[600px]">
+                {/* Image 1 - Initially visible */}
                 <div 
-                  ref={(el) => (parallaxImagesRef.current[0] = el)}
-                  className="relative -mt-8"
+                  ref={image1Ref}
+                  className="absolute inset-0 opacity-100"
                 >
                   <img 
                     src={bioPress1} 
                     alt="Heidi Simelius performing on stage"
-                    className="w-full h-auto rounded-lg shadow-lg"
+                    className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                 </div>
+                {/* Image 2 - Initially hidden */}
                 <div 
-                  ref={(el) => (parallaxImagesRef.current[1] = el)}
-                  className="relative -ml-8"
+                  ref={image2Ref}
+                  className="absolute inset-0 opacity-0"
                 >
                   <img 
                     src={bioPress2} 
                     alt="Heidi Simelius in performance with a band"
-                    className="w-full h-auto rounded-lg shadow-lg"
+                    className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                 </div>
+                {/* Image 3 - Initially hidden */}
                 <div 
-                  ref={(el) => (parallaxImagesRef.current[2] = el)}
-                  className="relative"
+                  ref={image3Ref}
+                  className="absolute inset-0 opacity-0"
                 >
                   <img 
                     src={bioPress3} 
                     alt="Heidi Simelius theatrical portrait"
-                    className="w-full h-auto rounded-lg shadow-lg"
+                    className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                 </div>
               </div>
