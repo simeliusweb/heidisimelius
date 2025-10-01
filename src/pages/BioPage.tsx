@@ -20,62 +20,82 @@ const BioPage = () => {
   const teatteriHeadingRef = useRef<HTMLHeadingElement>(null);
   const suomennoksetHeadingRef = useRef<HTMLHeadingElement>(null);
 
-  
   useEffect(() => {
     const mm = gsap.matchMedia();
 
-    // Setup animations only for desktop screens
     mm.add("(min-width: 768px)", () => {
-      if (!imageContainerRef.current || !textContentRef.current || !teatteriHeadingRef.current || !suomennoksetHeadingRef.current) return;
+      if (!imageContainerRef.current || !image1Ref.current || !image2Ref.current || !image3Ref.current || !textContentRef.current || !teatteriHeadingRef.current || !suomennoksetHeadingRef.current) return;
 
-      const images = [image1Ref.current, image2Ref.current, image3Ref.current];
-      const textContent = textContentRef.current; // The left column with all the text
+      // Pin the image container
+      ScrollTrigger.create({
+        trigger: textContentRef.current,
+        start: "top 128px",
+        end: "bottom bottom",
+        pin: imageContainerRef.current,
+        pinSpacing: false,
+      });
 
-      // Create a master timeline that is controlled by the scroll position
+      // Create timeline for image cross-fades controlled by scroll
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: textContent,
+          trigger: textContentRef.current,
           start: "top top",
           end: "bottom bottom",
-          scrub: true, // Use a boolean or number for smoother scrubbing
-          pin: imageContainerRef.current,
-          pinSpacing: false,
-          invalidateOnRefresh: true,
+          scrub: 1,
         }
       });
 
-      // --- PARALLAX ANIMATION ---
-      // Animate the images DOWNWARDS within the timeline.
-      // This will move all images from a starting position of -200px to their final position of 0
-      // over the course of the entire timeline.
-      tl.from(images, {
-        y: -200, // Start all images 200px higher
-        ease: "none"
-      }, 0); // The '0' at the end means this animation starts at the very beginning of the timeline.
+      // Teatteri heading trigger for first transition (image 1 -> 2)
+      ScrollTrigger.create({
+        trigger: teatteriHeadingRef.current,
+        start: "top 128px",
+        onEnter: () => {
+          gsap.to(image1Ref.current, { opacity: 0, duration: 0.8 });
+          gsap.to(image2Ref.current, { opacity: 1, duration: 0.8 });
+        },
+        onLeaveBack: () => {
+          gsap.to(image1Ref.current, { opacity: 1, duration: 0.8 });
+          gsap.to(image2Ref.current, { opacity: 0, duration: 0.8 });
+        }
+      });
 
-      // --- IMAGE SWAP ANIMATIONS ---
-      // We add these to the SAME timeline at specific points.
-      
-      // Add a label for the "Teatteri" section. The position is calculated as a fraction of the total scroll height.
-      tl.addLabel("teatteriTrigger", teatteriHeadingRef.current.offsetTop / textContent.scrollHeight);
-      
-      // At the "teatteriTrigger" label, fade out image 1 and fade in image 2
-      tl.to(image1Ref.current, { opacity: 0 }, "teatteriTrigger");
-      tl.to(image2Ref.current, { opacity: 1 }, "teatteriTrigger");
+      // Suomennokset heading trigger for second transition (image 2 -> 3)
+      ScrollTrigger.create({
+        trigger: suomennoksetHeadingRef.current,
+        start: "top 128px",
+        onEnter: () => {
+          gsap.to(image2Ref.current, { opacity: 0, duration: 0.8 });
+          gsap.to(image3Ref.current, { opacity: 1, duration: 0.8 });
+        },
+        onLeaveBack: () => {
+          gsap.to(image2Ref.current, { opacity: 1, duration: 0.8 });
+          gsap.to(image3Ref.current, { opacity: 0, duration: 0.8 });
+        }
+      });
 
-      // Add a label for the "Suomennokset" section.
-      tl.addLabel("suomennoksetTrigger", suomennoksetHeadingRef.current.offsetTop / textContent.scrollHeight);
-
-      // At the "suomennoksetTrigger" label, fade out image 2 and fade in image 3
-      tl.to(image2Ref.current, { opacity: 0 }, "suomennoksetTrigger");
-      tl.to(image3Ref.current, { opacity: 1 }, "suomennoksetTrigger");
+      // Apply parallax to all images (whichever is visible will show the effect)
+      [image1Ref.current, image2Ref.current, image3Ref.current].forEach((image) => {
+        if (image) {
+          gsap.fromTo(image, 
+          { y: -100 }, // Start 100px higher than the natural position
+          {
+            y: 0, // Animate to its natural position (moving down)
+            ease: "none",
+            scrollTrigger: {
+              trigger: textContentRef.current,
+              start: "top bottom", // Start when the top of the text enters the bottom of the viewport
+              end: "bottom bottom-=128px", // End when the bottom of the text is 128px from the bottom of the viewport
+              scrub: 1,
+            },
+          });
+        }
+      });
     });
 
     return () => {
-      mm.revert(); // GSAP's cleanup function, kills all animations and triggers inside
+      mm.revert();
     };
   }, []);
-  
   return (
     <>
       <Helmet>
