@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import EventGroup from "@/components/EventGroup";
+import { Button } from "@/components/ui/button";
 
 const KeikatPage = () => {
   const tootsieMusical = {
@@ -50,10 +51,30 @@ const KeikatPage = () => {
         </div>
       </section>
 
-      {/* Event Groups */}
-      <section className="container mx-auto px-4 py-12 space-y-8">
-        <EventGroup {...tootsieMusical} />
+      {/* Musiikkikeikat Section */}
+      <section className="container mx-auto px-4 py-12">
+        <h2 className="text-4xl md:text-5xl font-playfair font-extrabold text-foreground mb-8">
+          Musiikkikeikat
+        </h2>
         <EventGroup {...heidiTrioLive} />
+        <div className="flex justify-center mt-8">
+          <Button variant="outline" size="lg">
+            Näytä kaikki
+          </Button>
+        </div>
+      </section>
+
+      {/* Teatteriesitykset Section */}
+      <section className="container mx-auto px-4 py-12">
+        <h2 className="text-4xl md:text-5xl font-playfair font-extrabold text-foreground mb-8">
+          Teatteriesitykset
+        </h2>
+        <EventGroup {...tootsieMusical} />
+        <div className="flex justify-center mt-8">
+          <Button variant="outline" size="lg">
+            Näytä kaikki
+          </Button>
+        </div>
       </section>
     </>
   );
