@@ -8,34 +8,34 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Heidi Simelius Color Palette - Deep Blue-Black Theme */
-    --background: 233 26% 8%;        /* #10111A - Deep Blue-Black */
-    --foreground: 240 14% 96%;       /* #F5F5F7 - Soft Off-White */
+    /* Heidi Simelius Color Palette - Precise HSL Values */
+    --background: 234 23.8% 8.2%;         /* #10111A */
+    --foreground: 240 11.1% 96.5%;    /* #F5F5F7 */
 
-    --card: 235 18% 13%;             /* #1A1B26 - Dark Slate */
-    --card-foreground: 240 14% 96%;  /* #F5F5F7 - Soft Off-White */
+    --card: 235 18.8% 12.5%;         /* #1A1B26 */
+    --card-foreground: 240 11.1% 96.5%;
 
-    --popover: 235 18% 13%;          /* #1A1B26 - Dark Slate */
-    --popover-foreground: 240 14% 96%;
+    --popover: 235 18.8% 12.5%;
+    --popover-foreground: 240 11.1% 96.5%;
 
-    --primary: 351 78% 52%;          /* #E52545 - Vibrant Stage Red */
-    --primary-foreground: 240 14% 96%;
+    --primary: 350 78.7% 52.2%;    /* #E52545 */
+    --primary-foreground: 240 11.1% 96.5%;
 
-    --secondary: 60 95% 94%;         /* #FEFEDF - Light Golden Sand */
-    --secondary-foreground: 233 26% 8%;
+    --secondary: 60 93.9% 93.5%;    /* #FEFEDF */
+    --secondary-foreground: 34 100% 81.2%;
 
-    --muted: 229 11% 57%;            /* #888B99 - Muted Grey */
-    --muted-foreground: 240 14% 96%;
+    --muted: 240 7.7% 56.7%;      /* #888899 */
+    --muted-foreground: 240 11.1% 96.5%;
 
-    --accent: 351 78% 52%;           /* Using primary for accent */
-    --accent-foreground: 240 14% 96%;
+    --accent: 351 78.3% 52.2%; /* #E52642 */
+    --accent-foreground: 240 11.1% 96.5%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 240 14% 96%;
+    --destructive-foreground: 240 11.1% 96.5%;
 
-    --border: 234 16% 20%;           /* #2A2B3A - Subtle Grey-Blue */
-    --input: 234 16% 20%;
-    --ring: 351 78% 52%;
+    --border: 236 16% 19.6%;    /* #2A2B3A */
+    --input: 236 16% 19.6%;
+    --ring: 351 78.3% 52.2%;
 
     --radius: 0.5rem;
   }
