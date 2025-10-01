@@ -45,8 +45,9 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
     return `klo ${timeString}`;
   };
 
-  const visiblePerformances = performances.slice(0, visibleCount);
-  const allVisible = visibleCount >= performances.length;
+  const totalPerformances = Array.isArray(performances) ? performances.length : 0;
+  const visiblePerformances = performances.slice(0, Math.min(visibleCount, totalPerformances));
+  const canShowMore = totalPerformances > visiblePerformances.length;
 
   return (
     <Card className="overflow-hidden max-w-[800px] mx-auto">
@@ -130,15 +131,14 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
             ))}
           </div>
 
-          {/* Show More Button or Final Message */}
-          {!allVisible && performances.length > 5 && (
+          {canShowMore && (
             <div className="flex justify-center pt-4">
               <Button onClick={showMore} variant="outline">
                 Näytä lisää
               </Button>
             </div>
           )}
-          {allVisible && performances.length > 5 && (
+          {!canShowMore && totalPerformances > 5 && (
             <p className="text-center text-muted-foreground pt-4">
               Siinä kaikki tämän tapahtuman keikat!
             </p>
