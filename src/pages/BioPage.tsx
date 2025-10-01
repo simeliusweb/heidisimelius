@@ -154,7 +154,7 @@ const BioPage = () => {
 
         {/* Hero Content */}
         <div className="relative z-10 text-center px-6">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-playfair font-extrabold italic text-primary">
+          <h1 className="text-6xl md:text-8xl lg:text-10xl font-playfair font-extrabold italic text-primary">
             Bio
           </h1>
         </div>
