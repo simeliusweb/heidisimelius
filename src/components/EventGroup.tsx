@@ -92,7 +92,7 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
                   href={eventPageUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 bg-card text-foreground py-1 px-3 rounded-full hover:bg-card/80 transition-colors"
+                  className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors"
                 >
                   Tapahtuman sivulle
                   <ExternalLink className="w-4 h-4 text-primary" />
@@ -103,7 +103,7 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
                   href={ticketsUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 bg-card text-foreground py-1 px-3 rounded-full hover:bg-card/80 transition-colors"
+                  className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors"
                 >
                   Liput
                   <ExternalLink className="w-4 h-4 text-primary" />
