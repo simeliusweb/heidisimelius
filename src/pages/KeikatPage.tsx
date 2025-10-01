@@ -76,7 +76,6 @@ const KeikatPage = () => {
           Teatteriesitykset
         </h2>
         <EventGroup {...tootsieMusical} />
-        </div>
       </section>
     </>
   );
