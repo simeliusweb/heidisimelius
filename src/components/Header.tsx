@@ -75,7 +75,7 @@ const Header = () => {
                     <li key={link.label}>
                       <a
                         href={link.href}
-                        className="text-2xl md:text-3xl font-bold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+                        className="text-2xl md:text-3xl playfair-display font-extrabold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
                         onClick={toggleMenu}
                       >
                         {link.label}
