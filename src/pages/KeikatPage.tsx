@@ -61,7 +61,7 @@ const KeikatPage = () => {
       </section>
 
       {/* Musiikkikeikat Section */}
-      <section className="container mx-auto px-4 py-12">
+      <section className="container mx-auto flex justify-center px-4 py-12">
         <h2 className="text-4xl md:text-5xl font-playfair font-extrabold text-foreground mb-8 italic">
           Musiikkikeikat
         </h2>
