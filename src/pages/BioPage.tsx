@@ -173,7 +173,7 @@ const BioPage = () => {
               </section>
 
               {/* Mobile Image 1 */}
-              <div className="md:hidden">
+              <div className="md:hidden overflow-hidden mobile-image-mask">
                 <img 
                   src={bioPress1} 
                   alt="Heidi Simelius performing on stage"
@@ -235,7 +235,7 @@ const BioPage = () => {
               </section>
 
               {/* Mobile Image 2 */}
-              <div className="md:hidden">
+              <div className="md:hidden overflow-hidden mobile-image-mask">
                 <img 
                   src={bioPress2} 
                   alt="Heidi Simelius in performance"
@@ -344,7 +344,7 @@ const BioPage = () => {
               </section>
 
               {/* Mobile Image 3 */}
-              <div className="md:hidden">
+              <div className="md:hidden overflow-hidden mobile-image-mask">
                 <img 
                   src={bioPress3} 
                   alt="Heidi Simelius performing with band"
