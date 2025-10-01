@@ -81,7 +81,7 @@ const BioPage = () => {
               { y: -200 }, // Start 200px higher than the natural position
               {
                 y: 0, // Animate to its natural position (moving down)
-                ease: "slow(0.7,0.7,false)",
+                ease: "circ.out",
                 scrollTrigger: {
                   trigger: textContentRef.current,
                   start: "top bottom", // Start when the top of the text enters the bottom of the viewport
