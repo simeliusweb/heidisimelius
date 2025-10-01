@@ -22,7 +22,7 @@ const BioPage = () => {
 
   useEffect(() => {
     const mm = gsap.matchMedia();
-    
+
     mm.add("(min-width: 768px)", () => {
       if (
         !imageContainerRef.current ||
@@ -34,7 +34,7 @@ const BioPage = () => {
         !suomennoksetHeadingRef.current
       )
         return;
-    
+
       // Pin the image container
       ScrollTrigger.create({
         trigger: textContentRef.current,
@@ -43,7 +43,7 @@ const BioPage = () => {
         pin: imageContainerRef.current,
         pinSpacing: false,
       });
-    
+
       // Teatteri heading trigger for first transition (image 1 -> 2)
       ScrollTrigger.create({
         trigger: teatteriHeadingRef.current,
@@ -57,7 +57,7 @@ const BioPage = () => {
           gsap.to(image2Ref.current, { opacity: 0, duration: 0.8 });
         },
       });
-    
+
       // Suomennokset heading trigger for second transition (image 2 -> 3)
       ScrollTrigger.create({
         trigger: suomennoksetHeadingRef.current,
@@ -71,7 +71,7 @@ const BioPage = () => {
           gsap.to(image3Ref.current, { opacity: 0, duration: 0.8 });
         },
       });
-    
+
       // Apply parallax to all images (whichever is visible will show the effect)
       [image1Ref.current, image2Ref.current, image3Ref.current].forEach(
         (image) => {
@@ -98,18 +98,18 @@ const BioPage = () => {
     // --- NEW MOBILE PARALLAX ANIMATION ---
     mm.add("(max-width: 639px)", () => {
       // Target all mobile image containers
-      const mobileImages = gsap.utils.toArray('.mobile-image-mask');
-  
+      const mobileImages = gsap.utils.toArray(".mobile-image-mask");
+
       mobileImages.forEach((mask) => {
         // Find the actual <img> tag inside the mask
-        const image = mask.querySelector('img');
-        
+        const image = mask.querySelector("img");
+
         gsap.fromTo(
           image,
           {
             x: 25, // Start from the right
             y: 50, // Start from the bottom
-            scale: 1.2 // Scale up slightly to hide edges
+            scale: 1.2, // Scale up slightly to hide edges
           },
           {
             x: 0, // Animate to its natural horizontal position
@@ -125,33 +125,33 @@ const BioPage = () => {
         );
       });
     });
-    
+
     return () => {
       mm.revert();
     };
   }, []);
-  
+
   return (
     <>
       <Helmet>
         <title>Bio - Heidi Simelius</title>
-        <meta 
-          name="description" 
-          content="Heidi Simelius on suomalainen laulaja, lauluntekijä ja esiintyjä. Tutustu hänen uraansa ja kokemukseensa teatterista musiikkiin." 
+        <meta
+          name="description"
+          content="Heidi Simelius on suomalainen laulaja, lauluntekijä ja esiintyjä. Tutustu hänen uraansa ja kokemukseensa teatterista musiikkiin."
         />
       </Helmet>
 
       {/* Hero Section */}
       <section className="relative h-[60vh] md:h-[70vh] flex items-end justify-center overflow-hidden">
         {/* Hero Background Image */}
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${bioHeroBg})` }}
         />
-        
+
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-background/70" />
-        
+
         {/* Hero Content */}
         <div className="relative z-10 text-center px-6">
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-playfair font-extrabold italic text-primary">
@@ -171,25 +171,38 @@ const BioPage = () => {
               <section className="px-6">
                 <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
                   <p>
-                    Heidi Simelius on laulaja, lauluntekijä ja esiintyjä. Hän keikkailee esittäen omaa musiikkiaan ja julkaisi vuonna 2023
-  ensimmäisen EP:nsä Mä vastaan. Viiden biisin EP sisältää nimikkokappaleen lisäksi mm. kappaleet Missä sä oot? ja Meitä ei ole
-  enää. Heidi on julkaissut aiemmin seitsemän singleä, mm. kappaleet Mun sydän on mun ja Upee. Heidin kappaleet ovat
-  suomenkielisiä sekä vahvasti tekstilähtöisiä ja musiikki on tyyliltään soulahtavaa poppia.
+                    Heidi Simelius on laulaja, lauluntekijä ja esiintyjä. Hän
+                    keikkailee esittäen omaa musiikkiaan ja julkaisi vuonna 2023
+                    ensimmäisen EP:nsä Mä vastaan. Viiden biisin EP sisältää
+                    nimikkokappaleen lisäksi mm. kappaleet Missä sä oot? ja
+                    Meitä ei ole enää. Heidi on julkaissut aiemmin seitsemän
+                    singleä, mm. kappaleet Mun sydän on mun ja Upee. Heidin
+                    kappaleet ovat suomenkielisiä sekä vahvasti tekstilähtöisiä
+                    ja musiikki on tyyliltään soulahtavaa poppia.
                   </p>
                   <p>
-                    Heidi oli mukana Voice of Finlandin uusimmalla kaudella, jossa hän lauloi tiensä semifinaaliin. Heidi esiintyy vaihtelevasti myös
-  erilaisten kokoonpanojen kanssa ja hänet on voitu nähdä mm. Suomen varusmiessoittokunnan " 80's kiertueen" ja Gospel
-  Helsinki -kuoron vierailevana solistina sekä keikoilla Pekka Simojoen kanssa.
+                    Heidi oli mukana Voice of Finlandin uusimmalla kaudella,
+                    jossa hän lauloi tiensä semifinaaliin. Heidi esiintyy
+                    vaihtelevasti myös erilaisten kokoonpanojen kanssa ja hänet
+                    on voitu nähdä mm. Suomen varusmiessoittokunnan " 80's
+                    kiertueen" ja Gospel Helsinki -kuoron vierailevana solistina
+                    sekä keikoilla Pekka Simojoen kanssa.
                   </p>
                   <p>
-                    Heidi on valmistunut Tampereen Ammattikorkeakoulussa musiikkiteatterin ammattilaiskesi vuonna 2023 sekä Metropolia
-  Ammattikorkeakoulusta muusikoksi esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.
+                    Heidi on valmistunut Tampereen Ammattikorkeakoulussa
+                    musiikkiteatterin ammattilaiskesi vuonna 2023 sekä
+                    Metropolia Ammattikorkeakoulusta muusikoksi
+                    esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.
                   </p>
                   <p>
-                    Kaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin Tootsie-musikaalissa. Kaudella 2022 – 2023 hän ihastutti
-  Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa. Tulevalla kaudella 2025 Heidi nähdään Oulun teatterin Kinky Boots
-  -musikaalissa. Heidi tekee nimeä myös musikaali-suomentajana ja hänen ensimmäinen kokonaan suomentamansa musikaali
-  Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.
+                    Kaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin
+                    Tootsie-musikaalissa. Kaudella 2022 – 2023 hän ihastutti
+                    Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa.
+                    Tulevalla kaudella 2025 Heidi nähdään Oulun teatterin Kinky
+                    Boots -musikaalissa. Heidi tekee nimeä myös
+                    musikaali-suomentajana ja hänen ensimmäinen kokonaan
+                    suomentamansa musikaali Laillisesti Blondi nähtiin
+                    Sellosalissa keväällä 2022.
                   </p>
                 </div>
 
@@ -205,8 +218,8 @@ const BioPage = () => {
 
               {/* Mobile Image 1 */}
               <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
-                <img 
-                  src={bioPress1} 
+                <img
+                  src={bioPress1}
                   alt="Heidi Simelius performing on stage"
                   className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg"
                 />
@@ -214,52 +227,91 @@ const BioPage = () => {
 
               {/* Theatre Section */}
               <section className="px-6">
-                <h2 ref={teatteriHeadingRef} className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8">
+                <h2
+                  ref={teatteriHeadingRef}
+                  className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8"
+                >
                   Teatteri
                 </h2>
                 <div className="space-y-6 font-source text-foreground">
                   <div>
                     <h3 className="text-xl font-semibold mb-2">2025</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
-                      <li><span className="text-foreground">Kinky Boots</span> | Oulun teatteri | Ensemble / Nicola Us</li>
+                      <li className="list-none">
+                        <span className="text-foreground">Kinky Boots</span> |
+                        Oulun teatteri | Ensemble / Nicola Us
+                      </li>
                     </ul>
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2">2023</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
-                      <li><span className="text-foreground">Tootsie</span> | Lahden Kaupunginteatteri | Ensemble</li>
+                      <li className="list-none">
+                        <span className="text-foreground">Tootsie</span> |
+                        Lahden Kaupunginteatteri | Ensemble
+                      </li>
                     </ul>
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2">2022</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
-                      <li><span className="text-foreground">Rakastajatar</span> | Porin Teatteri / Ensemble</li>
-                      <li><span className="text-foreground">Songs For A New World</span> | TAMK | Ensemble</li>
+                      <li className="list-none">
+                        <span className="text-foreground">Rakastajatar</span> |
+                        Porin Teatteri / Ensemble
+                      </li>
+                      <li className="list-none">
+                        <span className="text-foreground">
+                          Songs For A New World
+                        </span>{" "}
+                        | TAMK | Ensemble
+                      </li>
                     </ul>
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2">2018</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
-                      <li><span className="text-foreground">Spring Awakening</span> | Falmouth University, Englanti | Ensemble</li>
+                      <li className="list-none">
+                        <span className="text-foreground">
+                          Spring Awakening
+                        </span>{" "}
+                        | Falmouth University, Englanti | Ensemble
+                      </li>
                     </ul>
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2">2016</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
-                      <li><span className="text-foreground">Suruttomat</span> | Sellosali, Juvenalia Musiikkiteatterilinja | Johanna</li>
+                      <li className="list-none">
+                        <span className="text-foreground">Suruttomat</span> |
+                        Sellosali, Juvenalia Musiikkiteatterilinja | Johanna
+                      </li>
                     </ul>
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2">2014</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
-                      <li><span className="text-foreground">Evita</span> | Tampereen Työväen Teatteri | Ensemble / Rakastajatar Us</li>
+                      <li className="list-none">
+                        <span className="text-foreground">Evita</span> |
+                        Tampereen Työväen Teatteri | Ensemble / Rakastajatar Us
+                      </li>
                     </ul>
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-2">2011</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
-                      <li><span className="text-foreground">Onnen Vuori -musikaali</span> | Suomen Lähetysseura, kiertueita ympäri Suomea | Angelina</li>
-                      <li><span className="text-foreground">Stage – Silmistä Pois -musikaali</span> | Helsinki Peacock ja Tampere-talo | Ensemble</li>
+                      <li className="list-none">
+                        <span className="text-foreground">
+                          Onnen Vuori -musikaali
+                        </span>{" "}
+                        | Suomen Lähetysseura, kiertueita ympäri Suomea |
+                        Angelina
+                      </li>
+                      <li className="list-none">
+                        <span className="text-foreground">
+                          Stage – Silmistä Pois -musikaali
+                        </span>{" "}
+                        | Helsinki Peacock ja Tampere-talo | Ensemble
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -267,8 +319,8 @@ const BioPage = () => {
 
               {/* Mobile Image 2 */}
               <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
-                <img 
-                  src={bioPress2} 
+                <img
+                  src={bioPress2}
                   alt="Heidi Simelius in performance"
                   className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                 />
@@ -276,14 +328,22 @@ const BioPage = () => {
 
               {/* Translations Section */}
               <section className="px-6">
-                <h2 ref={suomennoksetHeadingRef} className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8">
+                <h2
+                  ref={suomennoksetHeadingRef}
+                  className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8"
+                >
                   Suomennokset
                 </h2>
                 <div className="space-y-4 font-source text-foreground">
                   <div>
                     <h3 className="text-xl font-semibold mb-2">2021</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
-                      <li><span className="text-foreground">Legally Blonde / Laillisesti Blondi</span> | Musiikkiopisto Juvenalia</li>
+                      <li className="list-none">
+                        <span className="text-foreground">
+                          Legally Blonde / Laillisesti Blondi
+                        </span>{" "}
+                        | Musiikkiopisto Juvenalia
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -296,9 +356,17 @@ const BioPage = () => {
                 </h2>
                 <div className="space-y-8 font-source text-foreground">
                   <div>
-                    <h3 className="text-2xl font-semibold mb-4">Sooloalbumit</h3>
+                    <h3 className="text-2xl font-semibold mb-4">
+                      Sooloalbumit
+                    </h3>
                     <ul className="space-y-2 text-muted">
-                      <li className="border-l-2 border-primary pl-4"><span className="text-foreground">Mä vastaan EP (singlet Meitä ei ole enää ja Missä sä oot?)</span> | Heidi Simelius | (2023)</li>
+                      <li className="border-l-2 border-primary pl-4">
+                        <span className="text-foreground">
+                          Mä vastaan EP (singlet Meitä ei ole enää ja Missä sä
+                          oot?)
+                        </span>{" "}
+                        | Heidi Simelius | (2023)
+                      </li>
                     </ul>
                   </div>
 
@@ -306,78 +374,115 @@ const BioPage = () => {
                     <h3 className="text-2xl font-semibold mb-4">Singlet</h3>
                     <ul className="space-y-2 text-muted">
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Mun sydän on mun</span> | Heidi Simelius | (2021)
+                        <span className="text-foreground">
+                          Mun sydän on mun
+                        </span>{" "}
+                        | Heidi Simelius | (2021)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Seuraa</span> | Heidi Simelius | (2021)
+                        <span className="text-foreground">Seuraa</span> | Heidi
+                        Simelius | (2021)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Huulet</span> | Heidi Simelius | (2021)
+                        <span className="text-foreground">Huulet</span> | Heidi
+                        Simelius | (2021)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Upee</span> | Heidi Simelius | (2021)
+                        <span className="text-foreground">Upee</span> | Heidi
+                        Simelius | (2021)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Tähän jää</span> | Heidi Simelius | (2020)
+                        <span className="text-foreground">Tähän jää</span> |
+                        Heidi Simelius | (2020)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Ikiaikojen taa</span> | Heidi Simelius | (2019)
+                        <span className="text-foreground">Ikiaikojen taa</span>{" "}
+                        | Heidi Simelius | (2019)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Sun sylissä (akustinen)</span> | Heidi Simelius | (2019)
+                        <span className="text-foreground">
+                          Sun sylissä (akustinen)
+                        </span>{" "}
+                        | Heidi Simelius | (2019)
                       </li>
                     </ul>
                   </div>
-                  
+
                   <div>
                     <h3 className="text-2xl font-semibold mb-4">Yhteistyöt</h3>
                     <ul className="space-y-2 text-muted">
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Rautalanka-autot</span> | Pekka Simojoki | (2022)
+                        <span className="text-foreground">
+                          Rautalanka-autot
+                        </span>{" "}
+                        | Pekka Simojoki | (2022)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Keskiyön Auringon Maa</span> | Saila | Yksityinen | (2019)
+                        <span className="text-foreground">
+                          Keskiyön Auringon Maa
+                        </span>{" "}
+                        | Saila | Yksityinen | (2019)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Häikäisevän kirkas</span> | Pekka Simojoki | Sisandi | (2018)
+                        <span className="text-foreground">
+                          Häikäisevän kirkas
+                        </span>{" "}
+                        | Pekka Simojoki | Sisandi | (2018)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Valon samba -lattariylistyslevy</span> | Yksityinen | (2017)
+                        <span className="text-foreground">
+                          Valon samba -lattariylistyslevy
+                        </span>{" "}
+                        | Yksityinen | (2017)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Avara</span> | Pekka Simojoki | (2016)
+                        <span className="text-foreground">Avara</span> | Pekka
+                        Simojoki | (2016)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Parasta laatua -lastenlevy</span> | Pekka Simojoki | Rainmaker | (2016)
+                        <span className="text-foreground">
+                          Parasta laatua -lastenlevy
+                        </span>{" "}
+                        | Pekka Simojoki | Rainmaker | (2016)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Kutsu</span> | Poika & Maria | Päivä Osakeyhtiö | (2015)
+                        <span className="text-foreground">Kutsu</span> | Poika &
+                        Maria | Päivä Osakeyhtiö | (2015)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Maksettu on – Lauluja riihikirkosta</span> | Rainmaker | (2014)
+                        <span className="text-foreground">
+                          Maksettu on – Lauluja riihikirkosta
+                        </span>{" "}
+                        | Rainmaker | (2014)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Ylistys</span> | Pekka Simojoki | Rainmaker | (2012)
+                        <span className="text-foreground">Ylistys</span> | Pekka
+                        Simojoki | Rainmaker | (2012)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Onnen vuori</span> | Pekka Simojoki ja Anna-Mari Kaskinen | Rainmaker | (2011)
+                        <span className="text-foreground">Onnen vuori</span> |
+                        Pekka Simojoki ja Anna-Mari Kaskinen | Rainmaker |
+                        (2011)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Uniikki</span> | Aikamedia Oy | (2009)
+                        <span className="text-foreground">Uniikki</span> |
+                        Aikamedia Oy | (2009)
                       </li>
                       <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Tuhatta ja sataa</span> | Pekka Simojoki | Rainmaker | (2005)
+                        <span className="text-foreground">
+                          Tuhatta ja sataa
+                        </span>{" "}
+                        | Pekka Simojoki | Rainmaker | (2005)
                       </li>
                     </ul>
                   </div>
-                  
                 </div>
               </section>
 
               {/* Mobile Image 3 */}
               <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
-                <img 
-                  src={bioPress3} 
+                <img
+                  src={bioPress3}
                   alt="Heidi Simelius performing with band"
                   className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                 />
@@ -388,34 +493,25 @@ const BioPage = () => {
             <div className="hidden md:block md:col-span-5 pt-16">
               <div ref={imageContainerRef} className="relative h-[600px]">
                 {/* Image 1 - Initially visible */}
-                <div 
-                  ref={image1Ref}
-                  className="absolute inset-0 opacity-100"
-                >
-                  <img 
-                    src={bioPress1} 
+                <div ref={image1Ref} className="absolute inset-0 opacity-100">
+                  <img
+                    src={bioPress1}
                     alt="Heidi Simelius performing on stage"
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                 </div>
                 {/* Image 2 - Initially hidden */}
-                <div 
-                  ref={image2Ref}
-                  className="absolute inset-0 opacity-0"
-                >
-                  <img 
-                    src={bioPress2} 
+                <div ref={image2Ref} className="absolute inset-0 opacity-0">
+                  <img
+                    src={bioPress2}
                     alt="Heidi Simelius in performance with a band"
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                 </div>
                 {/* Image 3 - Initially hidden */}
-                <div 
-                  ref={image3Ref}
-                  className="absolute inset-0 opacity-0"
-                >
-                  <img 
-                    src={bioPress3} 
+                <div ref={image3Ref} className="absolute inset-0 opacity-0">
+                  <img
+                    src={bioPress3}
                     alt="Heidi Simelius theatrical portrait"
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
