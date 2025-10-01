@@ -2,7 +2,7 @@ import { useState } from "react";
 import { format, parse } from "date-fns";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Clock, ExternalLink } from "lucide-react";
+import { Clock, ExternalLink, MapPin } from "lucide-react";
 
 interface Performance {
   date: string; // Use ISO 8601 format, e.g., "2025-10-31"
@@ -74,27 +74,28 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
             <h2 className="text-3xl md:text-4xl font-playfair font-extrabold text-foreground mb-2">
               {title}
             </h2>
-            <p className="text-lg text-muted-foreground font-medium">
-              {venue}
-            </p>
+            <div className="flex items-center gap-2 text-lg text-muted-foreground font-medium">
+              <MapPin className="w-5 h-5" />
+              <p>{venue}</p>
+            </div>
           </div>
 
-          <p className="text-base font-source-sans text-foreground/90 leading-relaxed">
+          <p className="text-base font-source-sans text-foreground/90 leading-relaxed italic">
             {description}
           </p>
 
           {/* Links Block */}
           {(eventPageUrl || ticketsUrl) && (
-            <div className="flex flex-wrap gap-4 pt-2">
+            <div className="flex flex-wrap gap-3 pt-2">
               {eventPageUrl && (
                 <a 
                   href={eventPageUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-primary hover:text-primary/80 underline underline-offset-4 transition-colors"
+                  className="inline-flex items-center gap-1.5 bg-card text-foreground py-1 px-3 rounded-full hover:bg-card/80 transition-colors"
                 >
                   Tapahtuman sivulle
-                  <ExternalLink className="w-4 h-4" />
+                  <ExternalLink className="w-4 h-4 text-primary" />
                 </a>
               )}
               {ticketsUrl && (
@@ -102,10 +103,10 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
                   href={ticketsUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-primary hover:text-primary/80 underline underline-offset-4 transition-colors"
+                  className="inline-flex items-center gap-1.5 bg-card text-foreground py-1 px-3 rounded-full hover:bg-card/80 transition-colors"
                 >
                   Liput
-                  <ExternalLink className="w-4 h-4" />
+                  <ExternalLink className="w-4 h-4 text-primary" />
                 </a>
               )}
             </div>
@@ -116,7 +117,7 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
             {visiblePerformances.map((performance, index) => (
               <div 
                 key={index}
-                className="flex items-center justify-between py-3 border-t border-border first:border-t-0"
+                className="flex items-center gap-4 py-3 border-t border-border first:border-t-0"
               >
                 <span className="text-2xl md:text-3xl font-bold text-foreground">
                   {formatDateDisplay(performance.date)}
