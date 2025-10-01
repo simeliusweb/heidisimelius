@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import EventGroup from "@/components/EventGroup";
+import PastGigCard from "@/components/PastGigCard";
 import { Button } from "@/components/ui/button";
 import keikatHeroBg from "@/assets/keikat-hero-bg.jpg";
 
@@ -31,6 +32,22 @@ const KeikatPage = () => {
     performances: [
       { date: "2025-11-15", time: "20:00" }
     ]
+  };
+
+  const pastGig1 = {
+    imageUrl: "/images/placeholder-evita.jpg",
+    title: "Evita-musikaali",
+    gigType: 'Teatteri' as const,
+    date: "12.05.2023",
+    venue: "Porin Teatteri"
+  };
+
+  const pastGig2 = {
+    imageUrl: "/images/placeholder-80s.jpg",
+    title: "80's kiertue",
+    gigType: 'Musiikki' as const,
+    date: "22.09.2023",
+    venue: "Suomen varusmiessoittokunta"
   };
 
   return (
@@ -76,6 +93,17 @@ const KeikatPage = () => {
           Teatteriesitykset
         </h2>
         <EventGroup {...tootsieMusical} />
+      </section>
+
+      {/* Past Gigs Section */}
+      <section className="container mx-auto px-4 py-12">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 italic">
+          Menneet keikat
+        </h2>
+        <div className="space-y-4">
+          <PastGigCard {...pastGig1} />
+          <PastGigCard {...pastGig2} />
+        </div>
       </section>
     </>
   );
