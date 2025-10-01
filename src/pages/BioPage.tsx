@@ -22,55 +22,58 @@ const BioPage = () => {
 
   
   useEffect(() => {
-      const mm = gsap.matchMedia();
-  
-      // Setup animations only for desktop screens
-      mm.add("(min-width: 768px)", () => {
-        if (!imageContainerRef.current || !textContentRef.current || !teatteriHeadingRef.current || !suomennoksetHeadingRef.current) return;
-  
-        const images = [image1Ref.current, image2Ref.current, image3Ref.current];
-  
-        // Create a master timeline that is controlled by the scroll position
-        // This single timeline will handle both the parallax and the image swaps.
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: textContentRef.current, // The element that drives the animation
-            start: "top top-=256px",         // Start when the top of the text hits 256px from the top of the viewport
-            end: "bottom bottom+=128px",     // **FIX:** End when the bottom of the text hits 128px from the bottom of the viewport. This gives the last image room to settle.
-            scrub: 1,                        // Smoothly scrubs the animation as the user scrolls
-            pin: imageContainerRef.current,  // Pin the image container during the scroll
-            pinSpacing: false,
-            invalidateOnRefresh: true,
-          }
-        });
-  
-        // **FIX:** Animate the images DOWNWARDS within the timeline for the parallax effect.
-        // We start all images from a higher position and move them to a lower one.
-        tl.from(images, {
-          y: "-=200px", // Start all images 200px higher
-          ease: "none"
-        }, 0); // The '0' at the end means this animation starts at the very beginning of the timeline.
-  
-        // **FIX:** Add the image cross-fade animations TO THE SAME TIMELINE.
-        // The position parameter (e.g., ">-0.5") times the animations relative to each other.
-        
-        // Animate from image 1 to image 2
-        tl.to(image1Ref.current, { opacity: 0 }, "teatteri")
-          .to(image2Ref.current, { opacity: 1 }, "teatteri");
-  
-        // Animate from image 2 to image 3
-        tl.to(image2Ref.current, { opacity: 0 }, "suomennokset")
-          .to(image3Ref.current, { opacity: 1 }, "suomennokset");
-  
-        // Add labels to the timeline to mark when transitions should happen.
-        // This is more robust than separate ScrollTriggers.
-        tl.addLabel("teatteri", () => teatteriHeadingRef.current.offsetTop / textContentRef.current.scrollHeight);
-        tl.addLabel("suomennokset", () => suomennoksetHeadingRef.current.offsetTop / textContentRef.current.scrollHeight);
+    const mm = gsap.matchMedia();
+
+    // Setup animations only for desktop screens
+    mm.add("(min-width: 768px)", () => {
+      if (!imageContainerRef.current || !textContentRef.current || !teatteriHeadingRef.current || !suomennoksetHeadingRef.current) return;
+
+      const images = [image1Ref.current, image2Ref.current, image3Ref.current];
+      const textContent = textContentRef.current; // The left column with all the text
+
+      // Create a master timeline that is controlled by the scroll position
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: textContent,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true, // Use a boolean or number for smoother scrubbing
+          pin: imageContainerRef.current,
+          pinSpacing: false,
+          invalidateOnRefresh: true,
+        }
       });
-  
-      return () => {
-        mm.revert(); // GSAP's cleanup function
-      };
+
+      // --- PARALLAX ANIMATION ---
+      // Animate the images DOWNWARDS within the timeline.
+      // This will move all images from a starting position of -200px to their final position of 0
+      // over the course of the entire timeline.
+      tl.from(images, {
+        y: -200, // Start all images 200px higher
+        ease: "none"
+      }, 0); // The '0' at the end means this animation starts at the very beginning of the timeline.
+
+      // --- IMAGE SWAP ANIMATIONS ---
+      // We add these to the SAME timeline at specific points.
+      
+      // Add a label for the "Teatteri" section. The position is calculated as a fraction of the total scroll height.
+      tl.addLabel("teatteriTrigger", teatteriHeadingRef.current.offsetTop / textContent.scrollHeight);
+      
+      // At the "teatteriTrigger" label, fade out image 1 and fade in image 2
+      tl.to(image1Ref.current, { opacity: 0 }, "teatteriTrigger");
+      tl.to(image2Ref.current, { opacity: 1 }, "teatteriTrigger");
+
+      // Add a label for the "Suomennokset" section.
+      tl.addLabel("suomennoksetTrigger", suomennoksetHeadingRef.current.offsetTop / textContent.scrollHeight);
+
+      // At the "suomennoksetTrigger" label, fade out image 2 and fade in image 3
+      tl.to(image2Ref.current, { opacity: 0 }, "suomennoksetTrigger");
+      tl.to(image3Ref.current, { opacity: 1 }, "suomennoksetTrigger");
+    });
+
+    return () => {
+      mm.revert(); // GSAP's cleanup function, kills all animations and triggers inside
+    };
   }, []);
   
   return (
