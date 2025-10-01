@@ -57,7 +57,7 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
           <img 
             src={imageUrl} 
             alt={title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)]"
           />
           {performances.length > 0 && (
             <div className="absolute top-0 left-4 bg-primary text-primary-foreground px-4 pb-2 pt-6 rounded-b-md shadow-lg">
