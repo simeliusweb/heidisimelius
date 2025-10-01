@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button";
 import keikatHeroBg from "@/assets/keikat-hero-bg.jpg";
 
 const KeikatPage = () => {
-  const [isPastGigsVisible, setIsPastGigsVisible] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(5);
+  const [visibleCount, setVisibleCount] = useState(3);
 
   const tootsieMusical = {
     imageUrl: "/images/placeholder-tootsie.jpg",
@@ -165,40 +164,29 @@ const KeikatPage = () => {
           Menneet keikat
         </h2>
         
-        {!isPastGigsVisible ? (
+        <div className="space-y-8">
+          <div className="space-y-4 max-w-[800px] mx-auto">
+            {sortedPastGigs.slice(0, visibleCount).map((gig, index) => (
+              <PastGigCard key={index} {...gig} />
+            ))}
+          </div>
+          
           <div className="flex justify-center">
-            <Button 
-              onClick={() => setIsPastGigsVisible(true)}
-              size="lg"
-            >
-              Näytä menneet keikat
-            </Button>
+            {visibleCount < sortedPastGigs.length ? (
+              <Button 
+                onClick={() => setVisibleCount(prev => prev + 10)}
+                size="lg"
+                variant="outline"
+              >
+                Näytä lisää
+              </Button>
+            ) : (
+              <p className="text-lg text-muted-foreground font-source-sans">
+                Tässä kaikki!
+              </p>
+            )}
           </div>
-        ) : (
-          <div className="space-y-8">
-            <div className="space-y-4 max-w-[800px] mx-auto">
-              {sortedPastGigs.slice(0, visibleCount).map((gig, index) => (
-                <PastGigCard key={index} {...gig} />
-              ))}
-            </div>
-            
-            <div className="flex justify-center">
-              {visibleCount < sortedPastGigs.length ? (
-                <Button 
-                  onClick={() => setVisibleCount(prev => prev + 10)}
-                  size="lg"
-                  variant="outline"
-                >
-                  Näytä lisää
-                </Button>
-              ) : (
-                <p className="text-lg text-muted-foreground font-source-sans">
-                  Tässä kaikki!
-                </p>
-              )}
-            </div>
-          </div>
-        )}
+        </div>
       </section>
     </>
   );
