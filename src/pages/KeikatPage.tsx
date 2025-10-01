@@ -15,6 +15,8 @@ const KeikatPage = () => {
       { date: "2025-10-24", time: "19:00" },
       { date: "2025-10-25", time: "13:00" },
       { date: "2025-11-1", time: "20:00" },
+      { date: "2025-11-17", time: "19:30" },
+      { date: "2025-11-28", time: "18:30" },
       { date: "2025-12-6", time: "17:00" },
       { date: "2025-12-18", time: "20:30" }
     ]
@@ -66,11 +68,6 @@ const KeikatPage = () => {
           Musiikkikeikat
         </h2>
         <EventGroup {...heidiTrioLive} />
-        <div className="flex justify-center mt-8">
-          <Button variant="outline" size="lg">
-            Näytä kaikki
-          </Button>
-        </div>
       </section>
 
       {/* Teatteriesitykset Section */}
@@ -79,10 +76,6 @@ const KeikatPage = () => {
           Teatteriesitykset
         </h2>
         <EventGroup {...tootsieMusical} />
-        <div className="flex justify-center mt-8">
-          <Button variant="outline" size="lg">
-            Näytä kaikki
-          </Button>
         </div>
       </section>
     </>
