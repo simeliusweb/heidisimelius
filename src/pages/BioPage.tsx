@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { CustomEase } from "gsap/CustomEase";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import bioHeroBg from "@/assets/bio-hero-bg.jpg";
 import bioPress1 from "@/assets/bio-press-1.jpg";
@@ -9,7 +10,7 @@ import bioPress2 from "@/assets/bio-press-2.jpg";
 import bioPress3 from "@/assets/bio-press-3.jpg";
 import bioPress4 from "@/assets/bio-press-4.jpg";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, CustomEase);
 
 const BioPage = () => {
   const imageContainerRef = useRef<HTMLDivElement>(null);
