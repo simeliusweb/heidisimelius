@@ -108,7 +108,7 @@ const BioPage = () => {
           image,
           {
             x: 25, // Start from the right
-            y: 10, // Start from the bottom
+            y: 25, // Start from the bottom
             scale: 1.2 // Scale up slightly to hide edges
           },
           {
