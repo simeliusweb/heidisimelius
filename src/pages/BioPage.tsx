@@ -177,7 +177,7 @@ const BioPage = () => {
                 <img 
                   src={bioPress1} 
                   alt="Heidi Simelius performing on stage"
-                  className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg [clip-path:polygon(0_5%,_100%_0,_100%_95%,_0_100%)]"
+                  className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                 />
               </div>
 
