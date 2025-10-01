@@ -100,7 +100,7 @@ const KeikatPage = () => {
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 italic">
           Menneet keikat
         </h2>
-        <div className="space-y-4">
+        <div className="space-y-4 max-w-[800px] mx-auto">
           <PastGigCard {...pastGig1} />
           <PastGigCard {...pastGig2} />
         </div>
