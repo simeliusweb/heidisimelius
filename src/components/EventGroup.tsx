@@ -30,7 +30,7 @@ const EventGroup = ({ imageUrl, title, venue, description, performances }: Event
           </div>
 
           {/* Right Column - Details */}
-          <div className="p-6 md:p-8 flex flex-col justify-between">
+          <div className="p-6 md:p-8 flex flex-col">
             <div className="space-y-4">
               <div>
                 <h2 className="text-3xl md:text-4xl font-playfair font-extrabold text-foreground mb-2">
