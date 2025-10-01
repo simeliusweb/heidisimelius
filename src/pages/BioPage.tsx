@@ -239,7 +239,7 @@ const BioPage = () => {
                 <img 
                   src={bioPress2} 
                   alt="Heidi Simelius in performance"
-                  className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg"
+                  className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                 />
               </div>
 
@@ -348,7 +348,7 @@ const BioPage = () => {
                 <img 
                   src={bioPress3} 
                   alt="Heidi Simelius performing with band"
-                  className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg"
+                  className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                 />
               </div>
             </div>
