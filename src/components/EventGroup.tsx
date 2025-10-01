@@ -60,7 +60,7 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
             className="w-full h-full object-cover [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)]"
           />
           {performances.length > 0 && (
-            <div className="absolute top-0 left-4 bg-primary text-primary-foreground px-4 pb-2 pt-6 rounded-b-md shadow-lg">
+            <div className="absolute top-0 left-4 bg-border text-secondary-foreground px-4 pb-2 pt-6 rounded-b-md shadow-lg">
               <span className="text-3xl md:text-4xl font-bold">
                 {formatDateStamp(performances[0].date)}
               </span>
