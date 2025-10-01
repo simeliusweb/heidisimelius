@@ -111,7 +111,7 @@ const BioPage = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[60vh] md:h-[70vh] flex items-end justify-center overflow-hidden">
         {/* Hero Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center"
