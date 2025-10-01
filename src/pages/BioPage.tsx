@@ -39,9 +39,9 @@ const BioPage = () => {
       ScrollTrigger.create({
         trigger: textContentRef.current,
         start: "top 128px",
-        end: "bottom 128px",
+        end: "bottom bottom",
         pin: imageContainerRef.current,
-        pinSpacing: false,
+        pinSpacing: true,
       });
     
       // Teatteri heading trigger for first transition (image 1 -> 2)
