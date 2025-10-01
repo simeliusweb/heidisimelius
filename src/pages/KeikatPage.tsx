@@ -9,10 +9,12 @@ const KeikatPage = () => {
     title: "Tootsie-musikaali",
     venue: "Lahden Kaupunginteatteri",
     description: "Kaudella 2023-2024 Heidi nähdään Lahden Kaupunginteatterin Tootsie-musikaalissa.",
+    eventPageUrl: "https://example.com/tootsie",
+    ticketsUrl: "https://example.com/tickets/tootsie",
     performances: [
-      { date: "Pe 24.10.2025", time: "klo 19:00", ticketUrl: "#" },
-      { date: "La 25.10.2025", time: "klo 13:00", ticketUrl: "#" },
-      { date: "La 25.10.2025", time: "klo 19:00", ticketUrl: "#" }
+      { date: "2025-10-24", time: "19:00" },
+      { date: "2025-10-25", time: "13:00" },
+      { date: "2025-10-25", time: "19:00" }
     ]
   };
 
@@ -21,8 +23,9 @@ const KeikatPage = () => {
     title: "Heidi Simelius Trio Live",
     venue: "G Livelab, Tampere",
     description: "Heidi Simelius esittää uuden albuminsa kappaleita trionsa kanssa.",
+    ticketsUrl: "https://example.com/tickets/trio",
     performances: [
-      { date: "La 15.11.2025", time: "klo 20:00", ticketUrl: "#" }
+      { date: "2025-11-15", time: "20:00" }
     ]
   };
 
