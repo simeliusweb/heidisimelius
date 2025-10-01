@@ -2,7 +2,6 @@ import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { CustomEase } from "gsap/CustomEase";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import bioHeroBg from "@/assets/bio-hero-bg.jpg";
 import bioPress1 from "@/assets/bio-press-1.jpg";
@@ -10,7 +9,7 @@ import bioPress2 from "@/assets/bio-press-2.jpg";
 import bioPress3 from "@/assets/bio-press-3.jpg";
 import bioPress4 from "@/assets/bio-press-4.jpg";
 
-gsap.registerPlugin(ScrollTrigger, CustomEase);
+gsap.registerPlugin(ScrollTrigger);
 
 const BioPage = () => {
   const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -82,7 +81,7 @@ const BioPage = () => {
               { y: -200 }, // Start 200px higher than the natural position
               {
                 y: 0, // Animate to its natural position (moving down)
-                ease: CustomEase.create("custom", "M0,0 C0.126,0.204 0.181,1.089 1,0.985 "),
+                ease: "circ.out",
                 scrollTrigger: {
                   trigger: textContentRef.current,
                   start: "top bottom", // Start when the top of the text enters the bottom of the viewport
