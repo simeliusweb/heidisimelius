@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import BioPage from "./pages/BioPage";
 import KeikatPage from "./pages/KeikatPage";
+import GalleriaPage from "./pages/GalleriaPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/" element={<HomePage />} />
             <Route path="/bio" element={<BioPage />} />
             <Route path="/keikat" element={<KeikatPage />} />
+            <Route path="/galleria" element={<GalleriaPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
