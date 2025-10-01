@@ -1,6 +1,29 @@
 import { Helmet } from "react-helmet-async";
+import EventGroup from "@/components/EventGroup";
 
 const KeikatPage = () => {
+  const tootsieMusical = {
+    imageUrl: "/images/placeholder-tootsie.jpg",
+    title: "Tootsie-musikaali",
+    venue: "Lahden Kaupunginteatteri",
+    description: "Kaudella 2023-2024 Heidi nähdään Lahden Kaupunginteatterin Tootsie-musikaalissa.",
+    performances: [
+      { date: "Pe 24.10.2025", time: "klo 19:00", ticketUrl: "#" },
+      { date: "La 25.10.2025", time: "klo 13:00", ticketUrl: "#" },
+      { date: "La 25.10.2025", time: "klo 19:00", ticketUrl: "#" }
+    ]
+  };
+
+  const heidiTrioLive = {
+    imageUrl: "/images/placeholder-trio.jpg",
+    title: "Heidi Simelius Trio Live",
+    venue: "G Livelab, Tampere",
+    description: "Heidi Simelius esittää uuden albuminsa kappaleita trionsa kanssa.",
+    performances: [
+      { date: "La 15.11.2025", time: "klo 20:00", ticketUrl: "#" }
+    ]
+  };
+
   return (
     <>
       <Helmet>
@@ -25,6 +48,12 @@ const KeikatPage = () => {
             Keikat
           </h1>
         </div>
+      </section>
+
+      {/* Event Groups */}
+      <section className="container mx-auto px-4 py-12 space-y-8">
+        <EventGroup {...tootsieMusical} />
+        <EventGroup {...heidiTrioLive} />
       </section>
     </>
   );
