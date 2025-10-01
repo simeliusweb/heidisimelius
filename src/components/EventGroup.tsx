@@ -70,7 +70,7 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
             {/* Date/Time Column - Shows after content on mobile, left on desktop */}
             <div className="order-2 sm:order-1 sm:w-1/3 flex flex-col justify-start">
               <div className="space-y-2">
-                <div className="text-4xl md:text-5xl font-bold text-foreground">
+                <div className="text-4xl md:text-5xl font-bold text-secondary-foreground">
                   {formatDateDisplay(performance.date)}
                 </div>
                 <div className="flex items-center gap-2 text-muted-foreground text-lg">
