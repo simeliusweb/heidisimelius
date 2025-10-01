@@ -100,7 +100,7 @@ const BioPage = () => {
       // Target all mobile image containers
       const mobileImages = gsap.utils.toArray(".mobile-image-mask");
 
-      mobileImages.forEach((mask) => {
+      mobileImages.forEach((mask: HTMLElement) => {
         // Find the actual <img> tag inside the mask
         const image = mask.querySelector("img");
 
