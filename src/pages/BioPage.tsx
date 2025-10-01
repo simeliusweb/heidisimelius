@@ -202,11 +202,11 @@ const BioPage = () => {
               </section>
 
               {/* Mobile Image 1 */}
-              <div className="md:hidden overflow-hidden mobile-image-mask">
+              <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                 <img 
                   src={bioPress1} 
                   alt="Heidi Simelius performing on stage"
-                  className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
+                  className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg"
                 />
               </div>
 
