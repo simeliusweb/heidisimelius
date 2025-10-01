@@ -490,7 +490,7 @@ const BioPage = () => {
             </div>
 
             {/* Right Column - Stacked Images with Scrollytelling (Desktop Only) */}
-            <div className="hidden md:block md:col-span-5 pt-16">
+            <div className="hidden md:block md:col-span-5 pt-24">
               <div ref={imageContainerRef} className="relative h-[600px]">
                 {/* Image 1 - Initially visible */}
                 <div ref={image1Ref} className="absolute inset-0 opacity-100">
