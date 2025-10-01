@@ -107,8 +107,8 @@ const BioPage = () => {
         gsap.fromTo(
           image,
           {
-            x: 50, // Start 50px to the right
-            scale: 1.1 // Scale up slightly to hide edges
+            x: 30, // Start from the right
+            scale: 1.15 // Scale up slightly to hide edges
           },
           {
             x: 0, // Animate to its natural horizontal position
