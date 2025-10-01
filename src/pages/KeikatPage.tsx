@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import EventGroup from "@/components/EventGroup";
 import { Button } from "@/components/ui/button";
+import keikatHeroBg from "@/assets/keikat-hero-bg.jpg";
 
 const KeikatPage = () => {
   const tootsieMusical = {
@@ -35,10 +36,13 @@ const KeikatPage = () => {
         />
       </Helmet>
 
-      {/* Page Header with Video Placeholder */}
+      {/* Page Header with Background Image */}
       <section className="relative w-full h-[50vh] md:h-[60vh] flex items-end justify-center overflow-hidden">
-        {/* Background Video Placeholder */}
-        <div className="absolute inset-0 bg-card" />
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+          style={{ backgroundImage: `url(${keikatHeroBg})` }}
+        />
         
         {/* Dark Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/90" />
