@@ -41,7 +41,7 @@ const BioPage = () => {
         start: "top 128px",
         end: "bottom -128px",
         pin: imageContainerRef.current,
-        pinSpacing: true,
+        pinSpacing: false,
       });
     
       // Teatteri heading trigger for first transition (image 1 -> 2)
