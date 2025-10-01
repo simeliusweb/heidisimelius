@@ -19,7 +19,7 @@ const PastGigCard = ({ imageUrl, title, gigType, date, venue }: PastGigCardProps
           <img 
             src={imageUrl} 
             alt={title}
-            className="w-full h-full object-cover [clip-path:polygon(0%_0%,_95%_0%,_100%_100%,_0%_100%)]"
+            className="w-full h-full object-cover [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)] sm:[clip-path:polygon(0%_0%,_95%_0%,_100%_100%,_0%_100%)]"
           />
         </div>
 
