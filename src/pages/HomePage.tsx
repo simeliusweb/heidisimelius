@@ -18,21 +18,24 @@ const HomePage = () => {
 
     const portrait = portraitRef.current;
     const container = containerRef.current;
-    const bottomBranding = document.querySelector('.bottom-branding');
+    const bottomBranding = document.querySelector(".bottom-branding");
 
     if (!bottomBranding) return;
 
     const ctx = gsap.context(() => {
       const calculateDistanceToTravel = () => {
         // Get the absolute top position of the branding element from the top of the document
-        const brandingAbsoluteTop = bottomBranding.getBoundingClientRect().top + window.scrollY;
-        
+        const brandingAbsoluteTop =
+          bottomBranding.getBoundingClientRect().top + window.scrollY;
+
         // Get the absolute top position of the portrait element in its starting state
-        const portraitAbsoluteTop_initial = portrait.getBoundingClientRect().top + window.scrollY;
+        const portraitAbsoluteTop_initial =
+          portrait.getBoundingClientRect().top + window.scrollY;
 
         // Calculate the desired FINAL absolute top position for the portrait.
         // This is where the portrait's top edge should be when its bottom is 20px above the branding's top.
-        const portraitAbsoluteTop_final = brandingAbsoluteTop - portrait.offsetHeight - 20;
+        const portraitAbsoluteTop_final =
+          brandingAbsoluteTop - portrait.offsetHeight - 20;
 
         // The distance to travel is simply the difference between the final and initial positions minus branding element's height.
         return portraitAbsoluteTop_final - portraitAbsoluteTop_initial;
@@ -62,41 +65,41 @@ const HomePage = () => {
       </Helmet>
       <div ref={containerRef} className="relative min-h-screen">
         {/* Art-Directed Background Images */}
-        <div 
+        <div
           className="fixed inset-0 bg-cover bg-center bg-no-repeat md:hidden"
-          style={{ 
+          style={{
             backgroundImage: `url(${heroBgMobile})`,
-            filter: 'blur(2px)',
+            filter: "blur(2px)",
           }}
         />
-        <div 
+        <div
           className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
-          style={{ 
+          style={{
             backgroundImage: `url(${heroBgDesktop})`,
-            filter: 'blur(2px)',
+            filter: "blur(2px)",
           }}
         />
-        
+
         {/* Dark overlay for better text visibility */}
         <div className="fixed inset-0 bg-background/40" />
-        
+
         {/* Content Container */}
         <div className="relative z-10 min-h-screen flex flex-col">
           {/* Portrait Placeholder with Parallax */}
           {/* The pt-32 class correctly sets the initial position */}
           <div className="flex-1 flex items-start justify-center pt-32 md:pt-32 pb-32">
-            <div 
+            <div
               ref={portraitRef}
               className="w-64 h-96 md:w-80 md:h-[30rem] bg-card/50 backdrop-blur-sm border-2 border-primary/30 rounded-lg flex items-center justify-center"
             >
               <span className="text-muted text-sm">Portrait Placeholder</span>
             </div>
           </div>
-          
+
           {/* Bottom Branding Overlay */}
           <BottomBranding />
         </div>
-  
+
         {/* Content Sections */}
         <div className="relative z-10 bg-background">
           {/* Intro & Tagline Section */}
@@ -108,10 +111,10 @@ const HomePage = () => {
               <a href="/bio">Tutustu Heidiin</a>
             </Button>
           </section>
-  
+
           {/* Upcoming Gigs Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8 text-center">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 text-center">
               Tulevat keikat
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto mb-8">
@@ -134,30 +137,30 @@ const HomePage = () => {
               </Button>
             </div>
           </section>
-  
+
           {/* Spotify Player Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
             <div className="max-w-3xl mx-auto">
-              <iframe 
-                data-testid="embed-iframe" 
-                style={{ borderRadius: '12px' }} 
-                src="https://open.spotify.com/embed/artist/7wmdyUKDAcJfmWbgsARwl9?utm_source=generator&theme=0" 
-                width="100%" 
-                height="352" 
-                frameBorder="0" 
+              <iframe
+                data-testid="embed-iframe"
+                style={{ borderRadius: "12px" }}
+                src="https://open.spotify.com/embed/artist/7wmdyUKDAcJfmWbgsARwl9?utm_source=generator&theme=0"
+                width="100%"
+                height="352"
+                frameBorder="0"
                 allowFullScreen={true}
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                 loading="lazy"
               ></iframe>
             </div>
           </section>
-  
+
           {/* Videos Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8 text-center">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 text-center">
               Videot
             </h2>
-            
+
             {/* Highlight Video */}
             <div className="max-w-5xl mx-auto mb-8">
               <div className="aspect-video rounded-lg overflow-hidden">
@@ -184,7 +187,10 @@ const HomePage = () => {
                 "Ikfy983tspw",
                 "wmpajFyxkVE",
               ].map((videoId) => (
-                <div key={videoId} className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] aspect-video rounded-lg overflow-hidden">
+                <div
+                  key={videoId}
+                  className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] aspect-video rounded-lg overflow-hidden"
+                >
                   <iframe
                     width="100%"
                     height="100%"
@@ -197,7 +203,7 @@ const HomePage = () => {
                 </div>
               ))}
             </div>
-            
+
             <div className="text-center">
               <Button asChild size="lg">
                 <a
@@ -210,20 +216,20 @@ const HomePage = () => {
               </Button>
             </div>
           </section>
-  
+
           {/* Instagram Feed Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8 text-center">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 text-center">
               Instagram
             </h2>
             <div className="max-w-4xl mx-auto mb-8">
               {/* LightWidget embed */}
-              <iframe 
-                src="//lightwidget.com/widgets/71dd661fedf55720848701cf279e6d14.html" 
-                scrolling="no" 
-                allowTransparency={true} 
-                className="lightwidget-widget" 
-                style={{ width: '100%', border: 0, overflow: 'hidden' }}
+              <iframe
+                src="//lightwidget.com/widgets/71dd661fedf55720848701cf279e6d14.html"
+                scrolling="no"
+                allowTransparency={true}
+                className="lightwidget-widget"
+                style={{ width: "100%", border: 0, overflow: "hidden" }}
               ></iframe>
             </div>
             <div className="flex flex-wrap gap-4 justify-center">
