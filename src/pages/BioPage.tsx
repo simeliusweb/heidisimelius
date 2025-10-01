@@ -85,7 +85,7 @@ const BioPage = () => {
                 scrollTrigger: {
                   trigger: textContentRef.current,
                   start: "top bottom", // Start when the top of the text enters the bottom of the viewport
-                  end: "bottom bottom+=256px", // End when the bottom of the text is 256px from the bottom of the viewport
+                  end: "bottom 512px", // End when the bottom of the text is 512px from the bottom of the viewport
                   scrub: 1,
                 },
               }
