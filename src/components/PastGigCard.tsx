@@ -13,13 +13,13 @@ interface PastGigCardProps {
 const PastGigCard = ({ imageUrl, title, gigType, date, venue }: PastGigCardProps) => {
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
-      <div className="grid grid-cols-1 md:grid-cols-[25%_1fr] gap-0">
+      <div className="grid grid-cols-1 sm:grid-cols-[25%_1fr] gap-0">
         {/* Left Column: Image Thumbnail */}
-        <div className="relative w-full h-48 md:h-full">
+        <div className="relative w-full h-48 sm:h-full">
           <img 
             src={imageUrl} 
             alt={title}
-            className="w-full h-full object-cover [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)] sm:[clip-path:polygon(0%_0%,_95%_0%,_100%_100%,_0%_100%)]"
+            className="w-full h-full object-cover [clip-path:polygon(0%_0%,_95%_0%,_100%_100%,_0%_100%)]"
           />
         </div>
 
