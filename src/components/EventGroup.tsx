@@ -73,7 +73,7 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
                 <div className="text-4xl md:text-5xl font-bold text-secondary-foreground">
                   {formatDateDisplay(performance.date)}
                 </div>
-                <div className="flex items-center gap-2 text-secondary-foreground text-lg">
+                <div className="flex items-center gap-2 text-muted-foreground text-lg">
                   <Clock className="w-5 h-5" />
                   <span>{formatTimeDisplay(performance.time)}</span>
                 </div>
