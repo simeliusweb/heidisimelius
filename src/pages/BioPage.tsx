@@ -29,7 +29,7 @@ const BioPage = () => {
       // Pin the image container
       ScrollTrigger.create({
         trigger: textContentRef.current,
-        start: "top top",
+        start: "top 128px",
         end: "bottom bottom",
         pin: imageContainerRef.current,
         pinSpacing: false,
