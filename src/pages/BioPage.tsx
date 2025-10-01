@@ -39,7 +39,7 @@ const BioPage = () => {
       ScrollTrigger.create({
         trigger: textContentRef.current,
         start: "top 128px",
-        end: "bottom bottom",
+        end: "bottom -128px",
         pin: imageContainerRef.current,
         pinSpacing: true,
       });
@@ -85,7 +85,7 @@ const BioPage = () => {
                 scrollTrigger: {
                   trigger: textContentRef.current,
                   start: "top bottom", // Start when the top of the text enters the bottom of the viewport
-                  end: "bottom bottom-=512px", // End when the bottom of the text is 512px from the bottom of the viewport
+                  end: "bottom bottom", // End when the bottom of the text is at the bottom of the viewport
                   scrub: 1,
                 },
               }
