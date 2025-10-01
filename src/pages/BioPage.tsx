@@ -77,7 +77,7 @@ const BioPage = () => {
       [image1Ref.current, image2Ref.current, image3Ref.current].forEach((image) => {
         if (image) {
           gsap.fromTo(image, 
-          { y: -256 }, // Start 256px higher than the natural position
+          { y: -100 }, // Start 100px higher than the natural position
           {
             y: 0, // Animate to its natural position (moving down)
             ease: "none",
@@ -350,8 +350,8 @@ const BioPage = () => {
             </div>
 
             {/* Right Column - Stacked Images with Scrollytelling (Desktop Only) */}
-            <div className="hidden md:block md:col-span-5 pt-16">
-              <div ref={imageContainerRef} className="relative h-[600px]">
+            <div className="hidden md:block md:col-span-5 pt-32">
+              <div ref={imageContainerRef} className="relative h-[500px]">
                 {/* Image 1 - Initially visible */}
                 <div 
                   ref={image1Ref}
