@@ -78,9 +78,9 @@ const BioPage = () => {
           if (image) {
             gsap.fromTo(
               image,
-              { y: -200 }, // Start 200px higher than the natural position
+              { y: -100 }, // Start 100px higher than the natural position
               {
-                y: 0, // Animate to its natural position (moving down)
+                y: 100, // Animate to 100px further than natural position
                 ease: "none",
                 scrollTrigger: {
                   trigger: textContentRef.current,
