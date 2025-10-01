@@ -64,7 +64,7 @@ const KeikatPage = () => {
 
       {/* Musiikkikeikat Section */}
       <section className="container mx-auto px-4 py-12">
-        <h2 className="text-4xl md:text-5xl font-playfair font-extrabold text-foreground mb-8 italic">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 italic">
           Musiikkikeikat
         </h2>
         <EventGroup {...heidiTrioLive} />
@@ -72,7 +72,7 @@ const KeikatPage = () => {
 
       {/* Teatteriesitykset Section */}
       <section className="container mx-auto px-4 py-12">
-        <h2 className="text-4xl md:text-5xl font-playfair font-extrabold text-foreground mb-8 italic">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 italic">
           Teatteriesitykset
         </h2>
         <EventGroup {...tootsieMusical} />
