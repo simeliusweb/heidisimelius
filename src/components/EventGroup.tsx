@@ -49,6 +49,88 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
   const visiblePerformances = performances.slice(0, Math.min(visibleCount, totalPerformances));
   const canShowMore = totalPerformances > visiblePerformances.length;
 
+  // Single-date layout
+  if (performances.length === 1) {
+    const performance = performances[0];
+    
+    return (
+      <Card className="overflow-hidden max-w-[800px] mx-auto">
+        <CardContent className="p-0">
+          {/* Image */}
+          <div className="relative w-full aspect-video [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)]">
+            <img 
+              src={imageUrl} 
+              alt={title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Responsive Content Layout */}
+          <div className="flex flex-col sm:flex-row p-6 md:p-8 gap-6 md:gap-8">
+            {/* Date/Time Column - Shows after content on mobile, left on desktop */}
+            <div className="order-2 sm:order-1 sm:w-1/3 flex flex-col justify-start">
+              <div className="space-y-2">
+                <div className="text-4xl md:text-5xl font-bold text-foreground">
+                  {formatDateDisplay(performance.date)}
+                </div>
+                <div className="flex items-center gap-2 text-muted-foreground text-lg">
+                  <Clock className="w-5 h-5" />
+                  <span>{formatTimeDisplay(performance.time)}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Content Column - Shows first on mobile, right on desktop */}
+            <div className="order-1 sm:order-2 sm:w-2/3 space-y-4">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-playfair font-extrabold text-foreground mb-2">
+                  {title}
+                </h2>
+                <div className="flex items-center gap-2 text-lg text-muted-foreground font-medium">
+                  <MapPin className="w-5 h-5" />
+                  <p>{venue}</p>
+                </div>
+              </div>
+
+              <p className="text-base font-source-sans text-foreground/90 leading-relaxed italic">
+                {description}
+              </p>
+
+              {/* Links Block */}
+              {(eventPageUrl || ticketsUrl) && (
+                <div className="flex flex-wrap gap-3 pt-2">
+                  {eventPageUrl && (
+                    <a 
+                      href={eventPageUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors"
+                    >
+                      Tapahtuman sivulle
+                      <ExternalLink className="w-4 h-4 text-primary" />
+                    </a>
+                  )}
+                  {ticketsUrl && (
+                    <a 
+                      href={ticketsUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors"
+                    >
+                      Liput
+                      <ExternalLink className="w-4 h-4 text-primary" />
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Multi-date layout (existing)
   return (
     <Card className="overflow-hidden max-w-[800px] mx-auto">
       <CardContent className="p-0">
