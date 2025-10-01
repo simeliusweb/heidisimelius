@@ -62,7 +62,6 @@ const BioPage = () => {
       ScrollTrigger.create({
         trigger: suomennoksetHeadingRef.current,
         start: "top 128px",
-        end: "bottom bottom",
         onEnter: () => {
           gsap.to(image2Ref.current, { opacity: 0, duration: 0.8 });
           gsap.to(image3Ref.current, { opacity: 1, duration: 0.8 });
