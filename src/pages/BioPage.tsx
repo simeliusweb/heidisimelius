@@ -131,13 +131,13 @@ const BioPage = () => {
 
       {/* Main Content */}
       <div className="bg-background main-content-bio-page">
-        <div className="container mx-auto px-6 py-16 md:py-24">
+        <div className="container mx-auto py-16 md:py-24">
           {/* Two-Column Layout on Desktop */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 max-w-7xl mx-auto">
             {/* Left Column - Text Content */}
             <div ref={textContentRef} className="md:col-span-7 space-y-16">
               {/* Narrative Introduction */}
-              <section>
+              <section className="px-6">
                 <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
                   <p>
                     Heidi Simelius on laulaja, lauluntekijä ja esiintyjä. Hän keikkailee esittäen omaa musiikkiaan ja julkaisi vuonna 2023
@@ -182,7 +182,7 @@ const BioPage = () => {
               </div>
 
               {/* Theatre Section */}
-              <section>
+              <section className="px-6">
                 <h2 ref={teatteriHeadingRef} className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8">
                   Teatteri
                 </h2>
@@ -244,7 +244,7 @@ const BioPage = () => {
               </div>
 
               {/* Translations Section */}
-              <section>
+              <section className="px-6">
                 <h2 ref={suomennoksetHeadingRef} className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8">
                   Suomennokset
                 </h2>
@@ -259,7 +259,7 @@ const BioPage = () => {
               </section>
 
               {/* Discography Section */}
-              <section>
+              <section className="px-6">
                 <h2 className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8">
                   Studio
                 </h2>
