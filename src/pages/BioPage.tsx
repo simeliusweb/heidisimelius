@@ -108,10 +108,12 @@ const BioPage = () => {
           image,
           {
             x: 25, // Start from the right
+            y: 10, // Start from the bottom
             scale: 1.2 // Scale up slightly to hide edges
           },
           {
             x: 0, // Animate to its natural horizontal position
+            y: 0, // Animate to its natural vertical position
             ease: "none",
             scrollTrigger: {
               trigger: mask,
