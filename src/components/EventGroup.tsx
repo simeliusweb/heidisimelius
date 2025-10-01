@@ -53,14 +53,14 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
     <Card className="overflow-hidden max-w-[800px] mx-auto">
       <CardContent className="p-0">
         {/* Image with Next Date Stamp */}
-        <div className="relative w-full aspect-video">
+        <div className="relative w-full aspect-video [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)]">
           <img 
             src={imageUrl} 
             alt={title}
-            className="w-full h-full object-cover [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)]"
+            className="w-full h-full object-cover"
           />
           {performances.length > 0 && (
-            <div className="absolute top-0 left-4 bg-border text-secondary-foreground px-4 pb-2 pt-6 rounded-b-md shadow-lg">
+            <div className="absolute bottom-0 left-0 bg-border text-secondary-foreground px-4 pt-2 pb-6 rounded-r-md shadow-lg">
               <span className="text-3xl md:text-4xl font-bold">
                 {formatDateStamp(performances[0].date)}
               </span>
