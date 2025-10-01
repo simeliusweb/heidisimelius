@@ -94,6 +94,35 @@ const BioPage = () => {
         }
       );
     });
+
+    // --- NEW MOBILE PARALLAX ANIMATION ---
+    mm.add("(max-width: 639px)", () => {
+      // Target all mobile image containers
+      const mobileImages = gsap.utils.toArray('.mobile-image-mask');
+  
+      mobileImages.forEach((mask) => {
+        // Find the actual <img> tag inside the mask
+        const image = mask.querySelector('img');
+        
+        gsap.fromTo(
+          image,
+          {
+            x: 50, // Start 50px to the right
+            scale: 1.1 // Scale up slightly to hide edges
+          },
+          {
+            x: 0, // Animate to its natural horizontal position
+            ease: "none",
+            scrollTrigger: {
+              trigger: mask,
+              start: "top bottom", // Start when the top of the mask hits the bottom of the viewport
+              end: "bottom top", // End when the bottom of the mask hits the top of the viewport
+              scrub: 1, // Smoothly link animation to scroll
+            },
+          }
+        );
+      });
+    });
     
     return () => {
       mm.revert();
