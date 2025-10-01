@@ -229,15 +229,13 @@ const BioPage = () => {
               <section className="px-6">
                 <h2
                   ref={teatteriHeadingRef}
-                  className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8"
+                  className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8"
                 >
                   Teatteri
                 </h2>
                 <div className="space-y-6 font-source text-foreground">
                   <div>
-                    <h3 className="text-xl font-semibold mb-2 italic">
-                      2025
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-2 italic">2025</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
                       <li className="list-none">
                         <span className="text-foreground">Kinky Boots</span> |
@@ -246,9 +244,7 @@ const BioPage = () => {
                     </ul>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2 italic">
-                      2023
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-2 italic">2023</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
                       <li className="list-none">
                         <span className="text-foreground">Tootsie</span> |
@@ -257,9 +253,7 @@ const BioPage = () => {
                     </ul>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2 italic">
-                      2022
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-2 italic">2022</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
                       <li className="list-none">
                         <span className="text-foreground">Rakastajatar</span> |
@@ -274,9 +268,7 @@ const BioPage = () => {
                     </ul>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2 italic">
-                      2018
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-2 italic">2018</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
                       <li className="list-none">
                         <span className="text-foreground">
@@ -287,9 +279,7 @@ const BioPage = () => {
                     </ul>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2 italic">
-                      2016
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-2 italic">2016</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
                       <li className="list-none">
                         <span className="text-foreground">Suruttomat</span> |
@@ -298,9 +288,7 @@ const BioPage = () => {
                     </ul>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2 italic">
-                      2014
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-2 italic">2014</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
                       <li className="list-none">
                         <span className="text-foreground">Evita</span> |
@@ -309,9 +297,7 @@ const BioPage = () => {
                     </ul>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2 italic">
-                      2011
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-2 italic">2011</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
                       <li className="list-none">
                         <span className="text-foreground">
@@ -344,15 +330,13 @@ const BioPage = () => {
               <section className="px-6">
                 <h2
                   ref={suomennoksetHeadingRef}
-                  className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8"
+                  className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8"
                 >
                   Suomennokset
                 </h2>
                 <div className="space-y-4 font-source text-foreground">
                   <div>
-                    <h3 className="text-xl font-semibold mb-2 italic">
-                      2021
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-2 italic">2021</h3>
                     <ul className="list-disc list-inside space-y-1 text-muted">
                       <li className="list-none">
                         <span className="text-foreground">
@@ -367,7 +351,7 @@ const BioPage = () => {
 
               {/* Discography Section */}
               <section className="px-6">
-                <h2 className="text-3xl md:text-4xl font-playfair font-extrabold italic text-primary mb-8">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8">
                   Studio
                 </h2>
                 <div className="space-y-8 font-source text-foreground">
