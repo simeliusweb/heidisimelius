@@ -49,7 +49,7 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
   const allVisible = visibleCount >= performances.length;
 
   return (
-    <Card className="overflow-hidden max-w-[800px]">
+    <Card className="overflow-hidden max-w-[800px] mx-auto">
       <CardContent className="p-0">
         {/* Image with Next Date Stamp */}
         <div className="relative w-full aspect-video">
