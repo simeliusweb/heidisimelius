@@ -119,7 +119,7 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
                 key={index}
                 className="flex items-center gap-4 py-3 border-t border-border first:border-t-0"
               >
-                <span className="text-2xl md:text-3xl font-bold text-foreground">
+                <span className="text-3xl md:text-4xl font-bold text-foreground">
                   {formatDateDisplay(performance.date)}
                 </span>
                 <div className="flex items-center gap-2 text-muted-foreground">
