@@ -60,3 +60,7 @@ td:has(.rdp-button[aria-current="date"]) {
   background-color: hsl(var(--foreground)) !important;
   color: hsl(var(--background)) !important;
 }
+
+.photo-gallery-container img {
+  border-radius: var(--radius);
+}
