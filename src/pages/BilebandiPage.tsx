@@ -180,7 +180,7 @@ const BilebandiPage = () => {
                             <Button
                               variant="outline"
                               className={cn(
-                                "w-full pl-3 text-left font-normal justify-start ring-accent hover:ring-accent hover:bg-transparent",
+                                "w-full pl-3 text-left font-normal justify-start hover:bg-transparent focus-visible:ring-2 focus-visible:ring-ring",
                                 !field.value && "text-muted"
                               )}
                             >
