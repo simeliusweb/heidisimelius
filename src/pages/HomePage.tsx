@@ -162,7 +162,7 @@ const HomePage = () => {
             variant="featured"
             videos={[
               { url: "https://www.youtube.com/watch?v=nNooz5tHV6U", isFeatured: true },
-              { url: "https://www.youtube.com/watch?v=IR4VJkKmZ0" },
+              { url: "https://www.youtube.com/watch?v=lR4VJkIKmZ0" },
               { url: "https://www.youtube.com/watch?v=m-ZMCIMdZrQ" },
               { url: "https://www.youtube.com/watch?v=xeI9fczPexk" },
               { url: "https://www.youtube.com/watch?v=eqQEVrCPCxQ" },
