@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
+import { fi } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -166,7 +167,7 @@ const BilebandiPage = () => {
               />
 
               {/* Row 3: Date, Location, Event Type (3 columns on sm+) */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:items-end">
                 <FormField
                   control={form.control}
                   name="date"
@@ -185,10 +186,10 @@ const BilebandiPage = () => {
                             >
                               {field.value ? (
                                 format(field.value, "PPP")
-                              ) : (
-                                <span>Valitse päivämäärä</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          ) : (
+                            <span>Valitse päivämäärä</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 text-foreground opacity-50" />
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
@@ -199,6 +200,8 @@ const BilebandiPage = () => {
                             onSelect={field.onChange}
                             disabled={(date) => date < new Date()}
                             initialFocus
+                            locale={fi}
+                            weekStartsOn={1}
                             className="p-3 pointer-events-auto"
                           />
                         </PopoverContent>
