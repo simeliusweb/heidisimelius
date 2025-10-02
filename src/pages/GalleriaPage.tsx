@@ -17,6 +17,10 @@ import {
 import bioPress1 from "@/assets/bio-press-1.jpg";
 import bioPress2 from "@/assets/bio-press-2.jpg";
 import bioPress3 from "@/assets/bio-press-3.jpg";
+import galleryWidescreen from "@/assets/gallery-widescreen.jpg";
+import gallerySquare from "@/assets/gallery-square.jpg";
+import galleryPanoramic from "@/assets/gallery-panoramic.jpg";
+import galleryPortrait from "@/assets/gallery-portrait.jpg";
 
 const GalleriaPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -25,11 +29,13 @@ const GalleriaPage = () => {
   // Photo gallery data with dimensions for masonry layout
   const photoSet1 = [
     { src: bioPress1, width: 4, height: 5, alt: "Galleriakuva 1" },
+    { src: galleryWidescreen, width: 1920, height: 1080, alt: "Lavaesiintyminen" },
     { src: bioPress2, width: 3, height: 4, alt: "Galleriakuva 2" },
+    { src: gallerySquare, width: 1024, height: 1024, alt: "Taiteellinen muotokuva" },
     { src: bioPress3, width: 4, height: 3, alt: "Galleriakuva 3" },
+    { src: galleryPanoramic, width: 1920, height: 640, alt: "Panoraamanäkymä lavalta" },
     { src: bioPress1, width: 5, height: 4, alt: "Galleriakuva 4" },
-    { src: bioPress2, width: 3, height: 5, alt: "Galleriakuva 5" },
-    { src: bioPress3, width: 4, height: 4, alt: "Galleriakuva 6" },
+    { src: galleryPortrait, width: 1080, height: 1920, alt: "Pystymuotokuva" },
   ];
 
   const handleImageClick = (_event: React.MouseEvent, { index }: { index: number }) => {
@@ -101,7 +107,7 @@ const GalleriaPage = () => {
           </h3>
 
           {/* Masonry Gallery */}
-          <div className="mb-8">
+          <div className="mb-8 [&_img]:object-cover">
             <Gallery photos={photoSet1} onClick={handleImageClick} />
           </div>
 
