@@ -115,7 +115,7 @@ const GalleriaPage = () => {
 
         {/* Image Dialog with Carousel */}
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogContent className="h-[85vh] w-auto max-w-6xl">
+          <DialogContent className="h-[85vh] w-[calc(100vw-64px)] md:w-[calc(100vw-128px)]">
             <Carousel
               opts={{
                 startIndex: selectedImageIndex,
@@ -124,12 +124,12 @@ const GalleriaPage = () => {
             >
               <CarouselContent className="h-full">
                 {photoSet1.map((image, index) => (
-                  <CarouselItem key={index} className="h-full">
-                    <div className="flex items-center justify-center h-full">
+                  <CarouselItem key={index} className="h-full w-full">
+                    <div className="flex items-center justify-center h-full w-full">
                       <img
                         src={image.src}
                         alt={image.alt}
-                        className="object-contain max-h-full max-w-full"
+                        className="object-contain max-h-full max-w-full w-auto h-auto"
                       />
                     </div>
                   </CarouselItem>
