@@ -273,7 +273,7 @@ const BilebandiPage = () => {
               </div>
 
               <Button type="submit" className="w-full" size="lg">
-                Ota yhteyttä
+                Lähetä
               </Button>
             </form>
           </Form>
