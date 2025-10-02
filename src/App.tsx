@@ -10,6 +10,7 @@ import BioPage from "./pages/BioPage";
 import KeikatPage from "./pages/KeikatPage";
 import GalleriaPage from "./pages/GalleriaPage";
 import NotFound from "./pages/NotFound";
+import BilebandiPage from "./pages/BilebandiPage";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/bio" element={<BioPage />} />
             <Route path="/keikat" element={<KeikatPage />} />
             <Route path="/galleria" element={<GalleriaPage />} />
+            <Route path="/bilebandi" element={<BilebandiPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
