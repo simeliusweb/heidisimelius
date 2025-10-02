@@ -113,7 +113,7 @@ const GalleriaPage = () => {
                   />
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Kuvat:{" "}
+                  Kuva:{" "}
                   <a 
                     href={photo.photographerUrl} 
                     target="_blank" 
