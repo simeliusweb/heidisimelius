@@ -70,7 +70,7 @@ const Header = () => {
             >
               {/* Navigation Links */}
               <nav className="mb-12">
-                <ul className="space-y-6 text-center px-4">
+                <ul className="space-y-6 px-4">
                   {navLinks.map((link) => (
                     <li key={link.label}>
                       <a
