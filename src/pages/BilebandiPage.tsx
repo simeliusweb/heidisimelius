@@ -180,12 +180,12 @@ const BilebandiPage = () => {
                             <Button
                               variant="outline"
                               className={cn(
-                                "w-full pl-3 text-left font-normal",
+                                "w-full pl-3 text-left font-normal justify-start",
                                 !field.value && "text-muted-foreground"
                               )}
                             >
                               {field.value ? (
-                                format(field.value, "PPP")
+                                format(field.value, "d.M.yyyy")
                           ) : (
                             <span>Valitse päivämäärä</span>
                           )}
