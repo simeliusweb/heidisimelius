@@ -50,3 +50,13 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Date Picker Overrides */
+.rdp-button:focus:not([disabled]):focus-visible, .rdp-button:hover:not([disabled]) {
+  background-color: hsl(var(--accent)) !important;
+}
+
+.rdp-day_selected, .rdp-day_selected:focus-visible, .rdp-day_selected:hover {
+  background-color: hsl(var(--foreground)) !important;
+  color: hsl(var(--background)) !important;
+}
