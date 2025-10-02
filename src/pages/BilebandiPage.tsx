@@ -181,7 +181,7 @@ const BilebandiPage = () => {
                               variant="outline"
                               className={cn(
                                 "w-full pl-3 text-left font-normal justify-start",
-                                !field.value && "text-muted-foreground"
+                                !field.value && "text-muted"
                               )}
                             >
                               {field.value ? (
