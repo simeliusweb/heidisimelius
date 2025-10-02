@@ -32,7 +32,7 @@ const VideosSection = ({ sectionTitle, videos, variant }: VideosSectionProps) =>
         </h2>
 
         {/* Featured Video */}
-        <div className="max-w-5xl mx-auto mb-12">
+        <div className="max-w-5xl mx-auto mb-8">
           <div className="aspect-video rounded-lg overflow-hidden">
             <iframe
               width="100%"
