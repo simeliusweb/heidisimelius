@@ -26,6 +26,32 @@ const BilebandiPage = () => {
           </h1>
         </div>
       </section>
+
+      {/* Band Introduction Section */}
+      <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
+        <h2 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-8 text-center">
+          Bändiesittely
+        </h2>
+        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed text-center">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        </p>
+      </section>
+
+      {/* Demo Video Section */}
+      <section className="max-w-5xl mx-auto px-6 py-16 md:py-24">
+        <h2 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-12 text-center">
+          Katso meidät livenä!
+        </h2>
+        <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl">
+          <iframe
+            className="absolute inset-0 w-full h-full"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="Heidi & The Hot Stuff - Live Demo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      </section>
     </>
   );
 };
