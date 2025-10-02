@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
-import { Download, Loader2 } from "lucide-react";
+import { Download, Loader2, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import Gallery from "react-photo-gallery";
 import {
@@ -29,19 +29,24 @@ const GalleriaPage = () => {
   const [allPhotosShown, setAllPhotosShown] = useState(false);
 
   // Photo gallery data with dimensions for masonry layout
-  const photoSet1 = [
-    { src: bioPress1, width: 4, height: 5, alt: "Galleriakuva 1" },
-    { src: galleryWidescreen, width: 1920, height: 1080, alt: "Lavaesiintyminen" },
-    { src: bioPress2, width: 3, height: 4, alt: "Galleriakuva 2" },
-    { src: gallerySquare, width: 1024, height: 1024, alt: "Taiteellinen muotokuva" },
-    { src: bioPress3, width: 4, height: 3, alt: "Galleriakuva 3" },
-    { src: galleryPanoramic, width: 1920, height: 640, alt: "Panoraamanäkymä lavalta" },
-    { src: bioPress1, width: 5, height: 4, alt: "Galleriakuva 4" },
-    { src: galleryPortrait, width: 1080, height: 1920, alt: "Pystymuotokuva" },
-  ];
+  const photoSetData = {
+    title: "Ensimmäisen albumin kuvasessio",
+    photographerName: "Kuvaajan Nimi",
+    photographerUrl: "https://example.com",
+    photos: [
+      { src: bioPress1, width: 4, height: 5, alt: "Galleriakuva 1" },
+      { src: galleryWidescreen, width: 1920, height: 1080, alt: "Lavaesiintyminen" },
+      { src: bioPress2, width: 3, height: 4, alt: "Galleriakuva 2" },
+      { src: gallerySquare, width: 1024, height: 1024, alt: "Taiteellinen muotokuva" },
+      { src: bioPress3, width: 4, height: 3, alt: "Galleriakuva 3" },
+      { src: galleryPanoramic, width: 1920, height: 640, alt: "Panoraamanäkymä lavalta" },
+      { src: bioPress1, width: 5, height: 4, alt: "Galleriakuva 4" },
+      { src: galleryPortrait, width: 1080, height: 1920, alt: "Pystymuotokuva" },
+    ]
+  };
 
   // Initialize visible photos with first 3 images
-  const [visiblePhotos, setVisiblePhotos] = useState(photoSet1.slice(0, 3));
+  const [visiblePhotos, setVisiblePhotos] = useState(photoSetData.photos.slice(0, 3));
 
   const handleImageClick = (_event: React.MouseEvent, { index }: { index: number }) => {
     setSelectedImageIndex(index);
@@ -51,7 +56,7 @@ const GalleriaPage = () => {
   const handleShowMore = () => {
     setIsLoading(true);
     setTimeout(() => {
-      setVisiblePhotos(photoSet1);
+      setVisiblePhotos(photoSetData.photos);
       setIsLoading(false);
       setAllPhotosShown(true);
     }, 1500);
@@ -117,7 +122,16 @@ const GalleriaPage = () => {
           </h2>
 
           <h3 className="text-2xl md:text-3xl font-playfair font-bold text-foreground mb-6">
-            Ensimmäisen albumin kuvasessio | Kuvat: Kuvaajan Nimi
+            {photoSetData.title} | Kuvat:{" "}
+            <a 
+              href={photoSetData.photographerUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group hover:underline inline-flex items-center gap-1"
+            >
+              {photoSetData.photographerName}
+              <ExternalLink className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+            </a>
           </h3>
 
           {/* Masonry Gallery */}
@@ -126,7 +140,7 @@ const GalleriaPage = () => {
           </div>
 
           {/* Show More Button */}
-          {!allPhotosShown && photoSet1.length > 3 && (
+          {!allPhotosShown && photoSetData.photos.length > 3 && (
             <div className="flex justify-center">
               <Button 
                 variant="outline" 
