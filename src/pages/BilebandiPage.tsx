@@ -202,6 +202,7 @@ const BilebandiPage = () => {
                             initialFocus
                             locale={fi}
                             weekStartsOn={1}
+                            fromMonth={new Date()}
                             className="p-3 pointer-events-auto"
                           />
                         </PopoverContent>
