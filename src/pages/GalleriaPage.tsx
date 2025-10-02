@@ -28,6 +28,28 @@ const GalleriaPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [allPhotosShown, setAllPhotosShown] = useState(false);
 
+  // Press photos data
+  const pressPhotos = [
+    {
+      src: bioPress1,
+      alt: "Heidi Simelius pressikuva 1",
+      photographerName: "Kuvaajan Nimi 1",
+      photographerUrl: "https://instagram.com/photographer1"
+    },
+    {
+      src: bioPress2,
+      alt: "Heidi Simelius pressikuva 2",
+      photographerName: "Kuvaajan Nimi 2",
+      photographerUrl: "https://instagram.com/photographer2"
+    },
+    {
+      src: bioPress3,
+      alt: "Heidi Simelius pressikuva 3",
+      photographerName: "Kuvaajan Nimi 3",
+      photographerUrl: "https://instagram.com/photographer3"
+    },
+  ];
+
   // Photo gallery data with dimensions for masonry layout
   const photoSetData = {
     title: "Ensimmäisen albumin kuvasessio",
@@ -81,11 +103,7 @@ const GalleriaPage = () => {
 
           {/* Press Photos Grid */}
           <div className="flex flex-wrap justify-center gap-12 md:gap-8 mb-12">
-            {[
-              { src: bioPress1, alt: "Heidi Simelius pressikuva 1" },
-              { src: bioPress2, alt: "Heidi Simelius pressikuva 2" },
-              { src: bioPress3, alt: "Heidi Simelius pressikuva 3" },
-            ].map((photo, index) => (
+            {pressPhotos.map((photo, index) => (
               <div key={index} className="w-full md:w-[45%] lg:w-[30%] flex flex-col gap-4">
                 <div className="aspect-[3/4] overflow-hidden rounded-lg">
                   <img
@@ -94,6 +112,18 @@ const GalleriaPage = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
+                <p className="text-sm text-muted-foreground">
+                  Kuvat:{" "}
+                  <a 
+                    href={photo.photographerUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="group hover:underline inline-flex items-center gap-1"
+                  >
+                    {photo.photographerName}
+                    <ExternalLink className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity" />
+                  </a>
+                </p>
                 <Button variant="outline" className="w-full" asChild>
                   <a href={photo.src} download>
                     <Download className="w-4 h-4" />
