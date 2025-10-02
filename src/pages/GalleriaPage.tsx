@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
 import { useState } from "react";
 import Gallery from "react-photo-gallery";
 import {
@@ -25,6 +25,8 @@ import galleryPortrait from "@/assets/gallery-portrait.jpg";
 const GalleriaPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [allPhotosShown, setAllPhotosShown] = useState(false);
 
   // Photo gallery data with dimensions for masonry layout
   const photoSet1 = [
@@ -38,9 +40,21 @@ const GalleriaPage = () => {
     { src: galleryPortrait, width: 1080, height: 1920, alt: "Pystymuotokuva" },
   ];
 
+  // Initialize visible photos with first 3 images
+  const [visiblePhotos, setVisiblePhotos] = useState(photoSet1.slice(0, 3));
+
   const handleImageClick = (_event: React.MouseEvent, { index }: { index: number }) => {
     setSelectedImageIndex(index);
     setDialogOpen(true);
+  };
+
+  const handleShowMore = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setVisiblePhotos(photoSet1);
+      setIsLoading(false);
+      setAllPhotosShown(true);
+    }, 1500);
   };
   return (
     <>
@@ -108,15 +122,29 @@ const GalleriaPage = () => {
 
           {/* Masonry Gallery */}
           <div className="mb-8 [&_img]:object-cover">
-            <Gallery photos={photoSet1} onClick={handleImageClick} />
+            <Gallery photos={visiblePhotos} onClick={handleImageClick} />
           </div>
 
           {/* Show More Button */}
-          <div className="flex justify-center">
-            <Button variant="outline" size="lg">
-              Näytä lisää
-            </Button>
-          </div>
+          {!allPhotosShown && photoSet1.length > 3 && (
+            <div className="flex justify-center">
+              <Button 
+                variant="outline" 
+                size="lg"
+                onClick={handleShowMore}
+                disabled={isLoading || allPhotosShown}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Ladataan...
+                  </>
+                ) : (
+                  "Näytä lisää"
+                )}
+              </Button>
+            </div>
+          )}
         </section>
 
         {/* Image Dialog with Carousel */}
@@ -129,7 +157,7 @@ const GalleriaPage = () => {
               className="w-full h-full flex"
             >
               <CarouselContent className="h-full items-center">
-                {photoSet1.map((image, index) => (
+                {visiblePhotos.map((image, index) => (
                   <CarouselItem key={index} className="h-full w-full p-0">
                     <div className="flex items-center justify-center h-full w-full">
                       <img
