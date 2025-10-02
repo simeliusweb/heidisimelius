@@ -148,8 +148,8 @@ const GalleriaPage = () => {
         </section>
 
         {/* Image Dialog with Carousel */}
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen} className="min-h-fit">
-          <DialogContent className="h-[85vh] w-[calc(100vw-64px)] md:w-[calc(100vw-128px)]">
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogContent className="h-[85vh] w-[calc(100vw-64px)] md:w-[calc(100vw-128px)] min-h-fit">
             <Carousel
               opts={{
                 startIndex: selectedImageIndex,
