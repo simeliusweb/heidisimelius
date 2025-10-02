@@ -61,6 +61,6 @@ td:has(.rdp-button[aria-current="date"]) {
   color: hsl(var(--background)) !important;
 }
 
-.photo-gallery-container img {
+.react-photo-gallery--gallery img {
   border-radius: var(--radius);
 }
