@@ -1,11 +1,40 @@
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+} from "@/components/ui/dialog";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import bioPress1 from "@/assets/bio-press-1.jpg";
 import bioPress2 from "@/assets/bio-press-2.jpg";
 import bioPress3 from "@/assets/bio-press-3.jpg";
 
 const GalleriaPage = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  // Placeholder images for the photo gallery
+  const galleryImages = [
+    { src: bioPress1, alt: "Galleriakuva 1" },
+    { src: bioPress2, alt: "Galleriakuva 2" },
+    { src: bioPress3, alt: "Galleriakuva 3" },
+    { src: bioPress1, alt: "Galleriakuva 4" },
+    { src: bioPress2, alt: "Galleriakuva 5" },
+    { src: bioPress3, alt: "Galleriakuva 6" },
+  ];
+
+  const handleImageClick = (index: number) => {
+    setSelectedImageIndex(index);
+    setDialogOpen(true);
+  };
   return (
     <>
       <Helmet>
@@ -59,6 +88,69 @@ const GalleriaPage = () => {
             </Button>
           </div>
         </section>
+
+        {/* Kuvagalleria Section */}
+        <section>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8">
+            Kuvagalleria
+          </h2>
+
+          <h3 className="text-2xl md:text-3xl font-playfair font-bold text-foreground mb-6">
+            Ensimmäisen albumin kuvasessio | Kuvat: Kuvaajan Nimi
+          </h3>
+
+          {/* Mosaic Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            {galleryImages.map((image, index) => (
+              <div
+                key={index}
+                className={`${index === 0 ? 'col-span-2' : ''} aspect-square overflow-hidden rounded-lg cursor-pointer hover:opacity-90 transition-opacity`}
+                onClick={() => handleImageClick(index)}
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Show More Button */}
+          <div className="flex justify-center">
+            <Button variant="outline" size="lg">
+              Näytä lisää
+            </Button>
+          </div>
+        </section>
+
+        {/* Image Dialog with Carousel */}
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogContent className="max-w-4xl">
+            <Carousel
+              opts={{
+                startIndex: selectedImageIndex,
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {galleryImages.map((image, index) => (
+                  <CarouselItem key={index}>
+                    <div className="aspect-[4/3] overflow-hidden rounded-lg">
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          </DialogContent>
+        </Dialog>
       </main>
     </>
   );
