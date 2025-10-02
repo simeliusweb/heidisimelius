@@ -53,8 +53,7 @@ All colors MUST be HSL.
 
 /* Date Picker Overrides */
 .rdp-button:hover:not([disabled]),
-.rdp-button[aria-selected="true"],
-.\[\&\:has\(\[aria-selected\]\)\]\:bg-accent:has([aria-selected]) {
+.rdp-button[aria-selected="true"] {
   background-color: hsl(var(--foreground)) !important;
   color: hsl(var(--background)) !important;
 }
