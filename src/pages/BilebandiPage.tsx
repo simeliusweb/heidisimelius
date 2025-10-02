@@ -52,6 +52,19 @@ const BilebandiPage = () => {
           />
         </div>
       </section>
+
+      {/* Booking & Contact Section */}
+      <section className="max-w-4xl mx-auto px-6 py-16 md:py-24 text-center">
+        <h2 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-8">
+          Varaa bilebändi
+        </h2>
+        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-6">
+          Kiinnostuitko? Ota yhteyttä sähköpostitse ja pyydä tarjous! Heidi & The Hot Stuff tekee juhlistasi ikimuistoiset.
+        </p>
+        <p className="text-xl md:text-2xl text-foreground font-semibold">
+          booking@heidisimelius.fi
+        </p>
+      </section>
     </>
   );
 };
