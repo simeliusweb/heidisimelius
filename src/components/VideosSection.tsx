@@ -51,23 +51,29 @@ const VideosSection = ({ sectionTitle, videos, variant }: VideosSectionProps) =>
 
         {/* Video Thumbnails Grid */}
         <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto mb-8">
-          {videos.map((video, index) => (
-            <button
-              key={index}
-              onClick={() => setSelectedVideoIndex(index)}
-              className={`w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] aspect-video rounded-lg overflow-hidden transition-all ${
-                index === selectedVideoIndex 
-                  ? 'ring-4 ring-primary' 
-                  : 'hover:ring-2 hover:ring-primary/50'
-              }`}
-            >
-              <img
-                src={`https://img.youtube.com/vi/${getVideoId(video.url)}/mqdefault.jpg`}
-                alt={video.title || `Video thumbnail ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </button>
-          ))}
+          {videos
+            .filter((_, index) => index !== selectedVideoIndex)
+            .map((video, arrayIndex) => {
+              // Get the original index from the full videos array
+              const originalIndex = videos.findIndex((v, i) => 
+                i !== selectedVideoIndex && videos.filter((_, idx) => idx !== selectedVideoIndex)[arrayIndex] === v
+              );
+              const actualIndex = videos.indexOf(video);
+              
+              return (
+                <button
+                  key={actualIndex}
+                  onClick={() => setSelectedVideoIndex(actualIndex)}
+                  className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] aspect-video rounded-lg overflow-hidden transition-all hover:ring-2 hover:ring-primary/50"
+                >
+                  <img
+                    src={`https://img.youtube.com/vi/${getVideoId(video.url)}/mqdefault.jpg`}
+                    alt={video.title || `Video thumbnail ${actualIndex + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              );
+            })}
         </div>
 
         <div className="text-center">
@@ -94,14 +100,14 @@ const VideosSection = ({ sectionTitle, videos, variant }: VideosSectionProps) =>
 
       <div className="max-w-4xl mx-auto space-y-12">
         {videos.map((video, index) => (
-          <div key={index} className="space-y-4">
+          <div key={index} className={`space-y-4 ${index > 0 ? 'pt-12 border-t border-border' : ''}`}>
             {video.title && (
               <h3 className="text-2xl md:text-3xl font-playfair font-bold text-foreground">
                 {video.title}
               </h3>
             )}
             {video.description && (
-              <p className="text-base md:text-lg text-muted-foreground">
+              <p className="text-base md:text-lg text-muted-foreground italic">
                 {video.description}
               </p>
             )}
