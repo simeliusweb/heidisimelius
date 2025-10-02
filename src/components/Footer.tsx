@@ -107,11 +107,11 @@ const Footer = () => {
                 
                 {/* Honeypot field - invisible to humans */}
                 <div className="sr-only">
-                  <label htmlFor="comments">Comments</label>
+                  <label htmlFor="website">Website</label>
                   <input
                     type="text"
-                    name="comments"
-                    id="comments"
+                    name="website"
+                    id="website"
                     tabIndex={-1}
                     autoComplete="off"
                   />

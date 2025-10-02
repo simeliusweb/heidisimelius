@@ -261,11 +261,11 @@ const BilebandiPage = () => {
 
               {/* Honeypot field - invisible to humans */}
               <div className="sr-only">
-                <label htmlFor="subject">Subject</label>
+                <label htmlFor="website">Website</label>
                 <input
                   type="text"
-                  name="subject"
-                  id="subject"
+                  name="website"
+                  id="website"
                   tabIndex={-1}
                   autoComplete="off"
                 />
