@@ -8,34 +8,34 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Heidi Simelius Color Palette - Precise HSL Values */
-    --background: 234 23.8% 8.2%;         /* #10111A */
-    --foreground: 240 11.1% 96.5%;    /* #F5F5F7 */
+    /* Heidi Simelius Color Palette */
+    --background: 234 23.8% 8.2%;   /* #10111A */
+    --foreground: 240 11.1% 96.5%;  /* #F5F5F7 */
 
-    --card: 235 18.8% 12.5%; /* #1A1B26 */
-    --card-foreground: 240 11.1% 96.5%; /* #F5F5F7 */
+    --card: 235 18.8% 12.5%;        /* #1A1B26 */
+    --card-foreground: var(--foreground);
 
-    --popover: 235 18.8% 12.5%;
-    --popover-foreground: 240 11.1% 96.5%; /* #F5F5F7 */
+    --popover: var(--card);
+    --popover-foreground: var(--foreground);
 
-    --primary: 350 78.7% 52.2%;    /* #E52545 */
-    --primary-foreground: 240 11.1% 96.5%; /* #F5F5F7 */
+    --primary: 350 78.7% 52.2%;     /* #E52545 */
+    --primary-foreground: var(--foreground);
 
     --secondary: 60 93.9% 93.5%;    /* #FEFEDF */
     --secondary-foreground: 34 100% 81.2%; /* #FFD59F */
 
-    --muted: 240 7.7% 56.7%;      /* #888899 */
-    --muted-foreground: 240 11.1% 96.5%; /* #F5F5F7 */
+    --muted: 240 7.7% 56.7%;       /* #888899 */
+    --muted-foreground: var(--foreground);
 
-    --accent: 351 78.3% 52.2%; /* #E52642 */
-    --accent-foreground: 240 11.1% 96.5%; /* #F5F5F7 */
+    --accent: 351 78.3% 52.2%;      /* #E52642 */
+    --accent-foreground: var(--foreground);
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 240 11.1% 96.5%; /* #F5F5F7 */
+    --destructive-foreground: var(--foreground);
 
-    --border: 236 16% 19.6%; /* #2A2B3A */
-    --input: 236 16% 19.6%; /* #2A2B3A */
-    --ring: 34 100% 81.2%; /* #FFD59F */
+    --border: 236 16% 19.6%;        /* #2A2B3A */
+    --input: var(--border);
+    --ring: var(--secondary-foreground);
 
     --radius: 0.5rem;
   }
