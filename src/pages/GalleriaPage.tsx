@@ -126,7 +126,7 @@ const GalleriaPage = () => {
               opts={{
                 startIndex: selectedImageIndex,
               }}
-              className="w-full h-full"
+              className="w-full h-full flex"
             >
               <CarouselContent className="h-full items-center">
                 {photoSet1.map((image, index) => (
