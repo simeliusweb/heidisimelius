@@ -105,9 +105,16 @@ const Footer = () => {
                   )}
                 />
                 
-                {/* CAPTCHA Placeholder */}
-                <div className="border border-border rounded-md p-4 bg-muted/20">
-                  <p className="text-sm text-muted">CAPTCHA tulossa</p>
+                {/* Honeypot field - invisible to humans */}
+                <div className="sr-only">
+                  <label htmlFor="comments">Comments</label>
+                  <input
+                    type="text"
+                    name="comments"
+                    id="comments"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
                 </div>
 
                 <Button type="submit" className="w-full">
