@@ -31,7 +31,7 @@ const GalleriaPage = () => {
               { src: bioPress2, alt: "Heidi Simelius pressikuva 2" },
               { src: bioPress3, alt: "Heidi Simelius pressikuva 3" },
             ].map((photo, index) => (
-              <div key={index} className="flex flex-col gap-4">
+              <div key={index} className="flex flex-col gap-8 sm:gap-4">
                 <div className="aspect-[3/4] overflow-hidden rounded-lg">
                   <img
                     src={photo.src}
