@@ -14,24 +14,24 @@ const GalleriaPage = () => {
       </Helmet>
       
       <main className="container mx-auto px-6 py-16 md:py-24">
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-playfair font-extrabold text-primary mb-12 text-center">
+        <h1 className="text-6xl md:text-8xl lg:text-10xl font-playfair font-extrabold text-primary mb-12 text-center">
           Galleria
         </h1>
 
         {/* Pressikuvat Section */}
         <section className="mb-20">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-extrabold text-foreground mb-8">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8">
             Pressikuvat
           </h2>
 
           {/* Press Photos Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
             {[
               { src: bioPress1, alt: "Heidi Simelius pressikuva 1" },
               { src: bioPress2, alt: "Heidi Simelius pressikuva 2" },
               { src: bioPress3, alt: "Heidi Simelius pressikuva 3" },
             ].map((photo, index) => (
-              <div key={index} className="flex flex-col gap-3">
+              <div key={index} className="flex flex-col gap-8 sm:gap-4">
                 <div className="aspect-[3/4] overflow-hidden rounded-lg">
                   <img
                     src={photo.src}
