@@ -110,142 +110,170 @@ const BilebandiPage = () => {
           Varaa bilebändi
         </h2>
         
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nimi</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Nimi" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Puhelinnumero</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Puhelinnumero" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Sähköposti</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="Sähköposti" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Päivämäärä</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
+        <div className="max-w-[600px] mx-auto">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/* Row 1: Name and Phone (2 columns on sm+) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Nimi <span className="text-muted-foreground">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Valitse päivämäärä</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
+                        <Input placeholder="Nimi" {...field} />
                       </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) => date < new Date()}
-                        initialFocus
-                        className="p-3 pointer-events-auto"
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Puhelinnumero <span className="text-muted-foreground">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="Puhelinnumero" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Row 2: Email (full width) */}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Sähköposti <span className="text-muted-foreground">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="Sähköposti" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Row 3: Date, Location, Event Type (3 columns on sm+) */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <FormField
+                  control={form.control}
+                  name="date"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Päivämäärä</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Valitse päivämäärä</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) => date < new Date()}
+                            initialFocus
+                            className="p-3 pointer-events-auto"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="location"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sijainti</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Sijainti" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="eventType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tilaisuus</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Tilaisuus" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Message field (full width) */}
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Viesti</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Kerro meille lisää tapahtumastasi..."
+                        className="min-h-[120px]"
+                        {...field}
                       />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Sijainti</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Sijainti" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              {/* Honeypot field - invisible to humans */}
+              <div className="sr-only">
+                <label htmlFor="subject">Subject</label>
+                <input
+                  type="text"
+                  name="subject"
+                  id="subject"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
 
-            <FormField
-              control={form.control}
-              name="eventType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tilaisuus</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Tilaisuus" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Viesti</FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="Kerro meille lisää tapahtumastasi..."
-                      className="min-h-[120px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button type="submit" className="w-full" size="lg">
-              Ota yhteyttä
-            </Button>
-          </form>
-        </Form>
+              <Button type="submit" className="w-full" size="lg">
+                Ota yhteyttä
+              </Button>
+            </form>
+          </Form>
+        </div>
       </section>
     </>
   );
