@@ -40,7 +40,7 @@ const GalleriaPage = () => {
       src: bioPress2,
       alt: "Heidi Simelius pressikuva 2",
       photographerName: "Kuvaajan Nimi 2",
-      photographerUrl: "https://instagram.com/photographer2"
+      photographerUrl: ""
     },
     {
       src: bioPress3,
@@ -114,15 +114,19 @@ const GalleriaPage = () => {
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Kuva:{" "}
-                  <a 
-                    href={photo.photographerUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="group hover:underline inline-flex items-center gap-1"
-                  >
-                    {photo.photographerName}
-                    <ExternalLink className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity" />
-                  </a>
+                  {photo.photographerUrl ? (
+                    <a 
+                      href={photo.photographerUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="group hover:underline inline-flex items-center gap-1"
+                    >
+                      {photo.photographerName}
+                      <ExternalLink className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity" />
+                    </a>
+                  ) : (
+                    <span>{photo.photographerName}</span>
+                  )}
                 </p>
                 <Button variant="outline" className="w-full" asChild>
                   <a href={photo.src} download>
@@ -155,15 +159,19 @@ const GalleriaPage = () => {
             <div>{photoSetData.title}</div>
             <div className="text-base md:text-lg italic text-muted-foreground">
               Kuvat:{" "}
-              <a 
-                href={photoSetData.photographerUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="group hover:underline inline-flex items-center gap-1"
-              >
-                {photoSetData.photographerName}
-                <ExternalLink className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
-              </a>
+              {photoSetData.photographerUrl ? (
+                <a 
+                  href={photoSetData.photographerUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="group hover:underline inline-flex items-center gap-1"
+                >
+                  {photoSetData.photographerName}
+                  <ExternalLink className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+                </a>
+              ) : (
+                <span>{photoSetData.photographerName}</span>
+              )}
             </div>
           </h3>
 
