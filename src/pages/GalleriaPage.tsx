@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { useState } from "react";
+import Gallery from "react-photo-gallery";
 import {
   Dialog,
   DialogContent,
@@ -21,17 +22,17 @@ const GalleriaPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
-  // Placeholder images for the photo gallery
-  const galleryImages = [
-    { src: bioPress1, alt: "Galleriakuva 1" },
-    { src: bioPress2, alt: "Galleriakuva 2" },
-    { src: bioPress3, alt: "Galleriakuva 3" },
-    { src: bioPress1, alt: "Galleriakuva 4" },
-    { src: bioPress2, alt: "Galleriakuva 5" },
-    { src: bioPress3, alt: "Galleriakuva 6" },
+  // Photo gallery data with dimensions for masonry layout
+  const photoSet1 = [
+    { src: bioPress1, width: 4, height: 5, alt: "Galleriakuva 1" },
+    { src: bioPress2, width: 3, height: 4, alt: "Galleriakuva 2" },
+    { src: bioPress3, width: 4, height: 3, alt: "Galleriakuva 3" },
+    { src: bioPress1, width: 5, height: 4, alt: "Galleriakuva 4" },
+    { src: bioPress2, width: 3, height: 5, alt: "Galleriakuva 5" },
+    { src: bioPress3, width: 4, height: 4, alt: "Galleriakuva 6" },
   ];
 
-  const handleImageClick = (index: number) => {
+  const handleImageClick = (_event: React.MouseEvent, { index }: { index: number }) => {
     setSelectedImageIndex(index);
     setDialogOpen(true);
   };
@@ -99,21 +100,9 @@ const GalleriaPage = () => {
             Ensimmäisen albumin kuvasessio | Kuvat: Kuvaajan Nimi
           </h3>
 
-          {/* Mosaic Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            {galleryImages.map((image, index) => (
-              <div
-                key={index}
-                className={`${index === 0 ? 'col-span-2' : ''} aspect-square overflow-hidden rounded-lg cursor-pointer hover:opacity-90 transition-opacity`}
-                onClick={() => handleImageClick(index)}
-              >
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
+          {/* Masonry Gallery */}
+          <div className="mb-8">
+            <Gallery photos={photoSet1} onClick={handleImageClick} />
           </div>
 
           {/* Show More Button */}
@@ -126,21 +115,21 @@ const GalleriaPage = () => {
 
         {/* Image Dialog with Carousel */}
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogContent className="max-w-4xl">
+          <DialogContent className="h-[85vh] w-auto max-w-6xl">
             <Carousel
               opts={{
                 startIndex: selectedImageIndex,
               }}
-              className="w-full"
+              className="w-full h-full"
             >
-              <CarouselContent>
-                {galleryImages.map((image, index) => (
-                  <CarouselItem key={index}>
-                    <div className="aspect-[4/3] overflow-hidden rounded-lg">
+              <CarouselContent className="h-full">
+                {photoSet1.map((image, index) => (
+                  <CarouselItem key={index} className="h-full">
+                    <div className="flex items-center justify-center h-full">
                       <img
                         src={image.src}
                         alt={image.alt}
-                        className="w-full h-full object-cover"
+                        className="object-contain max-h-full max-w-full"
                       />
                     </div>
                   </CarouselItem>
