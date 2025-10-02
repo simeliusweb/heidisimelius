@@ -70,7 +70,7 @@ const Footer = () => {
                   name="subject"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Aihe</FormLabel>
+                      <FormLabel>Aihe <span className="text-secondary-foreground">*</span></FormLabel>
                       <FormControl>
                         <Input placeholder="Kirjoita aihe..." {...field} />
                       </FormControl>
@@ -83,7 +83,7 @@ const Footer = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Sähköpostisi</FormLabel>
+                      <FormLabel>Sähköpostisi <span className="text-secondary-foreground">*</span></FormLabel>
                       <FormControl>
                         <Input type="email" placeholder="Kirjoita sähköpostisi..." {...field} />
                       </FormControl>
@@ -96,7 +96,7 @@ const Footer = () => {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Viesti</FormLabel>
+                      <FormLabel>Viesti <span className="text-secondary-foreground">*</span></FormLabel>
                       <FormControl>
                         <Textarea placeholder="Kirjoita viestisi..." {...field} />
                       </FormControl>
