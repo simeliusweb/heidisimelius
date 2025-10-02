@@ -215,11 +215,11 @@ const GalleriaPage = () => {
               <CarouselContent className="h-full items-center">
                 {visiblePhotos.map((image, index) => (
                   <CarouselItem key={index} className="h-full w-full p-0">
-                    <div className="flex items-center justify-center h-full w-full">
+                    <div className="flex items-center justify-center h-full w-full rounded-md">
                       <img
                         src={image.src}
                         alt={image.alt}
-                        className="object-contain max-h-full max-w-full w-auto h-auto"
+                        className="object-contain max-h-full max-w-full w-auto h-auto "
                       />
                     </div>
                   </CarouselItem>
