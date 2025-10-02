@@ -122,16 +122,19 @@ const GalleriaPage = () => {
           </h2>
 
           <h3 className="text-2xl md:text-3xl font-playfair font-bold text-foreground mb-6">
-            {photoSetData.title} | Kuvat:{" "}
-            <a 
-              href={photoSetData.photographerUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="group hover:underline inline-flex items-center gap-1"
-            >
-              {photoSetData.photographerName}
-              <ExternalLink className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
-            </a>
+            <div>{photoSetData.title}</div>
+            <div className="text-base md:text-lg italic text-muted-foreground">
+              Kuvat:{" "}
+              <a 
+                href={photoSetData.photographerUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group hover:underline inline-flex items-center gap-1"
+              >
+                {photoSetData.photographerName}
+                <ExternalLink className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+              </a>
+            </div>
           </h3>
 
           {/* Masonry Gallery */}
