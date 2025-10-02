@@ -1,6 +1,57 @@
 import { Helmet } from "react-helmet-async";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+const bookingFormSchema = z.object({
+  name: z.string().min(2, { message: "Nimi on pakollinen" }),
+  phone: z.string().min(5, { message: "Puhelinnumero on pakollinen" }),
+  email: z.string().email({ message: "Virheellinen sähköpostiosoite" }),
+  date: z.date({ required_error: "Päivämäärä on pakollinen" }),
+  location: z.string().min(2, { message: "Sijainti on pakollinen" }),
+  eventType: z.string().min(2, { message: "Tilaisuus on pakollinen" }),
+  message: z.string().min(10, { message: "Viesti on liian lyhyt" }),
+});
+
+type BookingFormValues = z.infer<typeof bookingFormSchema>;
 
 const BilebandiPage = () => {
+  const form = useForm<BookingFormValues>({
+    resolver: zodResolver(bookingFormSchema),
+    defaultValues: {
+      name: "",
+      phone: "",
+      email: "",
+      location: "",
+      eventType: "",
+      message: "",
+    },
+  });
+
+  const onSubmit = (data: BookingFormValues) => {
+    // Form submission logic will be implemented later
+    console.log(data);
+  };
   return (
     <>
       <Helmet>
@@ -54,16 +105,147 @@ const BilebandiPage = () => {
       </section>
 
       {/* Booking & Contact Section */}
-      <section className="max-w-4xl mx-auto px-6 py-16 md:py-24 text-center">
-        <h2 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-8">
+      <section className="max-w-3xl mx-auto px-6 py-16 md:py-24">
+        <h2 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-8 text-center">
           Varaa bilebändi
         </h2>
-        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-6">
-          Kiinnostuitko? Ota yhteyttä sähköpostitse ja pyydä tarjous! Heidi & The Hot Stuff tekee juhlistasi ikimuistoiset.
-        </p>
-        <p className="text-xl md:text-2xl text-foreground font-semibold">
-          booking@heidisimelius.fi
-        </p>
+        
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nimi</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Nimi" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Puhelinnumero</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Puhelinnumero" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Sähköposti</FormLabel>
+                  <FormControl>
+                    <Input type="email" placeholder="Sähköposti" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Päivämäärä</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Valitse päivämäärä</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) => date < new Date()}
+                        initialFocus
+                        className="p-3 pointer-events-auto"
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Sijainti</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Sijainti" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="eventType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tilaisuus</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Tilaisuus" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="message"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Viesti</FormLabel>
+                  <FormControl>
+                    <Textarea 
+                      placeholder="Kerro meille lisää tapahtumastasi..."
+                      className="min-h-[120px]"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button type="submit" className="w-full" size="lg">
+              Ota yhteyttä
+            </Button>
+          </form>
+        </Form>
       </section>
     </>
   );
