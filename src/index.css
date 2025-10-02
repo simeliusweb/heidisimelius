@@ -52,11 +52,8 @@ All colors MUST be HSL.
 }
 
 /* Date Picker Overrides */
-.rdp-button:focus:not([disabled]):focus-visible, .rdp-button:hover:not([disabled]) {
-  background-color: hsl(var(--secondary-foreground)) !important;
-}
-
+.rdp-button:focus:not([disabled]):focus-visible, .rdp-button:hover:not([disabled]),
 .rdp-day_selected, .rdp-day_selected:focus-visible, .rdp-day_selected:hover {
-  background-color: hsl(var(--secondary-foreground)) !important;
+  background-color: hsl(var(--foreground)) !important;
   color: hsl(var(--background)) !important;
 }
