@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import BottomBranding from "@/components/BottomBranding";
+import VideosSection from "@/components/VideosSection";
 import heroBgMobile from "@/assets/hero-bg-mobile.jpg";
 import heroBgDesktop from "@/assets/hero-bg-desktop.jpg";
 
@@ -156,66 +157,20 @@ const HomePage = () => {
           </section>
 
           {/* Videos Section */}
-          <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 text-center">
-              Videot
-            </h2>
-
-            {/* Highlight Video */}
-            <div className="max-w-5xl mx-auto mb-8">
-              <div className="aspect-video rounded-lg overflow-hidden">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src="https://www.youtube.com/embed/nNooz5tHV6U"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  title="Heidi Simelius featured video"
-                />
-              </div>
-            </div>
-
-            {/* Video Grid */}
-            <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto mb-8">
-              {[
-                "IR4VJkKmZ0",
-                "m-ZMCIMdZrQ",
-                "xe9fczPexk",
-                "eqQEVrCPCxQ",
-                "EMVUePUaVAY",
-                "Ikfy983tspw",
-                "wmpajFyxkVE",
-              ].map((videoId) => (
-                <div
-                  key={videoId}
-                  className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] aspect-video rounded-lg overflow-hidden"
-                >
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src={`https://www.youtube.com/embed/${videoId}`}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    title={`YouTube video ${videoId}`}
-                  />
-                </div>
-              ))}
-            </div>
-
-            <div className="text-center">
-              <Button asChild size="lg">
-                <a
-                  href="https://www.youtube.com/@heidisimelius?sub_confirmation=1"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Tilaa kanava
-                </a>
-              </Button>
-            </div>
-          </section>
+          <VideosSection
+            sectionTitle="Videot"
+            variant="featured"
+            videos={[
+              { url: "https://www.youtube.com/watch?v=nNooz5tHV6U", isFeatured: true },
+              { url: "https://www.youtube.com/watch?v=IR4VJkKmZ0" },
+              { url: "https://www.youtube.com/watch?v=m-ZMCIMdZrQ" },
+              { url: "https://www.youtube.com/watch?v=xe9fczPexk" },
+              { url: "https://www.youtube.com/watch?v=eqQEVrCPCxQ" },
+              { url: "https://www.youtube.com/watch?v=EMVUePUaVAY" },
+              { url: "https://www.youtube.com/watch?v=Ikfy983tspw" },
+              { url: "https://www.youtube.com/watch?v=wmpajFyxkVE" },
+            ]}
+          />
 
           {/* Instagram Feed Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">

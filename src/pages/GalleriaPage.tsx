@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Download, Loader2, ExternalLink } from "lucide-react";
+import VideosSection from "@/components/VideosSection";
 import { useState } from "react";
 import Gallery from "react-photo-gallery";
 import {
@@ -230,6 +231,42 @@ const GalleriaPage = () => {
           </DialogContent>
         </Dialog>
       </main>
+
+      {/* Musavideot Section */}
+      <VideosSection
+        sectionTitle="Musavideot"
+        variant="featured"
+        videos={[
+          { url: "https://www.youtube.com/watch?v=nNooz5tHV6U", isFeatured: true },
+          { url: "https://www.youtube.com/watch?v=IR4VJkKmZ0" },
+          { url: "https://www.youtube.com/watch?v=m-ZMCIMdZrQ" },
+          { url: "https://www.youtube.com/watch?v=xe9fczPexk" },
+          { url: "https://www.youtube.com/watch?v=eqQEVrCPCxQ" },
+        ]}
+      />
+
+      {/* Muut videot Section */}
+      <VideosSection
+        sectionTitle="Muut videot"
+        variant="list"
+        videos={[
+          {
+            url: "https://www.youtube.com/watch?v=EMVUePUaVAY",
+            title: "Voice of Finland - Esitys 1",
+            description: "Heidi Simelius esiintyy Voice of Finland -ohjelmassa. Upea tulkinta suosikkikappaleesta."
+          },
+          {
+            url: "https://www.youtube.com/watch?v=Ikfy983tspw",
+            title: "Voice of Finland - Esitys 2",
+            description: "Toinen vaikuttava esiintyminen Voice of Finland -lavalla."
+          },
+          {
+            url: "https://www.youtube.com/watch?v=wmpajFyxkVE",
+            title: "Akustinen studio-sessio",
+            description: "Intiimi akustinen versio suosikkikappaleesta studiossa."
+          },
+        ]}
+      />
     </>
   );
 };
