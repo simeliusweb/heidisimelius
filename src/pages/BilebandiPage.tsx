@@ -122,7 +122,7 @@ const BilebandiPage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Nimi <span className="text-muted-foreground">*</span>
+                        Nimi <span className="text-muted">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input placeholder="Nimi" {...field} />
@@ -138,7 +138,7 @@ const BilebandiPage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Puhelinnumero <span className="text-muted-foreground">*</span>
+                        Puhelinnumero <span className="text-muted">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input placeholder="Puhelinnumero" {...field} />
@@ -156,7 +156,7 @@ const BilebandiPage = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Sähköposti <span className="text-muted-foreground">*</span>
+                      Sähköposti <span className="text-muted">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input type="email" placeholder="Sähköposti" {...field} />
@@ -189,7 +189,7 @@ const BilebandiPage = () => {
                           ) : (
                             <span>Valitse päivämäärä</span>
                           )}
-                          <CalendarIcon className="ml-auto h-4 w-4 text-foreground opacity-50" />
+                          <CalendarIcon className="ml-auto h-4 w-4 text-foreground" />
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
