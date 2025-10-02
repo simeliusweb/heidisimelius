@@ -54,8 +54,9 @@ All colors MUST be HSL.
 /* Date Picker Overrides */
 .rdp-button:hover:not([disabled]),
 .rdp-button[aria-selected="true"],
+.rdp-button[aria-current="date"],
 td:has(.rdp-button[aria-selected="true"]),
-.rdp-day_today {
+td:has(.rdp-button[aria-current="date"]) {
   background-color: hsl(var(--foreground)) !important;
   color: hsl(var(--background)) !important;
 }
