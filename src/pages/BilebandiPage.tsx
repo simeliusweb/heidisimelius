@@ -122,7 +122,7 @@ const BilebandiPage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Nimi <span className="text-muted">*</span>
+                        Nimi <span className="text-secondary-foreground">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input placeholder="Nimi" {...field} />
@@ -138,7 +138,7 @@ const BilebandiPage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Puhelinnumero <span className="text-muted">*</span>
+                        Puhelinnumero <span className="text-secondary-foreground">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input placeholder="Puhelinnumero" {...field} />
@@ -156,7 +156,7 @@ const BilebandiPage = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Sähköposti <span className="text-muted">*</span>
+                      Sähköposti <span className="text-secondary-foreground">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input type="email" placeholder="Sähköposti" {...field} />
