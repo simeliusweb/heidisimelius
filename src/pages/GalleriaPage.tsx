@@ -130,7 +130,7 @@ const GalleriaPage = () => {
             >
               <CarouselContent className="h-full">
                 {photoSet1.map((image, index) => (
-                  <CarouselItem key={index} className="h-full w-full">
+                  <CarouselItem key={index} className="h-full w-full p-0">
                     <div className="flex items-center justify-center h-full w-full">
                       <img
                         src={image.src}
