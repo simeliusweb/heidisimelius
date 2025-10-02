@@ -53,7 +53,7 @@ All colors MUST be HSL.
 
 /* Date Picker Overrides */
 .rdp-button:focus:not([disabled]):focus-visible, .rdp-button:hover:not([disabled]) {
-  background-color: hsl(var(--accent)) !important;
+  background-color: hsl(var(--secondary-foreground)) !important;
 }
 
 .rdp-day_selected, .rdp-day_selected:focus-visible, .rdp-day_selected:hover {
