@@ -2,9 +2,11 @@ import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { format, parse } from "date-fns";
 import { Button } from "@/components/ui/button";
 import BottomBranding from "@/components/BottomBranding";
 import VideosSection from "@/components/VideosSection";
+import UpcomingGigCard from "@/components/UpcomingGigCard";
 import heroBgMobile from "@/assets/hero-bg-mobile.jpg";
 import heroBgDesktop from "@/assets/hero-bg-desktop.jpg";
 
@@ -119,18 +121,57 @@ const HomePage = () => {
               Tulevat keikat
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto mb-8">
-              {[1, 2, 3].map((gig) => (
-                <div
-                  key={gig}
-                  className="bg-card border border-border rounded-lg p-6 hover:border-primary/50 transition-colors"
-                >
-                  <h3 className="text-xl font-playfair text-foreground mb-2">
-                    Keikka {gig}
-                  </h3>
-                  <p className="text-muted mb-1">25.12.2025 klo 19:00</p>
-                  <p className="text-foreground">Tapahtumapaikka {gig}</p>
-                </div>
-              ))}
+              {(() => {
+                // Event data with performances
+                const upcomingEvents = [
+                  {
+                    imageUrl: "/images/placeholder-trio.jpg",
+                    title: "Heidi Simelius Trio Live",
+                    venue: "G Livelab, Tampere",
+                    performances: [{ date: "2025-11-15", time: "20:00" }]
+                  },
+                  {
+                    imageUrl: "/images/placeholder-tootsie.jpg",
+                    title: "Tootsie-musikaali",
+                    venue: "Lahden Kaupunginteatteri",
+                    performances: [
+                      { date: "2025-10-24", time: "19:00" },
+                      { date: "2025-10-25", time: "13:00" },
+                      { date: "2025-11-01", time: "20:00" },
+                      { date: "2025-11-17", time: "19:30" },
+                      { date: "2025-11-28", time: "18:30" },
+                      { date: "2025-12-06", time: "17:00" },
+                      { date: "2025-12-18", time: "20:30" }
+                    ]
+                  }
+                ];
+
+                // Process data to find soonest upcoming date for each event
+                const upcomingGigPreviews = upcomingEvents.map(event => {
+                  const soonestPerformance = event.performances[0];
+                  const date = parse(soonestPerformance.date, "yyyy-MM-dd", new Date());
+                  
+                  return {
+                    imageUrl: event.imageUrl,
+                    title: event.title,
+                    venue: event.venue,
+                    nextDate: format(date, "dd.MM.yyyy"),
+                    nextTime: soonestPerformance.time,
+                    dateObj: date
+                  };
+                }).sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime()).slice(0, 3);
+
+                return upcomingGigPreviews.map((gig, index) => (
+                  <UpcomingGigCard
+                    key={index}
+                    imageUrl={gig.imageUrl}
+                    title={gig.title}
+                    nextDate={gig.nextDate}
+                    nextTime={gig.nextTime}
+                    venue={gig.venue}
+                  />
+                ));
+              })()}
             </div>
             <div className="text-center">
               <Button asChild size="lg" variant="outline">
