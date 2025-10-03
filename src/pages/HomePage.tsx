@@ -38,8 +38,11 @@ const HomePage = () => {
           }}
         />
 
-        {/* Bottom Branding Overlay */}
-        <BottomBranding />
+        {/* Content Container */}
+        <div className="relative overflow-visible z-10 min-h-screen flex flex-col">
+          {/* Bottom Branding Overlay */}
+          <BottomBranding />
+        </div>
 
         {/* Content Sections */}
         <div className="relative z-11 bg-background">
