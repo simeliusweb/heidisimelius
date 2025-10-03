@@ -120,7 +120,7 @@ const Header = () => {
         />
         
         {/* Links Container */}
-        <div className="fixed top-[140px] left-4 z-50 w-[calc(100%-2rem)] max-w-[420px]">
+        <div className="fixed top-[120px] left-4 z-50 w-[calc(100%-2rem)] max-w-[420px]">
           <div
             ref={menuPanelRef}
             className="bg-background/70 backdrop-blur-xl border border-border rounded-lg shadow-2xl py-8 px-4"
