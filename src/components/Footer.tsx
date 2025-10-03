@@ -35,16 +35,6 @@ const Footer = () => {
     form.reset();
   };
 
-  const handleContactScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    setTimeout(() => {
-      const element = document.getElementById('contact-section');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 1000);
-  };
-
   const navLinks = [
     { label: "KEIKAT", href: "/keikat" },
     { label: "BIO", href: "/bio" },
@@ -56,7 +46,7 @@ const Footer = () => {
   return (
     <footer
       id="contact-section"
-      className="relative bg-card mt-auto scroll-mt-96"
+      className="relative bg-card mt-auto"
       style={{
         backgroundImage: `url(${footerBg})`,
         backgroundSize: "cover",
@@ -146,22 +136,12 @@ const Footer = () => {
         <div className="flex flex-wrap items-center justify-center gap-4 mb-8 text-muted">
           {navLinks.map((link, index) => (
             <span key={link.label} className="flex items-center gap-4">
-              {link.href.startsWith('#') ? (
-                <a
-                  href={link.href}
-                  className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm"
-                  onClick={handleContactScroll}
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <a
-                  href={link.href}
-                  className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm"
-                >
-                  {link.label}
-                </a>
-              )}
+              <a
+                href={link.href}
+                className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm"
+              >
+                {link.label}
+              </a>
               {index < navLinks.length - 1 && <span>•</span>}
             </span>
           ))}

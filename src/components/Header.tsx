@@ -7,17 +7,6 @@ const Header = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const handleContactScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    setIsMenuOpen(false);
-    setTimeout(() => {
-      const element = document.getElementById('contact-section');
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 1000);
-  };
-
   const navLinks = [
     { label: "KEIKAT", href: "/keikat" },
     { label: "BIO", href: "/bio" },
@@ -84,23 +73,13 @@ const Header = () => {
                 <ul className="space-y-6 px-4">
                   {navLinks.map((link) => (
                     <li key={link.label}>
-                      {link.href.startsWith('#') ? (
-                        <a
-                          href={link.href}
-                          className="text-2xl md:text-3xl font-playfair font-extrabold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
-                          onClick={handleContactScroll}
-                        >
-                          {link.label}
-                        </a>
-                      ) : (
-                        <a
-                          href={link.href}
-                          className="text-2xl md:text-3xl font-playfair font-extrabold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
-                          onClick={toggleMenu}
-                        >
-                          {link.label}
-                        </a>
-                      )}
+                      <a
+                        href={link.href}
+                        className="text-2xl md:text-3xl font-playfair font-extrabold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+                        onClick={toggleMenu}
+                      >
+                        {link.label}
+                      </a>
                     </li>
                   ))}
                 </ul>

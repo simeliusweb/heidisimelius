@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useLocation } from "react-router-dom";
 import EventGroup from "@/components/EventGroup";
 import PastGigCard from "@/components/PastGigCard";
 import { Button } from "@/components/ui/button";
@@ -8,18 +7,6 @@ import keikatHeroBg from "@/assets/keikat-hero-bg.jpg";
 
 const KeikatPage = () => {
   const [visibleCount, setVisibleCount] = useState(3);
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.hash) {
-      setTimeout(() => {
-        const element = document.getElementById(location.hash.slice(1));
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 300);
-    }
-  }, [location]);
 
   const tootsieMusical = {
     imageUrl: "/images/placeholder-tootsie.jpg",
