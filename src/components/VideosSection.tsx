@@ -107,14 +107,9 @@ const VideosSection = ({
             }`}
           >
             {video.title && (
-              <h3 className="text-2xl md:text-3xl font-playfair font-bold text-foreground">
+              <h3 className="text-2xl md:text-3xl font-sans font-bold text-foreground">
                 {video.title}
               </h3>
-            )}
-            {video.description && (
-              <p className="text-base md:text-lg text-muted-foreground italic">
-                {video.description}
-              </p>
             )}
             <div className="aspect-video rounded-lg overflow-hidden">
               <iframe
@@ -127,6 +122,11 @@ const VideosSection = ({
                 title={video.title || `Video ${index + 1}`}
               />
             </div>
+            {video.description && (
+              <p className="text-base md:text-lg text-muted-foreground italic">
+                {video.description}
+              </p>
+            )}
           </div>
         ))}
       </div>

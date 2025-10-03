@@ -220,7 +220,7 @@ const GalleriaPage = () => {
       />
 
       <main className="container mx-auto px-6 py-16 md:py-24">
-        <h1 className="text-6xl md:text-8xl lg:text-10xl font-playfair font-extrabold text-primary mb-12 text-center">
+        <h1 className="text-6xl md:text-8xl lg:text-10xl font-playfair font-extrabold text-primary mb-12 text-center py-8">
           Galleria
         </h1>
 
@@ -269,7 +269,7 @@ const GalleriaPage = () => {
             ))}
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center pb-16">
             <Button size="lg" asChild>
               <a
                 href="/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-pressikuvat.zip"
@@ -292,8 +292,8 @@ const GalleriaPage = () => {
             const currentState = setsState[setIndex];
             return (
               <div key={photoSet.title} className="mb-32 xl:mb-48 last:mb-0">
-                <h3 className="text-2xl md:text-3xl font-playfair font-bold text-foreground mb-6">
-                  <div className="text-primary">{photoSet.title}</div>
+                <h3 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-bold text-foreground mb-6">
+                  <div className="text-primary pb-2">{photoSet.title}</div>
                   <div className="text-base md:text-lg italic text-muted-foreground">
                     Kuvat:{" "}
                     {photoSet.photographerUrl ? (
@@ -400,22 +400,18 @@ const GalleriaPage = () => {
         variant="list"
         videos={[
           {
-            url: "https://www.youtube.com/watch?v=EMVUePUaVAY",
-            title: "Voice of Finland - Esitys 1",
+            url: "https://www.youtube.com/watch?v=3iOHoeFv4ZE",
+            title:
+              "The Power Of Love – Heidi Simelius | Knockout | The Voice of Finland 2024",
             description:
-              "Heidi Simelius esiintyy Voice of Finland -ohjelmassa. Upea tulkinta suosikkikappaleesta.",
+              "Tässä esitin Knockout-vaiheessa Jennifer Rushin kappaleen The Power Of Love!",
           },
           {
-            url: "https://www.youtube.com/watch?v=Ikfy983tspw",
-            title: "Voice of Finland - Esitys 2",
+            url: "https://www.youtube.com/watch?v=86wVhe3WLXM",
+            title:
+              "Proud Mary – Heidi Simelius | Semifinaali | The Voice of Finland 2024",
             description:
-              "Toinen vaikuttava esiintyminen Voice of Finland -lavalla.",
-          },
-          {
-            url: "https://www.youtube.com/watch?v=wmpajFyxkVE",
-            title: "Akustinen studio-sessio",
-            description:
-              "Intiimi akustinen versio suosikkikappaleesta studiossa.",
+              "Esitin suorassa semifinaalissa Tina Turnerin version CCR:n kappaleesta Proud Mary.",
           },
         ]}
       />
