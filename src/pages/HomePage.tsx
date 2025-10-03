@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { HashLink } from "react-router-hash-link";
 import { gsap } from "gsap";
@@ -14,53 +13,6 @@ import { pageMetadata } from "@/config/metadata";
 gsap.registerPlugin(ScrollTrigger);
 
 const HomePage = () => {
-  const portraitRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!portraitRef.current || !containerRef.current) return;
-
-    const portrait = portraitRef.current;
-    const container = containerRef.current;
-    const bottomBranding = document.querySelector(".bottom-branding");
-
-    if (!bottomBranding) return;
-
-    const ctx = gsap.context(() => {
-      const calculateDistanceToTravel = () => {
-        // Get the absolute top position of the branding element from the top of the document
-        const brandingAbsoluteTop =
-          bottomBranding.getBoundingClientRect().top + window.scrollY;
-
-        // Get the absolute top position of the portrait element in its starting state
-        const portraitAbsoluteTop_initial =
-          portrait.getBoundingClientRect().top + window.scrollY;
-
-        // Calculate the desired FINAL absolute top position for the portrait.
-        // This is where the portrait's top edge should be when its bottom is 20px above the branding's top.
-        const portraitAbsoluteTop_final =
-          brandingAbsoluteTop - portrait.offsetHeight - 20;
-
-        // The distance to travel is simply the difference between the final and initial positions minus branding element's height.
-        return portraitAbsoluteTop_final - portraitAbsoluteTop_initial;
-      };
-
-      gsap.to(portrait, {
-        y: calculateDistanceToTravel,
-        ease: "none",
-        scrollTrigger: {
-          trigger: container,
-          start: "top top",
-          end: () => `+=${calculateDistanceToTravel()}`,
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-      });
-    }, container);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
     <>
       <PageMeta
@@ -71,42 +23,23 @@ const HomePage = () => {
         {/* Helmet handles the LightWidget script tag correctly */}
         <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
       </Helmet>
-      <div ref={containerRef} className="relative min-h-screen">
+      <div className="relative min-h-screen">
         {/* Art-Directed Background Images */}
         <div
           className="fixed inset-0 bg-cover bg-center bg-no-repeat md:hidden"
           style={{
-            backgroundImage: `url(/images/demo/hero-bg-mobile.jpg)`,
-            filter: "blur(2px)",
+            backgroundImage: `url(/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg)`,
           }}
         />
         <div
           className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
           style={{
-            backgroundImage: `url(/images/demo/hero-bg-desktop.jpg)`,
-            filter: "blur(2px)",
+            backgroundImage: `url(/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2.jpg)`,
           }}
         />
 
-        {/* Dark overlay for better text visibility */}
-        <div className="fixed inset-0 bg-background/40" />
-
-        {/* Content Container */}
-        <div className="relative overflow-visible z-10 min-h-screen flex flex-col">
-          {/* Portrait Placeholder with Parallax */}
-          {/* The pt-32 class correctly sets the initial position */}
-          <div className="flex-1 flex items-start justify-center pt-32 md:pt-32 pb-32">
-            <div
-              ref={portraitRef}
-              className="w-64 h-96 md:w-80 md:h-[30rem] bg-card/50 backdrop-blur-sm border-2 border-primary/30 rounded-lg flex items-center justify-center"
-            >
-              <span className="text-muted text-sm">Portrait Placeholder</span>
-            </div>
-          </div>
-
-          {/* Bottom Branding Overlay */}
-          <BottomBranding />
-        </div>
+        {/* Bottom Branding Overlay */}
+        <BottomBranding />
 
         {/* Content Sections */}
         <div className="relative z-11 bg-background">
