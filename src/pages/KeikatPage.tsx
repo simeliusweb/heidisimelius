@@ -3,6 +3,7 @@ import EventGroup from "@/components/EventGroup";
 import PastGigCard from "@/components/PastGigCard";
 import { Button } from "@/components/ui/button";
 import PageMeta from "@/components/PageMeta";
+import StructuredData from "@/components/StructuredData";
 import { pageMetadata } from "@/config/metadata";
 import keikatHeroBg from "@/assets/keikat-hero-bg.jpg";
 
@@ -114,9 +115,70 @@ const KeikatPage = () => {
     return parseDate(b.date).getTime() - parseDate(a.date).getTime();
   });
 
+  // Generate MusicEvent structured data for all performances
+  const musicEventsSchema = [
+    ...heidiTrioLive.performances.map(performance => ({
+      "@context": "https://schema.org",
+      "@type": "MusicEvent",
+      "name": heidiTrioLive.title,
+      "startDate": `${performance.date}T${performance.time}:00+02:00`,
+      "location": {
+        "@type": "Place",
+        "name": heidiTrioLive.venue,
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Tampere",
+          "addressCountry": "FI"
+        }
+      },
+      "image": heidiTrioLive.imageUrl,
+      "description": heidiTrioLive.description,
+      "offers": {
+        "@type": "Offer",
+        "url": heidiTrioLive.ticketsUrl,
+        "price": "TBA",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock"
+      },
+      "performer": {
+        "@type": "Person",
+        "name": "Heidi Simelius"
+      }
+    })),
+    ...tootsieMusical.performances.map(performance => ({
+      "@context": "https://schema.org",
+      "@type": "MusicEvent",
+      "name": tootsieMusical.title,
+      "startDate": `${performance.date}T${performance.time}:00+02:00`,
+      "location": {
+        "@type": "Place",
+        "name": tootsieMusical.venue,
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Lahti",
+          "addressCountry": "FI"
+        }
+      },
+      "image": tootsieMusical.imageUrl,
+      "description": tootsieMusical.description,
+      "offers": {
+        "@type": "Offer",
+        "url": tootsieMusical.ticketsUrl,
+        "price": "TBA",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock"
+      },
+      "performer": {
+        "@type": "Person",
+        "name": "Heidi Simelius"
+      }
+    }))
+  ];
+
   return (
     <>
       <PageMeta title={pageMetadata.keikat.title} description={pageMetadata.keikat.description} />
+      <StructuredData data={musicEventsSchema} />
 
       {/* Page Header with Background Image */}
       <section className="relative w-full h-[50vh] md:h-[60vh] flex items-end justify-center overflow-hidden">
