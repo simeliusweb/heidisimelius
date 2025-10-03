@@ -23,78 +23,78 @@ const GalleriaPage = () => {
   // Press photos data
   const pressPhotos = [
     {
-      src: "/images/demo/bio-press-1.jpg",
+      src: "/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg",
       alt: "Heidi Simelius pressikuva 1",
-      photographerName: "Kuvaajan Nimi 1",
-      photographerUrl: "https://instagram.com/photographer1",
+      photographerName: "Titta Toivanen",
+      photographerUrl: "https://www.instagram.com/tittatoivanen",
     },
     {
-      src: "/images/demo/bio-press-2.jpg",
+      src: "/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-3.jpg",
       alt: "Heidi Simelius pressikuva 2",
-      photographerName: "Kuvaajan Nimi 2",
-      photographerUrl: "",
-    },
-    {
-      src: "/images/demo/bio-press-3.jpg",
-      alt: "Heidi Simelius pressikuva 3",
-      photographerName: "Kuvaajan Nimi 3",
-      photographerUrl: "https://instagram.com/photographer3",
+      photographerName: "Titta Toivanen",
+      photographerUrl: "https://www.instagram.com/tittatoivanen",
     },
   ];
 
   // Photo gallery data with dimensions for masonry layout
   const photoSetData = {
-    title: "Ensimmäisen albumin kuvasessio",
-    photographerName: "Kuvaajan Nimi",
-    photographerUrl: "https://example.com",
+    title: "Mä vastaan",
+    photographerName: "Valosanni",
+    photographerUrl: "https://www.instagram.com/valosanni",
     photos: [
       {
-        src: "/images/demo/bio-press-1.jpg",
-        width: 4,
-        height: 5,
-        alt: "Galleriakuva 1",
+        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-1.jpg",
+        width: 1709,
+        height: 2560,
+        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 1",
       },
       {
-        src: "/images/demo/gallery-widescreen.jpg",
-        width: 1920,
-        height: 1080,
-        alt: "Lavaesiintyminen",
+        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-2.jpg",
+        width: 2560,
+        height: 1709,
+        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 2",
       },
       {
-        src: "/images/demo/bio-press-2.jpg",
-        width: 3,
-        height: 4,
-        alt: "Galleriakuva 2",
+        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-3.jpg",
+        width: 1709,
+        height: 2560,
+        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 3",
       },
       {
-        src: "/images/demo/gallery-square.jpg",
-        width: 1024,
-        height: 1024,
-        alt: "Taiteellinen muotokuva",
+        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-4.jpg",
+        width: 1709,
+        height: 2560,
+        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 4",
       },
       {
-        src: "/images/demo/bio-press-3.jpg",
-        width: 4,
-        height: 3,
-        alt: "Galleriakuva 3",
+        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-5.jpg",
+        width: 2560,
+        height: 1709,
+        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 5",
       },
       {
-        src: "/images/demo/gallery-panoramic.jpg",
-        width: 1920,
-        height: 640,
-        alt: "Panoraamanäkymä lavalta",
+        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-6.jpg",
+        width: 1709,
+        height: 2560,
+        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 6",
       },
       {
-        src: "/images/demo/bio-press-1.jpg",
-        width: 5,
-        height: 4,
-        alt: "Galleriakuva 4",
+        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-7.jpg",
+        width: 1709,
+        height: 2560,
+        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 7",
       },
       {
-        src: "/images/demo/gallery-portrait.jpg",
-        width: 1080,
-        height: 1920,
-        alt: "Pystymuotokuva",
+        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg",
+        width: 2560,
+        height: 1709,
+        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 8",
+      },
+      {
+        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-9.jpg",
+        width: 1709,
+        height: 2560,
+        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 9",
       },
     ],
   };
@@ -181,7 +181,10 @@ const GalleriaPage = () => {
           {/* Download All Button */}
           <div className="flex justify-center">
             <Button size="lg" asChild>
-              <a href="#" download>
+              <a
+                href="/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-pressikuvat.zip"
+                download
+              >
                 <Download className="w-5 h-5" />
                 Lataa kaikki pressikuvat (.zip)
               </a>

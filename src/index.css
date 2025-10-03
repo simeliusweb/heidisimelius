@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Heidi Simelius Color Palette */
+    /* Heidi Simelius Color Palette v1 */
     --background: 234 23.8% 8.2%; /* #10111A */
     --foreground: 240 11.1% 96.5%; /* #F5F5F7 */
     --primary: 350 78.7% 52.2%; /* #E52545 */
