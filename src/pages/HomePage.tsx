@@ -92,7 +92,7 @@ const HomePage = () => {
         <div className="fixed inset-0 bg-background/40" />
 
         {/* Content Container */}
-        <div className="relative z-10 min-h-screen flex flex-col">
+        <div className="relative overflow-visible z-10 min-h-screen flex flex-col">
           {/* Portrait Placeholder with Parallax */}
           {/* The pt-32 class correctly sets the initial position */}
           <div className="flex-1 flex items-start justify-center pt-32 md:pt-32 pb-32">
@@ -109,11 +109,15 @@ const HomePage = () => {
         </div>
 
         {/* Content Sections */}
-        <div className="relative z-10 bg-background">
+        <div className="relative z-11 bg-background">
           {/* Intro & Tagline Section */}
-          <section className="container mx-auto px-6 py-16 md:py-24 text-center">
+          <section className="container mx-auto px-6 pb-16 md:pb-24 text-center">
+            {/* Large Stylized Name */}
+            <h2 className="text-4xl md:text-5xl font-santorini text-primary mb-20 z-10 relative">
+              Heidi Simelius
+            </h2>
             <p className="text-xl md:text-2xl text-foreground font-source mb-8">
-              Heidi Simelius on laulaja, lauluntekijä ja esiintyjä.
+              on laulaja, lauluntekijä ja esiintyjä.
             </p>
             <Button asChild size="lg" className="font-medium">
               <a href="/bio">Tutustu Heidiin</a>
