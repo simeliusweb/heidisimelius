@@ -47,7 +47,7 @@ const Footer = () => {
   return (
     <footer
       id="contact-section"
-      className="relative bg-card mt-auto"
+      className="relative bg-card mt-auto scroll-mt-96"
       style={{
         backgroundImage: `url(${footerBg})`,
         backgroundSize: "cover",
