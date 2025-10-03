@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Download, Loader2, ExternalLink } from "lucide-react";
 import VideosSection from "@/components/VideosSection";
 import { useState } from "react";
-import Gallery from "react-photo-gallery";
+import Gallery, { PhotoProps } from "react-photo-gallery";
 import PageMeta from "@/components/PageMeta";
 import { pageMetadata } from "@/config/metadata";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -14,11 +14,153 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
+// --- Data and Helpers ---
+
+// Dimension presets
+const portrait = { width: 1709, height: 2560 };
+const landscape = { width: 2560, height: 1709 };
+const square = { width: 2560, height: 2560 };
+const square1000 = { width: 1000, height: 1000 };
+const huuletPortrait = { width: 668, height: 1000 };
+const upeeLandscape = { width: 1000, height: 617 };
+const tahanJaaPortrait = { width: 1707, height: 2560 };
+const tahanJaaLandscape = { width: 2560, height: 1707 };
+
+/**
+ * Generates an array of photo objects for a given photo set.
+ * It now maps each photo to a specific dimension object from the dimensions array.
+ */
+const generatePhotoArray = (
+  folderName: string,
+  fileNamePrefix: string,
+  photographer: string,
+  imageCount: number,
+  extension: "jpg" | "webp",
+  dimensions: readonly { width: number; height: number }[]
+): PhotoProps[] => {
+  // This check helps ensure you have a dimension for every photo.
+  if (dimensions.length !== imageCount) {
+    console.warn(
+      `Warning for '${folderName}': You have ${imageCount} images but provided ${dimensions.length} dimensions. Please ensure they match.`
+    );
+  }
+
+  return Array.from({ length: imageCount }, (_, i) => ({
+    src: `/images/${folderName}/${fileNamePrefix}-${i + 1}.${extension}`,
+    width: dimensions[i]?.width || 1, // Fallback to 1x1 if a dimension is missing
+    height: dimensions[i]?.height || 1,
+    alt: `Heidi Simelius ${folderName.split("-")[0]} -kuvat ${photographer} ${
+      i + 1
+    }`,
+  }));
+};
+
+// 2. EDIT THE 'dimensions' ARRAY FOR EACH PHOTO SET
+// Simply list the presets (portrait, landscape, etc.) in the correct order for your images.
+const photoSetData = [
+  {
+    title: "Mä vastaan",
+    photographerName: "Valosanni",
+    photographerUrl: "https://www.instagram.com/valosanni",
+    imageCount: 9,
+    folderName: "Ma-vastaan-kuvat-Valosanni",
+    fileNamePrefix: "Heidi-Simelius-Ma-vastaan-kuvat-Valosanni",
+    extension: "jpg",
+    dimensions: [
+      portrait,
+      landscape,
+      portrait,
+      portrait,
+      landscape,
+      portrait,
+      portrait,
+      landscape,
+      portrait,
+    ],
+  },
+  {
+    title: "Seuraa",
+    photographerName: "Valosanni",
+    photographerUrl: "https://www.instagram.com/valosanni",
+    imageCount: 5,
+    folderName: "Seuraa-kuvat-Valosanni",
+    fileNamePrefix: "Heidi-Simelius-Seuraa-kuvat-Valosanni",
+    extension: "jpg",
+    dimensions: [portrait, square, portrait, portrait, landscape],
+  },
+  {
+    title: "Huulet",
+    photographerName: "Valosanni",
+    photographerUrl: "https://www.instagram.com/valosanni",
+    imageCount: 6,
+    folderName: "Huulet-kuvat-Valosanni",
+    fileNamePrefix: "Heidi-Simelius-Huulet-kuvat-Valosanni",
+    extension: "webp",
+    dimensions: [
+      square1000,
+      square1000,
+      square1000,
+      huuletPortrait,
+      huuletPortrait,
+      huuletPortrait,
+    ],
+  },
+  {
+    title: "Upee",
+    photographerName: "Joel Järvinen",
+    photographerUrl: "https://www.instagram.com/joeljarvinenphotography",
+    imageCount: 5,
+    folderName: "Upee-kuvat-Joel-Jarvinen",
+    fileNamePrefix: "Heidi-Simelius-Upee-kuvat-Joel-Jarvinen",
+    extension: "webp",
+    dimensions: [upeeLandscape, square1000, square1000, square1000, square1000],
+  },
+  {
+    title: "Tähän jää",
+    photographerName: "Joel Järvinen",
+    photographerUrl: "https://www.instagram.com/joeljarvinenphotography",
+    imageCount: 6,
+    folderName: "Tahan-jaa-kuvat-Joel-Jarvinen",
+    fileNamePrefix: "Heidi-Simelius-Tahan-jaa-kuvat-Joel-Jarvinen",
+    extension: "webp",
+    dimensions: [
+      tahanJaaPortrait,
+      tahanJaaPortrait,
+      tahanJaaLandscape,
+      tahanJaaLandscape,
+      tahanJaaPortrait,
+      tahanJaaPortrait,
+    ],
+  },
+] as const;
+
+const allPhotoSets = photoSetData.map((set) => ({
+  ...set,
+  photos: generatePhotoArray(
+    set.folderName,
+    set.fileNamePrefix,
+    set.photographerName,
+    set.imageCount,
+    set.extension,
+    set.dimensions
+  ),
+}));
+
+// --- Component ---
+
 const GalleriaPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [allPhotosShown, setAllPhotosShown] = useState(false);
+  const [dialogPhotos, setDialogPhotos] = useState<PhotoProps[]>([]);
+
+  // State to manage each photo set's visibility, loading, etc.
+  const [setsState, setSetsState] = useState(
+    allPhotoSets.map((set) => ({
+      visiblePhotos: set.photos.slice(0, 3),
+      allPhotosShown: set.photos.length <= 3,
+      isLoading: false,
+    }))
+  );
 
   // Press photos data
   const pressPhotos = [
@@ -36,90 +178,40 @@ const GalleriaPage = () => {
     },
   ];
 
-  // Photo gallery data with dimensions for masonry layout
-  const photoSetData = {
-    title: "Mä vastaan",
-    photographerName: "Valosanni",
-    photographerUrl: "https://www.instagram.com/valosanni",
-    photos: [
-      {
-        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-1.jpg",
-        width: 1709,
-        height: 2560,
-        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 1",
-      },
-      {
-        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-2.jpg",
-        width: 2560,
-        height: 1709,
-        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 2",
-      },
-      {
-        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-3.jpg",
-        width: 1709,
-        height: 2560,
-        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 3",
-      },
-      {
-        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-4.jpg",
-        width: 1709,
-        height: 2560,
-        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 4",
-      },
-      {
-        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-5.jpg",
-        width: 2560,
-        height: 1709,
-        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 5",
-      },
-      {
-        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-6.jpg",
-        width: 1709,
-        height: 2560,
-        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 6",
-      },
-      {
-        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-7.jpg",
-        width: 1709,
-        height: 2560,
-        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 7",
-      },
-      {
-        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg",
-        width: 2560,
-        height: 1709,
-        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 8",
-      },
-      {
-        src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-9.jpg",
-        width: 1709,
-        height: 2560,
-        alt: "Heidi Simelius Mä vastaan -kuvat Valosanni 9",
-      },
-    ],
-  };
-
-  // Initialize visible photos with first 3 images
-  const [visiblePhotos, setVisiblePhotos] = useState(
-    photoSetData.photos.slice(0, 3)
-  );
-
   const handleImageClick = (
     _event: React.MouseEvent,
-    { index }: { index: number }
+    { index }: { index: number },
+    currentSetVisiblePhotos: PhotoProps[]
   ) => {
     setSelectedImageIndex(index);
+    setDialogPhotos(currentSetVisiblePhotos);
     setDialogOpen(true);
   };
 
-  const handleShowMore = () => {
-    setIsLoading(true);
+  const handleShowMore = (setIndex: number) => {
+    setSetsState((currentStates) =>
+      currentStates.map((state, index) =>
+        index === setIndex ? { ...state, isLoading: true } : state
+      )
+    );
+
     setTimeout(() => {
-      setVisiblePhotos(photoSetData.photos);
-      setIsLoading(false);
-      setAllPhotosShown(true);
+      setSetsState((currentStates) =>
+        currentStates.map((state, index) => {
+          if (index === setIndex) {
+            return {
+              ...state,
+              visiblePhotos: allPhotoSets[setIndex].photos,
+              isLoading: false,
+              allPhotosShown: true,
+            };
+          }
+          return state;
+        })
+      );
     }, 1500);
   };
+
   return (
     <>
       <PageMeta
@@ -138,7 +230,6 @@ const GalleriaPage = () => {
             Pressikuvat
           </h2>
 
-          {/* Press Photos Grid */}
           <div className="flex flex-wrap justify-center gap-12 md:gap-8 mb-12">
             {pressPhotos.map((photo, index) => (
               <div
@@ -178,7 +269,6 @@ const GalleriaPage = () => {
             ))}
           </div>
 
-          {/* Download All Button */}
           <div className="flex justify-center">
             <Button size="lg" asChild>
               <a
@@ -198,51 +288,61 @@ const GalleriaPage = () => {
             Kuvagalleria
           </h2>
 
-          <h3 className="text-2xl md:text-3xl font-playfair font-bold text-foreground mb-6">
-            <div>{photoSetData.title}</div>
-            <div className="text-base md:text-lg italic text-muted-foreground">
-              Kuvat:{" "}
-              {photoSetData.photographerUrl ? (
-                <a
-                  href={photoSetData.photographerUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group hover:underline inline-flex items-center gap-1"
-                >
-                  {photoSetData.photographerName}
-                  <ExternalLink className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
-                </a>
-              ) : (
-                <span>{photoSetData.photographerName}</span>
-              )}
-            </div>
-          </h3>
+          {allPhotoSets.map((photoSet, setIndex) => {
+            const currentState = setsState[setIndex];
+            return (
+              <div key={photoSet.title} className="mb-32 xl:mb-48 last:mb-0">
+                <h3 className="text-2xl md:text-3xl font-playfair font-bold text-foreground mb-6">
+                  <div className="text-primary">{photoSet.title}</div>
+                  <div className="text-base md:text-lg italic text-muted-foreground">
+                    Kuvat:{" "}
+                    {photoSet.photographerUrl ? (
+                      <a
+                        href={photoSet.photographerUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group hover:underline inline-flex items-center gap-1"
+                      >
+                        {photoSet.photographerName}
+                        <ExternalLink className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+                      </a>
+                    ) : (
+                      <span>{photoSet.photographerName}</span>
+                    )}
+                  </div>
+                </h3>
 
-          {/* Masonry Gallery */}
-          <div className="mb-8 [&_img]:object-cover">
-            <Gallery photos={visiblePhotos} onClick={handleImageClick} />
-          </div>
+                <div className="mb-8 [&_img]:object-cover">
+                  <Gallery
+                    photos={currentState.visiblePhotos}
+                    onClick={(event, data) =>
+                      handleImageClick(event, data, currentState.visiblePhotos)
+                    }
+                  />
+                </div>
 
-          {/* Show More Button */}
-          {!allPhotosShown && photoSetData.photos.length > 3 && (
-            <div className="flex justify-center">
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={handleShowMore}
-                disabled={isLoading || allPhotosShown}
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Ladataan...
-                  </>
-                ) : (
-                  "Näytä lisää"
+                {!currentState.allPhotosShown && (
+                  <div className="flex justify-center">
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      onClick={() => handleShowMore(setIndex)}
+                      disabled={currentState.isLoading}
+                    >
+                      {currentState.isLoading ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          Ladataan...
+                        </>
+                      ) : (
+                        "Näytä lisää"
+                      )}
+                    </Button>
+                  </div>
                 )}
-              </Button>
-            </div>
-          )}
+              </div>
+            );
+          })}
         </section>
 
         {/* Image Dialog with Carousel */}
@@ -251,17 +351,18 @@ const GalleriaPage = () => {
             <Carousel
               opts={{
                 startIndex: selectedImageIndex,
+                loop: true,
               }}
               className="w-full h-full flex"
             >
               <CarouselContent className="h-full items-center">
-                {visiblePhotos.map((image, index) => (
+                {dialogPhotos.map((image, index) => (
                   <CarouselItem key={index} className="h-full w-full p-0">
                     <div className="flex items-center justify-center h-full w-full rounded-md">
                       <img
                         src={image.src}
                         alt={image.alt}
-                        className="object-contain max-h-full max-w-full w-auto h-auto "
+                        className="object-contain max-h-full max-w-full w-auto h-auto"
                       />
                     </div>
                   </CarouselItem>

@@ -1,11 +1,18 @@
 import { useState, useRef } from "react";
-import { FaFacebook, FaInstagram, FaMusic, FaSoundcloud, FaSpotify, FaTiktok } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaMusic,
+  FaSoundcloud,
+  FaSpotify,
+  FaTiktok,
+} from "react-icons/fa";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+
   // Refs for animation
   const menuPanelRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -20,34 +27,62 @@ const Header = () => {
   useGSAP(() => {
     // Create timeline
     const tl = gsap.timeline({ paused: true });
-    
+
     // Backdrop animation
     if (backdropRef.current) {
       tl.fromTo(
         backdropRef.current,
-        { opacity: 0, visibility: 'hidden', pointerEvents: 'none' },
-        { opacity: 1, visibility: 'visible', pointerEvents: 'auto', duration: 0.3, ease: "power2.inOut" },
+        { opacity: 0, visibility: "hidden", pointerEvents: "none" },
+        {
+          opacity: 1,
+          visibility: "visible",
+          pointerEvents: "auto",
+          duration: 0.3,
+          ease: "power2.inOut",
+        },
         0
       );
     }
-    
+
     // Menu panel animation
     if (menuPanelRef.current) {
       tl.fromTo(
         menuPanelRef.current,
-        { clipPath: 'inset(0% 0% 100% 0%)', visibility: 'hidden', pointerEvents: 'none' },
-        { clipPath: 'inset(0% 0% 0% 0%)', visibility: 'visible', pointerEvents: 'auto', duration: 0.5, ease: "power2.inOut" },
+        {
+          clipPath: "inset(0% 0% 100% 0%)",
+          visibility: "hidden",
+          pointerEvents: "none",
+        },
+        {
+          clipPath: "inset(0% 0% 0% 0%)",
+          visibility: "visible",
+          pointerEvents: "auto",
+          duration: 0.5,
+          ease: "power2.inOut",
+        },
         0
       );
     }
-    
+
     // Hamburger icon animation
     if (topBarRef.current && middleBarRef.current && bottomBarRef.current) {
-      tl.to(topBarRef.current, { rotation: 45, y: 8, duration: 0.3, ease: "power2.inOut" }, 0)
-        .to(middleBarRef.current, { opacity: 0, duration: 0.3, ease: "power2.inOut" }, 0)
-        .to(bottomBarRef.current, { rotation: -45, y: -8, duration: 0.3, ease: "power2.inOut" }, 0);
+      tl.to(
+        topBarRef.current,
+        { rotation: 45, y: 8, duration: 0.3, ease: "power2.inOut" },
+        0
+      )
+        .to(
+          middleBarRef.current,
+          { opacity: 0, duration: 0.3, ease: "power2.inOut" },
+          0
+        )
+        .to(
+          bottomBarRef.current,
+          { rotation: -45, y: -8, duration: 0.3, ease: "power2.inOut" },
+          0
+        );
     }
-    
+
     timelineRef.current = tl;
   }, []);
 
@@ -89,8 +124,14 @@ const Header = () => {
               aria-label="Toggle menu"
             >
               <span ref={topBarRef} className="w-6 h-0.5 bg-foreground block" />
-              <span ref={middleBarRef} className="w-6 h-0.5 bg-foreground block" />
-              <span ref={bottomBarRef} className="w-6 h-0.5 bg-foreground block" />
+              <span
+                ref={middleBarRef}
+                className="w-6 h-0.5 bg-foreground block"
+              />
+              <span
+                ref={bottomBarRef}
+                className="w-6 h-0.5 bg-foreground block"
+              />
             </button>
             <a href="/" className="hover:opacity-80 transition-opacity">
               <span className="text-lg md:text-xl font-playfair text-foreground">
@@ -98,12 +139,14 @@ const Header = () => {
               </span>
             </a>
           </div>
-          
+
           {/* Marquee Tagline */}
           <div className="border-t border-border overflow-hidden py-2">
             <div className="whitespace-nowrap animate-marquee">
               <span className="text-sm font-playfair italic text-muted inline-block px-4">
-                Laulaja, lauluntekijä ja esiintyjä • Laulaja, lauluntekijä ja esiintyjä • Laulaja, lauluntekijä ja esiintyjä • Laulaja, lauluntekijä ja esiintyjä
+                Laulaja, lauluntekijä ja esiintyjä • Laulaja, lauluntekijä ja
+                esiintyjä • Laulaja, lauluntekijä ja esiintyjä • Laulaja,
+                lauluntekijä ja esiintyjä
               </span>
             </div>
           </div>
@@ -118,9 +161,13 @@ const Header = () => {
           className="fixed inset-0 z-40 bg-background/20"
           onClick={toggleMenu}
         />
-        
+
         {/* Links Container */}
-        <div className="fixed top-[120px] left-4 z-50 w-[calc(100%-2rem)] max-w-[420px]">
+        <div
+          className={`fixed top-[120px] left-4 z-50 w-[calc(100%-2rem)] max-w-[420px] ${
+            isMenuOpen ? "" : "pointer-events-none"
+          }`}
+        >
           <div
             ref={menuPanelRef}
             className="bg-background/70 backdrop-blur-xl border border-border rounded-lg shadow-2xl py-8 px-4"
