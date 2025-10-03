@@ -21,6 +21,7 @@ import {
   FaTiktok,
 } from "react-icons/fa";
 import { toast } from "@/hooks/use-toast";
+import { ExternalLink } from "lucide-react";
 
 const contactSchema = z.object({
   subject: z.string().trim().min(1, { message: "Aihe vaaditaan" }).max(100),
@@ -71,7 +72,7 @@ const Footer = () => {
       <div className="absolute inset-0 bg-background/70" />
 
       {/* Content */}
-      <div className="relative container mx-auto px-6 pb-16 pt-32 sm:pt-16 h-[100vh] sm:h-auto flex flex-col justify-end">
+      <div className="relative container mx-auto px-6 pb-20 pt-32 sm:pt-16 h-[100vh] sm:h-auto flex flex-col justify-end">
         <div className="flex justify-center sm:justify-start gap-12 mb-16">
           <div>
             <h2 className="text-3xl font-playfair font-extrabold text-primary mb-6 min-w-[300px]">
@@ -231,6 +232,18 @@ const Footer = () => {
           </a>
         </div>
       </div>
+      <p className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xs pt-8 pb-5 italic text-muted">
+        Sivut luonut{" "}
+        <a
+          href="https://www.linkedin.com/in/janisuoranta/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline inline-flex items-center gap-1"
+        >
+          SuorantaCoding
+          <ExternalLink className="h-3 w-3" />
+        </a>
+      </p>
     </footer>
   );
 };

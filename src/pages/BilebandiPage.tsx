@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
 import { fi } from "date-fns/locale";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { FaInstagram } from "react-icons/fa";
@@ -71,19 +71,13 @@ const BilebandiPage = () => {
                md:bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff.jpg')] 
                bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff-mobile.webp')]"
         />
-        {/* Hero Content */}
-        <div className="relative z-10 text-center px-6">
-          <h1 className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 text-3xl sm:text-4xl md:text-[72px] lg:text-[96px] font-playfair font-extrabold text-center text-primary w-full">
-            Bilebändi häihin ja yritysjuhliin Tampereella
-          </h1>
-        </div>
       </section>
 
       {/* Band Introduction Section */}
       <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 text-center">
-          Bändiesittely
-        </h2>
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-playfair italic font-extrabold text-foreground mb-8 text-center">
+          Bilebändi häihin ja yritysjuhliin Tampereella
+        </h1>
         <p className="text-lg md:text-xl text-muted-foreground leading-relaxed text-center">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -95,9 +89,9 @@ const BilebandiPage = () => {
       </section>
 
       {/* Demo Video Section */}
-      <section className="max-w-5xl mx-auto px-6 py-16 md:py-24">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-12 text-center">
-          Katso meidät livenä!
+      <section className="max-w-6xl mx-auto px-6 py-16 md:py-24">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-extrabold text-foreground mb-12 text-center">
+          Tutustu meihin paremmin videolta!
         </h2>
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl">
           <iframe
@@ -110,10 +104,33 @@ const BilebandiPage = () => {
         </div>
       </section>
 
+      <section className="py-16 md:py-24">
+        <div className="mx-auto px-6">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-extrabold text-foreground mb-8 text-center">
+            Tarjoamme...
+          </h2>
+          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed text-center">
+            Tähän voisi listata jotain ydin myyntivaltteja ja mikä on
+            mahdollista. Tyyliin https://www.viihdytin.fi/ "Miksi Heidi & The
+            Hot Stuff" -osio toimii aina
+          </p>
+        </div>
+        {/* Mobile Image 1 */}
+        <div className="overflow-hidden [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)] py-12">
+          <img
+            src={
+              "/images/Heidi-and-the-hot-stuff/bilebandi-Pirkanmaa-monipuolinen-viihdyttava.jpg"
+            }
+            alt="Heidi & The Hot Stuff"
+            className="w-full h-auto shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
+          />
+        </div>
+      </section>
+
       {/* Booking & Contact Section */}
       <section className="mx-auto px-6 py-16 md:py-24">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 text-center">
-          Buukkaa Heidi & Hot Stuff keikalle!
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-extrabold text-foreground mb-12 text-center">
+          Buukkaa Heidi & The Hot Stuff keikalle!
         </h2>
 
         <div className="max-w-[600px] mx-auto">
@@ -291,16 +308,10 @@ const BilebandiPage = () => {
       {/* Custom Bilebändi Footer */}
       <footer className="w-full mt-16">
         {/* Image Section - Full width, no overlays */}
-        <div className="w-full h-64 md:h-80 lg:h-96">
-          <img
-            src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=2070&auto=format&fit=crop"
-            alt="Band performing live"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <div className="w-full h-[230px] xs:h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[900px] 2xl:h-[1150px] bg-cover bg-top bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-yritystilaisuus-juhlat-yksityistilaisuus.jpg')]" />
 
         {/* Links Bar with Custom Gradient */}
-        <div className="w-full bg-[linear-gradient(270deg,hsl(234deg_23.8%_8.2%)_0%,hsl(234deg_22%_9%)_8%,hsl(234deg_21%_10%)_17%,hsl(233deg_20%_10%)_25%,hsl(234deg_20%_11%)_33%,hsl(234deg_19%_12%)_42%,hsl(235deg_18.8%_12.5%)_50%,hsl(234deg_19%_12%)_58%,hsl(234deg_20%_11%)_67%,hsl(233deg_20%_10%)_75%,hsl(234deg_21%_10%)_83%,hsl(234deg_22%_9%)_92%,hsl(234deg_23.8%_8.2%)_100%)] p-8">
+        <div className="w-full bg-[linear-gradient(270deg,hsl(234deg_23.8%_8.2%)_0%,hsl(234deg_22%_9%)_8%,hsl(234deg_21%_10%)_17%,hsl(233deg_20%_10%)_25%,hsl(234deg_20%_11%)_33%,hsl(234deg_19%_12%)_42%,hsl(235deg_18.8%_12.5%)_50%,hsl(234deg_19%_12%)_58%,hsl(234deg_20%_11%)_67%,hsl(233deg_20%_10%)_75%,hsl(234deg_21%_10%)_83%,hsl(234deg_22%_9%)_92%,hsl(234deg_23.8%_8.2%)_100%)] p-8 pb-12">
           <div className="flex flex-col items-center gap-6">
             {/* Homepage Link */}
             <Link
@@ -315,13 +326,25 @@ const BilebandiPage = () => {
               href="https://www.instagram.com/heidiandthehotstuff/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground hover:text-primary transition-colors mb-8"
               aria-label="Seuraa Heidi & The Hot Stuff Instagramissa"
             >
               <FaInstagram size={28} />
             </a>
           </div>
         </div>
+        <p className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xs pt-8 pb-5 italic text-muted">
+          Sivut luonut{" "}
+          <a
+            href="https://www.linkedin.com/in/janisuoranta/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline inline-flex items-center gap-1"
+          >
+            SuorantaCoding
+            <ExternalLink className="h-3 w-3" />
+          </a>
+        </p>
       </footer>
     </>
   );
