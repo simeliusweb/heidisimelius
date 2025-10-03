@@ -108,7 +108,7 @@ const BilebandiPage = () => {
       </section>
 
       {/* Booking & Contact Section */}
-      <section className="max-w-3xl mx-auto px-6 py-16 md:py-24">
+      <section className="mx-auto px-6 py-16 md:py-24">
         <h2 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-8 text-center">
           Buukkaa Heidi & Hot Stuff keikalle!
         </h2>
