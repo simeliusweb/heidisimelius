@@ -19,7 +19,7 @@ const BilebandiFooter = () => {
           {/* Homepage Link */}
           <Link 
             to="/"
-            className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm"
+            className="text-muted text-lg md:text-xl font-medium tracking-wider hover:text-secondary-foreground transition-colors"
           >
             • ETUSIVULLE •
           </Link>
@@ -29,10 +29,10 @@ const BilebandiFooter = () => {
             href="https://www.instagram.com/heidiandthehotstuff/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-foreground hover:text-primary transition-colors"
+            className="text-foreground hover:text-secondary-foreground transition-colors"
             aria-label="Seuraa Heidi & The Hot Stuff Instagramissa"
           >
-            <FaInstagram size={28} />
+            <FaInstagram className="w-8 h-8" />
           </a>
         </div>
       </div>
