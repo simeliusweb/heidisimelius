@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { fi } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import BilebandiFooter from "@/components/BilebandiFooter";
 import {
   Form,
   FormControl,
@@ -279,6 +280,9 @@ const BilebandiPage = () => {
           </Form>
         </div>
       </section>
+
+      {/* Custom Bilebändi Footer */}
+      <BilebandiFooter />
     </>
   );
 };
