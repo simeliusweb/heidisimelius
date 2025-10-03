@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import BottomBranding from "@/components/BottomBranding";
 import VideosSection from "@/components/VideosSection";
 import UpcomingGigCard from "@/components/UpcomingGigCard";
+import PageMeta from "@/components/PageMeta";
+import { pageMetadata } from "@/config/metadata";
 import heroBgMobile from "@/assets/hero-bg-mobile.jpg";
 import heroBgDesktop from "@/assets/hero-bg-desktop.jpg";
 
@@ -63,6 +65,7 @@ const HomePage = () => {
 
   return (
     <>
+      <PageMeta title={pageMetadata.home.title} description={pageMetadata.home.description} />
       <Helmet>
         {/* Helmet handles the LightWidget script tag correctly */}
         <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>

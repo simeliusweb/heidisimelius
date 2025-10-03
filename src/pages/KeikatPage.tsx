@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet-async";
 import EventGroup from "@/components/EventGroup";
 import PastGigCard from "@/components/PastGigCard";
 import { Button } from "@/components/ui/button";
+import PageMeta from "@/components/PageMeta";
+import { pageMetadata } from "@/config/metadata";
 import keikatHeroBg from "@/assets/keikat-hero-bg.jpg";
 
 const KeikatPage = () => {
@@ -115,13 +116,7 @@ const KeikatPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Keikat | Heidi Simelius</title>
-        <meta
-          name="description"
-          content="Tulevat keikkapäivät ja tapahtumat - Heidi Simelius"
-        />
-      </Helmet>
+      <PageMeta title={pageMetadata.keikat.title} description={pageMetadata.keikat.description} />
 
       {/* Page Header with Background Image */}
       <section className="relative w-full h-[50vh] md:h-[60vh] flex items-end justify-center overflow-hidden">

@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -8,6 +7,8 @@ import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { FaInstagram } from "react-icons/fa";
+import PageMeta from "@/components/PageMeta";
+import { pageMetadata } from "@/config/metadata";
 import {
   Form,
   FormControl,
@@ -57,13 +58,7 @@ const BilebandiPage = () => {
   };
   return (
     <>
-      <Helmet>
-        <title>Heidi & The Hot Stuff - Bilebändi | Heidi Simelius</title>
-        <meta
-          name="description"
-          content="Heidi & The Hot Stuff - energinen bilebändi joka tekee bileistäsi unohtumattoman"
-        />
-      </Helmet>
+      <PageMeta title={pageMetadata.bilebandi.title} description={pageMetadata.bilebandi.description} />
 
       {/* Hero Header */}
       <section className="relative w-full min-h-[60vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden">

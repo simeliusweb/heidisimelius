@@ -1,8 +1,9 @@
-import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import PageMeta from "@/components/PageMeta";
+import { pageMetadata } from "@/config/metadata";
 import bioHeroBg from "@/assets/bio-hero-bg.jpg";
 import bioPress1 from "@/assets/bio-press-1.jpg";
 import bioPress2 from "@/assets/bio-press-2.jpg";
@@ -133,13 +134,7 @@ const BioPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Bio - Heidi Simelius</title>
-        <meta
-          name="description"
-          content="Heidi Simelius on suomalainen laulaja, lauluntekijä ja esiintyjä. Tutustu hänen uraansa ja kokemukseensa teatterista musiikkiin."
-        />
-      </Helmet>
+      <PageMeta title={pageMetadata.bio.title} description={pageMetadata.bio.description} />
 
       {/* Hero Section */}
       <section className="relative h-[60vh] md:h-[70vh] flex items-end justify-center overflow-hidden">

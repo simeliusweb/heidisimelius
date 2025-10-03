@@ -1,9 +1,10 @@
-import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import { Download, Loader2, ExternalLink } from "lucide-react";
 import VideosSection from "@/components/VideosSection";
 import { useState } from "react";
 import Gallery from "react-photo-gallery";
+import PageMeta from "@/components/PageMeta";
+import { pageMetadata } from "@/config/metadata";
 import {
   Dialog,
   DialogContent,
@@ -86,10 +87,7 @@ const GalleriaPage = () => {
   };
   return (
     <>
-      <Helmet>
-        <title>Galleria - Heidi Simelius</title>
-        <meta name="description" content="Heidi Simeliuksen valokuvagalleria - pressikuvat ja kuvagalleria" />
-      </Helmet>
+      <PageMeta title={pageMetadata.galleria.title} description={pageMetadata.galleria.description} />
       
       <main className="container mx-auto px-6 py-16 md:py-24">
         <h1 className="text-6xl md:text-8xl lg:text-10xl font-playfair font-extrabold text-primary mb-12 text-center">
