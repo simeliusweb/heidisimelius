@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PageMeta from "@/components/PageMeta";
+import StructuredData from "@/components/StructuredData";
 import { pageMetadata } from "@/config/metadata";
 import bioHeroBg from "@/assets/bio-hero-bg.jpg";
 import bioPress1 from "@/assets/bio-press-1.jpg";
@@ -20,6 +21,22 @@ const BioPage = () => {
   const textContentRef = useRef<HTMLDivElement>(null);
   const teatteriHeadingRef = useRef<HTMLHeadingElement>(null);
   const suomennoksetHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  const heidiSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Heidi Simelius",
+    "jobTitle": "Laulaja, lauluntekijä ja esiintyjä",
+    "url": "https://www.heidisimelius.fi/bio",
+    "image": "https://www.heidisimelius.fi/images/heidi-press-photo.jpg",
+    "sameAs": [
+      "https://www.instagram.com/heidisimelius/",
+      "https://www.facebook.com/HeidiSimelius/",
+      "https://www.tiktok.com/@heidisimelius",
+      "https://open.spotify.com/artist/example",
+      "https://music.apple.com/gb/artist/heidi-simelius/1486952057"
+    ]
+  };
 
   useEffect(() => {
     const mm = gsap.matchMedia();
@@ -135,6 +152,7 @@ const BioPage = () => {
   return (
     <>
       <PageMeta title={pageMetadata.bio.title} description={pageMetadata.bio.description} />
+      <StructuredData data={heidiSchema} />
 
       {/* Hero Section */}
       <section className="relative h-[60vh] md:h-[70vh] flex items-end justify-center overflow-hidden">
