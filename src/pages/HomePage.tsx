@@ -185,26 +185,6 @@ const HomePage = () => {
                 style={{ width: "100%", border: 0, overflow: "hidden" }}
               ></iframe>
             </div>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Button asChild size="lg">
-                <a
-                  href="https://www.instagram.com/heidisimelius/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Seuraa
-                </a>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <a
-                  href="https://www.instagram.com/heidisimelius/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Katso lisää julkaisuja
-                </a>
-              </Button>
-            </div>
           </section>
         </div>
       </div>
