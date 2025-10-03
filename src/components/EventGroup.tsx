@@ -17,9 +17,10 @@ interface EventGroupProps {
   eventPageUrl?: string; // Optional URL for the event's main page
   ticketsUrl?: string;   // Optional URL for buying tickets
   performances: Performance[]; // This array must be pre-sorted by date
+  id?: string; // Optional ID for anchor linking
 }
 
-const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, ticketsUrl, performances }: EventGroupProps) => {
+const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, ticketsUrl, performances, id }: EventGroupProps) => {
   const [visibleCount, setVisibleCount] = useState(5);
   const currentYear = new Date().getFullYear();
 
@@ -54,7 +55,7 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
     const performance = performances[0];
     
     return (
-      <Card className="overflow-hidden max-w-[800px] mx-auto">
+      <Card id={id} className="overflow-hidden max-w-[800px] mx-auto">
         <CardContent className="p-0">
           {/* Image */}
           <div className="relative w-full aspect-video [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)]">
@@ -132,7 +133,7 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
 
   // Multi-date layout (existing)
   return (
-    <Card className="overflow-hidden max-w-[800px] mx-auto">
+    <Card id={id} className="overflow-hidden max-w-[800px] mx-auto">
       <CardContent className="p-0">
         {/* Image with Next Date Stamp */}
         <div className="relative w-full aspect-video [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)]">

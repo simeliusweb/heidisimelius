@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
+import { HashLink } from "react-router-hash-link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { format, parse } from "date-fns";
@@ -120,7 +121,7 @@ const HomePage = () => {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 text-center">
               Tulevat keikat
             </h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto mb-8">
+            <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto mb-8">
               {(() => {
                 // Event data with performances
                 const upcomingEvents = [
@@ -128,12 +129,14 @@ const HomePage = () => {
                     imageUrl: "/images/placeholder-trio.jpg",
                     title: "Heidi Simelius Trio Live",
                     venue: "G Livelab, Tampere",
+                    slug: "heidi-simelius-trio-live",
                     performances: [{ date: "2025-11-15", time: "20:00" }]
                   },
                   {
                     imageUrl: "/images/placeholder-tootsie.jpg",
                     title: "Tootsie-musikaali",
                     venue: "Lahden Kaupunginteatteri",
+                    slug: "tootsie-musikaali",
                     performances: [
                       { date: "2025-10-24", time: "19:00" },
                       { date: "2025-10-25", time: "13:00" },
@@ -155,6 +158,7 @@ const HomePage = () => {
                     imageUrl: event.imageUrl,
                     title: event.title,
                     venue: event.venue,
+                    slug: event.slug,
                     nextDate: format(date, "dd.MM.yyyy"),
                     nextTime: soonestPerformance.time,
                     dateObj: date
@@ -162,14 +166,19 @@ const HomePage = () => {
                 }).sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime()).slice(0, 3);
 
                 return upcomingGigPreviews.map((gig, index) => (
-                  <UpcomingGigCard
+                  <HashLink 
                     key={index}
-                    imageUrl={gig.imageUrl}
-                    title={gig.title}
-                    nextDate={gig.nextDate}
-                    nextTime={gig.nextTime}
-                    venue={gig.venue}
-                  />
+                    to={`/keikat#${gig.slug}`}
+                    className="basis-full md:basis-[calc(33.333%-1rem)] hover:opacity-80 transition-opacity"
+                  >
+                    <UpcomingGigCard
+                      imageUrl={gig.imageUrl}
+                      title={gig.title}
+                      nextDate={gig.nextDate}
+                      nextTime={gig.nextTime}
+                      venue={gig.venue}
+                    />
+                  </HashLink>
                 ));
               })()}
             </div>

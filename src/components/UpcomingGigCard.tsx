@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, MapPin } from "lucide-react";
+import { format, parse } from "date-fns";
 
 interface UpcomingGigCardProps {
   imageUrl: string;
@@ -10,6 +11,12 @@ interface UpcomingGigCardProps {
 }
 
 const UpcomingGigCard = ({ imageUrl, title, nextDate, nextTime, venue }: UpcomingGigCardProps) => {
+  // Parse the date and format it conditionally
+  const dateObj = parse(nextDate, "dd.MM.yyyy", new Date());
+  const currentYear = new Date().getFullYear();
+  const formattedDate = dateObj.getFullYear() === currentYear 
+    ? format(dateObj, "d.M.")
+    : format(dateObj, "d.M.yyyy");
   return (
     <Card className="overflow-hidden hover:border-primary/50 transition-colors">
       <CardContent className="p-0">
@@ -31,8 +38,8 @@ const UpcomingGigCard = ({ imageUrl, title, nextDate, nextTime, venue }: Upcomin
 
           {/* Date & Time */}
           <div className="space-y-1">
-            <p className="text-lg font-medium text-foreground">
-              {nextDate}
+            <p className="text-lg font-medium text-secondary-foreground">
+              {formattedDate}
             </p>
             <div className="flex items-center gap-2 text-muted-foreground">
               <Clock className="w-4 h-4" />

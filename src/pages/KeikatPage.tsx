@@ -147,7 +147,7 @@ const KeikatPage = () => {
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 italic">
           Musiikkikeikat
         </h2>
-        <EventGroup {...heidiTrioLive} />
+        <EventGroup {...heidiTrioLive} id="heidi-simelius-trio-live" />
       </section>
 
       {/* Teatteriesitykset Section */}
@@ -155,7 +155,7 @@ const KeikatPage = () => {
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 italic">
           Teatteriesitykset
         </h2>
-        <EventGroup {...tootsieMusical} />
+        <EventGroup {...tootsieMusical} id="tootsie-musikaali" />
       </section>
 
       {/* Past Gigs Section */}
