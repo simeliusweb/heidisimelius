@@ -39,7 +39,7 @@ const Footer = () => {
     { label: "KEIKAT", href: "/keikat" },
     { label: "BIO", href: "/bio" },
     { label: "GALLERIA", href: "/galleria" },
-    { label: "BILEBÄNDI", href: "/bilebandi" },
+    { label: "BILEBÄNDI", href: "/bilebandi-heidi-and-the-hot-stuff" },
     { label: "OTA YHTEYTTÄ", href: "#contact-section" },
   ];
 
