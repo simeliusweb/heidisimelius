@@ -17,7 +17,7 @@ const KeikatPage = () => {
         if (element) {
           element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-      }, 150);
+      }, 300);
     }
   }, [location]);
 

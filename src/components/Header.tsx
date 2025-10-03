@@ -1,12 +1,22 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { HashLink } from "react-router-hash-link";
 import { FaFacebook, FaInstagram, FaMusic, FaSoundcloud, FaSpotify, FaTiktok } from "react-icons/fa";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const handleContactScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setIsMenuOpen(false);
+    setTimeout(() => {
+      const element = document.getElementById('contact-section');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 1000);
+  };
 
   const navLinks = [
     { label: "KEIKAT", href: "/keikat" },
@@ -75,14 +85,13 @@ const Header = () => {
                   {navLinks.map((link) => (
                     <li key={link.label}>
                       {link.href.startsWith('#') ? (
-                        <HashLink
-                          smooth
-                          to={link.href}
+                        <a
+                          href={link.href}
                           className="text-2xl md:text-3xl font-playfair font-extrabold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
-                          onClick={toggleMenu}
+                          onClick={handleContactScroll}
                         >
                           {link.label}
-                        </HashLink>
+                        </a>
                       ) : (
                         <a
                           href={link.href}

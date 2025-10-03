@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { HashLink } from "react-router-hash-link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -34,6 +33,16 @@ const Footer = () => {
       description: "Palaamme sinulle mahdollisimman pian.",
     });
     form.reset();
+  };
+
+  const handleContactScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setTimeout(() => {
+      const element = document.getElementById('contact-section');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 1000);
   };
 
   const navLinks = [
@@ -138,13 +147,13 @@ const Footer = () => {
           {navLinks.map((link, index) => (
             <span key={link.label} className="flex items-center gap-4">
               {link.href.startsWith('#') ? (
-                <HashLink
-                  smooth
-                  to={link.href}
+                <a
+                  href={link.href}
                   className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm"
+                  onClick={handleContactScroll}
                 >
                   {link.label}
-                </HashLink>
+                </a>
               ) : (
                 <a
                   href={link.href}

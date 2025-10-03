@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
-import { HashLink } from "react-router-hash-link";
+import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { format, parse } from "date-fns";
@@ -166,7 +166,7 @@ const HomePage = () => {
                 }).sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime()).slice(0, 3);
 
                 return upcomingGigPreviews.map((gig, index) => (
-                  <HashLink 
+                  <Link 
                     key={index}
                     to={`/keikat#${gig.slug}`}
                     className="basis-full md:basis-[calc(33.333%-1rem)] hover:opacity-80 transition-opacity"
@@ -178,7 +178,7 @@ const HomePage = () => {
                       nextTime={gig.nextTime}
                       venue={gig.venue}
                     />
-                  </HashLink>
+                  </Link>
                 ));
               })()}
             </div>
