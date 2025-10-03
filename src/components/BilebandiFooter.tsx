@@ -19,7 +19,7 @@ const BilebandiFooter = () => {
           {/* Homepage Link */}
           <Link 
             to="/"
-            className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm"
+            className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm text-muted"
           >
             • ETUSIVULLE •
           </Link>
