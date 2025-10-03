@@ -5,10 +5,7 @@ import { useState } from "react";
 import Gallery from "react-photo-gallery";
 import PageMeta from "@/components/PageMeta";
 import { pageMetadata } from "@/config/metadata";
-import {
-  Dialog,
-  DialogContent,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
   Carousel,
   CarouselContent,
@@ -16,13 +13,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import bioPress1 from "@/assets/bio-press-1.jpg";
-import bioPress2 from "@/assets/bio-press-2.jpg";
-import bioPress3 from "@/assets/bio-press-3.jpg";
-import galleryWidescreen from "@/assets/gallery-widescreen.jpg";
-import gallerySquare from "@/assets/gallery-square.jpg";
-import galleryPanoramic from "@/assets/gallery-panoramic.jpg";
-import galleryPortrait from "@/assets/gallery-portrait.jpg";
 
 const GalleriaPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -33,22 +23,22 @@ const GalleriaPage = () => {
   // Press photos data
   const pressPhotos = [
     {
-      src: bioPress1,
+      src: "/images/demo/bio-press-1.jpg",
       alt: "Heidi Simelius pressikuva 1",
       photographerName: "Kuvaajan Nimi 1",
-      photographerUrl: "https://instagram.com/photographer1"
+      photographerUrl: "https://instagram.com/photographer1",
     },
     {
-      src: bioPress2,
+      src: "/images/demo/bio-press-2.jpg",
       alt: "Heidi Simelius pressikuva 2",
       photographerName: "Kuvaajan Nimi 2",
-      photographerUrl: ""
+      photographerUrl: "",
     },
     {
-      src: bioPress3,
+      src: "/images/demo/bio-press-3.jpg",
       alt: "Heidi Simelius pressikuva 3",
       photographerName: "Kuvaajan Nimi 3",
-      photographerUrl: "https://instagram.com/photographer3"
+      photographerUrl: "https://instagram.com/photographer3",
     },
   ];
 
@@ -58,21 +48,66 @@ const GalleriaPage = () => {
     photographerName: "Kuvaajan Nimi",
     photographerUrl: "https://example.com",
     photos: [
-      { src: bioPress1, width: 4, height: 5, alt: "Galleriakuva 1" },
-      { src: galleryWidescreen, width: 1920, height: 1080, alt: "Lavaesiintyminen" },
-      { src: bioPress2, width: 3, height: 4, alt: "Galleriakuva 2" },
-      { src: gallerySquare, width: 1024, height: 1024, alt: "Taiteellinen muotokuva" },
-      { src: bioPress3, width: 4, height: 3, alt: "Galleriakuva 3" },
-      { src: galleryPanoramic, width: 1920, height: 640, alt: "Panoraamanäkymä lavalta" },
-      { src: bioPress1, width: 5, height: 4, alt: "Galleriakuva 4" },
-      { src: galleryPortrait, width: 1080, height: 1920, alt: "Pystymuotokuva" },
-    ]
+      {
+        src: "/images/demo/bio-press-1.jpg",
+        width: 4,
+        height: 5,
+        alt: "Galleriakuva 1",
+      },
+      {
+        src: "/images/demo/gallery-widescreen.jpg",
+        width: 1920,
+        height: 1080,
+        alt: "Lavaesiintyminen",
+      },
+      {
+        src: "/images/demo/bio-press-2.jpg",
+        width: 3,
+        height: 4,
+        alt: "Galleriakuva 2",
+      },
+      {
+        src: "/images/demo/gallery-square.jpg",
+        width: 1024,
+        height: 1024,
+        alt: "Taiteellinen muotokuva",
+      },
+      {
+        src: "/images/demo/bio-press-3.jpg",
+        width: 4,
+        height: 3,
+        alt: "Galleriakuva 3",
+      },
+      {
+        src: "/images/demo/gallery-panoramic.jpg",
+        width: 1920,
+        height: 640,
+        alt: "Panoraamanäkymä lavalta",
+      },
+      {
+        src: "/images/demo/bio-press-1.jpg",
+        width: 5,
+        height: 4,
+        alt: "Galleriakuva 4",
+      },
+      {
+        src: "/images/demo/gallery-portrait.jpg",
+        width: 1080,
+        height: 1920,
+        alt: "Pystymuotokuva",
+      },
+    ],
   };
 
   // Initialize visible photos with first 3 images
-  const [visiblePhotos, setVisiblePhotos] = useState(photoSetData.photos.slice(0, 3));
+  const [visiblePhotos, setVisiblePhotos] = useState(
+    photoSetData.photos.slice(0, 3)
+  );
 
-  const handleImageClick = (_event: React.MouseEvent, { index }: { index: number }) => {
+  const handleImageClick = (
+    _event: React.MouseEvent,
+    { index }: { index: number }
+  ) => {
     setSelectedImageIndex(index);
     setDialogOpen(true);
   };
@@ -87,8 +122,11 @@ const GalleriaPage = () => {
   };
   return (
     <>
-      <PageMeta title={pageMetadata.galleria.title} description={pageMetadata.galleria.description} />
-      
+      <PageMeta
+        title={pageMetadata.galleria.title}
+        description={pageMetadata.galleria.description}
+      />
+
       <main className="container mx-auto px-6 py-16 md:py-24">
         <h1 className="text-6xl md:text-8xl lg:text-10xl font-playfair font-extrabold text-primary mb-12 text-center">
           Galleria
@@ -103,7 +141,10 @@ const GalleriaPage = () => {
           {/* Press Photos Grid */}
           <div className="flex flex-wrap justify-center gap-12 md:gap-8 mb-12">
             {pressPhotos.map((photo, index) => (
-              <div key={index} className="w-full md:w-[45%] lg:w-[30%] flex flex-col gap-4">
+              <div
+                key={index}
+                className="w-full md:w-[45%] lg:w-[30%] flex flex-col gap-4"
+              >
                 <div className="aspect-[3/4] overflow-hidden rounded-lg">
                   <img
                     src={photo.src}
@@ -114,9 +155,9 @@ const GalleriaPage = () => {
                 <p className="text-sm text-muted-foreground">
                   Kuva:{" "}
                   {photo.photographerUrl ? (
-                    <a 
-                      href={photo.photographerUrl} 
-                      target="_blank" 
+                    <a
+                      href={photo.photographerUrl}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="group hover:underline inline-flex items-center gap-1"
                     >
@@ -159,9 +200,9 @@ const GalleriaPage = () => {
             <div className="text-base md:text-lg italic text-muted-foreground">
               Kuvat:{" "}
               {photoSetData.photographerUrl ? (
-                <a 
-                  href={photoSetData.photographerUrl} 
-                  target="_blank" 
+                <a
+                  href={photoSetData.photographerUrl}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="group hover:underline inline-flex items-center gap-1"
                 >
@@ -182,8 +223,8 @@ const GalleriaPage = () => {
           {/* Show More Button */}
           {!allPhotosShown && photoSetData.photos.length > 3 && (
             <div className="flex justify-center">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="lg"
                 onClick={handleShowMore}
                 disabled={isLoading || allPhotosShown}
@@ -235,15 +276,18 @@ const GalleriaPage = () => {
         sectionTitle="Musavideot"
         variant="featured"
         videos={[
-              { url: "https://www.youtube.com/watch?v=nNooz5tHV6U", isFeatured: true },
-              { url: "https://www.youtube.com/watch?v=lR4VJkIKmZ0" },
-              { url: "https://www.youtube.com/watch?v=m-ZMCIMdZrQ" },
-              { url: "https://www.youtube.com/watch?v=xeI9fczPexk" },
-              { url: "https://www.youtube.com/watch?v=eqQEVrCPCxQ" },
-              { url: "https://www.youtube.com/watch?v=EMVUePUaVAY" },
-              { url: "https://www.youtube.com/watch?v=Ikfy983tspw" },
-              { url: "https://www.youtube.com/watch?v=wmpajFyxkVE" },
-            ]}
+          {
+            url: "https://www.youtube.com/watch?v=nNooz5tHV6U",
+            isFeatured: true,
+          },
+          { url: "https://www.youtube.com/watch?v=lR4VJkIKmZ0" },
+          { url: "https://www.youtube.com/watch?v=m-ZMCIMdZrQ" },
+          { url: "https://www.youtube.com/watch?v=xeI9fczPexk" },
+          { url: "https://www.youtube.com/watch?v=eqQEVrCPCxQ" },
+          { url: "https://www.youtube.com/watch?v=EMVUePUaVAY" },
+          { url: "https://www.youtube.com/watch?v=Ikfy983tspw" },
+          { url: "https://www.youtube.com/watch?v=wmpajFyxkVE" },
+        ]}
       />
 
       {/* Muut videot Section */}
@@ -254,17 +298,20 @@ const GalleriaPage = () => {
           {
             url: "https://www.youtube.com/watch?v=EMVUePUaVAY",
             title: "Voice of Finland - Esitys 1",
-            description: "Heidi Simelius esiintyy Voice of Finland -ohjelmassa. Upea tulkinta suosikkikappaleesta."
+            description:
+              "Heidi Simelius esiintyy Voice of Finland -ohjelmassa. Upea tulkinta suosikkikappaleesta.",
           },
           {
             url: "https://www.youtube.com/watch?v=Ikfy983tspw",
             title: "Voice of Finland - Esitys 2",
-            description: "Toinen vaikuttava esiintyminen Voice of Finland -lavalla."
+            description:
+              "Toinen vaikuttava esiintyminen Voice of Finland -lavalla.",
           },
           {
             url: "https://www.youtube.com/watch?v=wmpajFyxkVE",
             title: "Akustinen studio-sessio",
-            description: "Intiimi akustinen versio suosikkikappaleesta studiossa."
+            description:
+              "Intiimi akustinen versio suosikkikappaleesta studiossa.",
           },
         ]}
       />

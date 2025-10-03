@@ -5,11 +5,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PageMeta from "@/components/PageMeta";
 import StructuredData from "@/components/StructuredData";
 import { pageMetadata } from "@/config/metadata";
-import bioHeroBg from "@/assets/bio-hero-bg.jpg";
-import bioPress1 from "@/assets/bio-press-1.jpg";
-import bioPress2 from "@/assets/bio-press-2.jpg";
-import bioPress3 from "@/assets/bio-press-3.jpg";
-import bioPress4 from "@/assets/bio-press-4.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,18 +20,19 @@ const BioPage = () => {
   const heidiSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Heidi Simelius",
-    "jobTitle": "Laulaja, lauluntekijä ja esiintyjä",
-    "url": "https://www.heidisimelius.fi/bio",
-    "image": "https://www.heidisimelius.fi/images/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg",
-    "sameAs": [
+    name: "Heidi Simelius",
+    jobTitle: "Laulaja, lauluntekijä ja esiintyjä",
+    url: "https://www.heidisimelius.fi/bio",
+    image:
+      "https://www.heidisimelius.fi/images/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg",
+    sameAs: [
       "https://www.instagram.com/Heidisimelius",
       "https://www.facebook.com/HeidiSimelius",
       "https://vm.tiktok.com/ZMJoaem42",
       "https://open.spotify.com/artist/7wmdyUKDAcJfmWbgsARwl9",
       "https://music.apple.com/gb/artist/heidi-simelius/1486952057",
-      "https://soundcloud.com/heidi-simelius"
-    ]
+      "https://soundcloud.com/heidi-simelius",
+    ],
   };
 
   useEffect(() => {
@@ -152,7 +148,10 @@ const BioPage = () => {
 
   return (
     <>
-      <PageMeta title={pageMetadata.bio.title} description={pageMetadata.bio.description} />
+      <PageMeta
+        title={pageMetadata.bio.title}
+        description={pageMetadata.bio.description}
+      />
       <StructuredData data={heidiSchema} />
 
       {/* Hero Section */}
@@ -160,7 +159,7 @@ const BioPage = () => {
         {/* Hero Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${bioHeroBg})` }}
+          style={{ backgroundImage: `url(/images/demo/bio-hero-bg.jpg)` }}
         />
 
         {/* Dark Overlay */}
@@ -233,7 +232,7 @@ const BioPage = () => {
               {/* Mobile Image 1 */}
               <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                 <img
-                  src={bioPress1}
+                  src={"/images/demo/bio-press-1.jpg"}
                   alt="Heidi Simelius performing on stage"
                   className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg"
                 />
@@ -334,7 +333,7 @@ const BioPage = () => {
               {/* Mobile Image 2 */}
               <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                 <img
-                  src={bioPress2}
+                  src={"/images/demo/bio-press-2.jpg"}
                   alt="Heidi Simelius in performance"
                   className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                 />
@@ -496,7 +495,7 @@ const BioPage = () => {
               {/* Mobile Image 3 */}
               <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                 <img
-                  src={bioPress3}
+                  src={"/images/demo/bio-press-3.jpg"}
                   alt="Heidi Simelius performing with band"
                   className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                 />
@@ -509,7 +508,7 @@ const BioPage = () => {
                 {/* Image 1 - Initially visible */}
                 <div ref={image1Ref} className="absolute inset-0 opacity-100">
                   <img
-                    src={bioPress1}
+                    src={"/images/demo/bio-press-1.jpg"}
                     alt="Heidi Simelius performing on stage"
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
@@ -517,7 +516,7 @@ const BioPage = () => {
                 {/* Image 2 - Initially hidden */}
                 <div ref={image2Ref} className="absolute inset-0 opacity-0">
                   <img
-                    src={bioPress2}
+                    src={"/images/demo/bio-press-2.jpg"}
                     alt="Heidi Simelius in performance with a band"
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
@@ -525,7 +524,7 @@ const BioPage = () => {
                 {/* Image 3 - Initially hidden */}
                 <div ref={image3Ref} className="absolute inset-0 opacity-0">
                   <img
-                    src={bioPress3}
+                    src={"/images/demo/bio-press-3.jpg"}
                     alt="Heidi Simelius theatrical portrait"
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />

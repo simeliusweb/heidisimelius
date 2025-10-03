@@ -10,8 +10,6 @@ import VideosSection from "@/components/VideosSection";
 import UpcomingGigCard from "@/components/UpcomingGigCard";
 import PageMeta from "@/components/PageMeta";
 import { pageMetadata } from "@/config/metadata";
-import heroBgMobile from "@/assets/hero-bg-mobile.jpg";
-import heroBgDesktop from "@/assets/hero-bg-desktop.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,7 +63,10 @@ const HomePage = () => {
 
   return (
     <>
-      <PageMeta title={pageMetadata.home.title} description={pageMetadata.home.description} />
+      <PageMeta
+        title={pageMetadata.home.title}
+        description={pageMetadata.home.description}
+      />
       <Helmet>
         {/* Helmet handles the LightWidget script tag correctly */}
         <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
@@ -75,14 +76,14 @@ const HomePage = () => {
         <div
           className="fixed inset-0 bg-cover bg-center bg-no-repeat md:hidden"
           style={{
-            backgroundImage: `url(${heroBgMobile})`,
+            backgroundImage: `url(/images/demo/hero-bg-mobile.jpg)`,
             filter: "blur(2px)",
           }}
         />
         <div
           className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
           style={{
-            backgroundImage: `url(${heroBgDesktop})`,
+            backgroundImage: `url(/images/demo/hero-bg-desktop.jpg)`,
             filter: "blur(2px)",
           }}
         />
@@ -129,14 +130,14 @@ const HomePage = () => {
                 // Event data with performances
                 const upcomingEvents = [
                   {
-                    imageUrl: "/images/placeholder-trio.jpg",
+                    imageUrl: "/images/demo/placeholder-trio.jpg",
                     title: "Heidi Simelius Trio Live",
                     venue: "G Livelab, Tampere",
                     slug: "heidi-simelius-trio-live",
-                    performances: [{ date: "2025-11-15", time: "20:00" }]
+                    performances: [{ date: "2025-11-15", time: "20:00" }],
                   },
                   {
-                    imageUrl: "/images/placeholder-tootsie.jpg",
+                    imageUrl: "/images/demo/placeholder-tootsie.jpg",
                     title: "Tootsie-musikaali",
                     venue: "Lahden Kaupunginteatteri",
                     slug: "tootsie-musikaali",
@@ -147,29 +148,36 @@ const HomePage = () => {
                       { date: "2025-11-17", time: "19:30" },
                       { date: "2025-11-28", time: "18:30" },
                       { date: "2025-12-06", time: "17:00" },
-                      { date: "2025-12-18", time: "20:30" }
-                    ]
-                  }
+                      { date: "2025-12-18", time: "20:30" },
+                    ],
+                  },
                 ];
 
                 // Process data to find soonest upcoming date for each event
-                const upcomingGigPreviews = upcomingEvents.map(event => {
-                  const soonestPerformance = event.performances[0];
-                  const date = parse(soonestPerformance.date, "yyyy-MM-dd", new Date());
-                  
-                  return {
-                    imageUrl: event.imageUrl,
-                    title: event.title,
-                    venue: event.venue,
-                    slug: event.slug,
-                    nextDate: format(date, "dd.MM.yyyy"),
-                    nextTime: soonestPerformance.time,
-                    dateObj: date
-                  };
-                }).sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime()).slice(0, 3);
+                const upcomingGigPreviews = upcomingEvents
+                  .map((event) => {
+                    const soonestPerformance = event.performances[0];
+                    const date = parse(
+                      soonestPerformance.date,
+                      "yyyy-MM-dd",
+                      new Date()
+                    );
+
+                    return {
+                      imageUrl: event.imageUrl,
+                      title: event.title,
+                      venue: event.venue,
+                      slug: event.slug,
+                      nextDate: format(date, "dd.MM.yyyy"),
+                      nextTime: soonestPerformance.time,
+                      dateObj: date,
+                    };
+                  })
+                  .sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime())
+                  .slice(0, 3);
 
                 return upcomingGigPreviews.map((gig, index) => (
-                  <HashLink 
+                  <HashLink
                     key={index}
                     to={`/keikat#${gig.slug}`}
                     className="basis-full md:basis-[calc(33.333%-1rem)] hover:opacity-80 transition-opacity"
@@ -214,7 +222,10 @@ const HomePage = () => {
             sectionTitle="Videot"
             variant="featured"
             videos={[
-              { url: "https://www.youtube.com/watch?v=nNooz5tHV6U", isFeatured: true },
+              {
+                url: "https://www.youtube.com/watch?v=nNooz5tHV6U",
+                isFeatured: true,
+              },
               { url: "https://www.youtube.com/watch?v=lR4VJkIKmZ0" },
               { url: "https://www.youtube.com/watch?v=m-ZMCIMdZrQ" },
               { url: "https://www.youtube.com/watch?v=xeI9fczPexk" },

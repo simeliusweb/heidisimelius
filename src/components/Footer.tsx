@@ -4,15 +4,31 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Mail } from "lucide-react";
-import { FaFacebook, FaInstagram, FaMusic, FaSoundcloud, FaSpotify, FaTiktok } from "react-icons/fa";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaMusic,
+  FaSoundcloud,
+  FaSpotify,
+  FaTiktok,
+} from "react-icons/fa";
 import { toast } from "@/hooks/use-toast";
-import footerBg from "@/assets/footer-bg.jpg";
 
 const contactSchema = z.object({
   subject: z.string().trim().min(1, { message: "Aihe vaaditaan" }).max(100),
-  email: z.string().trim().email({ message: "Syötä kelvollinen sähköpostiosoite" }).max(255),
+  email: z
+    .string()
+    .trim()
+    .email({ message: "Syötä kelvollinen sähköpostiosoite" })
+    .max(255),
   message: z.string().trim().min(1, { message: "Viesti vaaditaan" }).max(1000),
 });
 
@@ -30,7 +46,7 @@ const Footer = () => {
     console.log(data);
     toast({
       title: "Viesti lähetetty!",
-      description: "Palaamme sinulle mahdollisimman pian.",
+      description: "Palaan sinulle mahdollisimman pian.",
     });
     form.reset();
   };
@@ -48,7 +64,7 @@ const Footer = () => {
       id="contact-section"
       className="relative bg-card mt-auto"
       style={{
-        backgroundImage: `url(${footerBg})`,
+        backgroundImage: `url(/images/demo/footer-bg.jpg)`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -62,15 +78,23 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
           {/* Left Column: Contact Form */}
           <div>
-            <h2 className="text-3xl font-playfair font-extrabold text-primary mb-6">Ota yhteyttä</h2>
+            <h2 className="text-3xl font-playfair font-extrabold text-primary mb-6">
+              Ota yhteyttä
+            </h2>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+              >
                 <FormField
                   control={form.control}
                   name="subject"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Aihe <span className="text-secondary-foreground">*</span></FormLabel>
+                      <FormLabel>
+                        Aihe{" "}
+                        <span className="text-secondary-foreground">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="Kirjoita aihe..." {...field} />
                       </FormControl>
@@ -83,9 +107,16 @@ const Footer = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Sähköpostisi <span className="text-secondary-foreground">*</span></FormLabel>
+                      <FormLabel>
+                        Sähköpostisi{" "}
+                        <span className="text-secondary-foreground">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="Kirjoita sähköpostisi..." {...field} />
+                        <Input
+                          type="email"
+                          placeholder="Kirjoita sähköpostisi..."
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -96,15 +127,21 @@ const Footer = () => {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Viesti <span className="text-secondary-foreground">*</span></FormLabel>
+                      <FormLabel>
+                        Viesti{" "}
+                        <span className="text-secondary-foreground">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Kirjoita viestisi..." {...field} />
+                        <Textarea
+                          placeholder="Kirjoita viestisi..."
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                
+
                 {/* Honeypot field - invisible to humans */}
                 <div className="sr-only">
                   <label htmlFor="website">Website</label>
