@@ -28,13 +28,14 @@ const BioPage = () => {
     "name": "Heidi Simelius",
     "jobTitle": "Laulaja, lauluntekijä ja esiintyjä",
     "url": "https://www.heidisimelius.fi/bio",
-    "image": "https://www.heidisimelius.fi/images/heidi-press-photo.jpg",
+    "image": "https://www.heidisimelius.fi/images/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg",
     "sameAs": [
-      "https://www.instagram.com/heidisimelius/",
-      "https://www.facebook.com/HeidiSimelius/",
-      "https://www.tiktok.com/@heidisimelius",
-      "https://open.spotify.com/artist/example",
-      "https://music.apple.com/gb/artist/heidi-simelius/1486952057"
+      "https://www.instagram.com/Heidisimelius",
+      "https://www.facebook.com/HeidiSimelius",
+      "https://vm.tiktok.com/ZMJoaem42",
+      "https://open.spotify.com/artist/7wmdyUKDAcJfmWbgsARwl9",
+      "https://music.apple.com/gb/artist/heidi-simelius/1486952057",
+      "https://soundcloud.com/heidi-simelius"
     ]
   };
 
