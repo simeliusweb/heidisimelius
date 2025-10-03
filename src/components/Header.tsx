@@ -1,11 +1,55 @@
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useState, useRef } from "react";
 import { FaFacebook, FaInstagram, FaMusic, FaSoundcloud, FaSpotify, FaTiktok } from "react-icons/fa";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  // Refs for animation
+  const menuPanelRef = useRef<HTMLDivElement>(null);
+  const topBarRef = useRef<HTMLSpanElement>(null);
+  const middleBarRef = useRef<HTMLSpanElement>(null);
+  const bottomBarRef = useRef<HTMLSpanElement>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  // GSAP Animation
+  useGSAP(() => {
+    // Create timeline
+    const tl = gsap.timeline({ paused: true });
+    
+    // Menu panel animation
+    if (menuPanelRef.current) {
+      tl.fromTo(
+        menuPanelRef.current,
+        { scaleY: 0, opacity: 0, transformOrigin: "top" },
+        { scaleY: 1, opacity: 1, duration: 0.5, ease: "power2.inOut" },
+        0
+      );
+    }
+    
+    // Hamburger icon animation
+    if (topBarRef.current && middleBarRef.current && bottomBarRef.current) {
+      tl.to(topBarRef.current, { rotation: 45, y: 8, duration: 0.3, ease: "power2.inOut" }, 0)
+        .to(middleBarRef.current, { opacity: 0, duration: 0.3, ease: "power2.inOut" }, 0)
+        .to(bottomBarRef.current, { rotation: -45, y: -8, duration: 0.3, ease: "power2.inOut" }, 0);
+    }
+    
+    timelineRef.current = tl;
+  }, []);
+
+  // Play or reverse animation based on menu state
+  useGSAP(() => {
+    if (timelineRef.current) {
+      if (isMenuOpen) {
+        timelineRef.current.play();
+      } else {
+        timelineRef.current.reverse();
+      }
+    }
+  }, [isMenuOpen]);
 
   const navLinks = [
     { label: "KEIKAT", href: "/keikat" },
@@ -30,10 +74,12 @@ const Header = () => {
           <div className="px-4 py-3 flex items-center justify-between">
             <button
               onClick={toggleMenu}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground hover:text-primary transition-colors w-6 h-6 flex flex-col justify-center items-center gap-[6px]"
               aria-label="Toggle menu"
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              <span ref={topBarRef} className="w-6 h-0.5 bg-foreground block" />
+              <span ref={middleBarRef} className="w-6 h-0.5 bg-foreground block" />
+              <span ref={bottomBarRef} className="w-6 h-0.5 bg-foreground block" />
             </button>
             <a href="/" className="hover:opacity-80 transition-opacity">
               <span className="text-lg md:text-xl font-playfair text-foreground">
@@ -65,6 +111,7 @@ const Header = () => {
           {/* Links Container */}
           <div className="fixed top-[140px] left-4 z-50 w-[calc(100%-2rem)] max-w-[420px]">
             <div
+              ref={menuPanelRef}
               className="bg-background/70 backdrop-blur-xl border border-border rounded-lg shadow-2xl py-8 px-4"
               onClick={(e) => e.stopPropagation()}
             >
