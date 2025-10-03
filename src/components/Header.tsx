@@ -35,8 +35,8 @@ const Header = () => {
     if (menuPanelRef.current) {
       tl.fromTo(
         menuPanelRef.current,
-        { scaleY: 0, opacity: 0, visibility: 'hidden', pointerEvents: 'none', transformOrigin: "top" },
-        { scaleY: 1, opacity: 1, visibility: 'visible', pointerEvents: 'auto', duration: 0.5, ease: "power2.inOut" },
+        { clipPath: 'inset(0% 0% 100% 0%)', visibility: 'hidden', pointerEvents: 'none' },
+        { clipPath: 'inset(0% 0% 0% 0%)', visibility: 'visible', pointerEvents: 'auto', duration: 0.5, ease: "power2.inOut" },
         0
       );
     }
