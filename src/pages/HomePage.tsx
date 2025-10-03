@@ -180,7 +180,7 @@ const HomePage = () => {
             <div className="max-w-4xl mx-auto mb-8">
               {/* LightWidget embed */}
               <iframe
-                src="//lightwidget.com/widgets/71dd661fedf55720848701cf279e6d14.html"
+                src="https://cdn.lightwidget.com/widgets/71dd661fedf55720848701cf279e6d14.html"
                 className="lightwidget-widget"
                 style={{ width: "100%", border: 0, overflow: "hidden" }}
               ></iframe>
