@@ -8,6 +8,7 @@ const Header = () => {
   
   // Refs for animation
   const menuPanelRef = useRef<HTMLDivElement>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
   const topBarRef = useRef<HTMLSpanElement>(null);
   const middleBarRef = useRef<HTMLSpanElement>(null);
   const bottomBarRef = useRef<HTMLSpanElement>(null);
@@ -20,12 +21,22 @@ const Header = () => {
     // Create timeline
     const tl = gsap.timeline({ paused: true });
     
+    // Backdrop animation
+    if (backdropRef.current) {
+      tl.fromTo(
+        backdropRef.current,
+        { opacity: 0, visibility: 'hidden', pointerEvents: 'none' },
+        { opacity: 1, visibility: 'visible', pointerEvents: 'auto', duration: 0.3, ease: "power2.inOut" },
+        0
+      );
+    }
+    
     // Menu panel animation
     if (menuPanelRef.current) {
       tl.fromTo(
         menuPanelRef.current,
-        { scaleY: 0, opacity: 0, transformOrigin: "top" },
-        { scaleY: 1, opacity: 1, duration: 0.5, ease: "power2.inOut" },
+        { scaleY: 0, opacity: 0, visibility: 'hidden', pointerEvents: 'none', transformOrigin: "top" },
+        { scaleY: 1, opacity: 1, visibility: 'visible', pointerEvents: 'auto', duration: 0.5, ease: "power2.inOut" },
         0
       );
     }
@@ -99,100 +110,99 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Bottom Links Container - Only When Menu Open */}
-      {isMenuOpen && (
-        <>
-          {/* Backdrop overlay */}
+      {/* Bottom Links Container - Always in DOM, GSAP controls visibility */}
+      <>
+        {/* Backdrop overlay */}
+        <div
+          ref={backdropRef}
+          className="fixed inset-0 z-40 bg-background/20"
+          onClick={toggleMenu}
+        />
+        
+        {/* Links Container */}
+        <div className="fixed top-[140px] left-4 z-50 w-[calc(100%-2rem)] max-w-[420px]">
           <div
-            className="fixed inset-0 z-40 bg-background/20"
-            onClick={toggleMenu}
-          />
-          
-          {/* Links Container */}
-          <div className="fixed top-[140px] left-4 z-50 w-[calc(100%-2rem)] max-w-[420px]">
-            <div
-              ref={menuPanelRef}
-              className="bg-background/70 backdrop-blur-xl border border-border rounded-lg shadow-2xl py-8 px-4"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Navigation Links */}
-              <nav className="mb-12">
-                <ul className="space-y-6 px-4">
-                  {navLinks.map((link) => (
-                    <li key={link.label}>
-                      <a
-                        href={link.href}
-                        className="text-2xl md:text-3xl font-playfair font-extrabold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
-                        onClick={toggleMenu}
-                      >
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+            ref={menuPanelRef}
+            className="bg-background/70 backdrop-blur-xl border border-border rounded-lg shadow-2xl py-8 px-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Navigation Links */}
+            <nav className="mb-12">
+              <ul className="space-y-6 px-4">
+                {navLinks.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-2xl md:text-3xl font-playfair font-extrabold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+                      onClick={toggleMenu}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-              {/* Social Media Icons */}
-              <div className="flex gap-6 flex-wrap justify-center pt-8 border-t border-border">
-                <a
-                  href="https://www.instagram.com/Heidisimelius/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground hover:text-primary transition-colors"
-                  aria-label="Instagram"
-                >
-                  <FaInstagram size={28} />
-                </a>
-                <a
-                  href="https://vm.tiktok.com/ZMJoaem42/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground hover:text-primary transition-colors"
-                  aria-label="TikTok"
-                >
-                  <FaTiktok size={28} />
-                </a>
-                <a
-                  href="https://www.facebook.com/HeidiSimelius/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground hover:text-primary transition-colors"
-                  aria-label="Facebook"
-                >
-                  <FaFacebook size={28} />
-                </a>
-                <a
-                  href="https://music.apple.com/gb/artist/heidi-simelius/1486952057"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground hover:text-primary transition-colors"
-                  aria-label="Apple Music"
-                >
-                  <FaMusic size={28} />
-                </a>
-                <a
-                  href="https://soundcloud.com/heidi-simelius"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground hover:text-primary transition-colors"
-                  aria-label="Soundcloud"
-                >
-                  <FaSoundcloud size={28} />
-                </a>
-                <a
-                  href="https://open.spotify.com/artist/7wmdyUKDAcJfmWbgsARwl9"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground hover:text-primary transition-colors"
-                  aria-label="Spotify"
-                >
-                  <FaSpotify size={28} />
-                </a>
-              </div>
+            {/* Social Media Icons */}
+            <div className="flex gap-6 flex-wrap justify-center pt-8 border-t border-border">
+              <a
+                href="https://www.instagram.com/Heidisimelius/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors"
+                aria-label="Instagram"
+              >
+                <FaInstagram size={28} />
+              </a>
+              <a
+                href="https://vm.tiktok.com/ZMJoaem42/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors"
+                aria-label="TikTok"
+              >
+                <FaTiktok size={28} />
+              </a>
+              <a
+                href="https://www.facebook.com/HeidiSimelius/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors"
+                aria-label="Facebook"
+              >
+                <FaFacebook size={28} />
+              </a>
+              <a
+                href="https://music.apple.com/gb/artist/heidi-simelius/1486952057"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors"
+                aria-label="Apple Music"
+              >
+                <FaMusic size={28} />
+              </a>
+              <a
+                href="https://soundcloud.com/heidi-simelius"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors"
+                aria-label="Soundcloud"
+              >
+                <FaSoundcloud size={28} />
+              </a>
+              <a
+                href="https://open.spotify.com/artist/7wmdyUKDAcJfmWbgsARwl9"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-primary transition-colors"
+                aria-label="Spotify"
+              >
+                <FaSpotify size={28} />
+              </a>
             </div>
           </div>
-        </>
-      )}
+        </div>
+      </>
     </>
   );
 };
