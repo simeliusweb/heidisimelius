@@ -63,15 +63,18 @@ const BilebandiPage = () => {
         description={pageMetadata.bilebandi.description}
       />
 
-      {/* Hero Header */}
-      <section className="relative w-full min-h-[60vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Background Placeholder */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-card to-background" />
-
-        {/* Content */}
+      {/* Hero Section */}
+      <section className="relative h-[50vh] xs:h-[80vh] sm:h-[100vh] flex items-end justify-center">
+        {/* Hero Background Image */}
+        <div
+          className="absolute inset-0 bg-cover xs:bg-[center_20%] md:bg-top
+               md:bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff.jpg')] 
+               bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff-mobile.webp')]"
+        />
+        {/* Hero Content */}
         <div className="relative z-10 text-center px-6">
-          <h1 className="text-6xl md:text-8xl lg:text-10xl font-playfair font-extrabold text-foreground mb-4 tracking-tight">
-            Heidi & The Hot Stuff
+          <h1 className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 text-3xl sm:text-4xl md:text-[72px] lg:text-[96px] font-playfair font-extrabold text-center text-primary w-full">
+            Bilebändi häihin ja yritysjuhliin Tampereella
           </h1>
         </div>
       </section>
