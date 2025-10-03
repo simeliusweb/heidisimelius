@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { HashLink } from "react-router-hash-link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -136,12 +137,22 @@ const Footer = () => {
         <div className="flex flex-wrap items-center justify-center gap-4 mb-8 text-muted">
           {navLinks.map((link, index) => (
             <span key={link.label} className="flex items-center gap-4">
-              <a
-                href={link.href}
-                className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm"
-              >
-                {link.label}
-              </a>
+              {link.href.startsWith('#') ? (
+                <HashLink
+                  smooth
+                  to={link.href}
+                  className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm"
+                >
+                  {link.label}
+                </HashLink>
+              ) : (
+                <a
+                  href={link.href}
+                  className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm"
+                >
+                  {link.label}
+                </a>
+              )}
               {index < navLinks.length - 1 && <span>•</span>}
             </span>
           ))}

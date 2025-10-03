@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { HashLink } from "react-router-hash-link";
 import { FaFacebook, FaInstagram, FaMusic, FaSoundcloud, FaSpotify, FaTiktok } from "react-icons/fa";
 
 const Header = () => {
@@ -73,13 +74,24 @@ const Header = () => {
                 <ul className="space-y-6 px-4">
                   {navLinks.map((link) => (
                     <li key={link.label}>
-                      <a
-                        href={link.href}
-                        className="text-2xl md:text-3xl font-playfair font-extrabold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
-                        onClick={toggleMenu}
-                      >
-                        {link.label}
-                      </a>
+                      {link.href.startsWith('#') ? (
+                        <HashLink
+                          smooth
+                          to={link.href}
+                          className="text-2xl md:text-3xl font-playfair font-extrabold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+                          onClick={toggleMenu}
+                        >
+                          {link.label}
+                        </HashLink>
+                      ) : (
+                        <a
+                          href={link.href}
+                          className="text-2xl md:text-3xl font-playfair font-extrabold uppercase tracking-wider text-foreground hover:text-primary transition-colors"
+                          onClick={toggleMenu}
+                        >
+                          {link.label}
+                        </a>
+                      )}
                     </li>
                   ))}
                 </ul>
