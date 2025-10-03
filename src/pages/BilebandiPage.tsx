@@ -75,7 +75,7 @@ const BilebandiPage = () => {
 
         {/* Content */}
         <div className="relative z-10 text-center px-6">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-foreground mb-4 tracking-tight">
+          <h1 className="text-6xl md:text-8xl lg:text-10xl font-playfair font-extrabold text-foreground mb-4 tracking-tight">
             Heidi & The Hot Stuff
           </h1>
         </div>
@@ -83,7 +83,7 @@ const BilebandiPage = () => {
 
       {/* Band Introduction Section */}
       <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
-        <h2 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-8 text-center">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 text-center">
           Bändiesittely
         </h2>
         <p className="text-lg md:text-xl text-muted-foreground leading-relaxed text-center">
@@ -93,7 +93,7 @@ const BilebandiPage = () => {
 
       {/* Demo Video Section */}
       <section className="max-w-5xl mx-auto px-6 py-16 md:py-24">
-        <h2 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-12 text-center">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-12 text-center">
           Katso meidät livenä!
         </h2>
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl">
@@ -109,7 +109,7 @@ const BilebandiPage = () => {
 
       {/* Booking & Contact Section */}
       <section className="mx-auto px-6 py-16 md:py-24">
-        <h2 className="text-4xl md:text-5xl font-display font-extrabold text-foreground mb-8 text-center">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 text-center">
           Buukkaa Heidi & Hot Stuff keikalle!
         </h2>
         
