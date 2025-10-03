@@ -9,7 +9,7 @@ const BottomBranding = () => {
   return (
     <div className="absolute bottom-0 left-0 right-0 bg-background/50 backdrop-blur-sm border-t border-border py-6 px-6 bottom-branding">
       {/* Quick Navigation Links */}
-      <div className="flex justify-end items-center gap-2 text-sm md:text-base text-muted">
+      <div className="flex justify-center sm:justify-end items-center gap-2 text-sm md:text-base text-muted">
         {quickLinks.map((link, index) => (
           <span key={link.label} className="flex items-center gap-2">
             <a

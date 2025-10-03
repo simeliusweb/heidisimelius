@@ -62,23 +62,19 @@ const Footer = () => {
   return (
     <footer
       id="contact-section"
-      className="relative bg-card mt-auto"
+      className="relative bg-card mt-auto bg-cover bg-top sm:bg-left-top pt-32"
       style={{
-        backgroundImage: `url(/images/demo/footer-bg.jpg)`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundImage: `url(/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-4.jpg)`,
       }}
     >
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-background/90" />
+      <div className="absolute inset-0 bg-background/70" />
 
       {/* Content */}
-      <div className="relative container mx-auto px-6 py-16">
-        {/* Two-Column Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-          {/* Left Column: Contact Form */}
+      <div className="relative container mx-auto px-6 pb-16 pt-32 sm:pt-16 h-[100vh] sm:h-auto flex flex-col justify-end">
+        <div className="flex justify-center sm:justify-start gap-12 mb-16">
           <div>
-            <h2 className="text-3xl font-playfair font-extrabold text-primary mb-6">
+            <h2 className="text-3xl font-playfair font-extrabold text-primary mb-6 min-w-[300px]">
               Ota yhteyttä
             </h2>
             <Form {...form}>
@@ -159,13 +155,6 @@ const Footer = () => {
                 </Button>
               </form>
             </Form>
-          </div>
-
-          {/* Right Column: Artist Photo */}
-          <div className="flex justify-center items-center">
-            <div className="w-full max-w-md aspect-[3/4] bg-muted/20 rounded-lg flex items-center justify-center border border-border">
-              <p className="text-muted text-sm">Heidin kuva tulossa</p>
-            </div>
           </div>
         </div>
 

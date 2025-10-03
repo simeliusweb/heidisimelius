@@ -10,24 +10,30 @@ interface VideoData {
 interface VideosSectionProps {
   sectionTitle: string;
   videos: VideoData[];
-  variant: 'featured' | 'list';
+  variant: "featured" | "list";
 }
 
-const VideosSection = ({ sectionTitle, videos, variant }: VideosSectionProps) => {
+const VideosSection = ({
+  sectionTitle,
+  videos,
+  variant,
+}: VideosSectionProps) => {
   // Extract video ID from YouTube URL
   const getVideoId = (url: string) => {
-    const match = url.match(/(?:youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/watch\?v=)([a-zA-Z0-9_-]+)/);
+    const match = url.match(
+      /(?:youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/watch\?v=)([a-zA-Z0-9_-]+)/
+    );
     return match ? match[1] : url;
   };
 
-  if (variant === 'featured') {
+  if (variant === "featured") {
     // Find the featured video, or default to the first video
     const featuredVideo = videos.find((v) => v.isFeatured) || videos[0];
     const otherVideos = videos.filter((v) => v !== featuredVideo);
 
     return (
       <section className="container mx-auto px-6 py-16 md:py-24">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 text-center">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 sm:mb-16 text-center">
           {sectionTitle}
         </h2>
 
@@ -37,11 +43,13 @@ const VideosSection = ({ sectionTitle, videos, variant }: VideosSectionProps) =>
             <iframe
               width="100%"
               height="100%"
-              src={`https://www.youtube.com/embed/${getVideoId(featuredVideo.url)}`}
+              src={`https://www.youtube.com/embed/${getVideoId(
+                featuredVideo.url
+              )}`}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-              title={featuredVideo.title || 'Featured video'}
+              title={featuredVideo.title || "Featured video"}
             />
           </div>
         </div>
@@ -92,7 +100,12 @@ const VideosSection = ({ sectionTitle, videos, variant }: VideosSectionProps) =>
 
       <div className="max-w-4xl mx-auto space-y-12">
         {videos.map((video, index) => (
-          <div key={index} className={`space-y-4 ${index > 0 ? 'pt-12 border-t border-border' : ''}`}>
+          <div
+            key={index}
+            className={`space-y-4 ${
+              index > 0 ? "pt-12 border-t border-border" : ""
+            }`}
+          >
             {video.title && (
               <h3 className="text-2xl md:text-3xl font-playfair font-bold text-foreground">
                 {video.title}

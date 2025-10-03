@@ -49,7 +49,7 @@ const HomePage = () => {
           {/* Intro & Tagline Section */}
           <section className="container mx-auto px-6 pb-16 md:pb-24 text-center">
             {/* Large Stylized Name */}
-            <h2 className="text-4xl md:text-5xl font-santorini text-primary mb-20 z-10 relative">
+            <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-santorini text-primary pt-8 sm:pt-0 mb-12 sm:mb-20 z-10 relative">
               Heidi Simelius
             </h2>
             <p className="text-xl md:text-2xl text-foreground font-source mb-8">
@@ -62,7 +62,7 @@ const HomePage = () => {
 
           {/* Upcoming Gigs Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 text-center">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 sm:mb-16 text-center">
               Tulevat keikat
             </h2>
             <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto mb-8">
@@ -142,6 +142,9 @@ const HomePage = () => {
 
           {/* Spotify Player Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12 text-center">
+              Kuuntele Spotifyssa
+            </h2>
             <div className="max-w-3xl mx-auto">
               <iframe
                 data-testid="embed-iframe"
@@ -178,7 +181,7 @@ const HomePage = () => {
 
           {/* Instagram Feed Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 text-center">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 sm:mb-16 text-center">
               Instagram
             </h2>
             <div className="max-w-4xl mx-auto mb-8">

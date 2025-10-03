@@ -226,7 +226,7 @@ const GalleriaPage = () => {
 
         {/* Pressikuvat Section */}
         <section className="mb-20">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 sm:mb-16">
             Pressikuvat
           </h2>
 
@@ -284,7 +284,7 @@ const GalleriaPage = () => {
 
         {/* Kuvagalleria Section */}
         <section>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 sm:mb-16">
             Kuvagalleria
           </h2>
 

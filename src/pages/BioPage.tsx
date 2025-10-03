@@ -155,33 +155,31 @@ const BioPage = () => {
       <StructuredData data={heidiSchema} />
 
       {/* Hero Section */}
-      <section className="relative h-[60vh] md:h-[70vh] flex items-end justify-center overflow-hidden">
+      <section className="relative h-[60vh] md:h-[70vh] flex items-end justify-center">
         {/* Hero Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(/images/demo/bio-hero-bg.jpg)` }}
+          className="absolute inset-0 bg-cover bg-top 
+               bg-[url('/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-3.jpg')] 
+               sm:bg-[url('/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg')]"
         />
-
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-background/70" />
 
         {/* Hero Content */}
         <div className="relative z-10 text-center px-6">
-          <h1 className="text-6xl md:text-8xl lg:text-10xl font-playfair font-extrabold italic text-primary">
+          <h1 className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 text-6xl sm:text-8xl md:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-primary w-fit">
             Bio
           </h1>
         </div>
       </section>
 
       {/* Main Content */}
-      <div className="bg-background main-content-bio-page">
-        <div className="container px-0 py-16 md:py-24">
+      <div className="bg-background main-content-bio-page pt-16">
+        <div className="md:container px-0 py-16 md:py-24">
           {/* Two-Column Layout on Desktop */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 max-w-7xl mx-auto">
             {/* Left Column - Text Content */}
             <div ref={textContentRef} className="md:col-span-7 space-y-16">
               {/* Narrative Introduction */}
-              <section className="px-6">
+              <section className="px-16 md:px-6 pb-16">
                 <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
                   <p>
                     Heidi Simelius on laulaja, lauluntekijä ja esiintyjä. Hän
@@ -201,6 +199,24 @@ const BioPage = () => {
                     kiertueen" ja Gospel Helsinki -kuoron vierailevana solistina
                     sekä keikoilla Pekka Simojoen kanssa.
                   </p>
+
+                  <figure className="not-prose my-12">
+                    <div className="aspect-video w-full">
+                      <iframe
+                        className="h-full w-full rounded-lg shadow-lg"
+                        src="https://www.youtube.com/embed/3iOHoeFv4ZE?si=Y0dJ3DzDAxWcbrjD"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                    <figcaption className="mt-4 text-center text-base italic text-muted-foreground">
+                      Tässä esitin Knockout-vaiheessa Jennifer Rushin kappaleen
+                      The Power Of Love!
+                    </figcaption>
+                  </figure>
+
                   <p>
                     Heidi on valmistunut Tampereen Ammattikorkeakoulussa
                     musiikkiteatterin ammattilaiskesi vuonna 2023 sekä
@@ -232,17 +248,19 @@ const BioPage = () => {
               {/* Mobile Image 1 */}
               <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                 <img
-                  src={"/images/demo/bio-press-1.jpg"}
-                  alt="Heidi Simelius performing on stage"
-                  className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg"
+                  src={
+                    "/images/Seuraa-kuvat-Valosanni/Heidi-Simelius-Seuraa-kuvat-Valosanni-2.jpg"
+                  }
+                  alt="Heidi Simelius Seuraa singlen kuvauksissa."
+                  className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                 />
               </div>
 
               {/* Theatre Section */}
-              <section className="px-6">
+              <section className="px-16 md:px-6">
                 <h2
                   ref={teatteriHeadingRef}
-                  className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8"
+                  className="text-4xl md:text-5xl font-playfair font-extrabold italic text-primary mb-8 pt-8"
                 >
                   Teatteri
                 </h2>
@@ -333,17 +351,19 @@ const BioPage = () => {
               {/* Mobile Image 2 */}
               <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                 <img
-                  src={"/images/demo/bio-press-2.jpg"}
-                  alt="Heidi Simelius in performance"
-                  className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
+                  src={
+                    "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-9.jpg"
+                  }
+                  alt="Heidi Simelius Mä vastaan EP:n promokuvauksissa."
+                  className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                 />
               </div>
 
               {/* Translations Section */}
-              <section className="px-6">
+              <section className="px-16 md:px-6">
                 <h2
                   ref={suomennoksetHeadingRef}
-                  className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8"
+                  className="text-4xl md:text-5xl font-playfair font-extrabold italic text-primary mb-8 pt-8"
                 >
                   Suomennokset
                 </h2>
@@ -363,8 +383,8 @@ const BioPage = () => {
               </section>
 
               {/* Discography Section */}
-              <section className="px-6">
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8">
+              <section className="px-16 md:px-6">
+                <h2 className="text-4xl md:text-5xl font-playfair font-extrabold italic text-primary mb-8 pt-8">
                   Studio
                 </h2>
                 <div className="space-y-8 font-source text-foreground">
@@ -495,9 +515,11 @@ const BioPage = () => {
               {/* Mobile Image 3 */}
               <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                 <img
-                  src={"/images/demo/bio-press-3.jpg"}
-                  alt="Heidi Simelius performing with band"
-                  className="w-full h-auto sm:w-auto sm:max-h-[500px] sm:h-auto sm:mx-auto rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
+                  src={
+                    "/images/Seuraa-kuvat-Valosanni/Heidi-Simelius-Seuraa-kuvat-Valosanni-1.jpg"
+                  }
+                  alt="Heidi Simelius Seuraa singlen kuvauksissa."
+                  className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                 />
               </div>
             </div>
@@ -508,24 +530,30 @@ const BioPage = () => {
                 {/* Image 1 - Initially visible */}
                 <div ref={image1Ref} className="absolute inset-0 opacity-100">
                   <img
-                    src={"/images/demo/bio-press-1.jpg"}
-                    alt="Heidi Simelius performing on stage"
+                    src={
+                      "/images/Seuraa-kuvat-Valosanni/Heidi-Simelius-Seuraa-kuvat-Valosanni-2.jpg"
+                    }
+                    alt="Heidi Simelius Seuraa singlen kuvauksissa."
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                 </div>
                 {/* Image 2 - Initially hidden */}
                 <div ref={image2Ref} className="absolute inset-0 opacity-0">
                   <img
-                    src={"/images/demo/bio-press-2.jpg"}
-                    alt="Heidi Simelius in performance with a band"
+                    src={
+                      "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-9.jpg"
+                    }
+                    alt="Heidi Simelius Mä vastaan EP:n promokuvauksissa."
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                 </div>
                 {/* Image 3 - Initially hidden */}
                 <div ref={image3Ref} className="absolute inset-0 opacity-0">
                   <img
-                    src={"/images/demo/bio-press-3.jpg"}
-                    alt="Heidi Simelius theatrical portrait"
+                    src={
+                      "/images/Seuraa-kuvat-Valosanni/Heidi-Simelius-Seuraa-kuvat-Valosanni-1.jpg"
+                    }
+                    alt="Heidi Simelius Seuraa singlen kuvauksissa."
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                 </div>

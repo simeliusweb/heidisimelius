@@ -183,7 +183,7 @@ const KeikatPage = () => {
       <StructuredData data={musicEventsSchema} />
 
       {/* Page Header with Background Image */}
-      <section className="relative w-full h-[50vh] md:h-[60vh] flex items-end justify-center overflow-hidden">
+      <section className="relative z-1 w-full h-[50vh] md:h-[60vh] flex items-end justify-center">
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -195,15 +195,15 @@ const KeikatPage = () => {
 
         {/* Page Title */}
         <div className="relative z-10 container mx-auto px-4">
-          <h1 className="text-6xl md:text-8xl lg:text-10xl font-playfair font-extrabold text-center text-primary">
+          <h1 className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 text-6xl sm:text-8xl md:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-primary w-fit">
             Keikat
           </h1>
         </div>
       </section>
 
       {/* Musiikkikeikat Section */}
-      <section className="container mx-auto px-4 py-12">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 italic">
+      <section className="container mx-auto px-4 py-12 pt-32 sm:pt-64">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 sm:mb-16 italic">
           Musiikkikeikat
         </h2>
         <EventGroup {...heidiTrioLive} id="heidi-simelius-trio-live" />
@@ -211,15 +211,15 @@ const KeikatPage = () => {
 
       {/* Teatteriesitykset Section */}
       <section className="container mx-auto px-4 py-12">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 italic">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 sm:mb-16 italic">
           Teatteriesitykset
         </h2>
         <EventGroup {...tootsieMusical} id="tootsie-musikaali" />
       </section>
 
       {/* Past Gigs Section */}
-      <section className="container mx-auto px-4 py-12">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 italic">
+      <section className="container mx-auto px-4 py-12 pb-32">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 sm:mb-16 italic">
           Menneet keikat
         </h2>
 

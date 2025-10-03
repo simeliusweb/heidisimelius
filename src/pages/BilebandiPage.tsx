@@ -58,15 +58,15 @@ const BilebandiPage = () => {
   };
   return (
     <>
-      <PageMeta title={pageMetadata.bilebandi.title} description={pageMetadata.bilebandi.description} />
+      <PageMeta
+        title={pageMetadata.bilebandi.title}
+        description={pageMetadata.bilebandi.description}
+      />
 
       {/* Hero Header */}
       <section className="relative w-full min-h-[60vh] md:min-h-[70vh] flex items-center justify-center overflow-hidden">
         {/* Background Placeholder */}
         <div className="absolute inset-0 bg-gradient-to-br from-background via-card to-background" />
-        
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/40" />
 
         {/* Content */}
         <div className="relative z-10 text-center px-6">
@@ -82,7 +82,12 @@ const BilebandiPage = () => {
           Bändiesittely
         </h2>
         <p className="text-lg md:text-xl text-muted-foreground leading-relaxed text-center">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur.
         </p>
       </section>
 
@@ -107,7 +112,7 @@ const BilebandiPage = () => {
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 text-center">
           Buukkaa Heidi & Hot Stuff keikalle!
         </h2>
-        
+
         <div className="max-w-[600px] mx-auto">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -119,7 +124,8 @@ const BilebandiPage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Nimi <span className="text-secondary-foreground">*</span>
+                        Nimi{" "}
+                        <span className="text-secondary-foreground">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input placeholder="Nimi" {...field} />
@@ -135,7 +141,8 @@ const BilebandiPage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Puhelinnumero <span className="text-secondary-foreground">*</span>
+                        Puhelinnumero{" "}
+                        <span className="text-secondary-foreground">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input placeholder="Puhelinnumero" {...field} />
@@ -153,7 +160,8 @@ const BilebandiPage = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Sähköposti <span className="text-secondary-foreground">*</span>
+                      Sähköposti{" "}
+                      <span className="text-secondary-foreground">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input type="email" placeholder="Sähköposti" {...field} />
@@ -183,10 +191,10 @@ const BilebandiPage = () => {
                             >
                               {field.value ? (
                                 format(field.value, "d.M.yyyy")
-                          ) : (
-                            <span>Valitse päivämäärä</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 text-foreground" />
+                              ) : (
+                                <span>Valitse päivämäärä</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 text-foreground" />
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
@@ -246,7 +254,7 @@ const BilebandiPage = () => {
                   <FormItem>
                     <FormLabel>Viesti</FormLabel>
                     <FormControl>
-                      <Textarea 
+                      <Textarea
                         placeholder="Kerro meille lisää tapahtumastasi..."
                         className="min-h-[120px]"
                         {...field}
@@ -281,7 +289,7 @@ const BilebandiPage = () => {
       <footer className="w-full mt-16">
         {/* Image Section - Full width, no overlays */}
         <div className="w-full h-64 md:h-80 lg:h-96">
-          <img 
+          <img
             src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=2070&auto=format&fit=crop"
             alt="Band performing live"
             className="w-full h-full object-cover"
@@ -292,7 +300,7 @@ const BilebandiPage = () => {
         <div className="w-full bg-[linear-gradient(270deg,hsl(234deg_23.8%_8.2%)_0%,hsl(234deg_22%_9%)_8%,hsl(234deg_21%_10%)_17%,hsl(233deg_20%_10%)_25%,hsl(234deg_20%_11%)_33%,hsl(234deg_19%_12%)_42%,hsl(235deg_18.8%_12.5%)_50%,hsl(234deg_19%_12%)_58%,hsl(234deg_20%_11%)_67%,hsl(233deg_20%_10%)_75%,hsl(234deg_21%_10%)_83%,hsl(234deg_22%_9%)_92%,hsl(234deg_23.8%_8.2%)_100%)] p-8">
           <div className="flex flex-col items-center gap-6">
             {/* Homepage Link */}
-            <Link 
+            <Link
               to="/"
               className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm text-muted"
             >

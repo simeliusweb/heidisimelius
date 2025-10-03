@@ -22,6 +22,9 @@ export default {
       },
     },
     extend: {
+      screens: {
+        xs: "420px",
+      },
       fontFamily: {
         santorini: ["Santorini", "sans-serif"],
         playfair: ['"Playfair Display"', "serif"],
