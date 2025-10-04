@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
-import { Hand } from "lucide-react";
+import { Hand, X } from "lucide-react";
 import BottomBranding from "./BottomBranding";
 import { Button } from "./ui/button";
 
@@ -27,24 +27,41 @@ const HeroImageAndText = () => {
 
   // Function to request permission on user click
   const requestMotionPermission = async () => {
-    // This is the specific API for Webkit/Safari
+    const doe =
+      DeviceOrientationEvent as unknown as DeviceOrientationEventWithPermission;
     if (typeof doe.requestPermission === "function") {
       try {
         const permission = await doe.requestPermission();
-        if (permission === "granted") {
-          setPermissionState("granted");
-        } else {
-          setPermissionState("denied");
-        }
+        setPermissionState(permission); // Directly set "granted" or "denied"
       } catch (error) {
-        console.error("Device orientation permission request failed:", error);
+        console.error("Permission request failed:", error);
         setPermissionState("denied");
       }
     } else {
-      // For non-iOS devices, permission is usually granted by default
-      setPermissionState("granted");
+      setPermissionState("granted"); // Non-iOS devices
     }
   };
+
+  const denyMotionPermission = () => {
+    setPermissionState("denied");
+    // Optionally, save this choice for the session
+    try {
+      sessionStorage.setItem("motion-permission-denied", "true");
+    } catch (error) {
+      console.warn("Could not write to sessionStorage:", error);
+    }
+  };
+
+  //   Check sessionStorage on initial load
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem("motion-permission-denied") === "true") {
+        setPermissionState("denied");
+      }
+    } catch (error) {
+      console.warn("Could not read from sessionStorage:", error);
+    }
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -93,15 +110,10 @@ const HeroImageAndText = () => {
       window.addEventListener("deviceorientation", handleDeviceOrientation);
     }
 
+    // cleanup logic
     return () => {
-      if (!isTouchDevice) {
-        container.removeEventListener("mousemove", handleMouseMove);
-      } else {
-        window.removeEventListener(
-          "deviceorientation",
-          handleDeviceOrientation
-        );
-      }
+      container.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("deviceorientation", handleDeviceOrientation);
     };
     // Re-run effect if permission state changes
   }, [permissionState]);
@@ -151,14 +163,28 @@ const HeroImageAndText = () => {
       {typeof window !== "undefined" &&
         "ontouchstart" in window &&
         permissionState === "prompt" && (
-          <Button
-            variant="outline"
-            onClick={requestMotionPermission}
-            className="absolute bottom-32 z-50 animate-pulse"
-          >
-            <Hand className="mr-2 h-4 w-4" />
-            Salli animaatiot
-          </Button>
+          <div className="absolute bottom-32 z-50 flex flex-col items-center gap-4 rounded-lg border border-border bg-background/50 p-4 backdrop-blur-sm">
+            <p className="text-sm text-foreground">Salli liikeanimaatiot?</p>
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={requestMotionPermission}
+              >
+                <Hand className="mr-2 h-4 w-4" />
+                Salli
+              </Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={denyMotionPermission}
+                className="bg-border"
+              >
+                <X className="mr-2 h-4 w-4" />
+                Ei kiitos
+              </Button>
+            </div>
+          </div>
         )}
 
       <div className="absolute bottom-0 flex w-full flex-col">
