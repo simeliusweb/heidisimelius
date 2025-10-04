@@ -11,6 +11,7 @@
 4.10. JSu
 * Update vercel config, routing Links.
 * Update Bilebändi page.
+* Update Footer.
 
 3.10.2025 JSu
 * First large update on styles, content, UX and UI tweaks and mods.
