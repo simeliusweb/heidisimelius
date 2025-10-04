@@ -92,10 +92,7 @@ const HomePage = () => {
           {/* Intro & Tagline Section */}
           <section className="container mx-auto px-6 pb-16 md:pb-24 text-center">
             {/* Large Stylized Name */}
-            {/* orginaali isompi <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-santorini text-primary pt-8 pb-4 sm:pt-0 mb-12 sm:mb-20 z-20 relative">
-              Heidi Simelius
-            </h2> */}
-            <h2 className="text-xl xs:text-2xl sm:text-3xl font-santorini text-primary pt-4 pb-4 sm:pt-0 mb-8 sm:mb-12 z-20 relative">
+            <h2 className="text-2xl xs:text-3xl font-santorini text-primary pt-4 pb-8 leading-loose translate-y-[-12px] sm:pt-0 sm:mb-4 z-20 relative">
               Heidi Simelius
             </h2>
             <p className="text-xl md:text-2xl text-foreground font-source mb-8 relative z-19">
