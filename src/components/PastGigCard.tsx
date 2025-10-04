@@ -5,19 +5,25 @@ import { MapPin, Calendar } from "lucide-react";
 interface PastGigCardProps {
   imageUrl: string;
   title: string;
-  gigType: 'Musiikki' | 'Teatteri';
+  gigType: "Musiikki" | "Teatteri";
   date: string;
   venue: string;
 }
 
-const PastGigCard = ({ imageUrl, title, gigType, date, venue }: PastGigCardProps) => {
+const PastGigCard = ({
+  imageUrl,
+  title,
+  gigType,
+  date,
+  venue,
+}: PastGigCardProps) => {
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 max-w-[300px] sm:max-w-full mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-[1fr_1.5fr] gap-0">
         {/* Left Column: Image Thumbnail */}
-        <div className="relative w-full h-48 sm:h-full">
-          <img 
-            src={imageUrl} 
+        <div className="relative w-full sm:h-48">
+          <img
+            src={imageUrl}
             alt={title}
             className="w-full h-full object-cover [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)] sm:[clip-path:polygon(0%_0%,_95%_0%,_100%_100%,_0%_100%)]"
           />
@@ -25,12 +31,16 @@ const PastGigCard = ({ imageUrl, title, gigType, date, venue }: PastGigCardProps
 
         {/* Right Column: Details */}
         <div className="p-6 flex flex-col justify-between gap-4">
-          {/* Top Row: Title and Gig Type Badge */}
-          <div className="flex flex-wrap items-center gap-3">
+          {/* Top Row: Title */}
+          <div className="flex flex-col justify-center gap-3">
             <h3 className="text-2xl md:text-3xl font-playfair font-extrabold text-foreground">
               {title}
             </h3>
-            <Badge variant="secondary" className="bg-muted text-muted-foreground hover:bg-muted/80">
+            {/* Gig Type Badge */}
+            <Badge
+              variant="secondary"
+              className="bg-muted text-muted-foreground hover:bg-muted/80 w-fit"
+            >
               {gigType}
             </Badge>
           </div>

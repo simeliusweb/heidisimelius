@@ -100,18 +100,46 @@ const BilebandiPage = () => {
 
       {/* Demo Video Section */}
       <section className="max-w-6xl mx-auto px-6 py-16 md:py-24">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-extrabold text-foreground mb-12 text-center">
-          Tutustu meihin paremmin videolta!
-        </h2>
-        <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl">
-          <iframe
-            className="absolute inset-0 w-full h-full"
-            src="https://www.youtube.com/embed/3iOHoeFv4ZE"
-            title="Heidi & The Hot Stuff - Live Demo"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground">
+            Katso meidät livenä!
+          </h2>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+            Mikään ei kerro bändin energiasta paremmin kuin live-video. Katso
+            hittipotpurimme ja koe meininki itse!
+          </p>
         </div>
+        <figure>
+          <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl">
+            <iframe
+              className="absolute inset-0 w-full h-full"
+              src="https://www.youtube.com/embed/1IYiuMruQic"
+              title="Heidi & The Hot Stuff - Live Demo"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <figcaption className="mt-4 text-center text-base italic text-muted-foreground">
+            Studiolive Hittipotpuri - Heidi & the Hot Stuff
+          </figcaption>
+        </figure>
+
+        <h2 className="text-2xl xs:text-3xl lg:text-4xl italic font-sans font-extrabold text-secondary-foreground mb-8 pt-8 text-center">
+          Etsitkö energistä bilebändiä juhliisi? 🎶
+        </h2>
+        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto">
+          Groovaavia bileklassikoita soittava Heidi & the Hot Stuff sopii
+          häihin, syntymäpäiviin, yritysjuhliin ja kaikkiin muihin tapahtumiin
+          Etelä-Suomessa. Katso tästä sudiolive:nä äänitetty 9 biisiä kattava
+          hittipotpuri antaa esimakua siitä millaista musiikkia ja meininkiä
+          toisimme juhliisi.
+          <br />
+          <br />
+          🎤 Solistina Heidi Simelius, bändin vetäjänä Valtteri Gutev
+          (sähköpiano), taustalla ammattimuusikot Waltteri Pahlama (kitara),
+          Leevi Könttä (basso) ja Richard Söderlund (rummut) – kaikki sujuu
+          helposti ja tilaajan tehtäväksi jää vain nauttia musiikista!
+        </p>
       </section>
 
       <section className="py-16 md:py-24">
