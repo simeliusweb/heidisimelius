@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
 import { fi } from "date-fns/locale";
-import { CalendarIcon, ExternalLink } from "lucide-react";
+import { CalendarIcon, ExternalLink, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { FaInstagram } from "react-icons/fa";
@@ -67,7 +67,7 @@ const BilebandiPage = () => {
       <section className="relative h-[50vh] xs:h-[80vh] sm:h-[100vh] flex items-end justify-center">
         {/* Hero Background Image */}
         <div
-          className="absolute inset-0 bg-cover xs:bg-[center_20%] md:bg-top
+          className="absolute inset-0 bg-cover xs:bg-[center_20%] md:bg-top lg:bg-[center_5%] xl:bg-[center_5%]
                md:bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff.jpg')] 
                bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff-mobile.webp')]"
         />
@@ -78,14 +78,24 @@ const BilebandiPage = () => {
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-playfair italic font-extrabold text-foreground mb-8 text-center">
           Bilebändi häihin ja yritysjuhliin Tampereella
         </h1>
-        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed text-center">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur.
-        </p>
+        <div className="text-center">
+          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+            Heidi & the Hot Stuff tarjoaa kuumaa groovea ja hittejä eri
+            vuosikymmeniltä nykypäivään. Bändi koostuu huipputason
+            ammattimuusikoista jotka takaavat kansainvälisen tason bileet.{" "}
+            <br />
+            Tilaa keikalle nyt!
+          </p>
+          <a
+            href="mailto:heidiandthehotstuff@gmail.com"
+            className="group mt-6 inline-flex items-center gap-2 text-secondary-foreground transition-all duration-300"
+          >
+            <Mail className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+            <span className="font-semibold group-hover:underline">
+              heidiandthehotstuff@gmail.com
+            </span>
+          </a>
+        </div>
       </section>
 
       {/* Demo Video Section */}
@@ -96,7 +106,7 @@ const BilebandiPage = () => {
         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl">
           <iframe
             className="absolute inset-0 w-full h-full"
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            src="https://www.youtube.com/embed/3iOHoeFv4ZE"
             title="Heidi & The Hot Stuff - Live Demo"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
