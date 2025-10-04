@@ -10,20 +10,27 @@ interface UpcomingGigCardProps {
   venue: string;
 }
 
-const UpcomingGigCard = ({ imageUrl, title, nextDate, nextTime, venue }: UpcomingGigCardProps) => {
+const UpcomingGigCard = ({
+  imageUrl,
+  title,
+  nextDate,
+  nextTime,
+  venue,
+}: UpcomingGigCardProps) => {
   // Parse the date and format it conditionally
   const dateObj = parse(nextDate, "dd.MM.yyyy", new Date());
   const currentYear = new Date().getFullYear();
-  const formattedDate = dateObj.getFullYear() === currentYear 
-    ? format(dateObj, "d.M.")
-    : format(dateObj, "d.M.yyyy");
+  const formattedDate =
+    dateObj.getFullYear() === currentYear
+      ? format(dateObj, "d.M.")
+      : format(dateObj, "d.M.yyyy");
   return (
     <Card className="overflow-hidden hover:border-primary/50 transition-colors">
       <CardContent className="p-0">
         {/* Image */}
         <div className="relative w-full aspect-video">
-          <img 
-            src={imageUrl} 
+          <img
+            src={imageUrl}
             alt={title}
             className="w-full h-full object-cover"
           />

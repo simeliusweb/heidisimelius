@@ -129,7 +129,7 @@ const BilebandiPage = () => {
         <div className="overflow-hidden [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)] py-12">
           <img
             src={
-              "/images/Heidi-and-the-hot-stuff/bilebandi-Pirkanmaa-monipuolinen-viihdyttava.jpg"
+              "/images/Heidi-and-the-hot-stuff/bilebandi-Pirkanmaa-juhlat-yksityistilaisuus-viihdyttava.webp"
             }
             alt="Heidi & The Hot Stuff"
             className="w-full h-auto shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
@@ -320,7 +320,7 @@ const BilebandiPage = () => {
         {/* Image Section - Full width, no overlays */}
         <div
           className="w-full h-[230px] xs:h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[900px] 2xl:h-[1150px] 
-        bg-cover bg-top bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-yritystilaisuus-juhlat-yksityistilaisuus.jpg')]"
+        bg-cover bg-top bg-[url('/images/Heidi-and-the-hot-stuff/Heidi-and-The-Hot-Stuff-bilebandi-Tampere.webp')]"
         />
 
         {/* Links Bar with Custom Gradient */}
