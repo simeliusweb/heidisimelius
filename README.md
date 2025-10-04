@@ -9,7 +9,8 @@
 
 ## Update log for Vercel deployments:
 4.10. JSu
-Update vercel config, routing Links.
+* Update vercel config, routing Links.
+* Update Bilebändi page.
 
 3.10.2025 JSu
-First large update on styles, content, UX and UI tweaks and mods.
+* First large update on styles, content, UX and UI tweaks and mods.
