@@ -176,6 +176,12 @@ const GalleriaPage = () => {
       photographerName: "Titta Toivanen",
       photographerUrl: "https://www.instagram.com/tittatoivanen",
     },
+    {
+      src: "/images/Simelius%20Heidi.jpg",
+      alt: "Heidi Simelius pressikuva 3",
+      photographerName: "Valosanni",
+      photographerUrl: "https://www.instagram.com/valosanni",
+    },
   ];
 
   const handleImageClick = (
