@@ -238,7 +238,10 @@ const BioPage = () => {
                 {/* CV Download Button */}
                 <div className="mt-12">
                   <Button size="lg" asChild>
-                    <a href="#" download>
+                    <a
+                      href="/files/CV%20Simelius%20Heidi.pdf"
+                      download="CV Simelius Heidi.pdf"
+                    >
                       Lataa CV (PDF)
                     </a>
                   </Button>

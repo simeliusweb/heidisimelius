@@ -33,6 +33,32 @@ All colors MUST be HSL.
 
     --radius: 0.5rem;
   }
+
+  /* v2 */
+  .theme-warm-desert {
+    --background: 234 23.8% 8.2%; /* #10111A dark blue */
+    --foreground: 225 100% 98.4%; /* #f7f9ff - valkoharmaa */
+    --primary: 356 80.7% 44.7%; /* #ce1623 - red */
+    --secondary: 30.75 71.4% 78%; /* #efc89f - kulta natural korvakorusta */
+    --border: 35 18% 78%; /* #D1C9BE OFF PALETTE */
+    --card: 35 20% 92%; /* #F2EDE7 OFF PALETTE */
+    --muted: 35 15% 55%; /* #968F8A OFF PALETTE */
+    --accent: 15 84% 48%; /* # OFF PALETTE */
+    --secondary-foreground: 39 67.7% 53.9%; /* #d9a23a - tummempi kulta */
+  }
+
+  /* v3 */
+  .theme-mono-light {
+    --background: 0 0% 100%; /* #FFFFFF - White */
+    --foreground: 240 10% 3.9%; /* #09090B - Near Black */
+    --primary: 346 92% 53%; /* #F0255A - Bright Pink */
+    --secondary: 240 5% 65%; /* #A1A1AA - Mid Grey */
+    --border: 240 6% 90%; /* #E4E4E7 */
+    --card: 240 6% 96%; /* #F4F4F5 */
+    --muted: 240 5% 65%;
+    --accent: 346 92% 53%;
+    --secondary-foreground: 240 10% 3.9%;
+  }
 }
 
 @layer base {
