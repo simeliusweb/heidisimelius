@@ -9,6 +9,7 @@ import VideosSection from "@/components/VideosSection";
 import UpcomingGigCard from "@/components/UpcomingGigCard";
 import PageMeta from "@/components/PageMeta";
 import { pageMetadata } from "@/config/metadata";
+import HeroImageAndText from "@/components/HeroImageAndText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,9 +24,10 @@ const HomePage = () => {
         {/* Helmet handles the LightWidget script tag correctly */}
         <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
       </Helmet>
-      <div className="relative min-h-screen">
+      <div className="relative">
+        {/* <div className="relative min-h-screen"> */}
         {/* Art-Directed Background Images */}
-        <div
+        {/* Orginaalit taustat <div
           className="fixed inset-0 bg-cover bg-center bg-no-repeat md:hidden"
           style={{
             backgroundImage: `url(/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg)`,
@@ -36,26 +38,70 @@ const HomePage = () => {
           style={{
             backgroundImage: `url(/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2.jpg)`,
           }}
-        />
-
-        {/* Content Container */}
-        <div className="relative overflow-visible z-10 min-h-screen flex flex-col">
-          {/* Bottom Branding Overlay */}
-          <BottomBranding />
-        </div>
+        /> */}
+        {/* <div className="relative h-[1040px] flex items-center justify-center inset-0 bg-cover bg-center bg-[#000] bg-no-repeat pb-16 pt-8">
+          <div className="relative">
+            <h2
+              className="absolute font-santorini text-[hsl(350.45,76.52%,54.9%)] z-1
+              top-[-178px] left-[-100px] 
+              text-[118px] 
+            "
+            >
+              Heidi
+            </h2>
+            <h2
+              className="absolute font-santorini text-foreground z-2
+              top-[-180px] left-[-102px] 
+              text-[118px] 
+            "
+            >
+              Heidi
+            </h2>
+            <h2
+              className="absolute font-santorini text-[hsl(350.45,76.52%,54.9%)] z-1 
+              bottom-[-120px] left-[-104px] 
+              text-[95px] 
+            "
+            >
+              Simelius
+            </h2>
+            <h2
+              className="absolute font-santorini text-foreground z-2 
+              bottom-[-118px] left-[-106px] 
+              text-[95px] 
+            "
+            >
+              Simelius
+            </h2>
+            <img
+              src={
+                "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp"
+              }
+              alt="Heidi Simelius on laulaja, lauluntekijä ja esiintyjä."
+              className="h-auto w-[80vw] max-w-[370px] relative z-3 shadow-lg"
+            />
+          </div>
+          <div className="absolute bottom-0 flex flex-col w-full">
+            <BottomBranding />
+          </div>
+        </div> */}
+        <HeroImageAndText />
 
         {/* Content Sections */}
         <div className="relative z-11 bg-background">
           {/* Intro & Tagline Section */}
           <section className="container mx-auto px-6 pb-16 md:pb-24 text-center">
             {/* Large Stylized Name */}
-            <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-santorini text-primary pt-8 sm:pt-0 mb-12 sm:mb-20 z-10 relative">
+            {/* orginaali isompi <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-santorini text-primary pt-8 pb-4 sm:pt-0 mb-12 sm:mb-20 z-20 relative">
+              Heidi Simelius
+            </h2> */}
+            <h2 className="text-xl xs:text-2xl sm:text-3xl font-santorini text-primary pt-4 pb-4 sm:pt-0 mb-8 sm:mb-12 z-20 relative">
               Heidi Simelius
             </h2>
-            <p className="text-xl md:text-2xl text-foreground font-source mb-8">
+            <p className="text-xl md:text-2xl text-foreground font-source mb-8 relative z-19">
               on laulaja, lauluntekijä ja esiintyjä.
             </p>
-            <Button asChild size="lg" className="font-medium">
+            <Button asChild variant="outline" size="lg" className="font-medium">
               <a href="/bio">Tutustu Heidiin</a>
             </Button>
           </section>
