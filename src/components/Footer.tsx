@@ -61,7 +61,6 @@ const Footer = () => {
   ];
 
   return (
-    // bg-[center_5%]
     <footer
       id="contact-section"
       className="relative bg-card mt-auto bg-cover bg-center md:bg-[20%_top] lg:bg-left-top

@@ -64,10 +64,10 @@ const BilebandiPage = () => {
       />
 
       {/* Hero Section */}
-      <section className="relative h-[50vh] xs:h-[80vh] sm:h-[100vh] flex items-end justify-center">
+      <section className="relative h-[60vh] xxs:h-[70vh] xs:h-[80vh] sm:h-[100vh] xl:h-[110vh] 2xl:h-[120vh] flex items-end justify-center">
         {/* Hero Background Image */}
         <div
-          className="absolute inset-0 bg-cover xs:bg-[center_20%] md:bg-top lg:bg-[center_5%] xl:bg-[center_5%]
+          className="absolute inset-0 bg-cover bg-[center_20%] md:bg-top lg:bg-[center_5%] xl:bg-[center_5%]
                md:bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff.jpg')] 
                bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff-mobile.webp')]"
         />
@@ -76,7 +76,7 @@ const BilebandiPage = () => {
       {/* Band Introduction Section */}
       <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-playfair italic font-extrabold text-foreground mb-8 text-center">
-          Bilebändi häihin ja yritysjuhliin Tampereella
+          Bilebändi sinun ja yrityksesi juhliin
         </h1>
         <div className="text-center">
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
@@ -84,7 +84,7 @@ const BilebandiPage = () => {
             vuosikymmeniltä nykypäivään. Bändi koostuu huipputason
             ammattimuusikoista jotka takaavat kansainvälisen tason bileet.{" "}
             <br />
-            Tilaa keikalle nyt!
+            Tilaa meidät keikalle nyt!
           </p>
           <a
             href="mailto:heidiandthehotstuff@gmail.com"
@@ -318,7 +318,10 @@ const BilebandiPage = () => {
       {/* Custom Bilebändi Footer */}
       <footer className="w-full mt-16">
         {/* Image Section - Full width, no overlays */}
-        <div className="w-full h-[230px] xs:h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[900px] 2xl:h-[1150px] bg-cover bg-top bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-yritystilaisuus-juhlat-yksityistilaisuus.jpg')]" />
+        <div
+          className="w-full h-[230px] xs:h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[900px] 2xl:h-[1150px] 
+        bg-cover bg-top bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-yritystilaisuus-juhlat-yksityistilaisuus.jpg')]"
+        />
 
         {/* Links Bar with Custom Gradient */}
         <div className="w-full bg-[linear-gradient(270deg,hsl(234deg_23.8%_8.2%)_0%,hsl(234deg_22%_9%)_8%,hsl(234deg_21%_10%)_17%,hsl(233deg_20%_10%)_25%,hsl(234deg_20%_11%)_33%,hsl(234deg_19%_12%)_42%,hsl(235deg_18.8%_12.5%)_50%,hsl(234deg_19%_12%)_58%,hsl(234deg_20%_11%)_67%,hsl(233deg_20%_10%)_75%,hsl(234deg_21%_10%)_83%,hsl(234deg_22%_9%)_92%,hsl(234deg_23.8%_8.2%)_100%)] p-8 pb-12">
