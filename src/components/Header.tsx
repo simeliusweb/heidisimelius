@@ -7,8 +7,10 @@ import {
   FaSpotify,
   FaTiktok,
 } from "react-icons/fa";
+import { HashLink } from "react-router-hash-link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -101,14 +103,11 @@ const Header = () => {
     { label: "Keikat", href: "/keikat" },
     { label: "Bio", href: "/bio" },
     { label: "Galleria", href: "/galleria" },
-    { label: "Bilebändi", href: "/bilebandi-heidi-and-the-hot-stuff" },
+    {
+      label: "Heidi & The Hot Stuff",
+      href: "/bilebandi-heidi-and-the-hot-stuff",
+    },
     { label: "Ota yhteyttä", href: "#contact-section" },
-  ];
-
-  const quickLinks = [
-    { label: "KEIKAT", href: "/keikat" },
-    { label: "BIO", href: "/bio" },
-    { label: "GALLERIA", href: "/galleria" },
   ];
 
   return (
@@ -166,13 +165,24 @@ const Header = () => {
             <ul className="space-y-4 px-4">
               {navLinks.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-xl md:text-2xl font-sans font-extrabold text-foreground hover:text-secondary-foreground transition-colors"
-                    onClick={toggleMenu}
-                  >
-                    {link.label}
-                  </a>
+                  {link.href.includes("#") ? (
+                    <HashLink
+                      smooth
+                      to={link.href}
+                      className="text-xl md:text-2xl font-sans font-extrabold text-foreground hover:text-secondary-foreground transition-colors"
+                      onClick={toggleMenu}
+                    >
+                      {link.label}
+                    </HashLink>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className="text-xl md:text-2xl font-sans font-extrabold text-foreground hover:text-secondary-foreground transition-colors"
+                      onClick={toggleMenu}
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
