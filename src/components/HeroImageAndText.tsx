@@ -21,7 +21,7 @@ const HeroImageAndText = () => {
   const doe =
     DeviceOrientationEvent as unknown as DeviceOrientationEventWithPermission;
 
-  // MODIFICATION: State to handle device motion permission on iOS
+  // State to handle device motion permission on iOS
   const [permissionState, setPermissionState] =
     useState<PermissionState>("prompt");
 
@@ -89,7 +89,7 @@ const HeroImageAndText = () => {
     if (!isTouchDevice) {
       container.addEventListener("mousemove", handleMouseMove);
     } else if (permissionState === "granted") {
-      // MODIFICATION: Only listen for tilt if permission has been granted
+      // Only listen for tilt if permission has been granted
       window.addEventListener("deviceorientation", handleDeviceOrientation);
     }
 
@@ -103,7 +103,7 @@ const HeroImageAndText = () => {
         );
       }
     };
-    // MODIFICATION: Re-run effect if permission state changes
+    // Re-run effect if permission state changes
   }, [permissionState]);
 
   return (
@@ -111,7 +111,7 @@ const HeroImageAndText = () => {
       ref={containerRef}
       className="relative flex h-[650px] xs:h-[700px] sm:h-[840px] md:h-[1040px] items-center justify-center overflow-hidden bg-[#000] pb-16 pt-8"
     >
-      {/* MODIFICATION: Inner container for scaling */}
+      {/* Inner container for scaling */}
       <div className="relative scale-[0.45] xxs:scale-[0.5] xs:scale-[0.55] sm:scale-75 md:scale-90 lg:scale-100">
         {/* --- "Heidi" Word Group --- */}
         <div className="absolute top-[-180px] left-[-102px]">
@@ -147,7 +147,7 @@ const HeroImageAndText = () => {
         </div>
       </div>
 
-      {/* MODIFICATION: Permission button for mobile */}
+      {/* Permission button for mobile */}
       {typeof window !== "undefined" &&
         "ontouchstart" in window &&
         permissionState === "prompt" && (
