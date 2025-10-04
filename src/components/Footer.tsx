@@ -61,19 +61,19 @@ const Footer = () => {
   ];
 
   return (
+    // bg-[center_5%]
     <footer
       id="contact-section"
-      className="relative bg-card mt-auto bg-cover bg-top sm:bg-left-top pt-32"
-      style={{
-        backgroundImage: `url(/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-4.jpg)`,
-      }}
+      className="relative bg-card mt-auto bg-cover bg-center md:bg-[20%_top] lg:bg-left-top
+      md:bg-[url('/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-4.jpg')]
+      bg-[url('/images/demo/hero-bg.jpg')]"
     >
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-background/70" />
+      <div className="absolute inset-0 bg-background/85 md:bg-background/70" />
 
       {/* Content */}
-      <div className="relative container mx-auto px-6 pb-20 pt-32 sm:pt-16 h-[100vh] sm:h-auto flex flex-col justify-end">
-        <div className="flex justify-center sm:justify-start gap-12 mb-16">
+      <div className="relative container mx-auto px-6 pb-20 pt-16 md:h-[100vh] h-auto flex flex-col justify-end">
+        <div className="flex justify-center md:justify-start gap-12 mb-16">
           <div>
             <h2 className="text-3xl font-playfair font-extrabold text-primary mb-6 min-w-[300px]">
               Ota yhteyttä
