@@ -167,7 +167,6 @@ const Header = () => {
                 <li key={link.label}>
                   {link.href.includes("#") ? (
                     <HashLink
-                      smooth
                       to={link.href}
                       className="text-xl md:text-2xl font-sans font-extrabold text-foreground hover:text-secondary-foreground transition-colors"
                       onClick={toggleMenu}

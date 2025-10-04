@@ -187,8 +187,10 @@ const KeikatPage = () => {
       <section className="relative z-1 w-full h-[50vh] md:h-[60vh] flex items-end justify-center">
         {/* Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(/images/demo/keikat-hero-bg.jpg)` }}
+          className="absolute inset-0 bg-cover bg-bottom bg-no-repeat"
+          style={{
+            backgroundImage: `url(/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-16.JPG)`,
+          }}
         />
 
         {/* Dark Gradient Overlay */}
@@ -200,6 +202,11 @@ const KeikatPage = () => {
             Keikat
           </h1>
         </div>
+
+        {/* Credits */}
+        <p className="absolute bottom-0 right-0 text-muted text-[12px] font-sans italic p-2 bg-border/50 rounded-tl-lg">
+          Kuva: Ville Huuri
+        </p>
       </section>
 
       {/* Musiikkikeikat Section */}
@@ -235,7 +242,7 @@ const KeikatPage = () => {
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 sm:mb-16 italic">
           Teatteriesitykset
         </h2>
-        <EventGroup {...kinkyBootsMusical} id="tootsie-musikaali" />
+        <EventGroup {...kinkyBootsMusical} id="kinkyboots-musikaali" />
       </section>
 
       {/* Past Gigs Section */}

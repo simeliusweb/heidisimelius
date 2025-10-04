@@ -69,26 +69,33 @@ const HomePage = () => {
               {(() => {
                 // Event data with performances
                 const upcomingEvents = [
+                  // {
+                  //   imageUrl: "/images/demo/placeholder-trio.jpg",
+                  //   title: "Heidi Simelius Trio Live",
+                  //   venue: "G Livelab, Tampere",
+                  //   slug: "heidi-simelius-trio-live",
+                  //   performances: [{ date: "2025-11-15", time: "20:00" }],
+                  // },
                   {
-                    imageUrl: "/images/demo/placeholder-trio.jpg",
-                    title: "Heidi Simelius Trio Live",
-                    venue: "G Livelab, Tampere",
-                    slug: "heidi-simelius-trio-live",
-                    performances: [{ date: "2025-11-15", time: "20:00" }],
-                  },
-                  {
-                    imageUrl: "/images/demo/placeholder-tootsie.jpg",
-                    title: "Tootsie-musikaali",
-                    venue: "Lahden Kaupunginteatteri",
-                    slug: "tootsie-musikaali",
+                    imageUrl:
+                      "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
+                    title: "Kinky Boots -musikaali",
+                    venue: "Oulun teatteri",
+                    slug: "kinkyboots-musikaali",
                     performances: [
+                      { date: "2025-10-10", time: "19:00" },
+                      { date: "2025-10-11", time: "13:00" },
+                      { date: "2025-10-17", time: "19:00" },
+                      { date: "2025-10-18", time: "19:00" },
+                      { date: "2025-10-23", time: "19:00" },
                       { date: "2025-10-24", time: "19:00" },
-                      { date: "2025-10-25", time: "13:00" },
-                      { date: "2025-11-01", time: "20:00" },
-                      { date: "2025-11-17", time: "19:30" },
-                      { date: "2025-11-28", time: "18:30" },
-                      { date: "2025-12-06", time: "17:00" },
-                      { date: "2025-12-18", time: "20:30" },
+                      { date: "2025-10-30", time: "19:00" },
+                      { date: "2025-10-31", time: "13:00" },
+                      { date: "2025-11-07", time: "19:00" },
+                      { date: "2025-11-08", time: "13:00" },
+                      { date: "2025-11-26", time: "19:00" },
+                      { date: "2025-11-28", time: "19:00" },
+                      { date: "2025-11-29", time: "19:00" },
                     ],
                   },
                 ];

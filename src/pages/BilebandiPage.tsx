@@ -105,8 +105,9 @@ const BilebandiPage = () => {
             Katso meidät livenä!
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            Mikään ei kerro bändin energiasta paremmin kuin live-video. Katso
-            hittipotpurimme ja koe meininki itse!
+            Mikään ei kerro bändin energiasta paremmin kuin live-video.
+            <br />
+            Katso hittipotpurimme ja koe meininki itse!
           </p>
         </div>
         <figure>
@@ -166,7 +167,7 @@ const BilebandiPage = () => {
       </section>
 
       {/* Booking & Contact Section */}
-      <section className="mx-auto px-6 py-16 md:py-24">
+      <section className="mx-auto px-6 py-16 md:py-24" id="contact-section">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-extrabold text-foreground mb-12 text-center">
           Buukkaa Heidi & The Hot Stuff keikalle!
         </h2>
@@ -352,7 +353,7 @@ const BilebandiPage = () => {
         />
 
         {/* Links Bar with Custom Gradient */}
-        <div className="w-full bg-[linear-gradient(270deg,hsl(234deg_23.8%_8.2%)_0%,hsl(234deg_22%_9%)_8%,hsl(234deg_21%_10%)_17%,hsl(233deg_20%_10%)_25%,hsl(234deg_20%_11%)_33%,hsl(234deg_19%_12%)_42%,hsl(235deg_18.8%_12.5%)_50%,hsl(234deg_19%_12%)_58%,hsl(234deg_20%_11%)_67%,hsl(233deg_20%_10%)_75%,hsl(234deg_21%_10%)_83%,hsl(234deg_22%_9%)_92%,hsl(234deg_23.8%_8.2%)_100%)] p-8 pb-12">
+        <div className="backdrop-blur-md w-full bg-[linear-gradient(270deg,hsl(234deg_23.8%_8.2%)_0%,hsl(234deg_22%_9%)_8%,hsl(234deg_21%_10%)_17%,hsl(233deg_20%_10%)_25%,hsl(234deg_20%_11%)_33%,hsl(234deg_19%_12%)_42%,hsl(235deg_18.8%_12.5%)_50%,hsl(234deg_19%_12%)_58%,hsl(234deg_20%_11%)_67%,hsl(233deg_20%_10%)_75%,hsl(234deg_21%_10%)_83%,hsl(234deg_22%_9%)_92%,hsl(234deg_23.8%_8.2%)_100%)] p-8 pb-12">
           <div className="flex flex-col items-center gap-6">
             {/* Homepage Link */}
             <Link

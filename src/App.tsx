@@ -12,6 +12,7 @@ import GalleriaPage from "./pages/GalleriaPage";
 import NotFound from "./pages/NotFound";
 import BilebandiPage from "./pages/BilebandiPage";
 import ThemeSwitcher from "./components/ThemeSwitcher";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const AppContent = () => {
   return (
     <div className="relative min-h-screen">
       <ThemeSwitcher />
+      <ScrollToTop />
 
       <Header />
       <Routes>
