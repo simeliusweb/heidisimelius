@@ -111,7 +111,7 @@ const BioPage = () => {
     });
 
     // --- NEW MOBILE PARALLAX ANIMATION ---
-    mm.add("(max-width: 639px)", () => {
+    mm.add("(max-width: 767px)", () => {
       // Target all mobile image containers
       const mobileImages = gsap.utils.toArray(".mobile-image-mask");
 
@@ -155,7 +155,7 @@ const BioPage = () => {
       <StructuredData data={heidiSchema} />
 
       {/* Hero Section */}
-      <section className="relative h-[60vh] md:h-[70vh] flex items-end justify-center">
+      <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center">
         {/* Hero Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-top 
@@ -169,6 +169,11 @@ const BioPage = () => {
             Bio
           </h1>
         </div>
+
+        {/* Credits */}
+        <p className="absolute bottom-0 right-0 text-muted text-[12px] font-sans italic p-2 bg-border/50 rounded-tl-lg">
+          Kuva: Valosanni
+        </p>
       </section>
 
       {/* Main Content */}
@@ -249,15 +254,20 @@ const BioPage = () => {
               </section>
 
               {/* Mobile Image 1 */}
-              <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
-                <img
-                  src={
-                    "/images/Seuraa-kuvat-Valosanni/Heidi-Simelius-Seuraa-kuvat-Valosanni-2.jpg"
-                  }
-                  alt="Heidi Simelius Seuraa singlen kuvauksissa."
-                  className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
-                />
-              </div>
+              <figure className="md:hidden">
+                <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
+                  <img
+                    src={
+                      "/images/Seuraa-kuvat-Valosanni/Heidi-Simelius-Seuraa-kuvat-Valosanni-2.jpg"
+                    }
+                    alt="Heidi Simelius Seuraa singlen kuvauksissa."
+                    className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
+                  />
+                </div>
+                <figcaption className="mt-4 px-16 text-center text-base italic text-muted-foreground">
+                  Kuva: Valosanni
+                </figcaption>
+              </figure>
 
               {/* Theatre Section */}
               <section className="px-16 md:px-6">
@@ -352,15 +362,21 @@ const BioPage = () => {
               </section>
 
               {/* Mobile Image 2 */}
-              <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
-                <img
-                  src={
-                    "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-9.jpg"
-                  }
-                  alt="Heidi Simelius Mä vastaan EP:n promokuvauksissa."
-                  className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
-                />
-              </div>
+              <figure className="md:hidden">
+                <div className="overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
+                  <img
+                    src={
+                      "/images/Heidi-Simelius-Kinky-Boots-Oulun-teatteri-musikaali.jpeg"
+                    }
+                    alt="Heidi Simelius Oulun teatterin Kinky Boots -musikaalin promokuvassa."
+                    className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
+                  />
+                </div>
+                <figcaption className="mt-4 px-16 text-center text-base italic text-muted-foreground">
+                  Musikaalissa "Kinky Boots" Oulun teatterissa. Kuva: Kati
+                  Leinonen
+                </figcaption>
+              </figure>
 
               {/* Translations Section */}
               <section className="px-16 md:px-6">
@@ -516,15 +532,20 @@ const BioPage = () => {
               </section>
 
               {/* Mobile Image 3 */}
-              <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
-                <img
-                  src={
-                    "/images/Seuraa-kuvat-Valosanni/Heidi-Simelius-Seuraa-kuvat-Valosanni-1.jpg"
-                  }
-                  alt="Heidi Simelius Seuraa singlen kuvauksissa."
-                  className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
-                />
-              </div>
+              <figure className="md:hidden">
+                <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
+                  <img
+                    src={
+                      "/images/Heidi-Simelius-koskettimet-ja-laulu-kuva-AWA.webp"
+                    }
+                    alt="Heidi Simelius Seuraa singlen kuvauksissa."
+                    className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
+                  />
+                </div>
+                <figcaption className="mt-4 px-16 text-center text-base italic text-muted-foreground">
+                  Kuva: AWA
+                </figcaption>
+              </figure>
             </div>
 
             {/* Right Column - Stacked Images with Scrollytelling (Desktop Only) */}
@@ -539,26 +560,36 @@ const BioPage = () => {
                     alt="Heidi Simelius Seuraa singlen kuvauksissa."
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
+                  <figcaption className="absolute bottom-0 w-full rounded-b-lg bg-gradient-to-t from-black/60 to-transparent p-3 text-center text-base italic text-white">
+                    Kuva: Valosanni
+                  </figcaption>
                 </div>
                 {/* Image 2 - Initially hidden */}
                 <div ref={image2Ref} className="absolute inset-0 opacity-0">
                   <img
                     src={
-                      "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-9.jpg"
+                      "/images/Heidi-Simelius-Kinky-Boots-Oulun-teatteri-musikaali.jpeg"
                     }
                     alt="Heidi Simelius Mä vastaan EP:n promokuvauksissa."
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
+                  <figcaption className="absolute bottom-0 w-full rounded-b-lg bg-gradient-to-t from-black/60 to-transparent p-3 text-center text-base italic text-white">
+                    Musikaalissa "Kinky Boots" Oulun teatterissa. Kuva: Kati
+                    Leinonen
+                  </figcaption>
                 </div>
                 {/* Image 3 - Initially hidden */}
                 <div ref={image3Ref} className="absolute inset-0 opacity-0">
                   <img
                     src={
-                      "/images/Seuraa-kuvat-Valosanni/Heidi-Simelius-Seuraa-kuvat-Valosanni-1.jpg"
+                      "/images/Heidi-Simelius-koskettimet-ja-laulu-kuva-AWA.webp"
                     }
                     alt="Heidi Simelius Seuraa singlen kuvauksissa."
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
+                  <figcaption className="absolute bottom-0 w-full rounded-b-lg bg-gradient-to-t from-black/60 to-transparent p-3 text-center text-base italic text-white">
+                    Kuva: AWA
+                  </figcaption>
                 </div>
               </div>
             </div>

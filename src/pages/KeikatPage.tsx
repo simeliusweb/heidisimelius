@@ -184,12 +184,12 @@ const KeikatPage = () => {
       <StructuredData data={musicEventsSchema} />
 
       {/* Page Header with Background Image */}
-      <section className="relative z-1 w-full h-[50vh] md:h-[60vh] flex items-end justify-center">
+      <section className="relative z-1 w-full h-[50vh] sm:h-[60vh] md:h-[90vh] flex items-end justify-center">
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-bottom bg-no-repeat"
           style={{
-            backgroundImage: `url(/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-16.JPG)`,
+            backgroundImage: `url(/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-16.webp)`,
           }}
         />
 

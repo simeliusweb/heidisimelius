@@ -63,16 +63,14 @@ const Footer = () => {
   return (
     <footer
       id="contact-section"
-      className="relative bg-card mt-auto bg-cover bg-center md:bg-[20%_top] lg:bg-left-top
-      md:bg-[url('/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-4.jpg')]
-      bg-[url('/images/demo/hero-bg.jpg')]"
+      className="relative bg-card mt-auto bg-cover bg-[45%_70%] lg:bg-[center_70%]  bg-[url('/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-38.webp')]"
     >
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-background/85 md:bg-background/70" />
+      <div className="absolute inset-0 bg-background/85" />
 
       {/* Content */}
-      <div className="relative container mx-auto px-6 pb-20 pt-16 md:h-[100vh] h-auto flex flex-col justify-end">
-        <div className="flex justify-center md:justify-start gap-12 mb-16">
+      <div className="relative container mx-auto px-6 pb-20 pt-16 h-auto flex flex-col justify-end">
+        <div className="flex justify-center md:justify-end gap-12 mb-16">
           <div>
             <h2 className="text-3xl font-playfair font-extrabold text-primary mb-6 min-w-[300px]">
               Ota yhteyttä
@@ -80,7 +78,7 @@ const Footer = () => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4"
+                className="space-y-4 pb-40"
               >
                 <FormField
                   control={form.control}
@@ -231,7 +229,7 @@ const Footer = () => {
           </a>
         </div>
       </div>
-      <p className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xs pt-8 pb-5 italic text-muted">
+      <p className="absolute bottom-0 left-0 text-xs pt-8 pb-2 pl-2 italic text-muted">
         Sivut luonut{" "}
         <a
           href="https://www.linkedin.com/in/janisuoranta/"
@@ -242,6 +240,11 @@ const Footer = () => {
           SuorantaCoding
           <ExternalLink className="h-3 w-3" />
         </a>
+      </p>
+
+      {/* Credits */}
+      <p className="absolute bottom-0 right-0 text-muted text-[12px] font-sans italic p-2 bg-border/50 rounded-tl-lg">
+        Kuva: Ville Huuri
       </p>
     </footer>
   );
