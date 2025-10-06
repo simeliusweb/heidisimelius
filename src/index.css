@@ -105,3 +105,14 @@ td:has(.rdp-button[aria-current="date"]) {
   /* Ensures the element has its own stacking context for clipping */
   will-change: clip-path;
 }
+
+.image-glow-home-hero {
+  filter: drop-shadow(0 20px 120px #d9ae6111);
+}
+
+.element-slight-glow {
+  /* box-shadow: rgba(42, 43, 58, 0.96) 0px 1px 4px; */
+
+  box-shadow: rgba(42, 43, 58, 0.96) 0px 6px 24px 0px,
+    rgba(42, 43, 58, 1) 0px 0px 0px 1px;
+}

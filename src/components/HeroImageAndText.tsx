@@ -7,6 +7,7 @@ const HeroImageAndText = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const heidiShadowRef = useRef<HTMLHeadingElement>(null);
   const simeliusShadowRef = useRef<HTMLHeadingElement>(null);
+  const brandingRef = useRef<HTMLDivElement>(null);
 
   // State to manage the loading process
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +22,7 @@ const HeroImageAndText = () => {
 
     if (!container || !heidiShadow || !simeliusShadow) return;
 
-    const movementStrength = 20; // How much the shadow moves. Adjust this value for more/less effect.
+    const movementStrength = 4; // How much the shadow moves. Adjust this value for more/less effect.
 
     // --- Desktop: Mouse Move Animation ---
     const handleMouseMove = (event: MouseEvent) => {
@@ -123,10 +124,43 @@ const HeroImageAndText = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (contentRef.current) {
+      gsap.to(contentRef.current, {
+        y: 140,
+        ease: "none",
+        scrollTrigger: {
+          trigger: contentRef.current,
+          start: "top top", // When top of trigger hits top of viewport
+          end: "bottom top", // When bottom of trigger hits top of viewport
+          scrub: true, // Smoothly link animation to scroll position
+        },
+      });
+    }
+  }, []);
+
   return (
     <div
       ref={containerRef}
-      className="relative flex h-[650px] xs:h-[700px] sm:h-[840px] md:h-[1040px] items-center justify-center overflow-hidden bg-[#000] pb-16 pt-8"
+      className="relative flex h-[650px] xs:h-[700px] sm:h-[840px] md:h-[1040px] items-center justify-center overflow-hidden bg-background pb-16 pt-8"
+      style={{
+        backgroundImage: `linear-gradient(
+      55deg,
+      hsl(234deg 24% 8%) 0%,
+      hsl(236deg 23% 8%) 10%,
+      hsl(238deg 23% 8%) 20%,
+      hsl(240deg 23% 8%) 32%,
+      hsl(238deg 23% 8%) 46%,
+      hsl(236deg 23% 8%) 62%,
+      hsl(234deg 24% 8%) 75%,
+      hsl(234deg 24% 8%) 84%,
+      hsl(234deg 24% 8%) 89%,
+      hsl(234deg 24% 8%) 93%,
+      hsl(235deg 23% 9%) 96%,
+      hsl(235deg 23% 10%) 98%,
+      hsl(235deg 23% 10%) 100%
+    )`,
+      }}
     >
       {isLoading && isSpinnerVisible && (
         <Loader2 className="absolute h-12 w-12 animate-spin text-primary" />
@@ -139,7 +173,7 @@ const HeroImageAndText = () => {
           <div className="absolute top-[-180px] left-[-102px]">
             <h2
               ref={heidiShadowRef}
-              className="absolute z-10 font-santorini text-[118px] text-primary top-[2px] left-[2px]"
+              className="absolute z-10 font-santorini text-[118px] text-primary top-[6px] left-[-6px]"
               // villi pinkki text-[hsl(350.45,76.52%,54.9%)]
             >
               Heidi
@@ -153,14 +187,14 @@ const HeroImageAndText = () => {
           <img
             src="/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp"
             alt="Heidi Simelius on laulaja, lauluntekijä ja esiintyjä."
-            className="relative z-30 h-auto w-[370px] shadow-lg"
+            className="relative z-30 h-auto w-[370px] shadow-lg image-glow-home-hero"
           />
 
           {/* --- "Simelius" Word Group --- */}
           <div className="absolute bottom-[-118px] left-[-106px]">
             <h2
               ref={simeliusShadowRef}
-              className="absolute z-10 font-santorini text-[95px] text-primary top-[2px] left-[2px]"
+              className="absolute z-10 font-santorini text-[95px] text-primary top-[6px] left-[-6px]"
               // text-[hsl(350.45,76.52%,54.9%)]
             >
               Simelius
@@ -172,7 +206,7 @@ const HeroImageAndText = () => {
         </div>
       </div>
 
-      <div className="absolute bottom-0 flex w-full flex-col">
+      <div className="absolute bottom-0 left-0 right-0 w-full">
         <BottomBranding />
       </div>
     </div>

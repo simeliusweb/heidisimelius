@@ -1,17 +1,12 @@
 import { Helmet } from "react-helmet-async";
 import { HashLink } from "react-router-hash-link";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { format, parse } from "date-fns";
 import { Button } from "@/components/ui/button";
-import BottomBranding from "@/components/BottomBranding";
 import VideosSection from "@/components/VideosSection";
 import UpcomingGigCard from "@/components/UpcomingGigCard";
 import PageMeta from "@/components/PageMeta";
 import { pageMetadata } from "@/config/metadata";
 import HeroImageAndText from "@/components/HeroImageAndText";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const HomePage = () => {
   return (
@@ -33,7 +28,7 @@ const HomePage = () => {
           {/* Intro & Tagline Section */}
           <section className="container mx-auto px-6 pb-16 md:pb-24 text-center">
             {/* Large Stylized Name */}
-            <h2 className="text-2xl xs:text-3xl font-santorini text-primary pt-4 pb-8 leading-loose translate-y-[-12px] sm:pt-0 sm:mb-4 z-20 relative">
+            <h2 className="text-2xl xs:text-3xl font-santorini text-primary pt-8 sm:pt-4 pb-8 leading-loose translate-y-[-12px] sm:mb-4 z-20 relative">
               Heidi Simelius
             </h2>
             <p className="text-xl md:text-2xl text-foreground font-source mb-8 relative z-19">
