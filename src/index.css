@@ -109,10 +109,27 @@ td:has(.rdp-button[aria-current="date"]) {
 .image-glow-home-hero {
   filter: drop-shadow(0 20px 120px #d9ae6111);
 }
-
-.element-slight-glow {
-  /* box-shadow: rgba(42, 43, 58, 0.96) 0px 1px 4px; */
-
-  box-shadow: rgba(42, 43, 58, 0.96) 0px 6px 24px 0px,
-    rgba(42, 43, 58, 1) 0px 0px 0px 1px;
+.element-embedded-effect {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.custom-lifted-primary {
+  box-shadow: rgba(206, 22, 35, 0.4) -5px 5px, rgba(206, 22, 35, 0.3) -10px 10px,
+    rgba(206, 22, 35, 0.2) -15px 15px, rgba(206, 22, 35, 0.1) -20px 20px,
+    rgba(206, 22, 35, 0.05) -25px 25px;
+}
+.custom-lifted-accent {
+  box-shadow: rgba(136, 136, 153, 0.4) -5px 5px,
+    rgba(136, 136, 153, 0.3) -10px 10px, rgba(136, 136, 153, 0.2) -15px 15px,
+    rgba(136, 136, 153, 0.1) -20px 20px, rgba(136, 136, 153, 0.05) -25px 25px;
+}
+.custom-lifted-secondary {
+  box-shadow: rgba(217, 174, 97, 0.4) -5px 5px,
+    rgba(217, 174, 97, 0.3) -10px 10px, rgba(217, 174, 97, 0.2) -15px 15px,
+    rgba(217, 174, 97, 0.1) -20px 20px, rgba(217, 174, 97, 0.05) -25px 25px;
+}
+.custom-lifted-muted {
+  box-shadow: rgba(200, 150, 62, 0.4) -5px 5px,
+    rgba(200, 150, 62, 0.3) -10px 10px, rgba(200, 150, 62, 0.2) -15px 15px,
+    rgba(200, 150, 62, 0.1) -20px 20px, rgba(200, 150, 62, 0.05) -25px 25px;
 }

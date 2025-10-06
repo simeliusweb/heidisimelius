@@ -22,6 +22,7 @@ import {
 } from "react-icons/fa";
 import { toast } from "@/hooks/use-toast";
 import { ExternalLink } from "lucide-react";
+import ShadowHeading from "./ShadowHeading";
 
 const contactSchema = z.object({
   subject: z.string().trim().min(1, { message: "Aihe vaaditaan" }).max(100),

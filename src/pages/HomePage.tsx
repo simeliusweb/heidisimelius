@@ -7,6 +7,7 @@ import UpcomingGigCard from "@/components/UpcomingGigCard";
 import PageMeta from "@/components/PageMeta";
 import { pageMetadata } from "@/config/metadata";
 import HeroImageAndText from "@/components/HeroImageAndText";
+import ShadowHeading from "@/components/ShadowHeading";
 
 const HomePage = () => {
   return (
@@ -27,7 +28,7 @@ const HomePage = () => {
           className="relative z-11"
           style={{
             backgroundImage: `linear-gradient(
-      25deg,
+      18deg,
       hsl(234deg 24% 8%) 0%,
       hsl(234deg 23% 8%) 10%,
       hsl(234deg 23% 8%) 20%,
@@ -53,16 +54,23 @@ const HomePage = () => {
             <p className="text-xl md:text-2xl text-foreground font-source mb-8 relative z-19">
               on laulaja, lauluntekijä ja esiintyjä.
             </p>
-            <Button asChild variant="outline" size="lg" className="font-medium">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="font-medium custom-lifted-primary"
+            >
               <a href="/bio">Tutustu Heidiin</a>
             </Button>
           </section>
 
           {/* Upcoming Gigs Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12 text-center">
-              Tulevat keikat
-            </h2>
+            <ShadowHeading
+              title="Tulevat keikat"
+              shadowColorClass="accent"
+              shadowOpacity={100}
+            />
             <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto mb-8">
               {(() => {
                 // Event data with performances
@@ -139,25 +147,31 @@ const HomePage = () => {
               })()}
             </div>
             <div className="text-center">
-              <Button asChild size="lg" variant="outline">
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="custom-lifted-primary"
+              >
                 <a href="/keikat">Katso kaikki keikat</a>
               </Button>
             </div>
           </section>
 
           {/* Spotify Player Section */}
-          <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12 text-center">
-              Kuuntele Spotifyssa
-            </h2>
-            <div className="max-w-3xl mx-auto">
+          <section className="container mx-auto px-6 py-16 md:py-24 ">
+            <ShadowHeading
+              title="Kuuntele Spotifyssa"
+              shadowColorClass="accent"
+              shadowOpacity={100}
+            />
+            <div className="max-w-3xl mx-auto custom-lifted-muted">
               <iframe
                 data-testid="embed-iframe"
                 style={{ borderRadius: "12px" }}
                 src="https://open.spotify.com/embed/artist/7wmdyUKDAcJfmWbgsARwl9?utm_source=generator&theme=0"
                 width="100%"
                 height="352"
-                frameBorder="0"
                 allowFullScreen={true}
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                 loading="lazy"
@@ -186,10 +200,12 @@ const HomePage = () => {
 
           {/* Instagram Feed Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12 text-center">
-              Instagram
-            </h2>
-            <div className="max-w-4xl mx-auto mb-8">
+            <ShadowHeading
+              title="Instagram"
+              shadowColorClass="accent"
+              shadowOpacity={100}
+            />
+            <div className="max-w-4xl mx-auto mb-8 custom-lifted-muted">
               {/* LightWidget embed */}
               <iframe
                 src="https://cdn.lightwidget.com/widgets/71dd661fedf55720848701cf279e6d14.html"

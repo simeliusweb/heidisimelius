@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import ShadowHeading from "./ShadowHeading";
 
 interface VideoData {
   url: string;
@@ -33,20 +34,21 @@ const VideosSection = ({
 
     return (
       <section className="container mx-auto px-6 py-16 md:py-24">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12 text-center">
-          {sectionTitle}
-        </h2>
+        <ShadowHeading
+          title={sectionTitle}
+          shadowColorClass="accent"
+          shadowOpacity={100}
+        />
 
         {/* Featured Video */}
-        <div className="max-w-5xl mx-auto mb-8">
-          <div className="aspect-video rounded-lg overflow-hidden">
+        <div className="max-w-5xl mx-auto mb-16">
+          <div className="aspect-video rounded-lg overflow-hidden custom-lifted-muted">
             <iframe
               width="100%"
               height="100%"
               src={`https://www.youtube.com/embed/${getVideoId(
                 featuredVideo.url
               )}`}
-              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               title={featuredVideo.title || "Featured video"}
@@ -60,13 +62,12 @@ const VideosSection = ({
             {otherVideos.map((video, index) => (
               <div
                 key={index}
-                className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] aspect-video rounded-lg overflow-hidden"
+                className="w-full md:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)] aspect-video overflow-hidden rounded-lg element-embedded-effect"
               >
                 <iframe
                   width="100%"
                   height="100%"
                   src={`https://www.youtube.com/embed/${getVideoId(video.url)}`}
-                  frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   title={video.title || `Video ${index + 1}`}
@@ -77,7 +78,7 @@ const VideosSection = ({
         )}
 
         <div className="text-center">
-          <Button asChild size="lg">
+          <Button asChild size="lg" className="custom-lifted-secondary">
             <a
               href="https://www.youtube.com/@heidisimelius?sub_confirmation=1"
               target="_blank"
@@ -94,9 +95,11 @@ const VideosSection = ({
   // List variant
   return (
     <section className="container mx-auto px-6 py-16 md:py-24">
-      <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12 text-center">
-        {sectionTitle}
-      </h2>
+      <ShadowHeading
+        title={sectionTitle}
+        shadowColorClass="accent"
+        shadowOpacity={50}
+      />
 
       <div className="max-w-4xl mx-auto space-y-12">
         {videos.map((video, index) => (

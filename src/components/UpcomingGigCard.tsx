@@ -25,7 +25,7 @@ const UpcomingGigCard = ({
       ? format(dateObj, "d.M.")
       : format(dateObj, "d.M.yyyy");
   return (
-    <Card className="overflow-hidden hover:border-secondary/60 element-slight-glow">
+    <Card className="overflow-hidden hover:border-secondary/60 custom-lifted-primary">
       <CardContent className="p-0">
         {/* Image */}
         <div className="relative w-full aspect-video">

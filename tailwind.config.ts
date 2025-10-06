@@ -101,5 +101,15 @@ export default {
       },
     },
   },
+  safelist: [
+    {
+      // Pattern for the text color classes
+      pattern: /text-(accent|primary|secondary|muted|border|card|background)/,
+    },
+    {
+      // Pattern for the text opacity classes
+      pattern: /opacity-(0|10|20|30|40|50|60|70|80|90|100)/,
+    },
+  ],
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
