@@ -79,7 +79,7 @@ const BilebandiPage = () => {
           Bilebändi sinun ja yrityksesi juhliin
         </h1>
         <div className="text-center">
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+          <p className="text-lg md:text-xl leading-relaxed">
             Heidi & the Hot Stuff tarjoaa kuumaa groovea ja hittejä eri
             vuosikymmeniltä nykypäivään. Bändi koostuu huipputason
             ammattimuusikoista jotka takaavat kansainvälisen tason bileet.{" "}
@@ -99,12 +99,12 @@ const BilebandiPage = () => {
       </section>
 
       {/* Demo Video Section */}
-      <section className="max-w-6xl mx-auto px-6 py-16 md:py-24">
+      <section className="max-w-6xl mx-auto px-6 pt-16 md:pt-24">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground">
             Katso meidät livenä!
           </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+          <p className="mt-4 max-w-2xl mx-auto text-lg">
             Mikään ei kerro bändin energiasta paremmin kuin live-video.
             <br />
             Katso hittipotpurimme ja koe meininki itse!
@@ -120,15 +120,15 @@ const BilebandiPage = () => {
               allowFullScreen
             />
           </div>
-          <figcaption className="mt-4 text-center text-base italic text-muted-foreground">
+          <figcaption className="mt-4 text-center text-base italic">
             Studiolive Hittipotpuri - Heidi & the Hot Stuff
           </figcaption>
         </figure>
 
-        <h2 className="text-2xl xs:text-3xl lg:text-4xl italic font-sans font-extrabold text-secondary-foreground mb-8 pt-8 text-center">
+        <h2 className="text-2xl xs:text-3xl lg:text-4xl italic font-sans font-extrabold text-muted-foreground mb-8 pt-8 text-center">
           Etsitkö energistä bilebändiä juhliisi? 🎶
         </h2>
-        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto">
+        <p className="text-lg md:text-xl leading-relaxed max-w-xl mx-auto">
           Groovaavia bileklassikoita soittava Heidi & the Hot Stuff sopii
           häihin, syntymäpäiviin, yritysjuhliin ja kaikkiin muihin tapahtumiin
           Etelä-Suomessa. Katso tästä sudiolive:nä äänitetty 9 biisiä kattava
@@ -143,17 +143,7 @@ const BilebandiPage = () => {
         </p>
       </section>
 
-      <section className="py-16 md:py-24">
-        <div className="mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-sans font-extrabold text-foreground mb-8 text-center">
-            Tarjoamme...
-          </h2>
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed text-center">
-            Tähän voisi listata jotain ydin myyntivaltteja ja mikä on
-            mahdollista. Tyyliin https://www.viihdytin.fi/ "Miksi Heidi & The
-            Hot Stuff" -osio toimii aina
-          </p>
-        </div>
+      <section className="pt-16 md:pt-24">
         {/* Mobile Image 1 */}
         <div className="overflow-hidden [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)] py-12">
           <img
@@ -183,11 +173,14 @@ const BilebandiPage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Nimi{" "}
-                        <span className="text-secondary-foreground">*</span>
+                        Nimi <span className="text-muted-foreground">*</span>
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder="Nimi" {...field} />
+                        <Input
+                          placeholder="Nimi"
+                          {...field}
+                          className="placeholder:text-accent"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -201,10 +194,14 @@ const BilebandiPage = () => {
                     <FormItem>
                       <FormLabel>
                         Puhelinnumero{" "}
-                        <span className="text-secondary-foreground">*</span>
+                        <span className="text-muted-foreground">*</span>
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder="Puhelinnumero" {...field} />
+                        <Input
+                          placeholder="Puhelinnumero"
+                          {...field}
+                          className="placeholder:text-accent"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -220,10 +217,15 @@ const BilebandiPage = () => {
                   <FormItem>
                     <FormLabel>
                       Sähköposti{" "}
-                      <span className="text-secondary-foreground">*</span>
+                      <span className="text-muted-foreground">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="Sähköposti" {...field} />
+                      <Input
+                        type="email"
+                        placeholder="Sähköposti"
+                        {...field}
+                        className="placeholder:text-accent"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -244,16 +246,18 @@ const BilebandiPage = () => {
                             <Button
                               variant="outline"
                               className={cn(
-                                "w-full pl-3 text-left font-normal justify-start hover:bg-transparent focus:ring-2 focus:ring-ring",
+                                "w-full pl-3 text-left font-normal justify-start hover:bg-transparent hover:border-ring/60 focus:ring-2 focus:ring-ring",
                                 !field.value && "text-muted"
                               )}
                             >
                               {field.value ? (
                                 format(field.value, "d.M.yyyy")
                               ) : (
-                                <span>Valitse päivämäärä</span>
+                                <span className="text-accent">
+                                  Valitse päivämäärä
+                                </span>
                               )}
-                              <CalendarIcon className="ml-auto h-4 w-4 text-foreground" />
+                              <CalendarIcon className="ml-auto h-4 w-4 text-secondary-foreground" />
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
@@ -283,7 +287,11 @@ const BilebandiPage = () => {
                     <FormItem>
                       <FormLabel>Sijainti</FormLabel>
                       <FormControl>
-                        <Input placeholder="Sijainti" {...field} />
+                        <Input
+                          placeholder="Sijainti"
+                          {...field}
+                          className="placeholder:text-accent"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -297,7 +305,11 @@ const BilebandiPage = () => {
                     <FormItem>
                       <FormLabel>Tilaisuus</FormLabel>
                       <FormControl>
-                        <Input placeholder="Tilaisuus" {...field} />
+                        <Input
+                          placeholder="Tilaisuus"
+                          {...field}
+                          className="placeholder:text-accent"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -315,7 +327,7 @@ const BilebandiPage = () => {
                     <FormControl>
                       <Textarea
                         placeholder="Kerro meille lisää tapahtumastasi..."
-                        className="min-h-[120px]"
+                        className="min-h-[120px] placeholder:text-accent"
                         {...field}
                       />
                     </FormControl>
@@ -358,7 +370,7 @@ const BilebandiPage = () => {
             {/* Homepage Link */}
             <Link
               to="/"
-              className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm text-muted"
+              className="uppercase tracking-wider hover:text-secondary-foreground transition-colors font-medium text-sm"
             >
               • ETUSIVULLE •
             </Link>
@@ -368,14 +380,14 @@ const BilebandiPage = () => {
               href="https://www.instagram.com/heidiandthehotstuff/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-foreground hover:text-primary transition-colors mb-8"
+              className="text-foreground hover:text-secondary-foreground transition-colors mb-8"
               aria-label="Seuraa Heidi & The Hot Stuff Instagramissa"
             >
               <FaInstagram size={28} />
             </a>
           </div>
         </div>
-        <p className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xs pt-8 pb-5 italic text-muted">
+        <p className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xs pt-8 pb-5 italic text-secondary-foreground">
           Sivut luonut{" "}
           <a
             href="https://www.linkedin.com/in/janisuoranta/"

@@ -107,7 +107,7 @@ const VideosSection = ({
             }`}
           >
             {video.title && (
-              <h3 className="text-2xl md:text-3xl font-sans font-bold text-foreground">
+              <h3 className="text-xl md:text-2xl font-sans font-bold text-foreground">
                 {video.title}
               </h3>
             )}
@@ -123,9 +123,7 @@ const VideosSection = ({
               />
             </div>
             {video.description && (
-              <p className="text-base md:text-lg text-muted-foreground italic">
-                {video.description}
-              </p>
+              <p className="text-base md:text-lg italic">{video.description}</p>
             )}
           </div>
         ))}

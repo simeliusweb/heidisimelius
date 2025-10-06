@@ -88,11 +88,14 @@ const Footer = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Aihe{" "}
-                        <span className="text-secondary-foreground">*</span>
+                        Aihe <span className="text-muted-foreground">*</span>
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder="Kirjoita aihe..." {...field} />
+                        <Input
+                          placeholder="Kirjoita aihe..."
+                          {...field}
+                          className="placeholder:text-accent"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -105,13 +108,14 @@ const Footer = () => {
                     <FormItem>
                       <FormLabel>
                         Sähköpostisi{" "}
-                        <span className="text-secondary-foreground">*</span>
+                        <span className="text-muted-foreground">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input
                           type="email"
                           placeholder="Kirjoita sähköpostisi..."
                           {...field}
+                          className="placeholder:text-accent"
                         />
                       </FormControl>
                       <FormMessage />
@@ -124,13 +128,13 @@ const Footer = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Viesti{" "}
-                        <span className="text-secondary-foreground">*</span>
+                        Viesti <span className="text-muted-foreground">*</span>
                       </FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Kirjoita viestisi..."
                           {...field}
+                          className="placeholder:text-accent text-sm"
                         />
                       </FormControl>
                       <FormMessage />
@@ -163,16 +167,18 @@ const Footer = () => {
         </h2>
 
         {/* Navigation Links */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-8 text-muted">
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
           {navLinks.map((link, index) => (
             <span key={link.label} className="flex items-center gap-4">
               <a
                 href={link.href}
-                className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm"
+                className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm text-secondary-foreground"
               >
                 {link.label}
               </a>
-              {index < navLinks.length - 1 && <span>•</span>}
+              {index < navLinks.length - 1 && (
+                <span className="text-secondary-foreground">•</span>
+              )}
             </span>
           ))}
         </div>

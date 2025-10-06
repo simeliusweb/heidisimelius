@@ -249,7 +249,7 @@ const GalleriaPage = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm">
                   Kuva:{" "}
                   {photo.photographerUrl ? (
                     <a
@@ -259,7 +259,7 @@ const GalleriaPage = () => {
                       className="group hover:underline inline-flex items-center gap-1"
                     >
                       {photo.photographerName}
-                      <ExternalLink className="w-3 h-3 opacity-70 group-hover:opacity-100 transition-opacity" />
+                      <ExternalLink className="w-3 h-3 text-accent group-hover:text-foreground transition-colors" />
                     </a>
                   ) : (
                     <span>{photo.photographerName}</span>
@@ -267,7 +267,7 @@ const GalleriaPage = () => {
                 </p>
                 <Button variant="outline" className="w-full" asChild>
                   <a href={photo.src} download>
-                    <Download className="w-4 h-4" />
+                    <Download className="w-4 h-4 text-accent" />
                     Lataa kuva
                   </a>
                 </Button>
@@ -302,7 +302,7 @@ const GalleriaPage = () => {
                   <h3 className="text-3xl md:text-4xl lg:text-5xl font-sans font-bold text-foreground pb-2">
                     {photoSet.title}
                   </h3>
-                  <div className="text-base md:text-lg italic text-muted-foreground">
+                  <div className="text-base md:text-lg italic">
                     Kuvat:{" "}
                     {photoSet.photographerUrl ? (
                       <a
@@ -312,7 +312,7 @@ const GalleriaPage = () => {
                         className="group hover:underline inline-flex items-center gap-1"
                       >
                         {photoSet.photographerName}
-                        <ExternalLink className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+                        <ExternalLink className="w-4 h-4 text-accent group-hover:text-foreground transition-colors" />
                       </a>
                     ) : (
                       <span>{photoSet.photographerName}</span>
@@ -339,7 +339,7 @@ const GalleriaPage = () => {
                     >
                       {currentState.isLoading ? (
                         <>
-                          <Loader2 className="w-5 h-5 animate-spin" />
+                          <Loader2 className="w-5 h-5 animate-spin text-accent" />
                           Ladataan...
                         </>
                       ) : (

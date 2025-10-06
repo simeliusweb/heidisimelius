@@ -268,7 +268,7 @@ const KeikatPage = () => {
                 Näytä lisää
               </Button>
             ) : (
-              <p className="text-lg text-muted-foreground font-source-sans">
+              <p className="text-lg text-foreground font-source-sans">
                 Tässä kaikki!
               </p>
             )}

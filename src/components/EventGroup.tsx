@@ -88,9 +88,11 @@ const EventGroup = ({
                 <div className="text-4xl md:text-5xl font-bold text-secondary-foreground">
                   {formatDateDisplay(performance.date)}
                 </div>
-                <div className="flex items-center gap-2 text-muted-foreground text-lg">
-                  <Clock className="w-5 h-5" />
-                  <span>{formatTimeDisplay(performance.time)}</span>
+                <div className="flex items-center gap-2 text-lg">
+                  <Clock className="w-5 h-5 text-muted-foreground" />
+                  <span className="text-foreground">
+                    {formatTimeDisplay(performance.time)}
+                  </span>
                 </div>
               </div>
             </div>
@@ -101,9 +103,9 @@ const EventGroup = ({
                 <h2 className="text-3xl md:text-4xl font-playfair font-extrabold text-foreground mb-2">
                   {title}
                 </h2>
-                <div className="flex items-center gap-2 text-lg text-muted-foreground font-medium">
-                  <MapPin className="w-5 h-5" />
-                  <p>{venue}</p>
+                <div className="flex items-center gap-2 text-lg font-medium">
+                  <MapPin className="w-5 h-5 text-muted-foreground" />
+                  <p className="text-foreground">{venue}</p>
                 </div>
               </div>
 
@@ -237,7 +239,7 @@ const EventGroup = ({
             </div>
           )}
           {!canShowMore && totalPerformances > 5 && (
-            <p className="text-center text-muted-foreground pt-4">
+            <p className="text-center text-foreground pt-4">
               Siinä kaikki tämän tapahtuman keikat!
             </p>
           )}

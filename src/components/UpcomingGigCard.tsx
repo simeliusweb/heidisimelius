@@ -45,18 +45,16 @@ const UpcomingGigCard = ({
 
           {/* Date & Time */}
           <div className="space-y-1">
-            <p className="text-lg font-medium text-secondary-foreground">
-              {formattedDate}
-            </p>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Clock className="w-4 h-4" />
+            <p className="text-lg font-bold">{formattedDate}</p>
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-muted-foreground" />
               <span className="text-sm">klo {nextTime}</span>
             </div>
           </div>
 
           {/* Venue */}
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <MapPin className="w-4 h-4" />
+          <div className="flex items-center gap-2 ">
+            <MapPin className="w-4 h-4 text-muted-foreground" />
             <p className="text-sm font-medium">{venue}</p>
           </div>
         </div>

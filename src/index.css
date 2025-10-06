@@ -9,6 +9,37 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Heidi Simelius Color Palette v1 */
+    --background: 234 23.8% 8.2%; /* #10111A dark blue */
+    --foreground: 234 23.8% 98.2%; /* #F9FAFC - valkoinen */
+    --accent: 240 7.7% 56.7%; /* #888899 - placeholdereiden väri */
+
+    --primary: 356 80.7% 44.7%; /* #ce1623 - red */
+    /* --secondary: 30.75 71.4% 78%; /* #efc89f - kulta kirkas natural beige korvakorusta */
+    --secondary: 39 61.2% 61.6%; /* #D9AE61 - tummempi keltanen C8963E pohjalta */
+    --secondary-foreground: 39 61.2% 61.6%; /* #D9AE61 - tummempi keltanen C8963E pohjalta */
+
+    --border: 236 16% 19.6%; /* #2A2B3A */
+    --card: 235 18.8% 12.5%; /* #1A1B26 */
+    --muted: 38 55.6% 33.4%; /* #856226 - ite ruuvattu Luminosity pienemmäks */
+    --muted-foreground: 38 55.6% 51.4%; /* #C8963E - tumma kulta ton tummansinisen pohjalta */
+
+    --card-foreground: var(--foreground);
+    --primary-foreground: var(--foreground);
+    --accent-foreground: var(--foreground);
+    --popover-foreground: var(--foreground);
+    --destructive-foreground: var(--foreground);
+
+    --destructive: 0 84.2% 60.2%;
+    --popover: var(--card);
+    --input: var(--border);
+    --ring: var(--secondary-foreground);
+
+    --radius: 0.5rem;
+  }
+
+  /* v2 */
+  .theme-warm-desert {
+    /* og teema */
     --background: 234 23.8% 8.2%; /* #10111A */
     --foreground: 240 11.1% 96.5%; /* #F5F5F7 */
     --primary: 350 78.7% 52.2%; /* #E52545 */
@@ -33,20 +64,6 @@ All colors MUST be HSL.
     --ring: var(--secondary-foreground);
 
     --radius: 0.5rem;
-  }
-
-  /* v2 */
-  .theme-warm-desert {
-    --background: 234 23.8% 8.2%; /* #10111A dark blue */
-    --foreground: 234 23.8% 98.2%; /* #F9FAFC - valkoinen */
-    --primary: 356 80.7% 44.7%; /* #ce1623 - red */
-    --secondary: 30.75 71.4% 78%; /* #efc89f - kulta kirkas natural beige korvakorusta */
-    --secondary-foreground: 39 61.2% 61.6%; /* #D9AE61 - tummempi keltanen C8963E pohjalta */
-
-    --border: 236 16% 19.6%; /* #2A2B3A - v1:stä */
-    --card: 235 18.8% 12.5%; /* #1A1B26 - v1:stä */
-    --muted: 38 55.6% 33.4%; /* #856226 - ite ruuvattu Luminosity pienemmäks */
-    --muted-foreground: 38 55.6% 51.4%; /* #C8963E - tumma kulta ton tummansinisen pohjalta */
   }
 }
 
