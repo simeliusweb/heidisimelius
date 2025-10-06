@@ -176,7 +176,26 @@ const KeikatPage = () => {
   ];
 
   return (
-    <>
+    <div
+      style={{
+        backgroundImage: `linear-gradient(
+      24deg,
+      hsl(234deg 24% 8%) 0%,
+      hsl(234deg 23% 8%) 10%,
+      hsl(234deg 23% 9%) 20%,
+      hsl(239deg 23% 9%) 32%,
+      hsl(238deg 23% 12%) 46%,
+      hsl(236deg 23% 8%) 62%,
+      hsl(234deg 24% 8%) 75%,
+      hsl(238deg 24% 9%) 84%,
+      hsl(230deg 24% 8%) 89%,
+      hsl(234deg 24% 8%) 93%,
+      hsl(239deg 23% 12%) 96%,
+      hsl(237deg 23% 10%) 98%,
+      hsl(234deg 23% 8%) 100%
+    )`,
+      }}
+    >
       <PageMeta
         title={pageMetadata.keikat.title}
         description={pageMetadata.keikat.description}
@@ -280,7 +299,7 @@ const KeikatPage = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

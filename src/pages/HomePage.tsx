@@ -20,11 +20,30 @@ const HomePage = () => {
         <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
       </Helmet>
       <div className="relative">
-        {/* Art-Directed Background Images */}
         <HeroImageAndText />
 
         {/* Content Sections */}
-        <div className="relative z-11 bg-background">
+        <div
+          className="relative z-11"
+          style={{
+            backgroundImage: `linear-gradient(
+      25deg,
+      hsl(234deg 24% 8%) 0%,
+      hsl(234deg 23% 8%) 10%,
+      hsl(234deg 23% 8%) 20%,
+      hsl(239deg 23% 9%) 32%,
+      hsl(238deg 23% 12%) 46%,
+      hsl(236deg 23% 8%) 62%,
+      hsl(234deg 24% 8%) 75%,
+      hsl(234deg 24% 11%) 84%,
+      hsl(234deg 24% 10%) 89%,
+      hsl(234deg 24% 8%) 93%,
+      hsl(235deg 23% 9%) 96%,
+      hsl(234deg 23% 8%) 98%,
+      hsl(234deg 23% 8%) 100%
+    )`,
+          }}
+        >
           {/* Intro & Tagline Section */}
           <section className="container mx-auto px-6 pb-16 md:pb-24 text-center">
             {/* Large Stylized Name */}

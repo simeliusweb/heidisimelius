@@ -7,7 +7,6 @@ const HeroImageAndText = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const heidiShadowRef = useRef<HTMLHeadingElement>(null);
   const simeliusShadowRef = useRef<HTMLHeadingElement>(null);
-  const brandingRef = useRef<HTMLDivElement>(null);
 
   // State to manage the loading process
   const [isLoading, setIsLoading] = useState(true);
