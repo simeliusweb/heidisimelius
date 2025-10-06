@@ -53,6 +53,9 @@ const HeroImageAndText = () => {
 
   // Effect to handle asset loading and fade-in animation with a threshold
   useEffect(() => {
+    // We'll store the animation instance here to clean it up later
+    let heroScrollAnimation: gsap.core.Tween;
+
     // 1. Set the content to its starting animation state (invisible)
     if (contentRef.current) {
       gsap.set(contentRef.current, { opacity: 0 });
@@ -105,11 +108,21 @@ const HeroImageAndText = () => {
             }
           );
         }
+
+        // Create the parallax animation.
+        heroScrollAnimation = gsap.to(contentRef.current, {
+          y: 140,
+          ease: "none",
+          scrollTrigger: {
+            trigger: contentRef.current,
+            start: "top top", // When top of trigger hits top of viewport
+            end: "bottom top", // When bottom of trigger hits top of viewport
+            scrub: true, // Smoothly link animation to scroll position
+          },
+        });
       })
       .catch((error) => {
-        // --- ROBUST CLEANUP ---
         clearTimeout(spinnerTimeoutId);
-
         console.error("Failed to load critical hero assets:", error);
         setIsLoading(false);
         setIsSpinnerVisible(false);
@@ -121,6 +134,10 @@ const HeroImageAndText = () => {
     // 5. Cleanup function for when the component unmounts
     return () => {
       clearTimeout(spinnerTimeoutId);
+      // If the scroll animation was created, kill its ScrollTrigger instance
+      if (heroScrollAnimation) {
+        heroScrollAnimation.scrollTrigger?.kill();
+      }
     };
   }, []);
 

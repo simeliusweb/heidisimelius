@@ -6,7 +6,7 @@ const BottomBranding = () => {
   ];
 
   return (
-    <div className="backdrop-blur-sm bg-gradient-to-b from-transparent to-background border-t border-border py-12 px-6 bottom-branding">
+    <div className="backdrop-blur-sm bg-gradient-to-b from-transparent to-background border-t border-border py-6 px-6 bottom-branding">
       {/* Quick Navigation Links */}
       <div className="flex justify-center sm:justify-end items-center gap-2 text-sm md:text-base text-muted">
         {quickLinks.map((link, index) => (
