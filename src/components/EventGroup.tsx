@@ -15,17 +15,26 @@ interface EventGroupProps {
   venue: string;
   description: string;
   eventPageUrl?: string; // Optional URL for the event's main page
-  ticketsUrl?: string;   // Optional URL for buying tickets
+  ticketsUrl?: string; // Optional URL for buying tickets
   performances: Performance[]; // This array must be pre-sorted by date
   id?: string; // Optional ID for anchor linking
 }
 
-const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, ticketsUrl, performances, id }: EventGroupProps) => {
+const EventGroup = ({
+  imageUrl,
+  title,
+  venue,
+  description,
+  eventPageUrl,
+  ticketsUrl,
+  performances,
+  id,
+}: EventGroupProps) => {
   const [visibleCount, setVisibleCount] = useState(5);
   const currentYear = new Date().getFullYear();
 
   const showMore = () => {
-    setVisibleCount(prev => prev + 10);
+    setVisibleCount((prev) => prev + 10);
   };
 
   const formatDateStamp = (dateString: string) => {
@@ -46,21 +55,26 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
     return `klo ${timeString}`;
   };
 
-  const totalPerformances = Array.isArray(performances) ? performances.length : 0;
-  const visiblePerformances = performances.slice(0, Math.min(visibleCount, totalPerformances));
+  const totalPerformances = Array.isArray(performances)
+    ? performances.length
+    : 0;
+  const visiblePerformances = performances.slice(
+    0,
+    Math.min(visibleCount, totalPerformances)
+  );
   const canShowMore = totalPerformances > visiblePerformances.length;
 
   // Single-date layout
   if (performances.length === 1) {
     const performance = performances[0];
-    
+
     return (
       <Card id={id} className="overflow-hidden max-w-[800px] mx-auto">
         <CardContent className="p-0">
           {/* Image */}
           <div className="relative w-full aspect-video [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)]">
-            <img 
-              src={imageUrl} 
+            <img
+              src={imageUrl}
               alt={title}
               className="w-full h-full object-cover"
             />
@@ -101,9 +115,9 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
               {(eventPageUrl || ticketsUrl) && (
                 <div className="flex flex-wrap gap-3 pt-2">
                   {eventPageUrl && (
-                    <a 
-                      href={eventPageUrl} 
-                      target="_blank" 
+                    <a
+                      href={eventPageUrl}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors"
                     >
@@ -112,9 +126,9 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
                     </a>
                   )}
                   {ticketsUrl && (
-                    <a 
-                      href={ticketsUrl} 
-                      target="_blank" 
+                    <a
+                      href={ticketsUrl}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors"
                     >
@@ -137,8 +151,8 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
       <CardContent className="p-0">
         {/* Image with Next Date Stamp */}
         <div className="relative w-full aspect-video [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)]">
-          <img 
-            src={imageUrl} 
+          <img
+            src={imageUrl}
             alt={title}
             className="w-full h-full object-cover"
           />
@@ -157,9 +171,9 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
             <h2 className="text-3xl md:text-4xl font-playfair font-extrabold text-foreground mb-2">
               {title}
             </h2>
-            <div className="flex items-center gap-2 text-lg text-muted-foreground font-medium">
-              <MapPin className="w-5 h-5" />
-              <p>{venue}</p>
+            <div className="flex items-center gap-2 text-lg font-medium">
+              <MapPin className="w-5 h-5 text-muted-foreground" />
+              <p className="text-foreground">{venue}</p>
             </div>
           </div>
 
@@ -171,9 +185,9 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
           {(eventPageUrl || ticketsUrl) && (
             <div className="flex flex-wrap gap-3 pt-2">
               {eventPageUrl && (
-                <a 
-                  href={eventPageUrl} 
-                  target="_blank" 
+                <a
+                  href={eventPageUrl}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors"
                 >
@@ -182,9 +196,9 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
                 </a>
               )}
               {ticketsUrl && (
-                <a 
-                  href={ticketsUrl} 
-                  target="_blank" 
+                <a
+                  href={ticketsUrl}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors"
                 >
@@ -198,16 +212,16 @@ const EventGroup = ({ imageUrl, title, venue, description, eventPageUrl, tickets
           {/* Performances List */}
           <div className="pt-4 space-y-3">
             {visiblePerformances.map((performance, index) => (
-              <div 
+              <div
                 key={index}
                 className="flex items-center gap-4 py-3 border-t border-border first:border-t-0"
               >
                 <span className="text-3xl md:text-4xl font-bold text-foreground">
                   {formatDateDisplay(performance.date)}
                 </span>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Clock className="w-4 h-4" />
-                  <span className="text-base">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-base text-foreground">
                     {formatTimeDisplay(performance.time)}
                   </span>
                 </div>

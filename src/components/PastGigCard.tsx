@@ -38,8 +38,8 @@ const PastGigCard = ({
             </h3>
             {/* Gig Type Badge */}
             <Badge
-              variant="secondary"
-              className="bg-muted text-muted-foreground hover:bg-muted/80 w-fit"
+              variant="outline"
+              className="text-muted-foreground bg-border w-fit"
             >
               {gigType}
             </Badge>

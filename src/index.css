@@ -12,12 +12,13 @@ All colors MUST be HSL.
     --background: 234 23.8% 8.2%; /* #10111A */
     --foreground: 240 11.1% 96.5%; /* #F5F5F7 */
     --primary: 350 78.7% 52.2%; /* #E52545 */
-    --secondary: 60 93.9% 93.5%; /* #FEFEDF */
+    --secondary: 34 100% 81.2%; /* #FFD59F */
     --border: 236 16% 19.6%; /* #2A2B3A */
     --card: 235 18.8% 12.5%; /* #1A1B26 */
-    --muted: 240 7.7% 56.7%; /* #888899 */
     --accent: 351 78.3% 52.2%; /* #E52642 */
-    --secondary-foreground: 34 100% 81.2%; /* #FFD59F */
+    --muted: 240 7.7% 56.7%; /* #888899 */
+
+    --secondary-foreground: 60 93.9% 93.5%; /* #FEFEDF */
 
     --card-foreground: var(--foreground);
     --primary-foreground: var(--foreground);
@@ -37,28 +38,15 @@ All colors MUST be HSL.
   /* v2 */
   .theme-warm-desert {
     --background: 234 23.8% 8.2%; /* #10111A dark blue */
-    --foreground: 225 100% 98.4%; /* #f7f9ff - valkoharmaa */
+    --foreground: 234 23.8% 98.2%; /* #F9FAFC - valkoinen */
     --primary: 356 80.7% 44.7%; /* #ce1623 - red */
     --secondary: 30.75 71.4% 78%; /* #efc89f - kulta kirkas natural beige korvakorusta */
+    --secondary-foreground: 39 61.2% 61.6%; /* #D9AE61 - tummempi keltanen C8963E pohjalta */
+
     --border: 236 16% 19.6%; /* #2A2B3A - v1:stä */
     --card: 235 18.8% 12.5%; /* #1A1B26 - v1:stä */
-    --muted: 35 15% 55%; /* #968F8A - melko kiva itteasias vaikka OFF PALETTE */
-    --accent: 15 84% 48%; /* # OFF PALETTE (ei käytöskää) */
-    --secondary-foreground: 44 85.9% 58.2%; /* #f0c039 - tumma kulta ton tummansinisen pohjalta */
-    /*--secondary-foreground: 30.75 71.4% 78%; /* #efc89f - kulta kirkas natural beige korvakorusta */
-  }
-
-  /* v3 */
-  .theme-mono-light {
-    --background: 0 0% 100%; /* #FFFFFF - White */
-    --foreground: 240 10% 3.9%; /* #09090B - Near Black */
-    --primary: 346 92% 53%; /* #F0255A - Bright Pink */
-    --secondary: 240 5% 65%; /* #A1A1AA - Mid Grey */
-    --border: 240 6% 90%; /* #E4E4E7 */
-    --card: 240 6% 96%; /* #F4F4F5 */
-    --muted: 240 5% 65%;
-    --accent: 346 92% 53%;
-    --secondary-foreground: 240 10% 3.9%;
+    --muted: 38 55.6% 33.4%; /* #856226 - ite ruuvattu Luminosity pienemmäks */
+    --muted-foreground: 38 55.6% 51.4%; /* #C8963E - tumma kulta ton tummansinisen pohjalta */
   }
 }
 

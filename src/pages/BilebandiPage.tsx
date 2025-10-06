@@ -75,7 +75,7 @@ const BilebandiPage = () => {
 
       {/* Band Introduction Section */}
       <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-playfair italic font-extrabold text-foreground mb-8 text-center">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-sans font-extrabold text-foreground mb-8 text-center">
           Bilebändi sinun ja yrityksesi juhliin
         </h1>
         <div className="text-center">

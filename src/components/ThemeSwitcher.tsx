@@ -3,7 +3,7 @@ import { Paintbrush } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // Define your themes here, matching the CSS classes
-const themes = ["theme-dark-blue", "theme-warm-desert", "theme-mono-light"];
+const themes = ["theme-dark-blue", "theme-warm-desert"];
 const storageKey = "heidisimelius-color-theme"; // Key for localStorage
 
 const ThemeSwitcher = () => {

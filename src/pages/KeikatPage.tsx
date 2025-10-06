@@ -217,7 +217,7 @@ const KeikatPage = () => {
         {/* <EventGroup {...heidiTrioLive} id="heidi-simelius-trio-live" /> */}
         {/* Show this section when there are no gigs coming */}
         <div className="max-w-[800px] mx-auto">
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-foreground">
             Tulevia keikkoja ei ole juuri nyt kalenterissa. Seuraa minua
             Instagramissa, niin pysyt parhaiten ajan tasalla tulevista
             esiintymisistä!
