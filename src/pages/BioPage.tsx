@@ -183,14 +183,21 @@ const BioPage = () => {
         />
 
         {/* Hero Content */}
-        <div className="relative z-10 text-center px-6">
-          <h1 className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 text-6xl sm:text-8xl md:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-primary w-fit">
+        <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2">
+          {/* <span
+            className="absolute z-0 top-[3px] left-[5px] lg:top-[3px] lg:left-[5px] text-8xl sm:text-[112px] lg:text-[128px]
+          font-playfair font-extrabold text-center text-accent w-fit mx-auto"
+            aria-hidden="true" // Hide from screen readers as it's decorative
+          >
+            Bio
+          </span> */}
+          <h1 className="relative z-1 text-8xl sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto">
             Bio
           </h1>
         </div>
 
         {/* Credits */}
-        <p className="absolute bottom-0 right-0 text-muted text-[12px] font-sans italic p-2 bg-border/50 rounded-tl-lg">
+        <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
           Kuva: Valosanni
         </p>
       </section>
@@ -224,7 +231,7 @@ const BioPage = () => {
                     sekä keikoilla Pekka Simojoen kanssa.
                   </p>
 
-                  <figure className="not-prose my-12">
+                  <figure className="not-prose">
                     <div className="aspect-video w-full">
                       <iframe
                         className="h-full w-full rounded-lg shadow-lg"
@@ -260,8 +267,8 @@ const BioPage = () => {
                 </div>
 
                 {/* CV Download Button */}
-                <div className="mt-12">
-                  <Button size="lg" asChild>
+                <div className="mt-12 w-fit mx-auto">
+                  <Button size="lg" asChild className="custom-lifted-secondary">
                     <a
                       href="/files/CV%20Simelius%20Heidi.pdf"
                       download="CV Simelius Heidi.pdf"
@@ -274,7 +281,7 @@ const BioPage = () => {
 
               {/* Mobile Image 1 */}
               <figure className="md:hidden">
-                <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
+                <div className="md:hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                   <img
                     src={
                       "/images/Seuraa-kuvat-Valosanni/Heidi-Simelius-Seuraa-kuvat-Valosanni-2.jpg"

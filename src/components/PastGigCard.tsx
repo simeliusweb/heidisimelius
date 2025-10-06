@@ -18,7 +18,7 @@ const PastGigCard = ({
   venue,
 }: PastGigCardProps) => {
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 max-w-[300px] sm:max-w-full mx-auto">
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 max-w-[300px] sm:max-w-full mx-auto element-embedded-effect">
       <div className="grid grid-cols-1 sm:grid-cols-[1fr_1.5fr] gap-0">
         {/* Left Column: Image Thumbnail */}
         <div className="relative w-full sm:h-48">
@@ -33,7 +33,7 @@ const PastGigCard = ({
         <div className="p-6 flex flex-col justify-between gap-4">
           {/* Top Row: Title */}
           <div className="flex flex-col justify-center gap-3">
-            <h3 className="text-2xl md:text-3xl font-playfair font-extrabold text-foreground">
+            <h3 className="text-2xl md:text-3xl font-sans font-extrabold text-foreground">
               {title}
             </h3>
             {/* Gig Type Badge */}

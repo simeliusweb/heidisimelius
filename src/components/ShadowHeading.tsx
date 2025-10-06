@@ -16,14 +16,14 @@ const ShadowHeading = ({
     <div className="relative mb-8 sm:mb-12 mx-auto w-fit">
       {/* Shadow Layer */}
       <h2
-        className={`absolute top-[5px] left-[-3px] lg:top-[6px] lg:left-[-4px] text-5xl lg:text-6xl font-sans font-extrabold text-center ${shadowClass}`}
+        className={`absolute top-[3px] left-[-2px] xs:top-[5px] xs:left-[-3px] lg:top-[6px] lg:left-[-4px] text-4xl xs:text-5xl lg:text-6xl font-sans font-extrabold text-center ${shadowClass}`}
         aria-hidden="true" // Hide from screen readers as it's decorative
       >
         {title}
       </h2>
 
       {/* Foreground Layer */}
-      <h2 className="relative z-10 text-5xl lg:text-6xl font-sans font-extrabold text-foreground text-center">
+      <h2 className="relative z-10 text-4xl xs:text-5xl lg:text-6xl font-sans font-extrabold text-foreground text-center">
         {title}
       </h2>
     </div>

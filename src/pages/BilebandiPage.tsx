@@ -3,7 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
 import { fi } from "date-fns/locale";
-import { CalendarIcon, ExternalLink, Mail } from "lucide-react";
+import {
+  ArrowDown,
+  CalendarIcon,
+  CopyrightIcon,
+  ExternalLink,
+  Mail,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { FaInstagram } from "react-icons/fa";
@@ -26,6 +32,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import ShadowHeading from "@/components/ShadowHeading";
 
 const bookingFormSchema = z.object({
   name: z.string().min(2, { message: "Nimi on pakollinen" }),
@@ -94,10 +101,10 @@ const BilebandiPage = () => {
 
       {/* Band Introduction Section */}
       <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-sans font-extrabold text-foreground mb-8 text-center">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-secondary mb-8 text-center">
           Bilebändi sinun ja yrityksesi juhliin
         </h1>
-        <div className="text-center">
+        <div className="flex flex-col items-center text-center">
           <p className="text-lg md:text-xl leading-relaxed">
             Heidi & the Hot Stuff tarjoaa kuumaa groovea ja hittejä eri
             vuosikymmeniltä nykypäivään. Bändi koostuu huipputason
@@ -107,30 +114,30 @@ const BilebandiPage = () => {
           </p>
           <a
             href="mailto:heidiandthehotstuff@gmail.com"
-            className="group mt-6 inline-flex items-center gap-2 text-secondary-foreground transition-all duration-300"
+            className="group my-8 inline-flex justify-center items-center gap-2 text-secondary-foreground transition-all duration-300 w-fit px-4"
           >
             <Mail className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
             <span className="font-semibold group-hover:underline">
               heidiandthehotstuff@gmail.com
             </span>
           </a>
+          <Button
+            variant="outline"
+            className="element-embedded-effect w-fit custom-lifted-muted mt-4"
+            asChild
+          >
+            <a href="#contact-section">
+              Täytä yhteydenottolomake
+              <ArrowDown className="w-4 h-4 text-muted-foreground" />
+            </a>
+          </Button>
         </div>
       </section>
 
       {/* Demo Video Section */}
-      <section className="max-w-6xl mx-auto px-6 pt-16 md:pt-24">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground">
-            Katso meidät livenä!
-          </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg">
-            Mikään ei kerro bändin energiasta paremmin kuin live-video.
-            <br />
-            Katso hittipotpurimme ja koe meininki itse!
-          </p>
-        </div>
+      <section className="max-w-6xl mx-auto px-6 pt-32">
         <figure>
-          <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl">
+          <div className="relative w-full aspect-video rounded-lg overflow-hidden custom-lifted-primary">
             <iframe
               className="absolute inset-0 w-full h-full"
               src="https://www.youtube.com/embed/1IYiuMruQic"
@@ -139,12 +146,28 @@ const BilebandiPage = () => {
               allowFullScreen
             />
           </div>
-          <figcaption className="mt-4 text-center text-base italic">
-            Studiolive Hittipotpuri - Heidi & the Hot Stuff
-          </figcaption>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground text-center mb-8 mt-12">
+            Katso meidät livenä!
+          </h2>
+          <p className="mt-8 text-center text-base">
+            Mikään ei kerro bändin energiasta paremmin kuin live-video.
+            <br />
+            Katso hittipotpurimme ja koe meininki itse!
+          </p>
         </figure>
+      </section>
 
-        <h2 className="text-2xl xs:text-3xl lg:text-4xl italic font-sans font-extrabold text-muted-foreground mb-8 pt-8 text-center">
+      <section className="pt-16 md:pt-24">
+        <div className="overflow-hidden [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)] py-12">
+          <img
+            src={
+              "/images/Heidi-and-the-hot-stuff/bilebandi-Pirkanmaa-juhlat-yksityistilaisuus-viihdyttava.webp"
+            }
+            alt="Heidi & The Hot Stuff"
+            className="w-full h-auto shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
+          />
+        </div>
+        <h2 className="text-2xl xs:text-3xl lg:text-4xl italic font-sans font-extrabold text-foreground mb-8 pt-12 text-center">
           Etsitkö energistä bilebändiä juhliisi? 🎶
         </h2>
         <p className="text-lg md:text-xl leading-relaxed max-w-xl mx-auto">
@@ -162,23 +185,14 @@ const BilebandiPage = () => {
         </p>
       </section>
 
-      <section className="pt-16 md:pt-24">
-        {/* Mobile Image 1 */}
-        <div className="overflow-hidden [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)] py-12">
-          <img
-            src={
-              "/images/Heidi-and-the-hot-stuff/bilebandi-Pirkanmaa-juhlat-yksityistilaisuus-viihdyttava.webp"
-            }
-            alt="Heidi & The Hot Stuff"
-            className="w-full h-auto shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
-          />
-        </div>
-      </section>
-
       {/* Booking & Contact Section */}
-      <section className="mx-auto px-6 py-16 md:py-24" id="contact-section">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-extrabold text-foreground mb-12 text-center">
-          Buukkaa Heidi & The Hot Stuff keikalle!
+      <section className="mx-auto px-6 pt-24 pb-12" id="contact-section">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-sans font-extrabold text-foreground mb-12 text-center">
+          Buukkaa{" "}
+          <span className="font-playfair mr-3 italic">
+            Heidi <span className="text-[#b0150e]">&</span> The Hot Stuff
+          </span>{" "}
+          keikalle!
         </h2>
 
         <div className="max-w-[600px] mx-auto">
@@ -367,47 +381,48 @@ const BilebandiPage = () => {
                 />
               </div>
 
-              <Button type="submit" className="w-full" size="lg">
+              <Button
+                type="submit"
+                className="w-full element-embedded-effect"
+                size="lg"
+              >
                 Lähetä
               </Button>
             </form>
           </Form>
         </div>
+
+        {/* Instagram Icon */}
+        <a
+          href="https://www.instagram.com/heidiandthehotstuff/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex justify-center text-foreground hover:text-secondary-foreground transition-colors mt-32 w-fit px-4 mx-auto"
+          aria-label="Seuraa Heidi & The Hot Stuff Instagramissa"
+        >
+          <FaInstagram size={48} />
+        </a>
       </section>
 
       {/* Custom Bilebändi Footer */}
-      <footer className="w-full mt-16">
+      <footer className="w-full">
         {/* Image Section - Full width, no overlays */}
-        <div
-          className="w-full h-[230px] xs:h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[900px] 2xl:h-[1150px] 
-        bg-cover bg-top bg-[url('/images/Heidi-and-the-hot-stuff/Heidi-and-The-Hot-Stuff-bilebandi-Tampere.webp')]"
-        />
+        <div className="w-full aspect-[3000/2197] bg-cover bg-top bg-[url('/images/Heidi-and-the-hot-stuff/Heidi-and-The-Hot-Stuff-bilebandi-Tampere.webp')]" />
 
         {/* Links Bar with Custom Gradient */}
-        <div className="backdrop-blur-md w-full bg-[linear-gradient(270deg,hsl(234deg_23.8%_8.2%)_0%,hsl(234deg_22%_9%)_8%,hsl(234deg_21%_10%)_17%,hsl(233deg_20%_10%)_25%,hsl(234deg_20%_11%)_33%,hsl(234deg_19%_12%)_42%,hsl(235deg_18.8%_12.5%)_50%,hsl(234deg_19%_12%)_58%,hsl(234deg_20%_11%)_67%,hsl(233deg_20%_10%)_75%,hsl(234deg_21%_10%)_83%,hsl(234deg_22%_9%)_92%,hsl(234deg_23.8%_8.2%)_100%)] p-8 pb-12">
+        <div className="absolute bottom-0 left-0 backdrop-blur-sm w-full bg-opacity-50 border-t border-[#d55b39] pb-4 pt-2 sm:pb-10 sm:pt-4">
           <div className="flex flex-col items-center gap-6">
             {/* Homepage Link */}
             <Link
               to="/"
-              className="uppercase tracking-wider hover:text-secondary-foreground transition-colors font-medium text-sm"
+              className="uppercase tracking-wider text-secondary-foreground transition-colors font-medium text-sm p-2 mb-4"
             >
               • ETUSIVULLE •
             </Link>
-
-            {/* Instagram Icon */}
-            <a
-              href="https://www.instagram.com/heidiandthehotstuff/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-foreground hover:text-secondary-foreground transition-colors mb-8"
-              aria-label="Seuraa Heidi & The Hot Stuff Instagramissa"
-            >
-              <FaInstagram size={28} />
-            </a>
           </div>
         </div>
-        <p className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xs pt-8 pb-5 italic text-secondary-foreground">
-          Sivut luonut{" "}
+        <p className="flex absolute items-center bottom-0 left-1/2 -translate-x-1/2 text-xs py-4 italic text-secondary-foreground">
+          <CopyrightIcon className="h-3 w-3 mr-1" />{" "}
           <a
             href="https://www.linkedin.com/in/janisuoranta/"
             target="_blank"

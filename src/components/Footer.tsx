@@ -155,7 +155,10 @@ const Footer = () => {
                   />
                 </div>
 
-                <Button type="submit" className="w-full">
+                <Button
+                  type="submit"
+                  className="w-full element-embedded-effect"
+                >
                   Lähetä
                 </Button>
               </form>

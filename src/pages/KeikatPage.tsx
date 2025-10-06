@@ -6,6 +6,7 @@ import PageMeta from "@/components/PageMeta";
 import StructuredData from "@/components/StructuredData";
 import { pageMetadata } from "@/config/metadata";
 import { FaInstagram } from "react-icons/fa";
+import ShadowHeading from "@/components/ShadowHeading";
 
 const KeikatPage = () => {
   const [visibleCount, setVisibleCount] = useState(2);
@@ -43,6 +44,7 @@ const KeikatPage = () => {
     description:
       "Heidi Simelius esittää uuden albuminsa kappaleita trionsa kanssa.",
     ticketsUrl: "https://example.com/tickets/trio",
+    eventPageUrl: "https://oulunteatteri.fi/naytelma/kinky-boots/",
     performances: [{ date: "2025-11-15", time: "20:00" }],
   };
 
@@ -216,23 +218,32 @@ const KeikatPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/90" />
 
         {/* Page Title */}
-        <div className="relative z-10 container mx-auto px-4">
-          <h1 className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2 text-6xl sm:text-8xl md:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-primary w-fit">
+        <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2">
+          {/* <span
+            className="absolute z-0 top-[2px] left-[3px] sm:top-[3px] sm:left-[5px] lg:top-[3px] lg:left-[5px] text-7xl sm:text-[112px] lg:text-[128px]
+          font-playfair font-extrabold text-center text-accent w-fit mx-auto"
+            aria-hidden="true" // Hide from screen readers as it's decorative
+          >
+            Keikat
+          </span> */}
+          <h1 className="relative z-1 text-7xl sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto">
             Keikat
           </h1>
         </div>
 
         {/* Credits */}
-        <p className="absolute bottom-0 right-0 text-muted text-[12px] font-sans italic p-2 bg-border/50 rounded-tl-lg">
+        <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
           Kuva: Ville Huuri
         </p>
       </section>
 
       {/* Musiikkikeikat Section */}
-      <section className="container mx-auto px-4 py-12 pt-32">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12">
-          Musiikkikeikat
-        </h2>
+      <section className="container mx-auto px-4 py-12 pt-48">
+        <ShadowHeading
+          title="Musiikkikeikat"
+          shadowColorClass="accent"
+          shadowOpacity={100}
+        />
         {heidiTrioLive ? (
           <EventGroup {...heidiTrioLive} id="heidi-simelius-trio-live" />
         ) : (
@@ -263,17 +274,21 @@ const KeikatPage = () => {
 
       {/* Teatteriesitykset Section */}
       <section className="container mx-auto px-4 py-12 pt-24">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12">
-          Teatteriesitykset
-        </h2>
+        <ShadowHeading
+          title="Teatteriesitykset"
+          shadowColorClass="accent"
+          shadowOpacity={100}
+        />
         <EventGroup {...kinkyBootsMusical} id="kinkyboots-musikaali" />
       </section>
 
       {/* Past Gigs Section */}
       <section className="container mx-auto px-4 py-12 pb-32">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12">
-          Menneet keikat
-        </h2>
+        <ShadowHeading
+          title="Menneet keikat"
+          shadowColorClass="accent"
+          shadowOpacity={100}
+        />
 
         <div className="space-y-8">
           <div className="space-y-4 max-w-[800px] mx-auto">
@@ -288,6 +303,7 @@ const KeikatPage = () => {
                 onClick={() => setVisibleCount((prev) => prev + 10)}
                 size="lg"
                 variant="outline"
+                className="element-embedded-effect"
               >
                 Näytä lisää
               </Button>

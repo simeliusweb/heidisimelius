@@ -69,7 +69,10 @@ const EventGroup = ({
     const performance = performances[0];
 
     return (
-      <Card id={id} className="overflow-hidden max-w-[800px] mx-auto">
+      <Card
+        id={id}
+        className="overflow-hidden max-w-[800px] mx-auto custom-lifted-primary"
+      >
         <CardContent className="p-0">
           {/* Image */}
           <div className="relative w-full aspect-video [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)]">
@@ -100,7 +103,7 @@ const EventGroup = ({
             {/* Content Column - Shows first on mobile, right on desktop */}
             <div className="order-1 sm:order-2 sm:w-2/3 space-y-4">
               <div>
-                <h2 className="text-3xl md:text-4xl font-playfair font-extrabold text-foreground mb-2">
+                <h2 className="text-3xl md:text-4xl font-sans font-extrabold text-foreground mb-2">
                   {title}
                 </h2>
                 <div className="flex items-center gap-2 text-lg font-medium">
@@ -121,7 +124,7 @@ const EventGroup = ({
                       href={eventPageUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors"
+                      className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors element-embedded-effect"
                     >
                       Tapahtuman sivulle
                       <ExternalLink className="w-4 h-4 text-primary" />
@@ -132,7 +135,7 @@ const EventGroup = ({
                       href={ticketsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors"
+                      className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors element-embedded-effect"
                     >
                       Liput
                       <ExternalLink className="w-4 h-4 text-primary" />
@@ -149,7 +152,10 @@ const EventGroup = ({
 
   // Multi-date layout (existing)
   return (
-    <Card id={id} className="overflow-hidden max-w-[800px] mx-auto">
+    <Card
+      id={id}
+      className="overflow-hidden max-w-[800px] mx-auto custom-lifted-primary"
+    >
       <CardContent className="p-0">
         {/* Image with Next Date Stamp */}
         <div className="relative w-full aspect-video [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)]">
@@ -170,7 +176,7 @@ const EventGroup = ({
         {/* Info Block */}
         <div className="p-6 md:p-8 space-y-4">
           <div>
-            <h2 className="text-3xl md:text-4xl font-playfair font-extrabold text-foreground mb-2">
+            <h2 className="text-3xl md:text-4xl font-sans font-extrabold text-foreground mb-2">
               {title}
             </h2>
             <div className="flex items-center gap-2 text-lg font-medium">
@@ -191,7 +197,7 @@ const EventGroup = ({
                   href={eventPageUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors"
+                  className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors element-embedded-effect"
                 >
                   Tapahtuman sivulle
                   <ExternalLink className="w-4 h-4 text-primary" />
@@ -202,7 +208,7 @@ const EventGroup = ({
                   href={ticketsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors"
+                  className="inline-flex items-center gap-1.5 bg-border text-foreground py-1 px-3 rounded-full hover:bg-border/80 transition-colors element-embedded-effect"
                 >
                   Liput
                   <ExternalLink className="w-4 h-4 text-primary" />
@@ -233,7 +239,11 @@ const EventGroup = ({
 
           {canShowMore && (
             <div className="flex justify-center pt-4">
-              <Button onClick={showMore} variant="outline">
+              <Button
+                onClick={showMore}
+                variant="outline"
+                className="element-embedded-effect"
+              >
                 Näytä lisää
               </Button>
             </div>
