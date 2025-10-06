@@ -8,6 +8,9 @@
 
 
 ## Update log for Vercel deployments:
+6.10. JSu
+* Update UI with refinements, animation on landing element at homepage, color palette updates.
+
 4.10. JSu
 * Update vercel config, routing Links.
 * Update Bilebändi page.
