@@ -172,7 +172,7 @@ const Footer = () => {
             <span key={link.label} className="flex items-center gap-4">
               <a
                 href={link.href}
-                className="uppercase tracking-wider hover:text-primary transition-colors font-medium text-sm text-secondary-foreground"
+                className="uppercase tracking-wider hover:text-secondary transition-colors font-medium text-sm text-secondary-foreground"
               >
                 {link.label}
               </a>
@@ -189,7 +189,7 @@ const Footer = () => {
             href="https://www.instagram.com/Heidisimelius/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-foreground hover:text-primary transition-colors"
+            className="text-foreground hover:text-secondary transition-colors"
             aria-label="Instagram"
           >
             <FaInstagram size={28} />
@@ -198,7 +198,7 @@ const Footer = () => {
             href="https://vm.tiktok.com/ZMJoaem42/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-foreground hover:text-primary transition-colors"
+            className="text-foreground hover:text-secondary transition-colors"
             aria-label="TikTok"
           >
             <FaTiktok size={28} />
@@ -207,7 +207,7 @@ const Footer = () => {
             href="https://www.facebook.com/HeidiSimelius/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-foreground hover:text-primary transition-colors"
+            className="text-foreground hover:text-secondary transition-colors"
             aria-label="Facebook"
           >
             <FaFacebook size={28} />
@@ -216,7 +216,7 @@ const Footer = () => {
             href="https://music.apple.com/gb/artist/heidi-simelius/1486952057"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-foreground hover:text-primary transition-colors"
+            className="text-foreground hover:text-secondary transition-colors"
             aria-label="Apple Music"
           >
             <FaMusic size={28} />
@@ -225,7 +225,7 @@ const Footer = () => {
             href="https://soundcloud.com/heidi-simelius"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-foreground hover:text-primary transition-colors"
+            className="text-foreground hover:text-secondary transition-colors"
             aria-label="Soundcloud"
           >
             <FaSoundcloud size={28} />
@@ -234,7 +234,7 @@ const Footer = () => {
             href="https://open.spotify.com/artist/7wmdyUKDAcJfmWbgsARwl9"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-foreground hover:text-primary transition-colors"
+            className="text-foreground hover:text-secondary transition-colors"
             aria-label="Spotify"
           >
             <FaSpotify size={28} />

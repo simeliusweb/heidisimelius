@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   FaFacebook,
   FaInstagram,
@@ -11,9 +11,11 @@ import { HashLink } from "react-router-hash-link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Link } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isFontLoading, setIsFontLoading] = useState(true);
 
   // Refs for animation
   const menuPanelRef = useRef<HTMLDivElement>(null);
@@ -99,6 +101,18 @@ const Header = () => {
     }
   }, [isMenuOpen]);
 
+  // Effect to check for when logo font has loaded
+  useEffect(() => {
+    document.fonts.ready
+      .then(() => {
+        setIsFontLoading(false);
+      })
+      .catch((error) => {
+        console.error("Header font failed to load:", error);
+        setIsFontLoading(false); // Hide spinner even on error
+      });
+  }, []); // Empty dependency array ensures this runs only once
+
   const navLinks = [
     { label: "Keikat", href: "/keikat" },
     { label: "Bio", href: "/bio" },
@@ -133,9 +147,13 @@ const Header = () => {
               />
             </button>
             <a href="/" className="hover:opacity-80 transition-opacity">
-              <span className="text-[12px] font-santorini text-secondary-foreground block pb-1">
-                Heidi Simelius
-              </span>
+              {isFontLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin text-secondary-foreground" />
+              ) : (
+                <span className="text-[12px] font-santorini text-secondary-foreground block pb-1">
+                  Heidi Simelius
+                </span>
+              )}
             </a>
           </div>
         </div>

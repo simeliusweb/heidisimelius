@@ -81,6 +81,7 @@ All colors MUST be HSL.
   }
 
   body {
+    background: hsl(var(--background));
     @apply bg-background text-foreground;
     @apply font-sans; /* Sets the default font to Source Sans 3 */
   }

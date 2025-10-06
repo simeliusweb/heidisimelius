@@ -1,12 +1,18 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import BottomBranding from "./BottomBranding";
+import { Loader2 } from "lucide-react";
 
 const HeroImageAndText = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const heidiShadowRef = useRef<HTMLHeadingElement>(null);
   const simeliusShadowRef = useRef<HTMLHeadingElement>(null);
 
+  // State to manage the loading process
+  const [isLoading, setIsLoading] = useState(true);
+  const contentRef = useRef<HTMLDivElement>(null); // Ref for the content to animate in
+
+  // Effect for handling text perspective shifts according to cursor movements
   useEffect(() => {
     const container = containerRef.current;
     const heidiShadow = heidiShadowRef.current;
@@ -34,65 +40,80 @@ const HeroImageAndText = () => {
       });
     };
 
-    // --- Mobile: Device Orientation (Tilt) Animation ---
-    // const handleDeviceOrientation = (event: DeviceOrientationEvent) => {
-    //   const { gamma, beta } = event; // gamma: left-to-right tilt, beta: front-to-back tilt
-
-    //   if (gamma === null || beta === null) return;
-
-    //   // Clamp values for a more controlled effect (e.g., max 30 degrees tilt)
-    //   const clamp = (val: number, min: number, max: number) =>
-    //     Math.max(min, Math.min(val, max));
-    //   const clampedGamma = clamp(gamma, -30, 30);
-    //   const clampedBeta = clamp(beta, -30, 30);
-
-    //   // Normalize from -1 to 1
-    //   const xPos = clampedGamma / 30;
-    //   const yPos = clampedBeta / 30;
-
-    //   gsap.to([heidiShadow, simeliusShadow], {
-    //     x: -xPos * movementStrength,
-    //     y: -yPos * movementStrength,
-    //     duration: 1.111,
-    //     ease: "power2.out",
-    //   });
-    // };
-
-    // Add event listeners based on device capabilities
-    const isTouchDevice = "ontouchstart" in window;
-    if (!isTouchDevice) {
-      container.addEventListener("mousemove", handleMouseMove);
-    } else {
-      // NOTE: iOS requires permission for device orientation. This might not work out-of-the-box
-      // without a user interaction to request access.
-      // window.addEventListener("deviceorientation", handleDeviceOrientation);
-    }
+    // Add event listener
+    container.addEventListener("mousemove", handleMouseMove);
 
     // Cleanup function
     return () => {
-      if (!isTouchDevice) {
-        container.removeEventListener("mousemove", handleMouseMove);
-      } else {
-        // window.removeEventListener(
-        //   "deviceorientation",
-        //   handleDeviceOrientation
-        // );
-      }
+      container.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
+
+  // Effect to handle asset loading and fade-in animation
+  useEffect(() => {
+    // 1. Immediately set the content to its starting animation state (invisible)
+    if (contentRef.current) {
+      gsap.set(contentRef.current, { opacity: 0, scale: 0.98 });
+    }
+
+    const imageUrl =
+      "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp";
+    const fontPromise = document.fonts.ready;
+    const imagePromise = new Promise<void>((resolve, reject) => {
+      const img = new Image();
+      img.src = imageUrl;
+      img.onload = () => resolve();
+      img.onerror = () => reject();
+    });
+
+    // 2. Wait for assets to load
+    Promise.all([fontPromise, imagePromise])
+      .then(() => {
+        // 3. Hide the loader
+        setIsLoading(false);
+
+        // 4. Animate the content in
+        if (contentRef.current) {
+          gsap.to(contentRef.current, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.8,
+            ease: "power2.out",
+            delay: 0.3, // A small delay for a smoother perceived transition
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to load critical hero assets:", error);
+        setIsLoading(false); // Still hide loader on error
+        // Also fade in content on error so the page isn't blank
+        if (contentRef.current) {
+          gsap.to(contentRef.current, { opacity: 1, scale: 1 });
+        }
+      });
+  }, []); // Empty dependency array ensures this runs once per mount
 
   return (
     <div
       ref={containerRef}
       className="relative flex h-[650px] xs:h-[700px] sm:h-[840px] md:h-[1040px] items-center justify-center overflow-hidden bg-[#000] pb-16 pt-8"
     >
+      {/* Loader is now overlaid and visibility is toggled independently */}
+      {isLoading && (
+        <Loader2 className="absolute h-12 w-12 animate-spin text-primary" />
+      )}
+
       {/* Inner container for scaling */}
-      <div className="relative scale-[0.45] xxs:scale-[0.5] xs:scale-[0.55] sm:scale-75 md:scale-90 lg:scale-100">
+      <div
+        ref={contentRef}
+        className="relative scale-[0.45] xxs:scale-[0.5] xs:scale-[0.55] sm:scale-75 md:scale-90 lg:scale-100"
+      >
         {/* --- "Heidi" Word Group --- */}
         <div className="absolute top-[-180px] left-[-102px]">
           <h2
             ref={heidiShadowRef}
-            className="absolute z-10 font-santorini text-[118px] text-[hsl(350.45,76.52%,54.9%)] top-[2px] left-[2px]"
+            className="absolute z-10 font-santorini text-[118px] text-primary top-[2px] left-[2px]"
+            // villi pinkki text-[hsl(350.45,76.52%,54.9%)]
           >
             Heidi
           </h2>
@@ -112,7 +133,8 @@ const HeroImageAndText = () => {
         <div className="absolute bottom-[-118px] left-[-106px]">
           <h2
             ref={simeliusShadowRef}
-            className="absolute z-10 font-santorini text-[95px] text-[hsl(350.45,76.52%,54.9%)] top-[2px] left-[2px]"
+            className="absolute z-10 font-santorini text-[95px] text-primary top-[2px] left-[2px]"
+            // text-[hsl(350.45,76.52%,54.9%)]
           >
             Simelius
           </h2>

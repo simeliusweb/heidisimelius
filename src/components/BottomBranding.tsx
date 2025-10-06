@@ -13,12 +13,12 @@ const BottomBranding = () => {
           <span key={link.label} className="flex items-center gap-2">
             <a
               href={link.href}
-              className="uppercase tracking-wider hover:text-primary transition-colors font-medium"
+              className="uppercase tracking-wider text-secondary font-medium"
             >
               {link.label}
             </a>
             {index < quickLinks.length - 1 && (
-              <span className="text-muted">/</span>
+              <span className="text-secondary">/</span>
             )}
           </span>
         ))}

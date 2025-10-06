@@ -36,15 +36,15 @@ const KeikatPage = () => {
     ],
   };
 
-  // const heidiTrioLive = {
-  //   imageUrl: "/images/demo/placeholder-trio.jpg",
-  //   title: "Heidi Simelius Trio Live",
-  //   venue: "G Livelab, Tampere",
-  //   description:
-  //     "Heidi Simelius esittää uuden albuminsa kappaleita trionsa kanssa.",
-  //   ticketsUrl: "https://example.com/tickets/trio",
-  //   performances: [{ date: "2025-11-15", time: "20:00" }],
-  // };
+  const heidiTrioLive = {
+    imageUrl: "/images/demo/placeholder-trio.jpg",
+    title: "Heidi Simelius Trio Live",
+    venue: "G Livelab, Tampere",
+    description:
+      "Heidi Simelius esittää uuden albuminsa kappaleita trionsa kanssa.",
+    ticketsUrl: "https://example.com/tickets/trio",
+    performances: [{ date: "2025-11-15", time: "20:00" }],
+  };
 
   // All past gigs data
   const allPastGigs = [
@@ -117,34 +117,34 @@ const KeikatPage = () => {
 
   // Generate MusicEvent structured data for all performances
   const musicEventsSchema = [
-    // ...heidiTrioLive.performances.map((performance) => ({
-    //   "@context": "https://schema.org",
-    //   "@type": "MusicEvent",
-    //   name: heidiTrioLive.title,
-    //   startDate: `${performance.date}T${performance.time}:00+02:00`,
-    //   location: {
-    //     "@type": "Place",
-    //     name: heidiTrioLive.venue,
-    //     address: {
-    //       "@type": "PostalAddress",
-    //       addressLocality: "Tampere",
-    //       addressCountry: "FI",
-    //     },
-    //   },
-    //   image: heidiTrioLive.imageUrl,
-    //   description: heidiTrioLive.description,
-    //   offers: {
-    //     "@type": "Offer",
-    //     url: heidiTrioLive.ticketsUrl,
-    //     price: "TBA",
-    //     priceCurrency: "EUR",
-    //     availability: "https://schema.org/InStock",
-    //   },
-    //   performer: {
-    //     "@type": "Person",
-    //     name: "Heidi Simelius",
-    //   },
-    // })),
+    ...heidiTrioLive.performances.map((performance) => ({
+      "@context": "https://schema.org",
+      "@type": "MusicEvent",
+      name: heidiTrioLive.title,
+      startDate: `${performance.date}T${performance.time}:00+02:00`,
+      location: {
+        "@type": "Place",
+        name: heidiTrioLive.venue,
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Tampere",
+          addressCountry: "FI",
+        },
+      },
+      image: heidiTrioLive.imageUrl,
+      description: heidiTrioLive.description,
+      offers: {
+        "@type": "Offer",
+        url: heidiTrioLive.ticketsUrl,
+        price: "TBA",
+        priceCurrency: "EUR",
+        availability: "https://schema.org/InStock",
+      },
+      performer: {
+        "@type": "Person",
+        name: "Heidi Simelius",
+      },
+    })),
     ...kinkyBootsMusical.performances.map((performance) => ({
       "@context": "https://schema.org",
       "@type": "MusicEvent",
@@ -214,27 +214,32 @@ const KeikatPage = () => {
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12">
           Musiikkikeikat
         </h2>
-        {/* <EventGroup {...heidiTrioLive} id="heidi-simelius-trio-live" /> */}
-        {/* Show this section when there are no gigs coming */}
-        <div className="max-w-[800px] mx-auto">
-          <p className="text-lg text-foreground">
-            Tulevia keikkoja ei ole juuri nyt kalenterissa. Seuraa minua
-            Instagramissa, niin pysyt parhaiten ajan tasalla tulevista
-            esiintymisistä!
-          </p>
-          <a
-            href="https://www.instagram.com/Heidisimelius/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group mt-6 inline-flex items-center gap-3 text-secondary-foreground transition-all duration-300"
-            aria-label="Seuraa Heidi Simeliusta Instagramissa"
-          >
-            <FaInstagram className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
-            <span className="text-lg font-semibold group-hover:underline">
-              @heidisimelius
-            </span>
-          </a>
-        </div>
+        {heidiTrioLive ? (
+          <EventGroup {...heidiTrioLive} id="heidi-simelius-trio-live" />
+        ) : (
+          <>
+            {/* Show this section when there are no gigs coming */}
+            <div className="max-w-[800px] mx-auto">
+              <p className="text-lg text-foreground">
+                Tulevia keikkoja ei ole juuri nyt kalenterissa. Seuraa minua
+                Instagramissa, niin pysyt parhaiten ajan tasalla tulevista
+                esiintymisistä!
+              </p>
+              <a
+                href="https://www.instagram.com/Heidisimelius/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-6 inline-flex items-center gap-3 text-secondary-foreground transition-all duration-300"
+                aria-label="Seuraa Heidi Simeliusta Instagramissa"
+              >
+                <FaInstagram className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
+                <span className="text-lg font-semibold group-hover:underline">
+                  @heidisimelius
+                </span>
+              </a>
+            </div>
+          </>
+        )}
       </section>
 
       {/* Teatteriesitykset Section */}
