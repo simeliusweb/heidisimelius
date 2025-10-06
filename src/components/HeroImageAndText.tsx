@@ -10,6 +10,7 @@ const HeroImageAndText = () => {
 
   // State to manage the loading process
   const [isLoading, setIsLoading] = useState(true);
+  const [isSpinnerVisible, setIsSpinnerVisible] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null); // Ref for the content to animate in
 
   // Effect for handling text perspective shifts according to cursor movements
@@ -49,19 +50,19 @@ const HeroImageAndText = () => {
     };
   }, []);
 
-  // Effect to handle asset loading and fade-in animation
+  // Effect to handle asset loading and fade-in animation with a threshold
   useEffect(() => {
-    // 1. Immediately set the content to its starting animation state (invisible)
+    // 1. Set the content to its starting animation state (invisible)
     if (contentRef.current) {
-      gsap.set(contentRef.current, { opacity: 0, scale: 0.98 });
+      gsap.set(contentRef.current, { opacity: 0 });
     }
 
-    // Create a promise that resolves after a minimum time
-    const minDisplayTimePromise = new Promise((resolve) => {
-      setTimeout(resolve, 550); // Adjust this value as needed
-    });
+    // 2. Set a timer to show the spinner only if loading is slow
+    const spinnerTimeoutId: number = window.setTimeout(() => {
+      setIsSpinnerVisible(true);
+    }, 200); // 200ms threshold
 
-    // Asset loading promise
+    // 3. Asset loading promise
     const assetsPromise = new Promise<void>((resolve, reject) => {
       const imageUrl =
         "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp";
@@ -73,46 +74,62 @@ const HeroImageAndText = () => {
         img.onerror = () => rejectImg();
       });
 
+      // Correctly chain the promises by passing the resolve/reject handlers directly.
       Promise.all([fontPromise, imagePromise])
         .then(() => resolve())
         .catch(reject);
     });
 
-    // 2. Wait for BOTH assets to load AND the minimum time to pass
-    Promise.all([assetsPromise, minDisplayTimePromise])
+    // 4. Wait for assets to load
+    assetsPromise
       .then(() => {
-        // 3. Hide the loader
-        setIsLoading(false);
+        // Clear the timer immediately so the spinner doesn't flash.
+        clearTimeout(spinnerTimeoutId);
 
-        // 4. Animate the content in
+        // Mark loading as complete and hide the spinner
+        setIsLoading(false);
+        setIsSpinnerVisible(false);
+
+        // Animate the content in
         if (contentRef.current) {
-          gsap.to(contentRef.current, {
-            opacity: 1,
-            scale: 1,
-            duration: 0.8,
-            ease: "power2.out",
-            // The delay can be slightly reduced or removed now
-            delay: 0.1,
-          });
+          gsap.fromTo(
+            contentRef.current,
+            { opacity: 0, scale: 0.98 },
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 0.8,
+              ease: "power2.out",
+              delay: 0.1,
+            }
+          );
         }
       })
       .catch((error) => {
+        // --- ROBUST CLEANUP ---
+        clearTimeout(spinnerTimeoutId);
+
         console.error("Failed to load critical hero assets:", error);
         setIsLoading(false);
+        setIsSpinnerVisible(false);
         if (contentRef.current) {
           gsap.to(contentRef.current, { opacity: 1, scale: 1 });
         }
       });
-  }, []); // Empty dependency array ensures this runs once per mount
+
+    // 5. Cleanup function for when the component unmounts
+    return () => {
+      clearTimeout(spinnerTimeoutId);
+    };
+  }, []);
 
   return (
     <div
       ref={containerRef}
       className="relative flex h-[650px] xs:h-[700px] sm:h-[840px] md:h-[1040px] items-center justify-center overflow-hidden bg-[#000] pb-16 pt-8"
     >
-      {/* Loader is now overlaid and visibility is toggled independently */}
-      {isLoading && (
-        <Loader2 className="absolute h-12 w-12 animate-spin text-secondary" />
+      {isLoading && isSpinnerVisible && (
+        <Loader2 className="absolute h-12 w-12 animate-spin text-primary" />
       )}
 
       <div ref={contentRef} className="relative">
