@@ -101,7 +101,7 @@ const BilebandiPage = () => {
       {/* Demo Video Section */}
       <section className="max-w-6xl mx-auto px-6 py-16 md:py-24">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground">
             Katso meidät livenä!
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
@@ -145,7 +145,7 @@ const BilebandiPage = () => {
 
       <section className="py-16 md:py-24">
         <div className="mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-extrabold text-foreground mb-8 text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-sans font-extrabold text-foreground mb-8 text-center">
             Tarjoamme...
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed text-center">

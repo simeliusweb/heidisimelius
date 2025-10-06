@@ -211,7 +211,7 @@ const KeikatPage = () => {
 
       {/* Musiikkikeikat Section */}
       <section className="container mx-auto px-4 py-12 pt-32">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 sm:mb-16 italic">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12">
           Musiikkikeikat
         </h2>
         {/* <EventGroup {...heidiTrioLive} id="heidi-simelius-trio-live" /> */}
@@ -239,7 +239,7 @@ const KeikatPage = () => {
 
       {/* Teatteriesitykset Section */}
       <section className="container mx-auto px-4 py-12 pt-24">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 sm:mb-16 italic">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12">
           Teatteriesitykset
         </h2>
         <EventGroup {...kinkyBootsMusical} id="kinkyboots-musikaali" />
@@ -247,7 +247,7 @@ const KeikatPage = () => {
 
       {/* Past Gigs Section */}
       <section className="container mx-auto px-4 py-12 pb-32">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 sm:mb-16 italic">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12">
           Menneet keikat
         </h2>
 

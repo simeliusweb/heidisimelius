@@ -232,7 +232,7 @@ const GalleriaPage = () => {
 
         {/* Pressikuvat Section */}
         <section className="mb-20">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 sm:mb-16">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12">
             Pressikuvat
           </h2>
 
@@ -290,7 +290,7 @@ const GalleriaPage = () => {
 
         {/* Kuvagalleria Section */}
         <section>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-foreground mb-8 sm:mb-16">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12">
             Kuvagalleria
           </h2>
 
@@ -298,8 +298,10 @@ const GalleriaPage = () => {
             const currentState = setsState[setIndex];
             return (
               <div key={photoSet.title} className="mb-32 xl:mb-48 last:mb-0">
-                <h3 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-bold text-foreground mb-6">
-                  <div className="text-primary pb-2">{photoSet.title}</div>
+                <h3 className="mb-6">
+                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-sans font-bold text-foreground pb-2">
+                    {photoSet.title}
+                  </h3>
                   <div className="text-base md:text-lg italic text-muted-foreground">
                     Kuvat:{" "}
                     {photoSet.photographerUrl ? (

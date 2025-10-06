@@ -273,7 +273,7 @@ const BioPage = () => {
               <section className="px-16 md:px-6">
                 <h2
                   ref={teatteriHeadingRef}
-                  className="text-4xl md:text-5xl font-playfair font-extrabold italic text-primary mb-8 pt-8"
+                  className="text-4xl md:text-5xl font-sans font-extrabold text-foreground mb-8 pt-8"
                 >
                   Teatteri
                 </h2>
@@ -382,7 +382,7 @@ const BioPage = () => {
               <section className="px-16 md:px-6">
                 <h2
                   ref={suomennoksetHeadingRef}
-                  className="text-4xl md:text-5xl font-playfair font-extrabold italic text-primary mb-8 pt-8"
+                  className="text-4xl md:text-5xl font-sans font-extrabold text-foreground mb-8 pt-8"
                 >
                   Suomennokset
                 </h2>
@@ -403,7 +403,7 @@ const BioPage = () => {
 
               {/* Discography Section */}
               <section className="px-16 md:px-6">
-                <h2 className="text-4xl md:text-5xl font-playfair font-extrabold italic text-primary mb-8 pt-8">
+                <h2 className="text-4xl md:text-5xl font-sans font-extrabold text-foreground mb-8 pt-8">
                   Studio
                 </h2>
                 <div className="space-y-8 font-source text-foreground">

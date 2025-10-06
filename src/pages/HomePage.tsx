@@ -25,66 +25,7 @@ const HomePage = () => {
         <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
       </Helmet>
       <div className="relative">
-        {/* <div className="relative min-h-screen"> */}
         {/* Art-Directed Background Images */}
-        {/* Orginaalit taustat <div
-          className="fixed inset-0 bg-cover bg-center bg-no-repeat md:hidden"
-          style={{
-            backgroundImage: `url(/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg)`,
-          }}
-        />
-        <div
-          className="fixed inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
-          style={{
-            backgroundImage: `url(/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2.jpg)`,
-          }}
-        /> */}
-        {/* <div className="relative h-[1040px] flex items-center justify-center inset-0 bg-cover bg-center bg-[#000] bg-no-repeat pb-16 pt-8">
-          <div className="relative">
-            <h2
-              className="absolute font-santorini text-[hsl(350.45,76.52%,54.9%)] z-1
-              top-[-178px] left-[-100px] 
-              text-[118px] 
-            "
-            >
-              Heidi
-            </h2>
-            <h2
-              className="absolute font-santorini text-foreground z-2
-              top-[-180px] left-[-102px] 
-              text-[118px] 
-            "
-            >
-              Heidi
-            </h2>
-            <h2
-              className="absolute font-santorini text-[hsl(350.45,76.52%,54.9%)] z-1 
-              bottom-[-120px] left-[-104px] 
-              text-[95px] 
-            "
-            >
-              Simelius
-            </h2>
-            <h2
-              className="absolute font-santorini text-foreground z-2 
-              bottom-[-118px] left-[-106px] 
-              text-[95px] 
-            "
-            >
-              Simelius
-            </h2>
-            <img
-              src={
-                "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp"
-              }
-              alt="Heidi Simelius on laulaja, lauluntekijä ja esiintyjä."
-              className="h-auto w-[80vw] max-w-[370px] relative z-3 shadow-lg"
-            />
-          </div>
-          <div className="absolute bottom-0 flex flex-col w-full">
-            <BottomBranding />
-          </div>
-        </div> */}
         <HeroImageAndText />
 
         {/* Content Sections */}
@@ -105,7 +46,7 @@ const HomePage = () => {
 
           {/* Upcoming Gigs Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 sm:mb-16 text-center">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12 text-center">
               Tulevat keikat
             </h2>
             <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto mb-8">
@@ -212,7 +153,7 @@ const HomePage = () => {
 
           {/* Videos Section */}
           <VideosSection
-            sectionTitle="Videot"
+            sectionTitle="Musavideot"
             variant="featured"
             videos={[
               {
@@ -231,7 +172,7 @@ const HomePage = () => {
 
           {/* Instagram Feed Section */}
           <section className="container mx-auto px-6 py-16 md:py-24">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 sm:mb-16 text-center">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12 text-center">
               Instagram
             </h2>
             <div className="max-w-4xl mx-auto mb-8">

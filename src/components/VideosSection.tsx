@@ -33,7 +33,7 @@ const VideosSection = ({
 
     return (
       <section className="container mx-auto px-6 py-16 md:py-24">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-8 sm:mb-16 text-center">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12 text-center">
           {sectionTitle}
         </h2>
 
@@ -94,7 +94,7 @@ const VideosSection = ({
   // List variant
   return (
     <section className="container mx-auto px-6 py-16 md:py-24">
-      <h2 className="text-4xl md:text-5xl lg:text-6xl font-playfair font-extrabold italic text-primary mb-12 text-center">
+      <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12 text-center">
         {sectionTitle}
       </h2>
 
