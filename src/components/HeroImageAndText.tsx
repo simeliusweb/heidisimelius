@@ -56,18 +56,30 @@ const HeroImageAndText = () => {
       gsap.set(contentRef.current, { opacity: 0, scale: 0.98 });
     }
 
-    const imageUrl =
-      "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp";
-    const fontPromise = document.fonts.ready;
-    const imagePromise = new Promise<void>((resolve, reject) => {
-      const img = new Image();
-      img.src = imageUrl;
-      img.onload = () => resolve();
-      img.onerror = () => reject();
+    // Create a promise that resolves after a minimum time
+    const minDisplayTimePromise = new Promise((resolve) => {
+      setTimeout(resolve, 550); // Adjust this value as needed
     });
 
-    // 2. Wait for assets to load
-    Promise.all([fontPromise, imagePromise])
+    // Asset loading promise
+    const assetsPromise = new Promise<void>((resolve, reject) => {
+      const imageUrl =
+        "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp";
+      const fontPromise = document.fonts.ready;
+      const imagePromise = new Promise<void>((resolveImg, rejectImg) => {
+        const img = new Image();
+        img.src = imageUrl;
+        img.onload = () => resolveImg();
+        img.onerror = () => rejectImg();
+      });
+
+      Promise.all([fontPromise, imagePromise])
+        .then(() => resolve())
+        .catch(reject);
+    });
+
+    // 2. Wait for BOTH assets to load AND the minimum time to pass
+    Promise.all([assetsPromise, minDisplayTimePromise])
       .then(() => {
         // 3. Hide the loader
         setIsLoading(false);
@@ -79,14 +91,14 @@ const HeroImageAndText = () => {
             scale: 1,
             duration: 0.8,
             ease: "power2.out",
-            delay: 0.3, // A small delay for a smoother perceived transition
+            // The delay can be slightly reduced or removed now
+            delay: 0.1,
           });
         }
       })
       .catch((error) => {
         console.error("Failed to load critical hero assets:", error);
-        setIsLoading(false); // Still hide loader on error
-        // Also fade in content on error so the page isn't blank
+        setIsLoading(false);
         if (contentRef.current) {
           gsap.to(contentRef.current, { opacity: 1, scale: 1 });
         }
@@ -100,47 +112,46 @@ const HeroImageAndText = () => {
     >
       {/* Loader is now overlaid and visibility is toggled independently */}
       {isLoading && (
-        <Loader2 className="absolute h-12 w-12 animate-spin text-primary" />
+        <Loader2 className="absolute h-12 w-12 animate-spin text-secondary" />
       )}
 
-      {/* Inner container for scaling */}
-      <div
-        ref={contentRef}
-        className="relative scale-[0.45] xxs:scale-[0.5] xs:scale-[0.55] sm:scale-75 md:scale-90 lg:scale-100"
-      >
-        {/* --- "Heidi" Word Group --- */}
-        <div className="absolute top-[-180px] left-[-102px]">
-          <h2
-            ref={heidiShadowRef}
-            className="absolute z-10 font-santorini text-[118px] text-primary top-[2px] left-[2px]"
-            // villi pinkki text-[hsl(350.45,76.52%,54.9%)]
-          >
-            Heidi
-          </h2>
-          <h2 className="relative z-20 font-santorini text-[118px] text-foreground">
-            Heidi
-          </h2>
-        </div>
+      <div ref={contentRef} className="relative">
+        {/* Inner container for scaling */}
+        <div className="scale-[0.45] xxs:scale-[0.5] xs:scale-[0.55] sm:scale-75 md:scale-90 lg:scale-100">
+          {/* --- "Heidi" Word Group --- */}
+          <div className="absolute top-[-180px] left-[-102px]">
+            <h2
+              ref={heidiShadowRef}
+              className="absolute z-10 font-santorini text-[118px] text-primary top-[2px] left-[2px]"
+              // villi pinkki text-[hsl(350.45,76.52%,54.9%)]
+            >
+              Heidi
+            </h2>
+            <h2 className="relative z-20 font-santorini text-[118px] text-foreground">
+              Heidi
+            </h2>
+          </div>
 
-        {/* --- Central Image --- */}
-        <img
-          src="/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp"
-          alt="Heidi Simelius on laulaja, lauluntekijä ja esiintyjä."
-          className="relative z-30 h-auto w-[370px] shadow-lg"
-        />
+          {/* --- Central Image --- */}
+          <img
+            src="/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp"
+            alt="Heidi Simelius on laulaja, lauluntekijä ja esiintyjä."
+            className="relative z-30 h-auto w-[370px] shadow-lg"
+          />
 
-        {/* --- "Simelius" Word Group --- */}
-        <div className="absolute bottom-[-118px] left-[-106px]">
-          <h2
-            ref={simeliusShadowRef}
-            className="absolute z-10 font-santorini text-[95px] text-primary top-[2px] left-[2px]"
-            // text-[hsl(350.45,76.52%,54.9%)]
-          >
-            Simelius
-          </h2>
-          <h2 className="relative z-20 font-santorini text-[95px] text-foreground">
-            Simelius
-          </h2>
+          {/* --- "Simelius" Word Group --- */}
+          <div className="absolute bottom-[-118px] left-[-106px]">
+            <h2
+              ref={simeliusShadowRef}
+              className="absolute z-10 font-santorini text-[95px] text-primary top-[2px] left-[2px]"
+              // text-[hsl(350.45,76.52%,54.9%)]
+            >
+              Simelius
+            </h2>
+            <h2 className="relative z-20 font-santorini text-[95px] text-foreground">
+              Simelius
+            </h2>
+          </div>
         </div>
       </div>
 

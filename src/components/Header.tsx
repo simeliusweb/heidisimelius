@@ -16,6 +16,7 @@ import { Loader2 } from "lucide-react";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFontLoading, setIsFontLoading] = useState(true);
+  const [isSpinnerVisible, setIsSpinnerVisible] = useState(false);
 
   // Refs for animation
   const menuPanelRef = useRef<HTMLDivElement>(null);
@@ -101,16 +102,35 @@ const Header = () => {
     }
   }, [isMenuOpen]);
 
-  // Effect to check for when logo font has loaded
+  // Effect to check for logo font with a display threshold
   useEffect(() => {
+    const threshold = 200; // Threshold in milliseconds
+    // 1. Set a timer to show the spinner only if loading takes longer than the threshold
+    const spinnerTimeoutId: number = window.setTimeout(() => {
+      // This will only run if the font is still loading after threshold
+      setIsSpinnerVisible(true);
+    }, threshold);
+
+    // 2. Start checking for the font
     document.fonts.ready
       .then(() => {
+        // Font is ready, mark loading as complete
         setIsFontLoading(false);
       })
       .catch((error) => {
         console.error("Header font failed to load:", error);
-        setIsFontLoading(false); // Hide spinner even on error
+        setIsFontLoading(false); // Also hide on error
+      })
+      .finally(() => {
+        // 3. IMPORTANT: Clear the timeout.
+        // If the font loads in under threshold this clears the timer before it can set the spinner to visible.
+        clearTimeout(spinnerTimeoutId);
       });
+
+    // 4. Cleanup function to clear the timer if the component unmounts
+    return () => {
+      clearTimeout(spinnerTimeoutId);
+    };
   }, []); // Empty dependency array ensures this runs only once
 
   const navLinks = [
@@ -148,8 +168,13 @@ const Header = () => {
             </button>
             <a href="/" className="hover:opacity-80 transition-opacity">
               {isFontLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin text-secondary-foreground" />
+                isSpinnerVisible ? (
+                  // State 1: Loading is slow, show spinner
+                  <Loader2 className="h-4 w-4 animate-spin text-secondary-foreground" />
+                ) : // State 2: In the threshold window, show nothing
+                null
               ) : (
+                // State 3: Loading is complete, show the text
                 <span className="text-[12px] font-santorini text-secondary-foreground block pb-1">
                   Heidi Simelius
                 </span>
