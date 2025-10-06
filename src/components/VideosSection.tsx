@@ -114,7 +114,7 @@ const VideosSection = ({
                 {video.title}
               </h3>
             )}
-            <div className="aspect-video rounded-lg overflow-hidden">
+            <div className="aspect-video rounded-lg overflow-hidden custom-lifted-accent">
               <iframe
                 width="100%"
                 height="100%"
@@ -126,7 +126,9 @@ const VideosSection = ({
               />
             </div>
             {video.description && (
-              <p className="text-base md:text-lg italic">{video.description}</p>
+              <p className="text-base md:text-lg italic pt-6">
+                {video.description}
+              </p>
             )}
           </div>
         ))}

@@ -245,7 +245,7 @@ const GalleriaPage = () => {
       />
 
       <main className="container mx-auto px-6 py-16 md:py-24">
-        <h1 className="text-6xl md:text-8xl lg:text-10xl font-playfair font-extrabold text-primary mb-12 text-center py-8">
+        <h1 className="relative z-1 text-8xl sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto pb-32">
           Galleria
         </h1>
 
@@ -284,7 +284,11 @@ const GalleriaPage = () => {
                     <span>{photo.photographerName}</span>
                   )}
                 </p>
-                <Button variant="outline" className="w-full" asChild>
+                <Button
+                  variant="outline"
+                  className="w-full element-embedded-effect"
+                  asChild
+                >
                   <a href={photo.src} download>
                     <Download className="w-4 h-4 text-accent" />
                     Lataa kuva
@@ -295,7 +299,7 @@ const GalleriaPage = () => {
           </div>
 
           <div className="flex justify-center pb-16">
-            <Button size="lg" asChild>
+            <Button size="lg" asChild className="custom-lifted-secondary">
               <a
                 href="/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-pressikuvat.zip"
                 download
@@ -355,6 +359,7 @@ const GalleriaPage = () => {
                       size="lg"
                       onClick={() => handleShowMore(setIndex)}
                       disabled={currentState.isLoading}
+                      className="element-embedded-effect"
                     >
                       {currentState.isLoading ? (
                         <>
