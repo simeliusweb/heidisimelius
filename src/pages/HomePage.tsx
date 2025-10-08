@@ -27,22 +27,26 @@ const HomePage = () => {
         <div
           className="relative z-11"
           style={{
-            backgroundImage: `linear-gradient(
-      18deg,
-      hsl(234deg 24% 8%) 0%,
-      hsl(234deg 23% 8%) 10%,
-      hsl(234deg 23% 8%) 20%,
-      hsl(239deg 23% 9%) 32%,
-      hsl(238deg 23% 12%) 46%,
-      hsl(236deg 23% 8%) 62%,
-      hsl(234deg 24% 8%) 75%,
-      hsl(234deg 24% 11%) 84%,
-      hsl(234deg 24% 10%) 89%,
-      hsl(234deg 24% 8%) 93%,
-      hsl(235deg 23% 9%) 96%,
-      hsl(234deg 23% 8%) 98%,
-      hsl(234deg 23% 8%) 100%
-    )`,
+            backgroundImage: `url('/noise7colorful.webp'), 
+      linear-gradient(
+        18deg,
+        hsl(234deg 24% 8%) 0%,
+        hsl(234deg 23% 8%) 10%,
+        hsl(234deg 23% 8%) 20%,
+        hsl(239deg 23% 9%) 32%,
+        hsl(238deg 23% 12%) 46%,
+        hsl(236deg 23% 8%) 62%,
+        hsl(234deg 24% 8%) 75%,
+        hsl(234deg 24% 11%) 84%,
+        hsl(234deg 24% 10%) 89%,
+        hsl(234deg 24% 8%) 93%,
+        hsl(235deg 23% 9%) 96%,
+        hsl(234deg 23% 8%) 98%,
+        hsl(234deg 23% 8%) 100%
+      )
+    `,
+            backgroundBlendMode: "overlay",
+            imageRendering: "pixelated",
           }}
         >
           {/* Intro & Tagline Section */}
@@ -58,7 +62,7 @@ const HomePage = () => {
               asChild
               variant="outline"
               size="lg"
-              className="font-medium custom-lifted-primary"
+              className="relative font-medium custom-lifted-primary heroimg"
             >
               <a href="/bio">Tutustu Heidiin</a>
             </Button>

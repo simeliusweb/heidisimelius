@@ -122,7 +122,8 @@ const BilebandiPage = () => {
   return (
     <div
       style={{
-        backgroundImage: `linear-gradient(
+        backgroundImage: `url('/noise7colorful.webp'),
+        linear-gradient(
       16deg,
       hsl(234deg 24% 8%) 0%,
       hsl(234deg 23% 8%) 10%,
@@ -138,6 +139,8 @@ const BilebandiPage = () => {
       hsl(237deg 23% 10%) 98%,
       hsl(234deg 23% 8%) 100%
     )`,
+        backgroundBlendMode: "overlay",
+        imageRendering: "pixelated",
       }}
     >
       <PageMeta
@@ -158,7 +161,7 @@ const BilebandiPage = () => {
 
       {/* Band Introduction Section */}
       <section className="max-w-[1000px] mx-auto px-6 pt-8 pb-12">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-secondary mb-8 text-center">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-secondary mb-8 mt-4 text-center">
           Bilebändi sinun ja yrityksesi juhliin
         </h1>
         <div className="flex flex-col items-center text-center">

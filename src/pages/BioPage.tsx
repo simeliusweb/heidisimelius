@@ -150,7 +150,8 @@ const BioPage = () => {
   return (
     <div
       style={{
-        backgroundImage: `linear-gradient(
+        backgroundImage: `url('/noise7colorful.webp'), 
+        linear-gradient(
       12deg,
       hsl(234deg 24% 8%) 0%,
       hsl(234deg 23% 8%) 10%,
@@ -166,6 +167,8 @@ const BioPage = () => {
       hsl(235deg 23% 10%) 98%,
       hsl(234deg 23% 8%) 100%
     )`,
+        backgroundBlendMode: "overlay",
+        imageRendering: "pixelated",
       }}
     >
       <PageMeta
@@ -180,7 +183,7 @@ const BioPage = () => {
         <div
           className="absolute inset-0 bg-cover bg-top 
                bg-[url('/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-3.jpg')] 
-               sm:bg-[url('/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg')]"
+               sm:bg-[url('/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-4.jpg')]"
         />
 
         {/* Dark Gradient Overlay */}

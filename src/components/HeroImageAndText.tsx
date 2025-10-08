@@ -160,7 +160,24 @@ const HeroImageAndText = () => {
       ref={containerRef}
       className="relative flex h-[650px] xs:h-[700px] sm:h-[840px] md:h-[1040px] items-center justify-center overflow-hidden bg-background pb-16 pt-8"
       style={{
-        backgroundImage: `linear-gradient(
+        backgroundImage: `
+        linear-gradient(
+        18deg,
+        hsl(234deg 24% 8%) 0%,
+        hsl(234deg 23% 8%) 10%,
+        hsl(234deg 23% 8%) 20%,
+        hsl(239deg 23% 9%) 32%,
+        hsl(238deg 23% 12%) 46%,
+        hsl(236deg 23% 8%) 62%,
+        hsl(234deg 24% 8%) 75%,
+        hsl(234deg 24% 11%) 84%,
+        hsl(234deg 24% 10%) 89%,
+        hsl(234deg 24% 8%) 93%,
+        hsl(235deg 23% 9%) 96%,
+        hsl(234deg 23% 8%) 98%,
+        hsl(234deg 23% 8%) 100%
+      ),
+        linear-gradient(
       55deg,
       hsl(234deg 24% 8%) 0%,
       hsl(236deg 23% 8%) 10%,
@@ -187,6 +204,9 @@ const HeroImageAndText = () => {
         <div className="scale-[0.45] xxs:scale-[0.5] xs:scale-[0.55] sm:scale-75 md:scale-90 lg:scale-100">
           {/* --- "Heidi" Word Group --- */}
           <div className="absolute top-[-180px] left-[-102px]">
+            {/* z-index: 100
+             left: -240px;
+    top: 110px; */}
             <h2
               ref={heidiShadowRef}
               className="absolute z-10 font-santorini text-[118px] text-primary top-[6px] left-[-6px]"
@@ -208,6 +228,9 @@ const HeroImageAndText = () => {
 
           {/* --- "Simelius" Word Group --- */}
           <div className="absolute bottom-[-118px] left-[-106px]">
+            {/* zindex 100
+             left: 300px;
+    top: -70px; */}
             <h2
               ref={simeliusShadowRef}
               className="absolute z-10 font-santorini text-[95px] text-primary top-[6px] left-[-6px]"

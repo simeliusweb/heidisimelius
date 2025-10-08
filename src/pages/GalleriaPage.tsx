@@ -247,7 +247,7 @@ const GalleriaPage = () => {
         {/* Hero Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-[40%_top] 
-               bg-[url('/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-4.jpg')]"
+               bg-[url('/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg')]"
         />
         {/* Dark Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/0 to-background/100" />
