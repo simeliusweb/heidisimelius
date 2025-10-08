@@ -25,7 +25,6 @@ export default {
       screens: {
         xxs: "360px",
         xs: "420px",
-        "3xl": "1560px",
       },
       fontFamily: {
         santorini: ["Santorini", "sans-serif"],

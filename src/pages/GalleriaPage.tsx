@@ -13,6 +13,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import ShadowHeading from "@/components/ShadowHeading";
 
 // --- Data and Helpers ---
 
@@ -248,41 +249,39 @@ const GalleriaPage = () => {
       <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center">
         {/* Hero Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-top 
-               bg-[url('/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-3.jpg')] 
-               sm:bg-[url('/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg')]"
+          className="absolute inset-0 bg-cover bg-[40%_top] 
+               bg-[url('/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-4.jpg')]"
         />
-
         {/* Dark Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/0 to-background/100" />
-
         {/* Hero Content */}
         <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2">
-          <h1 className="relative z-1 text-7xl sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto">
+          <h1 className="relative z-1 text-7xl xs:text-[92px] sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto">
             Galleria
           </h1>
         </div>
-
         {/* Credits */}
         <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
-          Kuva: Valosanni
+          Kuva: Titta Toivanen
         </p>
       </section>
 
-      <main className="container mx-auto px-6 pb-12 pt-24">
+      <main className="container mx-auto px-6 pb-12 pt-12 sm:pt-16 lg:pt-24">
         {/* Pressikuvat Section */}
         <section className="mb-20 pt-12">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12">
-            Pressikuvat
-          </h2>
+          <ShadowHeading
+            title="Pressikuvat"
+            shadowColorClass="accent"
+            shadowOpacity={100}
+          />
 
-          <div className="flex flex-wrap justify-center gap-12 md:gap-8 mb-12">
+          <div className="flex flex-wrap justify-center gap-8 gap-y-16 mb-12">
             {pressPhotos.map((photo, index) => (
               <div
                 key={index}
-                className="w-full md:w-[45%] lg:w-[30%] flex flex-col gap-4"
+                className="w-full md:w-[45%] lg:w-[30%] flex flex-col gap-2"
               >
-                <div className="aspect-[3/4] overflow-hidden rounded-lg">
+                <div className="aspect-[3/4] overflow-hidden rounded-lg element-embedded-effect">
                   <img
                     src={photo.src}
                     alt={photo.alt}
@@ -319,7 +318,7 @@ const GalleriaPage = () => {
             ))}
           </div>
 
-          <div className="flex justify-center pb-16">
+          <div className="flex justify-center pb-8">
             <Button size="lg" asChild className="element-embedded-effect">
               <a
                 href="/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-pressikuvat.zip"
@@ -334,10 +333,11 @@ const GalleriaPage = () => {
 
         {/* Kuvagalleria Section */}
         <section>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12">
-            Kuvagalleria
-          </h2>
-
+          <ShadowHeading
+            title="Kuvagalleria"
+            shadowColorClass="accent"
+            shadowOpacity={100}
+          />
           {allPhotoSets.map((photoSet, setIndex) => {
             const currentState = setsState[setIndex];
             return (
@@ -370,6 +370,8 @@ const GalleriaPage = () => {
                     onClick={(event, data) =>
                       handleImageClick(event, data, currentState.visiblePhotos)
                     }
+                    margin={16}
+                    direction="column"
                   />
                 </div>
 

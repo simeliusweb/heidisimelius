@@ -219,13 +219,6 @@ const KeikatPage = () => {
 
         {/* Page Title */}
         <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2">
-          {/* <span
-            className="absolute z-0 top-[2px] left-[3px] sm:top-[3px] sm:left-[5px] lg:top-[3px] lg:left-[5px] text-7xl sm:text-[112px] lg:text-[128px]
-          font-playfair font-extrabold text-center text-accent w-fit mx-auto"
-            aria-hidden="true" // Hide from screen readers as it's decorative
-          >
-            Keikat
-          </span> */}
           <h1 className="relative z-1 text-7xl sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto">
             Keikat
           </h1>
@@ -238,7 +231,7 @@ const KeikatPage = () => {
       </section>
 
       {/* Musiikkikeikat Section */}
-      <section className="container mx-auto px-4 pt-24 pb-12">
+      <section className="container mx-auto px-4 pt-24 pb-12 sm:pt-32">
         <ShadowHeading
           title="Musiikkikeikat"
           shadowColorClass="accent"
@@ -250,7 +243,7 @@ const KeikatPage = () => {
         <>
           {/* Show this section when there are no gigs coming */}
           <div className="max-w-[800px] mx-auto px-4">
-            <p className="text-sm text-foreground">
+            <p className="max-w-[290px] text-sm text-center mx-auto text-foreground">
               Tulevia keikkoja ei ole juuri nyt kalenterissa. Seuraa minua
               Instagramissa, niin pysyt parhaiten ajan tasalla tulevista
               esiintymisistä!
@@ -259,7 +252,7 @@ const KeikatPage = () => {
               href="https://www.instagram.com/Heidisimelius/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group mt-6 flex justify-center items-center gap-3 text-secondary-foreground transition-all duration-300"
+              className="group mt-6 flex justify-center items-center gap-3 text-secondary-foreground transition-all duration-300 w-fit mx-auto"
               aria-label="Seuraa Heidi Simeliusta Instagramissa"
             >
               <FaInstagram className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />

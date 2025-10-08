@@ -101,13 +101,11 @@ const VideosSection = ({
         shadowOpacity={50}
       />
 
-      <div className="max-w-4xl mx-auto space-y-12">
+      <div className="max-w-4xl mx-auto space-y-4 sm:space-y-8 md:space-y-12">
         {videos.map((video, index) => (
           <div
             key={index}
-            className={`space-y-4 ${
-              index > 0 ? "pt-12 border-t border-border" : ""
-            }`}
+            className="space-y-4 bg-card rounded-lg p-4 element-embedded-effect"
           >
             {video.title && (
               <h3 className="text-xl md:text-2xl font-sans font-bold text-foreground">

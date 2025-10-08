@@ -74,8 +74,8 @@ const BilebandiPage = () => {
         gsap.fromTo(
           image,
           {
-            x: 25, // Start from the right
-            y: 10, // Start from the bottom
+            x: 15, // Start from the right
+            y: 25, // Start from the bottom
             scale: 1.15, // Scale up slightly to hide edges
           },
           {
@@ -135,7 +135,7 @@ const BilebandiPage = () => {
       </section>
 
       {/* Band Introduction Section */}
-      <section className="max-w-[1000px] mx-auto px-6 py-8">
+      <section className="max-w-[1000px] mx-auto px-6 pt-8 pb-12">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-secondary mb-8 text-center">
           Bilebändi sinun ja yrityksesi juhliin
         </h1>
@@ -181,10 +181,10 @@ const BilebandiPage = () => {
               "/images/Heidi-and-the-hot-stuff/bilebandi-Pirkanmaa-juhlat-yksityistilaisuus-viihdyttava.webp"
             }
             alt="Heidi & The Hot Stuff"
-            className="w-full h-auto shadow-lg"
+            className="w-full h-auto shadow-lg origin-top"
           />
         </div>
-        <div className="py-12">
+        <div className="py-8">
           <h2 className="text-2xl xs:text-3xl lg:text-4xl italic font-sans font-extrabold text-foreground p-8 pt-0 text-center">
             Etsitkö energistä bilebändiä juhliisi? 🎶
           </h2>
@@ -209,7 +209,7 @@ const BilebandiPage = () => {
       </section>
 
       {/* Demo Video Section */}
-      <section className="max-w-6xl mx-auto px-6 pt-16">
+      <section className="max-w-6xl mx-auto px-6">
         <figure>
           <div className="max-w-3xl relative w-full aspect-video rounded-lg overflow-hidden element-embedded-effect mx-auto">
             <iframe
@@ -223,22 +223,7 @@ const BilebandiPage = () => {
         </figure>
       </section>
 
-      <section
-        className="backdrop-blur-sm w-full bg-opacity-50 border-t border-b py-4 mt-16"
-        style={{
-          backgroundImage: `linear-gradient(
-      5deg,
-      hsl(234deg 24% 8%) 0%,
-      hsl(234deg 23% 9%) 10%,
-      hsl(234deg 23% 8%) 46%,
-      hsl(236deg 24% 11%) 75%,
-      hsl(236deg 24% 9%) 84%,
-      hsl(234deg 24% 8%) 93%,
-      hsl(237deg 23% 10%) 98%,
-      hsl(234deg 23% 8%) 100%
-    )`,
-        }}
-      >
+      <section className="w-full py-4 mt-16">
         {/* Instagram Icon */}
         <a
           href="https://www.instagram.com/heidiandthehotstuff/"
@@ -267,10 +252,23 @@ const BilebandiPage = () => {
 
       {/* Booking & Contact Section */}
       <section
-        className="mx-auto px-6 pt-16 md:pt-24 pb-12"
+        className="backdrop-blur-sm w-full bg-opacity-50 border-t py-4 mt-16 pb-16"
+        style={{
+          backgroundImage: `linear-gradient(
+      5deg,
+      hsl(234deg 24% 8%) 0%,
+      hsl(234deg 23% 9%) 10%,
+      hsl(234deg 23% 8%) 46%,
+      hsl(236deg 24% 11%) 75%,
+      hsl(236deg 24% 9%) 84%,
+      hsl(234deg 24% 8%) 93%,
+      hsl(237deg 23% 10%) 98%,
+      hsl(234deg 23% 8%) 100%
+    )`,
+        }}
         id="contact-section"
       >
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-sans font-extrabold text-foreground mb-4 md:mb-8 text-center">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-sans font-extrabold text-foreground mb-4 md:mb-8 mt-4 text-center">
           Buukkaa <br />
           <span className="font-playfair mr-3 italic">
             Heidi <span className="text-[#b0150e]">&</span> The Hot Stuff
@@ -282,7 +280,7 @@ const BilebandiPage = () => {
         <div className="max-w-[300px] sm:max-w-[600px] mx-auto">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Row 1: Name and Phone (2 columns on sm+) */}
+              {/* Row 1: Name, Phone and Email (3 columns on sm+) */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <FormField
                   control={form.control}
@@ -346,29 +344,6 @@ const BilebandiPage = () => {
                   )}
                 />
               </div>
-
-              {/* Row 2: Email (full width) */}
-              {/* <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Sähköposti{" "}
-                      <span className="text-muted-foreground">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="Sähköposti"
-                        {...field}
-                        className="placeholder:text-accent"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
 
               {/* Row 3: Date, Location, Event Type (3 columns on sm+) */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:items-end">
@@ -465,7 +440,7 @@ const BilebandiPage = () => {
                     <FormControl>
                       <Textarea
                         placeholder="Kerro meille lisää tapahtumastasi..."
-                        className="min-h-[120px] placeholder:text-accent text-md"
+                        className="min-h-[120px] placeholder:text-accent"
                         {...field}
                       />
                     </FormControl>

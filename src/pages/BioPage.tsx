@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PageMeta from "@/components/PageMeta";
 import StructuredData from "@/components/StructuredData";
 import { pageMetadata } from "@/config/metadata";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,7 @@ const BioPage = () => {
   const textContentRef = useRef<HTMLDivElement>(null);
   const teatteriHeadingRef = useRef<HTMLHeadingElement>(null);
   const suomennoksetHeadingRef = useRef<HTMLHeadingElement>(null);
+  const isSmOrLarger = useBreakpoint("sm");
 
   const heidiSchema = {
     "@context": "https://schema.org",
@@ -186,13 +188,6 @@ const BioPage = () => {
 
         {/* Hero Content */}
         <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2">
-          {/* <span
-            className="absolute z-0 top-[3px] left-[5px] lg:top-[3px] lg:left-[5px] text-8xl sm:text-[112px] lg:text-[128px]
-          font-playfair font-extrabold text-center text-accent w-fit mx-auto"
-            aria-hidden="true" // Hide from screen readers as it's decorative
-          >
-            Bio
-          </span> */}
           <h1 className="relative z-1 text-8xl sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto">
             Bio
           </h1>
@@ -200,7 +195,7 @@ const BioPage = () => {
 
         {/* Credits */}
         <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
-          Kuva: Valosanni
+          Kuva: {isSmOrLarger ? "Valosanni" : "Titta Toivanen"}
         </p>
       </section>
 
@@ -332,7 +327,7 @@ const BioPage = () => {
               <section className="px-8 md:px-6">
                 <h2
                   ref={teatteriHeadingRef}
-                  className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-8 pt-8"
+                  className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-4 sm:mb-8 pt-8"
                 >
                   Teatteri
                 </h2>
@@ -441,7 +436,7 @@ const BioPage = () => {
               <section className="px-8 md:px-6">
                 <h2
                   ref={suomennoksetHeadingRef}
-                  className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-8 pt-8"
+                  className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-4 sm:mb-8 pt-8"
                 >
                   Suomennokset
                 </h2>
@@ -462,10 +457,10 @@ const BioPage = () => {
 
               {/* Discography Section */}
               <section className="px-8 md:px-6">
-                <h2 className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-8 pt-8">
+                <h2 className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-4 sm:mb-8 pt-8">
                   Studio
                 </h2>
-                <div className="space-y-8 font-source text-foreground">
+                <div className="space-y-4 md:space-y-8 font-source text-foreground">
                   <div className="pb-4">
                     <h3 className="text-2xl font-semibold mb-2">
                       Sooloalbumit

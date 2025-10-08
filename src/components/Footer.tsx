@@ -56,7 +56,6 @@ const Footer = () => {
     { label: "BIO", href: "/bio" },
     { label: "GALLERIA", href: "/galleria" },
     { label: "BILEBÄNDI", href: "/bilebandi-heidi-and-the-hot-stuff" },
-    { label: "OTA YHTEYTTÄ", href: "#contact-section" },
   ];
 
   return (
@@ -197,7 +196,7 @@ const Footer = () => {
             <FaInstagram size={28} />
           </a>
           <a
-            href="https://vm.tiktok.com/ZMJoaem42/"
+            href="https://www.tiktok.com/@heidisimelius"
             target="_blank"
             rel="noopener noreferrer"
             className="text-foreground hover:text-secondary transition-colors"

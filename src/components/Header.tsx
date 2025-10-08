@@ -9,10 +9,11 @@ import {
 import { HashLink } from "react-router-hash-link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 
 const Header = () => {
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFontLoading, setIsFontLoading] = useState(true);
   const [isSpinnerVisible, setIsSpinnerVisible] = useState(false);
@@ -205,27 +206,42 @@ const Header = () => {
           {/* Navigation Links */}
           <nav className="mb-8">
             <ul className="space-y-4 px-4">
-              {navLinks.map((link) => (
-                <li key={link.label}>
-                  {link.href.includes("#") ? (
-                    <HashLink
-                      to={link.href}
-                      className="text-xl md:text-2xl font-sans font-extrabold text-foreground hover:text-secondary-foreground transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      {link.label}
-                    </HashLink>
-                  ) : (
-                    <Link
-                      to={link.href}
-                      className="text-xl md:text-2xl font-sans font-extrabold text-foreground hover:text-secondary-foreground transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      {link.label}
-                    </Link>
-                  )}
-                </li>
-              ))}
+              {navLinks.map((link) => {
+                // Check if the current link's href matches the browser's current path
+                const isActive = location.pathname === link.href;
+
+                return (
+                  <li key={link.label}>
+                    {isActive ? (
+                      // If the link is active, render a non-clickable span with active styles
+                      <span className="text-xl md:text-2xl font-sans font-extrabold text-secondary pointer-events-none">
+                        {link.label}
+                      </span>
+                    ) : (
+                      // If the link is not active, render the appropriate clickable link
+                      <>
+                        {link.href.includes("#") ? (
+                          <HashLink
+                            to={link.href}
+                            className="text-xl md:text-2xl font-sans font-extrabold text-foreground hover:text-secondary-foreground transition-colors"
+                            onClick={toggleMenu}
+                          >
+                            {link.label}
+                          </HashLink>
+                        ) : (
+                          <Link
+                            to={link.href}
+                            className="text-xl md:text-2xl font-sans font-extrabold text-foreground hover:text-secondary-foreground transition-colors"
+                            onClick={toggleMenu}
+                          >
+                            {link.label}
+                          </Link>
+                        )}
+                      </>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
@@ -241,7 +257,7 @@ const Header = () => {
               <FaInstagram size={28} />
             </a>
             <a
-              href="https://vm.tiktok.com/ZMJoaem42/"
+              href="https://www.tiktok.com/@heidisimelius"
               target="_blank"
               rel="noopener noreferrer"
               className="text-foreground hover:text-secondary-foreground transition-colors"
