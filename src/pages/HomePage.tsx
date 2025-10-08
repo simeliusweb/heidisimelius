@@ -52,7 +52,7 @@ const HomePage = () => {
               Heidi Simelius
             </h2>
             <p className="text-xl md:text-2xl text-foreground font-source mb-8 relative z-19">
-              on laulaja, lauluntekijä ja esiintyjä.
+              laulaja, lauluntekijä ja esiintyjä.
             </p>
             <Button
               asChild
@@ -165,7 +165,7 @@ const HomePage = () => {
               shadowColorClass="accent"
               shadowOpacity={100}
             />
-            <div className="max-w-3xl mx-auto custom-lifted-muted">
+            <div className="max-w-3xl mx-auto element-embedded-effect">
               <iframe
                 data-testid="embed-iframe"
                 style={{ borderRadius: "12px" }}
@@ -205,7 +205,7 @@ const HomePage = () => {
               shadowColorClass="accent"
               shadowOpacity={100}
             />
-            <div className="max-w-4xl mx-auto mb-8 custom-lifted-muted">
+            <div className="max-w-4xl mx-auto mb-8 element-embedded-effect">
               {/* LightWidget embed */}
               <iframe
                 src="https://cdn.lightwidget.com/widgets/71dd661fedf55720848701cf279e6d14.html"

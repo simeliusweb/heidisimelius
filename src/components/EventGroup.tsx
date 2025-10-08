@@ -71,7 +71,7 @@ const EventGroup = ({
     return (
       <Card
         id={id}
-        className="overflow-hidden max-w-[800px] mx-auto custom-lifted-primary"
+        className="overflow-hidden max-w-[800px] mx-auto element-embedded-effect"
       >
         <CardContent className="p-0">
           {/* Image */}
@@ -154,7 +154,7 @@ const EventGroup = ({
   return (
     <Card
       id={id}
-      className="overflow-hidden max-w-[800px] mx-auto custom-lifted-primary"
+      className="overflow-hidden max-w-[800px] mx-auto element-embedded-effect"
     >
       <CardContent className="p-0">
         {/* Image with Next Date Stamp */}

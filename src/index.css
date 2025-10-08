@@ -36,35 +36,6 @@ All colors MUST be HSL.
 
     --radius: 0.5rem;
   }
-
-  /* v2 */
-  .theme-warm-desert {
-    /* og teema */
-    --background: 234 23.8% 8.2%; /* #10111A */
-    --foreground: 240 11.1% 96.5%; /* #F5F5F7 */
-    --primary: 350 78.7% 52.2%; /* #E52545 */
-    --secondary: 34 100% 81.2%; /* #FFD59F */
-    --border: 236 16% 19.6%; /* #2A2B3A */
-    --card: 235 18.8% 12.5%; /* #1A1B26 */
-    --accent: 351 78.3% 52.2%; /* #E52642 */
-    --muted: 240 7.7% 56.7%; /* #888899 */
-
-    --secondary-foreground: 60 93.9% 93.5%; /* #FEFEDF */
-
-    --card-foreground: var(--foreground);
-    --primary-foreground: var(--foreground);
-    --muted-foreground: var(--foreground);
-    --accent-foreground: var(--foreground);
-    --popover-foreground: var(--foreground);
-    --destructive-foreground: var(--foreground);
-
-    --destructive: 0 84.2% 60.2%;
-    --popover: var(--card);
-    --input: var(--border);
-    --ring: var(--secondary-foreground);
-
-    --radius: 0.5rem;
-  }
 }
 
 @layer base {
@@ -113,23 +84,28 @@ td:has(.rdp-button[aria-current="date"]) {
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
+
 .custom-lifted-primary {
-  box-shadow: rgba(206, 22, 35, 0.4) -5px 5px, rgba(206, 22, 35, 0.3) -10px 10px,
+  box-shadow: rgba(206, 22, 35, 0.4) -5px 5px;
+  /* box-shadow: rgba(206, 22, 35, 0.4) -5px 5px, rgba(206, 22, 35, 0.3) -10px 10px,
     rgba(206, 22, 35, 0.2) -15px 15px, rgba(206, 22, 35, 0.1) -20px 20px,
-    rgba(206, 22, 35, 0.05) -25px 25px;
+    rgba(206, 22, 35, 0.05) -25px 25px; */
 }
 .custom-lifted-accent {
-  box-shadow: rgba(136, 136, 153, 0.4) -5px 5px,
+  box-shadow: rgba(136, 136, 153, 0.4) -5px 5px;
+  /* box-shadow: rgba(136, 136, 153, 0.4) -5px 5px,
     rgba(136, 136, 153, 0.3) -10px 10px, rgba(136, 136, 153, 0.2) -15px 15px,
-    rgba(136, 136, 153, 0.1) -20px 20px, rgba(136, 136, 153, 0.05) -25px 25px;
+    rgba(136, 136, 153, 0.1) -20px 20px, rgba(136, 136, 153, 0.05) -25px 25px; */
 }
 .custom-lifted-secondary {
-  box-shadow: rgba(217, 174, 97, 0.4) -5px 5px,
+  box-shadow: rgba(217, 174, 97, 0.4) -5px 5px;
+  /* box-shadow: rgba(217, 174, 97, 0.4) -5px 5px,
     rgba(217, 174, 97, 0.3) -10px 10px, rgba(217, 174, 97, 0.2) -15px 15px,
-    rgba(217, 174, 97, 0.1) -20px 20px, rgba(217, 174, 97, 0.05) -25px 25px;
+    rgba(217, 174, 97, 0.1) -20px 20px, rgba(217, 174, 97, 0.05) -25px 25px; */
 }
 .custom-lifted-muted {
-  box-shadow: rgba(200, 150, 62, 0.4) -5px 5px,
+  box-shadow: rgba(200, 150, 62, 0.4) -5px 5px;
+  /* box-shadow: rgba(200, 150, 62, 0.4) -5px 5px,
     rgba(200, 150, 62, 0.3) -10px 10px, rgba(200, 150, 62, 0.2) -15px 15px,
-    rgba(200, 150, 62, 0.1) -20px 20px, rgba(200, 150, 62, 0.05) -25px 25px;
+    rgba(200, 150, 62, 0.1) -20px 20px, rgba(200, 150, 62, 0.05) -25px 25px; */
 }

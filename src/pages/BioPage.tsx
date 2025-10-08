@@ -31,7 +31,6 @@ const BioPage = () => {
       "https://vm.tiktok.com/ZMJoaem42",
       "https://open.spotify.com/artist/7wmdyUKDAcJfmWbgsARwl9",
       "https://music.apple.com/gb/artist/heidi-simelius/1486952057",
-      "https://soundcloud.com/heidi-simelius",
     ],
   };
 
@@ -182,6 +181,9 @@ const BioPage = () => {
                sm:bg-[url('/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg')]"
         />
 
+        {/* Dark Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/0 to-background/100" />
+
         {/* Hero Content */}
         <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2">
           {/* <span
@@ -203,14 +205,19 @@ const BioPage = () => {
       </section>
 
       {/* Main Content */}
-      <div className="main-content-bio-page pt-16">
-        <div className="md:container px-0 py-16 md:py-24">
+      <div className="main-content-bio-page pt-16 overflow-hidden">
+        {/* Tagline */}
+        <p className="text-lg xs:text-xl font-santorini text-muted-foreground pt-8 md:pt-12 pb-8 leading-loose text-center italic">
+          Suurta ja sielukasta saundia
+        </p>
+
+        <div className="md:container px-0 py-8 md:py-12">
           {/* Two-Column Layout on Desktop */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 max-w-7xl mx-auto">
             {/* Left Column - Text Content */}
             <div ref={textContentRef} className="md:col-span-7 space-y-16">
               {/* Narrative Introduction */}
-              <section className="px-16 md:px-6 pb-16">
+              <section className="px-8 md:pb-16">
                 <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
                   <p>
                     Heidi Simelius on laulaja, lauluntekijä ja esiintyjä. Hän
@@ -226,7 +233,7 @@ const BioPage = () => {
                     Heidi oli mukana Voice of Finlandin uusimmalla kaudella,
                     jossa hän lauloi tiensä semifinaaliin. Heidi esiintyy
                     vaihtelevasti myös erilaisten kokoonpanojen kanssa ja hänet
-                    on voitu nähdä mm. Suomen varusmiessoittokunnan " 80's
+                    on voitu nähdä mm. Suomen varusmiessoittokunnan "80's
                     kiertueen" ja Gospel Helsinki -kuoron vierailevana solistina
                     sekä keikoilla Pekka Simojoen kanssa.
                   </p>
@@ -242,9 +249,35 @@ const BioPage = () => {
                         allowFullScreen
                       ></iframe>
                     </div>
-                    <figcaption className="mt-4 text-center text-base italic">
+                    <figcaption className="mt-2 text-center text-base italic">
                       Tässä esitin Knockout-vaiheessa Jennifer Rushin kappaleen
                       The Power Of Love!
+                    </figcaption>
+                  </figure>
+
+                  {/* Place this <figure> element right after the previous </figure> for the video */}
+                  <figure className="relative not-prose my-12 sm:my-16 mx-auto max-w-3xl rounded-lg bg-card p-8">
+                    <span
+                      className="absolute top-0 left-0 -translate-x-4 -translate-y-4 text-9xl font-serif text-accent opacity-20 select-none"
+                      aria-hidden="true"
+                    >
+                      “
+                    </span>
+                    <blockquote className="relative z-10 text-md italic leading-relaxed text-foreground/80">
+                      <p>
+                        Olen The Voice of Finland -ohjelman musiikkituottaja ja
+                        minulla oli ilo tehdä kaudella 2023-24 Heidi Simeliuksen
+                        kanssa useita musiikkinumeroita harjoituksineen ja
+                        suunnitteluineen. Tällä yli 6kk periodilla minulle on
+                        muodostunut Heidistä hyvin määrätietoinen, eteenpäin
+                        pyrkivä ja oman tiensä poikkkeuksellisen hyvin näkevä
+                        artisti, jonka musikaalisuus on ilmeistä. Suosittelen ja
+                        kannustan lämpimästi Heidiä oman musan tekemiseen ja
+                        esilletuomiseen joten tsekatkaa tää tyyppi❤️
+                      </p>
+                    </blockquote>
+                    <figcaption className="relative z-10 mt-6 text-right font-semibold text-foreground">
+                      – Lenni-Kalle Taipale
                     </figcaption>
                   </figure>
 
@@ -268,7 +301,7 @@ const BioPage = () => {
 
                 {/* CV Download Button */}
                 <div className="mt-12 w-fit mx-auto">
-                  <Button size="lg" asChild className="custom-lifted-secondary">
+                  <Button size="lg" asChild className="element-embedded-effect">
                     <a
                       href="/files/CV%20Simelius%20Heidi.pdf"
                       download="CV Simelius Heidi.pdf"
@@ -290,13 +323,13 @@ const BioPage = () => {
                     className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                   />
                 </div>
-                <figcaption className="mt-4 px-16 text-center text-base italic">
+                <figcaption className="mt-2 px-8 text-center text-base italic">
                   Kuva: Valosanni
                 </figcaption>
               </figure>
 
               {/* Theatre Section */}
-              <section className="px-16 md:px-6">
+              <section className="px-8 md:px-6">
                 <h2
                   ref={teatteriHeadingRef}
                   className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-8 pt-8"
@@ -398,14 +431,14 @@ const BioPage = () => {
                     className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                   />
                 </div>
-                <figcaption className="mt-4 px-16 text-center text-base italic">
+                <figcaption className="mt-2 px-8 text-center text-base italic">
                   Musikaalissa "Kinky Boots" Oulun teatterissa. Kuva: Kati
                   Leinonen
                 </figcaption>
               </figure>
 
               {/* Translations Section */}
-              <section className="px-16 md:px-6">
+              <section className="px-8 md:px-6">
                 <h2
                   ref={suomennoksetHeadingRef}
                   className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-8 pt-8"
@@ -428,7 +461,7 @@ const BioPage = () => {
               </section>
 
               {/* Discography Section */}
-              <section className="px-16 md:px-6">
+              <section className="px-8 md:px-6">
                 <h2 className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-8 pt-8">
                   Studio
                 </h2>
@@ -568,7 +601,7 @@ const BioPage = () => {
                     className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                   />
                 </div>
-                <figcaption className="mt-4 px-16 text-center text-base italic">
+                <figcaption className="mt-2 px-8 text-center text-base italic">
                   Kuva: AWA
                 </figcaption>
               </figure>

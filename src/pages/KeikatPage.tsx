@@ -37,16 +37,16 @@ const KeikatPage = () => {
     ],
   };
 
-  const heidiTrioLive = {
-    imageUrl: "/images/demo/placeholder-trio.jpg",
-    title: "Heidi Simelius Trio Live",
-    venue: "G Livelab, Tampere",
-    description:
-      "Heidi Simelius esittää uuden albuminsa kappaleita trionsa kanssa.",
-    ticketsUrl: "https://example.com/tickets/trio",
-    eventPageUrl: "https://oulunteatteri.fi/naytelma/kinky-boots/",
-    performances: [{ date: "2025-11-15", time: "20:00" }],
-  };
+  // const heidiTrioLive = {
+  //   imageUrl: "/images/demo/placeholder-trio.jpg",
+  //   title: "Heidi Simelius Trio Live",
+  //   venue: "G Livelab, Tampere",
+  //   description:
+  //     "Heidi Simelius esittää uuden albuminsa kappaleita trionsa kanssa.",
+  //   ticketsUrl: "https://example.com/tickets/trio",
+  //   eventPageUrl: "https://oulunteatteri.fi/naytelma/kinky-boots/",
+  //   performances: [{ date: "2025-11-15", time: "20:00" }],
+  // };
 
   // All past gigs data
   const allPastGigs = [
@@ -119,34 +119,34 @@ const KeikatPage = () => {
 
   // Generate MusicEvent structured data for all performances
   const musicEventsSchema = [
-    ...heidiTrioLive.performances.map((performance) => ({
-      "@context": "https://schema.org",
-      "@type": "MusicEvent",
-      name: heidiTrioLive.title,
-      startDate: `${performance.date}T${performance.time}:00+02:00`,
-      location: {
-        "@type": "Place",
-        name: heidiTrioLive.venue,
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: "Tampere",
-          addressCountry: "FI",
-        },
-      },
-      image: heidiTrioLive.imageUrl,
-      description: heidiTrioLive.description,
-      offers: {
-        "@type": "Offer",
-        url: heidiTrioLive.ticketsUrl,
-        price: "TBA",
-        priceCurrency: "EUR",
-        availability: "https://schema.org/InStock",
-      },
-      performer: {
-        "@type": "Person",
-        name: "Heidi Simelius",
-      },
-    })),
+    // ...heidiTrioLive.performances.map((performance) => ({
+    //   "@context": "https://schema.org",
+    //   "@type": "MusicEvent",
+    //   name: heidiTrioLive.title,
+    //   startDate: `${performance.date}T${performance.time}:00+02:00`,
+    //   location: {
+    //     "@type": "Place",
+    //     name: heidiTrioLive.venue,
+    //     address: {
+    //       "@type": "PostalAddress",
+    //       addressLocality: "Tampere",
+    //       addressCountry: "FI",
+    //     },
+    //   },
+    //   image: heidiTrioLive.imageUrl,
+    //   description: heidiTrioLive.description,
+    //   offers: {
+    //     "@type": "Offer",
+    //     url: heidiTrioLive.ticketsUrl,
+    //     price: "TBA",
+    //     priceCurrency: "EUR",
+    //     availability: "https://schema.org/InStock",
+    //   },
+    //   performer: {
+    //     "@type": "Person",
+    //     name: "Heidi Simelius",
+    //   },
+    // })),
     ...kinkyBootsMusical.performances.map((performance) => ({
       "@context": "https://schema.org",
       "@type": "MusicEvent",
@@ -215,7 +215,7 @@ const KeikatPage = () => {
         />
 
         {/* Dark Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/0 to-background/100" />
 
         {/* Page Title */}
         <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2">
@@ -232,48 +232,48 @@ const KeikatPage = () => {
         </div>
 
         {/* Credits */}
-        <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
+        <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg rounded-bl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
           Kuva: Ville Huuri
         </p>
       </section>
 
       {/* Musiikkikeikat Section */}
-      <section className="container mx-auto px-4 py-12 pt-48">
+      <section className="container mx-auto px-4 pt-24 pb-12">
         <ShadowHeading
           title="Musiikkikeikat"
           shadowColorClass="accent"
           shadowOpacity={100}
         />
-        {heidiTrioLive ? (
+        {/* {heidiTrioLive ? (
           <EventGroup {...heidiTrioLive} id="heidi-simelius-trio-live" />
-        ) : (
-          <>
-            {/* Show this section when there are no gigs coming */}
-            <div className="max-w-[800px] mx-auto">
-              <p className="text-lg text-foreground">
-                Tulevia keikkoja ei ole juuri nyt kalenterissa. Seuraa minua
-                Instagramissa, niin pysyt parhaiten ajan tasalla tulevista
-                esiintymisistä!
-              </p>
-              <a
-                href="https://www.instagram.com/Heidisimelius/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group mt-6 inline-flex items-center gap-3 text-secondary-foreground transition-all duration-300"
-                aria-label="Seuraa Heidi Simeliusta Instagramissa"
-              >
-                <FaInstagram className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
-                <span className="text-lg font-semibold group-hover:underline">
-                  @heidisimelius
-                </span>
-              </a>
-            </div>
-          </>
-        )}
+        ) : ( */}
+        <>
+          {/* Show this section when there are no gigs coming */}
+          <div className="max-w-[800px] mx-auto px-4">
+            <p className="text-sm text-foreground">
+              Tulevia keikkoja ei ole juuri nyt kalenterissa. Seuraa minua
+              Instagramissa, niin pysyt parhaiten ajan tasalla tulevista
+              esiintymisistä!
+            </p>
+            <a
+              href="https://www.instagram.com/Heidisimelius/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-6 flex justify-center items-center gap-3 text-secondary-foreground transition-all duration-300"
+              aria-label="Seuraa Heidi Simeliusta Instagramissa"
+            >
+              <FaInstagram className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
+              <span className="text-lg font-semibold group-hover:underline">
+                @heidisimelius
+              </span>
+            </a>
+          </div>
+        </>
+        {/* )} */}
       </section>
 
       {/* Teatteriesitykset Section */}
-      <section className="container mx-auto px-4 py-12 pt-24">
+      <section className="container mx-auto px-4 py-12">
         <ShadowHeading
           title="Teatteriesitykset"
           shadowColorClass="accent"
@@ -283,7 +283,7 @@ const KeikatPage = () => {
       </section>
 
       {/* Past Gigs Section */}
-      <section className="container mx-auto px-4 py-12 pb-32">
+      <section className="container mx-auto px-4 py-12 pb-24">
         <ShadowHeading
           title="Menneet keikat"
           shadowColorClass="accent"

@@ -244,13 +244,34 @@ const GalleriaPage = () => {
         description={pageMetadata.galleria.description}
       />
 
-      <main className="container mx-auto px-6 py-16 md:py-24">
-        <h1 className="relative z-1 text-8xl sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto pb-32">
-          Galleria
-        </h1>
+      {/* Hero Section */}
+      <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center">
+        {/* Hero Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-top 
+               bg-[url('/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-3.jpg')] 
+               sm:bg-[url('/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg')]"
+        />
 
+        {/* Dark Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/0 to-background/100" />
+
+        {/* Hero Content */}
+        <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2">
+          <h1 className="relative z-1 text-7xl sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto">
+            Galleria
+          </h1>
+        </div>
+
+        {/* Credits */}
+        <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
+          Kuva: Valosanni
+        </p>
+      </section>
+
+      <main className="container mx-auto px-6 pb-12 pt-24">
         {/* Pressikuvat Section */}
-        <section className="mb-20">
+        <section className="mb-20 pt-12">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground mb-8 sm:mb-12">
             Pressikuvat
           </h2>
@@ -299,7 +320,7 @@ const GalleriaPage = () => {
           </div>
 
           <div className="flex justify-center pb-16">
-            <Button size="lg" asChild className="custom-lifted-secondary">
+            <Button size="lg" asChild className="element-embedded-effect">
               <a
                 href="/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-pressikuvat.zip"
                 download
@@ -321,7 +342,7 @@ const GalleriaPage = () => {
             const currentState = setsState[setIndex];
             return (
               <div key={photoSet.title} className="mb-32 xl:mb-48 last:mb-0">
-                <h3 className="mb-6">
+                <div className="mb-6">
                   <h3 className="text-3xl md:text-4xl lg:text-5xl font-sans font-bold text-foreground pb-2">
                     {photoSet.title}
                   </h3>
@@ -341,7 +362,7 @@ const GalleriaPage = () => {
                       <span>{photoSet.photographerName}</span>
                     )}
                   </div>
-                </h3>
+                </div>
 
                 <div className="mb-8 [&_img]:object-cover">
                   <Gallery

@@ -3,7 +3,6 @@ import {
   FaFacebook,
   FaInstagram,
   FaMusic,
-  FaSoundcloud,
   FaSpotify,
   FaTiktok,
 } from "react-icons/fa";
@@ -267,15 +266,6 @@ const Header = () => {
               aria-label="Apple Music"
             >
               <FaMusic size={28} />
-            </a>
-            <a
-              href="https://soundcloud.com/heidi-simelius"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-foreground hover:text-secondary-foreground transition-colors"
-              aria-label="Soundcloud"
-            >
-              <FaSoundcloud size={28} />
             </a>
             <a
               href="https://open.spotify.com/artist/7wmdyUKDAcJfmWbgsARwl9"

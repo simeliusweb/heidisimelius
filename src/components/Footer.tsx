@@ -16,13 +16,11 @@ import {
   FaFacebook,
   FaInstagram,
   FaMusic,
-  FaSoundcloud,
   FaSpotify,
   FaTiktok,
 } from "react-icons/fa";
 import { toast } from "@/hooks/use-toast";
 import { ExternalLink } from "lucide-react";
-import ShadowHeading from "./ShadowHeading";
 
 const contactSchema = z.object({
   subject: z.string().trim().min(1, { message: "Aihe vaaditaan" }).max(100),
@@ -67,7 +65,7 @@ const Footer = () => {
       className="relative bg-card mt-auto bg-cover bg-[45%_70%] lg:bg-[center_70%] overflow-hidden bg-[url('/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-38.webp')]"
     >
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-background/85" />
+      <div className="absolute inset-0 bg-background/55" />
       {/* Blend top into background */}
       <div className="absolute top-0 left-0 w-full h-[250px] bg-gradient-to-b from-background to-transparent" />
 
@@ -224,15 +222,6 @@ const Footer = () => {
             aria-label="Apple Music"
           >
             <FaMusic size={28} />
-          </a>
-          <a
-            href="https://soundcloud.com/heidi-simelius"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-foreground hover:text-secondary transition-colors"
-            aria-label="Soundcloud"
-          >
-            <FaSoundcloud size={28} />
           </a>
           <a
             href="https://open.spotify.com/artist/7wmdyUKDAcJfmWbgsARwl9"

@@ -3,13 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
 import { fi } from "date-fns/locale";
-import {
-  ArrowDown,
-  CalendarIcon,
-  CopyrightIcon,
-  ExternalLink,
-  Mail,
-} from "lucide-react";
+import { ArrowDown, CalendarIcon, ExternalLink, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { FaInstagram } from "react-icons/fa";
@@ -32,7 +26,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import ShadowHeading from "@/components/ShadowHeading";
+import { useEffect } from "react";
+import { gsap } from "gsap";
 
 const bookingFormSchema = z.object({
   name: z.string().min(2, { message: "Nimi on pakollinen" }),
@@ -63,6 +58,46 @@ const BilebandiPage = () => {
     // Form submission logic will be implemented later
     console.log(data);
   };
+
+  useEffect(() => {
+    const mm = gsap.matchMedia();
+
+    // --- MOBILE PARALLAX ANIMATION ---
+    mm.add("(max-width: 767px)", () => {
+      // Target all mobile image containers
+      const mobileImages = gsap.utils.toArray(".mobile-image-mask");
+
+      mobileImages.forEach((mask: HTMLElement) => {
+        // Find the actual <img> tag inside the mask
+        const image = mask.querySelector("img");
+
+        gsap.fromTo(
+          image,
+          {
+            x: 25, // Start from the right
+            y: 10, // Start from the bottom
+            scale: 1.15, // Scale up slightly to hide edges
+          },
+          {
+            x: 0, // Animate to its natural horizontal position
+            y: 0, // Animate to its natural vertical position
+            ease: "none",
+            scrollTrigger: {
+              trigger: mask,
+              start: "top bottom", // Start when the top of the mask hits the bottom of the viewport
+              end: "bottom top", // End when the bottom of the mask hits the top of the viewport
+              scrub: 1, // Smoothly link animation to scroll
+            },
+          }
+        );
+      });
+    });
+
+    return () => {
+      mm.revert();
+    };
+  }, []);
+
   return (
     <div
       style={{
@@ -100,106 +135,155 @@ const BilebandiPage = () => {
       </section>
 
       {/* Band Introduction Section */}
-      <section className="max-w-4xl mx-auto px-6 py-16 md:py-24">
+      <section className="max-w-[1000px] mx-auto px-6 py-8">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-secondary mb-8 text-center">
           Bilebändi sinun ja yrityksesi juhliin
         </h1>
         <div className="flex flex-col items-center text-center">
-          <p className="text-lg md:text-xl leading-relaxed">
+          <p className="max-w-xl md:text-xl leading-relaxed">
             Heidi & the Hot Stuff tarjoaa kuumaa groovea ja hittejä eri
             vuosikymmeniltä nykypäivään. Bändi koostuu huipputason
             ammattimuusikoista jotka takaavat kansainvälisen tason bileet.{" "}
             <br />
+            <br />
             Tilaa meidät keikalle nyt!
           </p>
-          <a
-            href="mailto:heidiandthehotstuff@gmail.com"
-            className="group my-8 inline-flex justify-center items-center gap-2 text-secondary-foreground transition-all duration-300 w-fit px-4"
-          >
-            <Mail className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-            <span className="font-semibold group-hover:underline">
-              heidiandthehotstuff@gmail.com
-            </span>
-          </a>
-          <Button
-            variant="outline"
-            className="element-embedded-effect w-fit custom-lifted-muted mt-4"
-            asChild
-          >
-            <a href="#contact-section">
-              Täytä yhteydenottolomake
-              <ArrowDown className="w-4 h-4 text-muted-foreground" />
+          <div className="max-w-xl w-full flex flex-col md:flex-row items-center md:justify-between mt-4 gap-6 md:gap-4">
+            <a
+              href="mailto:heidiandthehotstuff@gmail.com"
+              className="group inline-flex justify-center items-center gap-2 text-secondary-foreground transition-all duration-300 w-fit"
+            >
+              <Mail className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+              <span className="font-semibold group-hover:underline">
+                heidiandthehotstuff@gmail.com
+              </span>
             </a>
-          </Button>
+            <Button
+              variant="outline"
+              className="element-embedded-effect w-fit element-embedded-effect"
+              asChild
+            >
+              <a href="#contact-section">
+                Täytä yhteydenottolomake
+                <ArrowDown className="w-4 h-4 text-muted-foreground" />
+              </a>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Photo and texts */}
+      <section>
+        {/* Dedicated container for the image mask */}
+        <div className="mobile-image-mask overflow-hidden [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
+          <img
+            src={
+              "/images/Heidi-and-the-hot-stuff/bilebandi-Pirkanmaa-juhlat-yksityistilaisuus-viihdyttava.webp"
+            }
+            alt="Heidi & The Hot Stuff"
+            className="w-full h-auto shadow-lg"
+          />
+        </div>
+        <div className="py-12">
+          <h2 className="text-2xl xs:text-3xl lg:text-4xl italic font-sans font-extrabold text-foreground p-8 pt-0 text-center">
+            Etsitkö energistä bilebändiä juhliisi? 🎶
+          </h2>
+          <p className="md:text-xl px-8 leading-relaxed max-w-xl mx-auto">
+            Groovaavia bileklassikoita soittava Heidi & the Hot Stuff sopii
+            häihin, syntymäpäiviin, yritysjuhliin ja kaikkiin muihin tapahtumiin
+            Etelä-Suomessa. Katso tästä sudiolive:nä äänitetty 9 biisiä kattava
+            hittipotpuri antaa esimakua siitä millaista musiikkia ja meininkiä
+            toisimme juhliisi.
+            <br />
+            <br />
+            🎤 Solistina Heidi Simelius, bändin vetäjänä Valtteri Gutev
+            (sähköpiano), taustalla ammattimuusikot Waltteri Pahlama (kitara),
+            Leevi Könttä (basso) ja Richard Söderlund (rummut) – kaikki sujuu
+            helposti ja tilaajan tehtäväksi jää vain nauttia musiikista!
+            <br />
+            <br />
+            Mikään ei kerro bändin energiasta paremmin kuin live-video. Katso
+            hittipotpurimme alta ja koe meininki itse!
+          </p>
         </div>
       </section>
 
       {/* Demo Video Section */}
-      <section className="max-w-6xl mx-auto px-6 pt-32">
+      <section className="max-w-6xl mx-auto px-6 pt-16">
         <figure>
-          <div className="relative w-full aspect-video rounded-lg overflow-hidden custom-lifted-primary">
+          <div className="max-w-3xl relative w-full aspect-video rounded-lg overflow-hidden element-embedded-effect mx-auto">
             <iframe
-              className="absolute inset-0 w-full h-full"
+              className="absolute inset-0 w-full h-full "
               src="https://www.youtube.com/embed/1IYiuMruQic"
               title="Heidi & The Hot Stuff - Live Demo"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-foreground text-center mb-8 mt-12">
-            Katso meidät livenä!
-          </h2>
-          <p className="mt-8 text-center text-base">
-            Mikään ei kerro bändin energiasta paremmin kuin live-video.
-            <br />
-            Katso hittipotpurimme ja koe meininki itse!
-          </p>
         </figure>
       </section>
 
-      <section className="pt-16 md:pt-24">
-        <div className="overflow-hidden [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)] py-12">
-          <img
-            src={
-              "/images/Heidi-and-the-hot-stuff/bilebandi-Pirkanmaa-juhlat-yksityistilaisuus-viihdyttava.webp"
-            }
-            alt="Heidi & The Hot Stuff"
-            className="w-full h-auto shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
-          />
-        </div>
-        <h2 className="text-2xl xs:text-3xl lg:text-4xl italic font-sans font-extrabold text-foreground mb-8 pt-12 text-center">
-          Etsitkö energistä bilebändiä juhliisi? 🎶
-        </h2>
-        <p className="text-lg md:text-xl leading-relaxed max-w-xl mx-auto">
-          Groovaavia bileklassikoita soittava Heidi & the Hot Stuff sopii
-          häihin, syntymäpäiviin, yritysjuhliin ja kaikkiin muihin tapahtumiin
-          Etelä-Suomessa. Katso tästä sudiolive:nä äänitetty 9 biisiä kattava
-          hittipotpuri antaa esimakua siitä millaista musiikkia ja meininkiä
-          toisimme juhliisi.
-          <br />
-          <br />
-          🎤 Solistina Heidi Simelius, bändin vetäjänä Valtteri Gutev
-          (sähköpiano), taustalla ammattimuusikot Waltteri Pahlama (kitara),
-          Leevi Könttä (basso) ja Richard Söderlund (rummut) – kaikki sujuu
-          helposti ja tilaajan tehtäväksi jää vain nauttia musiikista!
-        </p>
+      <section
+        className="backdrop-blur-sm w-full bg-opacity-50 border-t border-b py-4 mt-16"
+        style={{
+          backgroundImage: `linear-gradient(
+      5deg,
+      hsl(234deg 24% 8%) 0%,
+      hsl(234deg 23% 9%) 10%,
+      hsl(234deg 23% 8%) 46%,
+      hsl(236deg 24% 11%) 75%,
+      hsl(236deg 24% 9%) 84%,
+      hsl(234deg 24% 8%) 93%,
+      hsl(237deg 23% 10%) 98%,
+      hsl(234deg 23% 8%) 100%
+    )`,
+        }}
+      >
+        {/* Instagram Icon */}
+        <a
+          href="https://www.instagram.com/heidiandthehotstuff/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex justify-center text-foreground hover:text-secondary-foreground transition-colors w-fit px-4 mx-auto"
+          aria-label="Seuraa Heidi & The Hot Stuff Instagramissa"
+        >
+          <FaInstagram size={36} />
+        </a>
+        <Button
+          asChild
+          variant="outline"
+          size="lg"
+          className="flex element-embedded-effect mx-auto w-fit mt-4"
+        >
+          <a
+            href="https://www.instagram.com/heidiandthehotstuff/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Seuraa meitä Instagramissa
+          </a>
+        </Button>
       </section>
 
       {/* Booking & Contact Section */}
-      <section className="mx-auto px-6 pt-24 pb-12" id="contact-section">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-sans font-extrabold text-foreground mb-12 text-center">
-          Buukkaa{" "}
+      <section
+        className="mx-auto px-6 pt-16 md:pt-24 pb-12"
+        id="contact-section"
+      >
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-sans font-extrabold text-foreground mb-4 md:mb-8 text-center">
+          Buukkaa <br />
           <span className="font-playfair mr-3 italic">
             Heidi <span className="text-[#b0150e]">&</span> The Hot Stuff
-          </span>{" "}
+          </span>
+          <br />
           keikalle!
         </h2>
 
-        <div className="max-w-[600px] mx-auto">
+        <div className="max-w-[300px] sm:max-w-[600px] mx-auto">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Row 1: Name and Phone (2 columns on sm+) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <FormField
                   control={form.control}
                   name="name"
@@ -240,10 +324,31 @@ const BilebandiPage = () => {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Sähköposti{" "}
+                        <span className="text-muted-foreground">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="Sähköposti"
+                          {...field}
+                          className="placeholder:text-accent"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
 
               {/* Row 2: Email (full width) */}
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
@@ -263,7 +368,7 @@ const BilebandiPage = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
 
               {/* Row 3: Date, Location, Event Type (3 columns on sm+) */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:items-end">
@@ -360,7 +465,7 @@ const BilebandiPage = () => {
                     <FormControl>
                       <Textarea
                         placeholder="Kerro meille lisää tapahtumastasi..."
-                        className="min-h-[120px] placeholder:text-accent"
+                        className="min-h-[120px] placeholder:text-accent text-md"
                         {...field}
                       />
                     </FormControl>
@@ -383,7 +488,7 @@ const BilebandiPage = () => {
 
               <Button
                 type="submit"
-                className="w-full element-embedded-effect"
+                className="w-fit flex mx-auto element-embedded-effect"
                 size="lg"
               >
                 Lähetä
@@ -391,17 +496,6 @@ const BilebandiPage = () => {
             </form>
           </Form>
         </div>
-
-        {/* Instagram Icon */}
-        <a
-          href="https://www.instagram.com/heidiandthehotstuff/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex justify-center text-foreground hover:text-secondary-foreground transition-colors mt-32 w-fit px-4 mx-auto"
-          aria-label="Seuraa Heidi & The Hot Stuff Instagramissa"
-        >
-          <FaInstagram size={48} />
-        </a>
       </section>
 
       {/* Custom Bilebändi Footer */}
@@ -422,12 +516,12 @@ const BilebandiPage = () => {
           </div>
         </div>
         <p className="flex absolute items-center bottom-0 left-1/2 -translate-x-1/2 text-xs py-4 italic text-secondary-foreground">
-          <CopyrightIcon className="h-3 w-3 mr-1" />{" "}
+          Sivut luonut{" "}
           <a
             href="https://www.linkedin.com/in/janisuoranta/"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline inline-flex items-center gap-1"
+            className="underline inline-flex items-center gap-1 ml-1"
           >
             SuorantaCoding
             <ExternalLink className="h-3 w-3" />

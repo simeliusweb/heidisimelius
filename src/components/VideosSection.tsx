@@ -41,8 +41,8 @@ const VideosSection = ({
         />
 
         {/* Featured Video */}
-        <div className="max-w-5xl mx-auto mb-16">
-          <div className="aspect-video rounded-lg overflow-hidden custom-lifted-primary">
+        <div className="max-w-5xl mx-auto mb-6 md:mb-16">
+          <div className="aspect-video rounded-lg overflow-hidden element-embedded-effect">
             <iframe
               width="100%"
               height="100%"
@@ -78,7 +78,7 @@ const VideosSection = ({
         )}
 
         <div className="text-center">
-          <Button asChild size="lg" className="custom-lifted-secondary">
+          <Button asChild size="lg" className="element-embedded-effect">
             <a
               href="https://www.youtube.com/@heidisimelius?sub_confirmation=1"
               target="_blank"
@@ -114,7 +114,7 @@ const VideosSection = ({
                 {video.title}
               </h3>
             )}
-            <div className="aspect-video rounded-lg overflow-hidden custom-lifted-accent">
+            <div className="aspect-video rounded-lg overflow-hidden element-embedded-effect">
               <iframe
                 width="100%"
                 height="100%"
@@ -126,9 +126,7 @@ const VideosSection = ({
               />
             </div>
             {video.description && (
-              <p className="text-base md:text-lg italic pt-6">
-                {video.description}
-              </p>
+              <p className="text-base md:text-lg italic">{video.description}</p>
             )}
           </div>
         ))}
