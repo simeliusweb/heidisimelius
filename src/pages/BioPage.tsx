@@ -30,7 +30,7 @@ const BioPage = () => {
     sameAs: [
       "https://www.instagram.com/Heidisimelius",
       "https://www.facebook.com/HeidiSimelius",
-      "https://vm.tiktok.com/ZMJoaem42",
+      "https://www.tiktok.com/@heidisimelius",
       "https://open.spotify.com/artist/7wmdyUKDAcJfmWbgsARwl9",
       "https://music.apple.com/gb/artist/heidi-simelius/1486952057",
     ],

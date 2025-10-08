@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { FaInstagram } from "react-icons/fa";
 import PageMeta from "@/components/PageMeta";
 import { pageMetadata } from "@/config/metadata";
+import StructuredData from "@/components/StructuredData";
 import {
   Form,
   FormControl,
@@ -98,6 +99,26 @@ const BilebandiPage = () => {
     };
   }, []);
 
+  const bilebandiSchema = {
+    "@context": "https://schema.org",
+    "@type": "MusicGroup",
+    name: "Heidi & The Hot Stuff",
+    description:
+      "Energistä bilemusiikkia ja hittejä eri vuosikymmeniltä juhliin ja tapahtumiin.",
+    url: "https://www.heidisimelius.fi/bilebandi-heidi-and-the-hot-stuff",
+    image:
+      "https://www.heidisimelius.fi/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff.jpg",
+    genre: ["Pop", "Cover Band"],
+    sameAs: ["https://www.instagram.com/heidiandthehotstuff/"],
+    member: [
+      { "@type": "Person", name: "Heidi Simelius", roleName: "solisti" },
+      { "@type": "Person", name: "Valtteri Gutev", roleName: "sähköpiano" },
+      { "@type": "Person", name: "Waltteri Pahlama", roleName: "kitara" },
+      { "@type": "Person", name: "Leevi Könttä", roleName: "basso" },
+      { "@type": "Person", name: "Richard Söderlund", roleName: "rummut" },
+    ],
+  };
+
   return (
     <div
       style={{
@@ -123,6 +144,7 @@ const BilebandiPage = () => {
         title={pageMetadata.bilebandi.title}
         description={pageMetadata.bilebandi.description}
       />
+      <StructuredData data={bilebandiSchema} />
 
       {/* Hero Section */}
       <section className="relative h-[60vh] xxs:h-[70vh] xs:h-[80vh] sm:h-[100vh] xl:h-[110vh] 2xl:h-[120vh] flex items-end justify-center">
