@@ -5,7 +5,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PageMeta from "@/components/PageMeta";
 import StructuredData from "@/components/StructuredData";
 import { pageMetadata } from "@/config/metadata";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,7 +16,6 @@ const BioPage = () => {
   const textContentRef = useRef<HTMLDivElement>(null);
   const teatteriHeadingRef = useRef<HTMLHeadingElement>(null);
   const suomennoksetHeadingRef = useRef<HTMLHeadingElement>(null);
-  const isSmOrLarger = useBreakpoint("sm");
 
   const heidiSchema = {
     "@context": "https://schema.org",
@@ -150,7 +148,7 @@ const BioPage = () => {
   return (
     <div
       style={{
-        backgroundImage: `url('/noise7colorful.webp'), 
+        backgroundImage: `url('/tumma15.webp'), 
         linear-gradient(
       12deg,
       hsl(234deg 24% 8%) 0%,
@@ -198,14 +196,14 @@ const BioPage = () => {
 
         {/* Credits */}
         <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
-          Kuva: {isSmOrLarger ? "Valosanni" : "Titta Toivanen"}
+          Kuva: Titta Toivanen
         </p>
       </section>
 
       {/* Main Content */}
       <div className="main-content-bio-page pt-16 overflow-hidden">
         {/* Tagline */}
-        <p className="text-lg xs:text-xl font-santorini text-muted-foreground pt-8 md:pt-12 pb-8 leading-loose text-center italic">
+        <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-santorini text-muted-foreground pt-8 md:pt-12 pb-8 leading-loose text-center italic">
           Suurta ja sielukasta saundia
         </p>
 
@@ -215,7 +213,7 @@ const BioPage = () => {
             {/* Left Column - Text Content */}
             <div ref={textContentRef} className="md:col-span-7 space-y-16">
               {/* Narrative Introduction */}
-              <section className="px-8 md:pb-16">
+              <section className="px-8 md:pb-8">
                 <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
                   <p>
                     Heidi Simelius on laulaja, lauluntekijä ja esiintyjä. Hän
@@ -315,14 +313,14 @@ const BioPage = () => {
                 <div className="md:hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                   <img
                     src={
-                      "/images/Seuraa-kuvat-Valosanni/Heidi-Simelius-Seuraa-kuvat-Valosanni-2.jpg"
+                      "images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg"
                     }
                     alt="Heidi Simelius Seuraa singlen kuvauksissa."
                     className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                   />
                 </div>
                 <figcaption className="mt-2 px-8 text-center text-base italic">
-                  Kuva: Valosanni
+                  Kuva: Titta Toivanen
                 </figcaption>
               </figure>
 
@@ -330,7 +328,7 @@ const BioPage = () => {
               <section className="px-8 md:px-6">
                 <h2
                   ref={teatteriHeadingRef}
-                  className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-4 sm:mb-8 pt-8"
+                  className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-4 sm:mb-8 pt-4"
                 >
                   Teatteri
                 </h2>
@@ -612,13 +610,13 @@ const BioPage = () => {
                 <div ref={image1Ref} className="absolute inset-0 opacity-100">
                   <img
                     src={
-                      "/images/Seuraa-kuvat-Valosanni/Heidi-Simelius-Seuraa-kuvat-Valosanni-2.jpg"
+                      "images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg"
                     }
                     alt="Heidi Simelius Seuraa singlen kuvauksissa."
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                   <figcaption className="absolute bottom-0 w-full rounded-b-lg bg-gradient-to-t from-black/60 to-transparent p-3 text-center text-base italic text-white">
-                    Kuva: Valosanni
+                    Kuva: Titta Toivanen
                   </figcaption>
                 </div>
                 {/* Image 2 - Initially hidden */}

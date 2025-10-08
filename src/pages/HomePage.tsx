@@ -50,7 +50,7 @@ const HomePage = () => {
           }}
         >
           {/* Intro & Tagline Section */}
-          <section className="container mx-auto px-6 pb-16 md:pb-24 text-center">
+          <section className="container mx-auto px-6 pb-16 text-center">
             {/* Large Stylized Name */}
             <h2 className="text-2xl xs:text-3xl font-santorini text-primary pt-8 sm:pt-4 pb-8 leading-loose translate-y-[-12px] sm:mb-4 z-20 relative">
               Heidi Simelius
@@ -69,7 +69,7 @@ const HomePage = () => {
           </section>
 
           {/* Upcoming Gigs Section */}
-          <section className="container mx-auto px-6 py-16 md:py-24">
+          <section className="container mx-auto px-6 py-16">
             <ShadowHeading
               title="Tulevat keikat"
               shadowColorClass="accent"
@@ -163,7 +163,7 @@ const HomePage = () => {
           </section>
 
           {/* Spotify Player Section */}
-          <section className="container mx-auto px-6 py-16 md:py-24 ">
+          <section className="container mx-auto px-6 py-16">
             <ShadowHeading
               title="Kuuntele Spotifyssa"
               shadowColorClass="accent"
@@ -203,7 +203,7 @@ const HomePage = () => {
           />
 
           {/* Instagram Feed Section */}
-          <section className="container mx-auto px-6 py-16 md:py-24">
+          <section className="container mx-auto px-6 py-16">
             <ShadowHeading
               title="Instagram"
               shadowColorClass="accent"
