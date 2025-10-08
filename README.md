@@ -8,6 +8,9 @@
 
 
 ## Update log for Vercel deployments:
+8.10. JSu
+* Update UI, add structured data, modify images and favicon, improve loading times. Check responsiveness and hone details.
+
 6.10. JSu
 * Update UI with refinements, animation on landing element at homepage, color palette updates.
 * Update UI for responsiveness, better content flow, UX and UI tweaks, finalizing looks. Update Galleria.
