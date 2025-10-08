@@ -21,6 +21,7 @@ import {
 } from "react-icons/fa";
 import { toast } from "@/hooks/use-toast";
 import { ExternalLink } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 
 const contactSchema = z.object({
   subject: z.string().trim().min(1, { message: "Aihe vaaditaan" }).max(100),
@@ -33,6 +34,39 @@ const contactSchema = z.object({
 });
 
 const Footer = () => {
+  const footerRef = useRef<HTMLElement | null>(null);
+  const [isIntersecting, setIsIntersecting] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // If the element is intersecting (i.e., visible or about to be visible)
+        if (entry.isIntersecting) {
+          setIsIntersecting(true);
+          // Stop observing once the image has been loaded
+          if (footerRef.current) {
+            observer.unobserve(footerRef.current);
+          }
+        }
+      },
+      {
+        // This is the magic part: trigger when the footer is 300px away from the viewport
+        // This starts loading the image just before the user sees it.
+        rootMargin: "300px",
+      }
+    );
+
+    // Start observing the footer element
+    if (footerRef.current) {
+      observer.observe(footerRef.current);
+    }
+
+    // Cleanup function to disconnect the observer when the component unmounts
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -55,13 +89,25 @@ const Footer = () => {
     { label: "KEIKAT", href: "/keikat" },
     { label: "BIO", href: "/bio" },
     { label: "GALLERIA", href: "/galleria" },
-    { label: "BILEBÄNDI", href: "/bilebandi-heidi-and-the-hot-stuff" },
+    {
+      label: "HEIDI & THE HOT STUFF",
+      href: "/bilebandi-heidi-and-the-hot-stuff",
+    },
   ];
 
   return (
     <footer
       id="contact-section"
-      className="relative bg-card mt-auto bg-cover bg-[45%_70%] lg:bg-[center_70%] overflow-hidden bg-[url('/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-38.webp')]"
+      ref={footerRef}
+      className={`
+        relative bg-card mt-auto bg-cover bg-[45%_70%] lg:bg-[center_70%] overflow-hidden
+        transition-all duration-700 ease-in-out min-h-[900px]
+        ${
+          isIntersecting
+            ? "bg-[url('/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-38.webp')]"
+            : ""
+        }
+      `}
     >
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-background/55" />

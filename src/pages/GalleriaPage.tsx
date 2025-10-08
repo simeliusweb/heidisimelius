@@ -56,8 +56,7 @@ const generatePhotoArray = (
   }));
 };
 
-// 2. EDIT THE 'dimensions' ARRAY FOR EACH PHOTO SET
-// Simply list the presets (portrait, landscape, etc.) in the correct order for your images.
+// List the presets (portrait, landscape, etc.) in the correct order for the images.
 const photoSetData = [
   {
     title: "Mä vastaan",
@@ -146,8 +145,6 @@ const allPhotoSets = photoSetData.map((set) => ({
     set.dimensions
   ),
 }));
-
-// --- Component ---
 
 const GalleriaPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
