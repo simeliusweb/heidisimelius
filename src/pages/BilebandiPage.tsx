@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/popover";
 import { useEffect } from "react";
 import { gsap } from "gsap";
+import { toast } from "@/hooks/use-toast";
 
 const bookingFormSchema = z.object({
   name: z.string().min(2, { message: "Nimi on pakollinen" }),
@@ -55,9 +56,43 @@ const BilebandiPage = () => {
     },
   });
 
-  const onSubmit = (data: BookingFormValues) => {
-    // Form submission logic will be implemented later
-    console.log(data);
+  const onSubmit = async (data: BookingFormValues) => {
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          formType: "booking",
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          message: data.message,
+          date: data.date,
+          location: data.location,
+          eventType: data.eventType,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Failed to send booking request");
+      }
+
+      toast({
+        title: "Varaus lähetetty!",
+        description: "Olemme yhteydessä sinuun pian.",
+      });
+      form.reset();
+    } catch (error) {
+      toast({
+        title: "Virhe lähetyksessä",
+        description: error instanceof Error ? error.message : "Yritä uudelleen myöhemmin.",
+        variant: "destructive",
+      });
+    }
   };
 
   useEffect(() => {
