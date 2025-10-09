@@ -10,7 +10,7 @@
 ## Update log for Vercel deployments:
 9.10. JSu
 * Rm bgs with noise.
-
+* Update landing element signature styling on desktop.
   
 8.10. JSu
 * Update UI, add structured data, modify images and favicon, improve loading times. Check responsiveness and hone details.
