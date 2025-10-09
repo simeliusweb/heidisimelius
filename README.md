@@ -13,6 +13,7 @@
 * Update landing element signature styling on desktop.
 * Manual update to fix pipeline.
 * Fix gallery component to a modern library one.
+* Update email templates, fix DNS records etc.
   
 8.10. JSu
 * Update UI, add structured data, modify images and favicon, improve loading times. Check responsiveness and hone details.
