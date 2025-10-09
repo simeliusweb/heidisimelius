@@ -321,7 +321,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const validation = validateRequest(req.body);
+
+    // Check if the validation failed
     if (!validation.valid) {
+      // Because validation.valid is false, TypeScript now knows that validation.error exists.
       return res.status(400).json({
         success: false,
         error: validation.error,
@@ -329,7 +332,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    const emailData = validation.data!;
+    const emailData = validation.data;
 
     // NEW: Configure Brevo API with the new package
     const apiInstance = new Brevo.TransactionalEmailsApi();
