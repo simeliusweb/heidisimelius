@@ -2,18 +2,13 @@ import { Button } from "@/components/ui/button";
 import { Download, Loader2, ExternalLink } from "lucide-react";
 import VideosSection from "@/components/VideosSection";
 import { useState } from "react";
-import Gallery, { PhotoProps } from "react-photo-gallery";
 import PageMeta from "@/components/PageMeta";
 import { pageMetadata } from "@/config/metadata";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import ShadowHeading from "@/components/ShadowHeading";
+import { MasonryPhotoAlbum, Photo } from "react-photo-album";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+import "react-photo-album/masonry.css";
 
 // --- Data and Helpers ---
 
@@ -29,7 +24,6 @@ const tahanJaaLandscape = { width: 2560, height: 1707 };
 
 /**
  * Generates an array of photo objects for a given photo set.
- * It now maps each photo to a specific dimension object from the dimensions array.
  */
 const generatePhotoArray = (
   folderName: string,
@@ -38,8 +32,7 @@ const generatePhotoArray = (
   imageCount: number,
   extension: "jpg" | "webp",
   dimensions: readonly { width: number; height: number }[]
-): PhotoProps[] => {
-  // This check helps ensure you have a dimension for every photo.
+): Photo[] => {
   if (dimensions.length !== imageCount) {
     console.warn(
       `Warning for '${folderName}': You have ${imageCount} images but provided ${dimensions.length} dimensions. Please ensure they match.`
@@ -48,7 +41,7 @@ const generatePhotoArray = (
 
   return Array.from({ length: imageCount }, (_, i) => ({
     src: `/images/${folderName}/${fileNamePrefix}-${i + 1}.${extension}`,
-    width: dimensions[i]?.width || 1, // Fallback to 1x1 if a dimension is missing
+    width: dimensions[i]?.width || 1,
     height: dimensions[i]?.height || 1,
     alt: `Heidi Simelius ${folderName.split("-")[0]} -kuvat ${photographer} ${
       i + 1
@@ -147,9 +140,7 @@ const allPhotoSets = photoSetData.map((set) => ({
 }));
 
 const GalleriaPage = () => {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [dialogPhotos, setDialogPhotos] = useState<PhotoProps[]>([]);
+  const [lightboxIndex, setLightboxIndex] = useState(-1);
 
   // State to manage each photo set's visibility, loading, etc.
   const [setsState, setSetsState] = useState(
@@ -181,16 +172,6 @@ const GalleriaPage = () => {
       photographerUrl: "https://www.instagram.com/valosanni",
     },
   ];
-
-  const handleImageClick = (
-    _event: React.MouseEvent,
-    { index }: { index: number },
-    currentSetVisiblePhotos: PhotoProps[]
-  ) => {
-    setSelectedImageIndex(index);
-    setDialogPhotos(currentSetVisiblePhotos);
-    setDialogOpen(true);
-  };
 
   const handleShowMore = (setIndex: number) => {
     setSetsState((currentStates) =>
@@ -340,6 +321,8 @@ const GalleriaPage = () => {
           />
           {allPhotoSets.map((photoSet, setIndex) => {
             const currentState = setsState[setIndex];
+            const photosForLightbox = currentState.visiblePhotos;
+
             return (
               <div key={photoSet.title} className="mb-32 xl:mb-48 last:mb-0">
                 <div className="mb-6">
@@ -364,14 +347,22 @@ const GalleriaPage = () => {
                   </div>
                 </div>
 
-                <div className="mb-8 [&_img]:object-cover">
-                  <Gallery
+                <div className="mb-8">
+                  <MasonryPhotoAlbum
                     photos={currentState.visiblePhotos}
-                    onClick={(event, data) =>
-                      handleImageClick(event, data, currentState.visiblePhotos)
-                    }
-                    margin={16}
-                    direction="column"
+                    columns={(containerWidth) => {
+                      if (containerWidth < 400) return 2;
+                      if (containerWidth < 800) return 3;
+                      return 4;
+                    }}
+                    onClick={({ index }) => setLightboxIndex(index)}
+                    spacing={16}
+                  />
+                  <Lightbox
+                    open={lightboxIndex >= 0}
+                    index={lightboxIndex}
+                    close={() => setLightboxIndex(-1)}
+                    slides={photosForLightbox}
                   />
                 </div>
 
@@ -399,35 +390,6 @@ const GalleriaPage = () => {
             );
           })}
         </section>
-
-        {/* Image Dialog with Carousel */}
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogContent className="h-[85vh] w-[calc(100vw-64px)] md:w-[calc(100vw-128px)] block max-w-none">
-            <Carousel
-              opts={{
-                startIndex: selectedImageIndex,
-                loop: true,
-              }}
-              className="w-full h-full flex"
-            >
-              <CarouselContent className="h-full items-center">
-                {dialogPhotos.map((image, index) => (
-                  <CarouselItem key={index} className="h-full w-full p-0">
-                    <div className="flex items-center justify-center h-full w-full rounded-md">
-                      <img
-                        src={image.src}
-                        alt={image.alt}
-                        className="object-contain max-h-full max-w-full w-auto h-auto"
-                      />
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          </DialogContent>
-        </Dialog>
       </main>
 
       {/* Musavideot Section */}

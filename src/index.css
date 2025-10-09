@@ -68,7 +68,7 @@ td:has(.rdp-button[aria-current="date"]) {
   color: hsl(var(--background)) !important;
 }
 
-.react-photo-gallery--gallery img {
+.react-photo-album img {
   border-radius: var(--radius);
 }
 
@@ -81,7 +81,7 @@ td:has(.rdp-button[aria-current="date"]) {
   filter: drop-shadow(0 20px 120px #d9ae6111);
 }
 .element-embedded-effect,
-.react-photo-gallery--gallery img {
+.react-photo-album img {
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
