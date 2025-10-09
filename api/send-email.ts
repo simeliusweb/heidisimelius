@@ -47,11 +47,12 @@ function validateRequest(body: any): { valid: boolean; error?: string; data?: Em
   if (!body.message || typeof body.message !== "string" || body.message.trim().length === 0) {
     return { valid: false, error: "Message is required" };
   }
-  if (!body.phone || typeof body.phone !== "string" || body.phone.trim().length === 0) {
-    return { valid: false, error: "Phone number is required" };
-  }
   if (!body.formType || !["contact", "booking"].includes(body.formType)) {
     return { valid: false, error: "Valid form type is required" };
+  }
+  // Phone is only required for booking forms
+  if (body.formType === "booking" && (!body.phone || typeof body.phone !== "string" || body.phone.trim().length === 0)) {
+    return { valid: false, error: "Phone number is required for booking inquiries" };
   }
 
   // Length limits
@@ -72,7 +73,7 @@ function validateRequest(body: any): { valid: boolean; error?: string; data?: Em
       name: body.name.trim(),
       email: body.email.trim(),
       message: body.message.trim(),
-      phone: body.phone.trim(),
+      phone: body.phone ? body.phone.trim() : "",
       date: body.date ? String(body.date).trim() : undefined,
       location: body.location ? String(body.location).trim() : undefined,
       eventType: body.eventType ? String(body.eventType).trim() : undefined,
@@ -169,10 +170,16 @@ function generateEmailContent(data: EmailRequest): { subject: string; html: stri
               <div class="label">Sähköposti</div>
               <div class="value"><a href="mailto:${escapeHtml(data.email)}" style="color: ${COLORS.secondary}; text-decoration: none;">${escapeHtml(data.email)}</a></div>
             </div>
+            ${
+              data.phone && data.phone.length > 0
+                ? `
             <div class="field">
               <div class="label">Puhelinnumero</div>
               <div class="value"><a href="tel:${escapeHtml(data.phone)}" style="color: ${COLORS.secondary}; text-decoration: none;">${escapeHtml(data.phone)}</a></div>
             </div>
+            `
+                : ""
+            }
             ${
               data.date
                 ? `
