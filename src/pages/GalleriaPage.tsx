@@ -1,7 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { Download, Loader2, ExternalLink } from "lucide-react";
+import {
+  Download,
+  Loader2,
+  ExternalLink,
+  CircleChevronLeft,
+  CircleChevronRight,
+  X,
+} from "lucide-react";
 import VideosSection from "@/components/VideosSection";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageMeta from "@/components/PageMeta";
 import { pageMetadata } from "@/config/metadata";
 import ShadowHeading from "@/components/ShadowHeading";
@@ -9,6 +16,7 @@ import { MasonryPhotoAlbum, Photo } from "react-photo-album";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import "react-photo-album/masonry.css";
+import { breakpointValues, useBreakpoint } from "@/hooks/useBreakpoint";
 
 // --- Data and Helpers ---
 
@@ -38,7 +46,6 @@ const generatePhotoArray = (
       `Warning for '${folderName}': You have ${imageCount} images but provided ${dimensions.length} dimensions. Please ensure they match.`
     );
   }
-
   return Array.from({ length: imageCount }, (_, i) => ({
     src: `/images/${folderName}/${fileNamePrefix}-${i + 1}.${extension}`,
     width: dimensions[i]?.width || 1,
@@ -140,16 +147,42 @@ const allPhotoSets = photoSetData.map((set) => ({
 }));
 
 const GalleriaPage = () => {
+  // State for the single lightbox
   const [lightboxIndex, setLightboxIndex] = useState(-1);
+  const [activeSlides, setActiveSlides] = useState<Photo[]>([]);
+  const isXl = useBreakpoint("xl");
+  const isSm = useBreakpoint("sm");
 
-  // State to manage each photo set's visibility, loading, etc.
+  // Initialize state with a default (e.g., 2 photos)
   const [setsState, setSetsState] = useState(
     allPhotoSets.map((set) => ({
-      visiblePhotos: set.photos.slice(0, 3),
-      allPhotosShown: set.photos.length <= 3,
+      visiblePhotos: set.photos.slice(0, 2), // Default to 2
+      allPhotosShown: set.photos.length <= 2,
       isLoading: false,
     }))
   );
+
+  // Use an effect to update the state when the breakpoint changes
+  useEffect(() => {
+    const initialSlice = isXl ? 4 : isSm ? 3 : 2;
+
+    // Use the functional update form: setSetsState(prevState => newState)
+    setSetsState((currentSetsState) =>
+      allPhotoSets.map((set, index) => {
+        // Get the corresponding state for the current set from the argument
+        const currentSetState = currentSetsState[index];
+
+        return {
+          // Only update if all photos aren't already shown
+          visiblePhotos: currentSetState.allPhotosShown
+            ? set.photos
+            : set.photos.slice(0, initialSlice),
+          allPhotosShown: set.photos.length <= initialSlice,
+          isLoading: false,
+        };
+      })
+    );
+  }, [isXl, isSm]);
 
   // Press photos data
   const pressPhotos = [
@@ -179,7 +212,6 @@ const GalleriaPage = () => {
         index === setIndex ? { ...state, isLoading: true } : state
       )
     );
-
     setTimeout(() => {
       setSetsState((currentStates) =>
         currentStates.map((state, index) => {
@@ -195,6 +227,12 @@ const GalleriaPage = () => {
         })
       );
     }, 1500);
+  };
+
+  // Updated click handler to set the active slides for the single lightbox
+  const handlePhotoClick = (index: number, photos: Photo[]) => {
+    setActiveSlides(photos);
+    setLightboxIndex(index);
   };
 
   return (
@@ -255,7 +293,6 @@ const GalleriaPage = () => {
             shadowColorClass="accent"
             shadowOpacity={100}
           />
-
           <div className="flex flex-wrap justify-center gap-8 gap-y-16 mb-12">
             {pressPhotos.map((photo, index) => (
               <div
@@ -298,7 +335,6 @@ const GalleriaPage = () => {
               </div>
             ))}
           </div>
-
           <div className="flex justify-center pb-8">
             <Button size="lg" asChild className="element-embedded-effect">
               <a
@@ -321,8 +357,6 @@ const GalleriaPage = () => {
           />
           {allPhotoSets.map((photoSet, setIndex) => {
             const currentState = setsState[setIndex];
-            const photosForLightbox = currentState.visiblePhotos;
-
             return (
               <div key={photoSet.title} className="mb-32 xl:mb-48 last:mb-0">
                 <div className="mb-6">
@@ -351,18 +385,14 @@ const GalleriaPage = () => {
                   <MasonryPhotoAlbum
                     photos={currentState.visiblePhotos}
                     columns={(containerWidth) => {
-                      if (containerWidth < 400) return 2;
-                      if (containerWidth < 800) return 3;
-                      return 4;
+                      if (containerWidth < breakpointValues.sm) return 2; // Use 'sm' for mobile
+                      if (containerWidth < breakpointValues.lg) return 3; // Use 'lg' for tablet
+                      return 4; // Default for larger screens
                     }}
-                    onClick={({ index }) => setLightboxIndex(index)}
+                    onClick={({ index }) =>
+                      handlePhotoClick(index, currentState.visiblePhotos)
+                    }
                     spacing={16}
-                  />
-                  <Lightbox
-                    open={lightboxIndex >= 0}
-                    index={lightboxIndex}
-                    close={() => setLightboxIndex(-1)}
-                    slides={photosForLightbox}
                   />
                 </div>
 
@@ -390,6 +420,19 @@ const GalleriaPage = () => {
             );
           })}
         </section>
+
+        {/* Single Lightbox instance for the entire page */}
+        <Lightbox
+          open={lightboxIndex >= 0}
+          index={lightboxIndex}
+          close={() => setLightboxIndex(-1)}
+          slides={activeSlides}
+          render={{
+            iconPrev: () => <CircleChevronLeft />,
+            iconNext: () => <CircleChevronRight />,
+            iconClose: () => <X />,
+          }}
+        />
       </main>
 
       {/* Musavideot Section */}

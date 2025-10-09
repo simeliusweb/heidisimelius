@@ -11,6 +11,17 @@ const breakpoints = {
   "2xl": "1536px",
 };
 
+// Export a parsed version of the breakpoints for use elsewhere
+export const breakpointValues = {
+  xxs: parseInt(breakpoints.xxs, 10),
+  xs: parseInt(breakpoints.xs, 10),
+  sm: parseInt(breakpoints.sm, 10),
+  md: parseInt(breakpoints.md, 10),
+  lg: parseInt(breakpoints.lg, 10),
+  xl: parseInt(breakpoints.xl, 10),
+  "2xl": parseInt(breakpoints["2xl"], 10),
+};
+
 type BreakpointKey = keyof typeof breakpoints;
 
 /**
