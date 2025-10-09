@@ -188,8 +188,8 @@ function generateEmailContent(data: EmailRequest): {
           <div class="header">
             <h1>${
               data.formType === "contact"
-                ? "📧 Uusi Yhteydenotto"
-                : "🎤 Uusi Varaus"
+                ? "📧 Uusi HeidiSimelius.fi yhteydenotto"
+                : "🎤 Uusi Heidi & The Hot Stuff yhteydenotto"
             }</h1>
           </div>
           <div class="content">
@@ -243,7 +243,7 @@ function generateEmailContent(data: EmailRequest): {
               data.eventType
                 ? `
             <div class="field">
-              <div class="label">Tapahtuman Tyyppi</div>
+              <div class="label">Tapahtuman tyyppi</div>
               <div class="value">${escapeHtml(data.eventType)}</div>
             </div>
             `

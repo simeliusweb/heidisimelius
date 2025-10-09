@@ -82,14 +82,15 @@ const BilebandiPage = () => {
       }
 
       toast({
-        title: "Varaus lähetetty!",
+        title: "Viestisi lähetetty!",
         description: "Olemme yhteydessä sinuun pian.",
       });
       form.reset();
     } catch (error) {
       toast({
         title: "Virhe lähetyksessä",
-        description: error instanceof Error ? error.message : "Yritä uudelleen myöhemmin.",
+        description:
+          error instanceof Error ? error.message : "Yritä uudelleen myöhemmin.",
         variant: "destructive",
       });
     }
