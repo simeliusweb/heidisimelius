@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "node server.mjs",
+    "dev:admin": "vite",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "npm run build && NODE_ENV=production node server.mjs"
   },
   "dependencies": {
     "@getbrevo/brevo": "^3.0.1",
@@ -47,6 +48,7 @@
     "cmdk": "^1.1.1",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.6.0",
+    "express": "^5.1.0",
     "gsap": "^3.13.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.462.0",
@@ -66,12 +68,15 @@
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.9",
+    "vike": "^0.4.242",
+    "vike-react": "^0.5.4",
     "yet-another-react-lightbox": "^3.25.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
     "@tailwindcss/typography": "^0.5.16",
+    "@types/express": "^5.0.3",
     "@types/node": "^22.18.8",
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
