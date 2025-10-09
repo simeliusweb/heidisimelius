@@ -219,7 +219,7 @@ const GalleriaPage = () => {
   return (
     <div
       style={{
-        backgroundImage: `url('/noise20colorful.webp'), 
+        backgroundImage: ` 
         linear-gradient(
       12deg,
       hsl(234deg 24% 8%) 0%,

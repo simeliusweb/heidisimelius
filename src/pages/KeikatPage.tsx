@@ -180,7 +180,7 @@ const KeikatPage = () => {
   return (
     <div
       style={{
-        backgroundImage: `url('/glow30.webp'), 
+        backgroundImage: ` 
         linear-gradient(
       24deg,
       hsl(234deg 24% 8%) 0%,

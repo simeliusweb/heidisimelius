@@ -148,7 +148,7 @@ const BioPage = () => {
   return (
     <div
       style={{
-        backgroundImage: `url('/tumma15.webp'), 
+        backgroundImage: ` 
         linear-gradient(
       12deg,
       hsl(234deg 24% 8%) 0%,

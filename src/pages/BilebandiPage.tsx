@@ -122,7 +122,7 @@ const BilebandiPage = () => {
   return (
     <div
       style={{
-        backgroundImage: `url('/vinyl20.webp'),
+        backgroundImage: `
         linear-gradient(
       16deg,
       hsl(234deg 24% 8%) 0%,

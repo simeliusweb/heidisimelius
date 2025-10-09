@@ -27,7 +27,7 @@ const HomePage = () => {
         <div
           className="relative z-11"
           style={{
-            backgroundImage: `url('/noise7colorful.webp'), 
+            backgroundImage: ` 
       linear-gradient(
         18deg,
         hsl(234deg 24% 8%) 0%,
