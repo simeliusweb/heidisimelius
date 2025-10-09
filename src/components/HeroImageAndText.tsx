@@ -158,7 +158,7 @@ const HeroImageAndText = () => {
   return (
     <div
       ref={containerRef}
-      className="relative flex h-[650px] xs:h-[700px] sm:h-[840px] md:h-[1040px] items-center justify-center overflow-hidden bg-background pb-16 pt-8"
+      className="relative flex h-[650px] xs:h-[700px] sm:h-[840px] md:h-[900px] lg:h-[870px] items-center justify-center overflow-hidden bg-background pb-16 pt-8"
       style={{
         backgroundImage: `
         linear-gradient(
@@ -203,14 +203,10 @@ const HeroImageAndText = () => {
         {/* Inner container for scaling */}
         <div className="scale-[0.45] xxs:scale-[0.5] xs:scale-[0.55] sm:scale-75 md:scale-90 lg:scale-100">
           {/* --- "Heidi" Word Group --- */}
-          <div className="absolute top-[-180px] left-[-102px]">
-            {/* z-index: 100
-             left: -240px;
-    top: 110px; */}
+          <div className="absolute top-[-180px] left-[-102px] lg:top-[-68px] lg:left-[-327px] xl:left-[-377px] lg:z-[31]">
             <h2
               ref={heidiShadowRef}
-              className="absolute z-10 font-santorini text-[118px] text-primary top-[6px] left-[-6px]"
-              // villi pinkki text-[hsl(350.45,76.52%,54.9%)]
+              className="absolute z-10 font-santorini text-[118px] text-primary top-[2px] left-[2px]"
             >
               Heidi
             </h2>
@@ -227,14 +223,10 @@ const HeroImageAndText = () => {
           />
 
           {/* --- "Simelius" Word Group --- */}
-          <div className="absolute bottom-[-118px] left-[-106px]">
-            {/* zindex 100
-             left: 300px;
-    top: -70px; */}
+          <div className="absolute bottom-[-118px] left-[-106px] lg:left-[182px] xl:left-[240px] lg:bottom-[-58px] lg:z-[31]">
             <h2
               ref={simeliusShadowRef}
-              className="absolute z-10 font-santorini text-[95px] text-primary top-[6px] left-[-6px]"
-              // text-[hsl(350.45,76.52%,54.9%)]
+              className="absolute z-10 font-santorini text-[95px] text-primary top-[2px] left-[2px]"
             >
               Simelius
             </h2>
