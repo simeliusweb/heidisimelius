@@ -12,6 +12,7 @@
 * Rm bgs with noise.
 * Update landing element signature styling on desktop.
 * Manual update to fix pipeline.
+* Fix gallery component to a modern library one.
   
 8.10. JSu
 * Update UI, add structured data, modify images and favicon, improve loading times. Check responsiveness and hone details.
