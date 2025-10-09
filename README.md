@@ -11,6 +11,7 @@
 9.10. JSu
 * Rm bgs with noise.
 * Update landing element signature styling on desktop.
+* Manual update to fix pipeline.
   
 8.10. JSu
 * Update UI, add structured data, modify images and favicon, improve loading times. Check responsiveness and hone details.
