@@ -76,13 +76,40 @@ const Footer = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof contactSchema>) => {
-    console.log(data);
-    toast({
-      title: "Viesti lähetetty!",
-      description: "Palaan sinulle mahdollisimman pian.",
-    });
-    form.reset();
+  const onSubmit = async (data: z.infer<typeof contactSchema>) => {
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          formType: "contact",
+          name: data.subject,
+          email: data.email,
+          phone: "",
+          message: data.message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Failed to send email");
+      }
+
+      toast({
+        title: "Viesti lähetetty!",
+        description: "Palaan sinulle mahdollisimman pian.",
+      });
+      form.reset();
+    } catch (error) {
+      toast({
+        title: "Virhe lähetyksessä",
+        description: error instanceof Error ? error.message : "Yritä uudelleen myöhemmin.",
+        variant: "destructive",
+      });
+    }
   };
 
   const navLinks = [
