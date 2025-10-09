@@ -119,37 +119,15 @@ const KeikatPage = () => {
 
   // Generate MusicEvent structured data for all performances
   const musicEventsSchema = [
-    // ...heidiTrioLive.performances.map((performance) => ({
-    //   "@context": "https://schema.org",
-    //   "@type": "MusicEvent",
-    //   name: heidiTrioLive.title,
-    //   startDate: `${performance.date}T${performance.time}:00+02:00`,
-    //   location: {
-    //     "@type": "Place",
-    //     name: heidiTrioLive.venue,
-    //     address: {
-    //       "@type": "PostalAddress",
-    //       addressLocality: "Tampere",
-    //       addressCountry: "FI",
-    //     },
-    //   },
-    //   image: heidiTrioLive.imageUrl,
-    //   description: heidiTrioLive.description,
-    //   offers: {
-    //     "@type": "Offer",
-    //     url: heidiTrioLive.ticketsUrl,
-    //     price: "TBA",
-    //     priceCurrency: "EUR",
-    //     availability: "https://schema.org/InStock",
-    //   },
-    //   performer: {
-    //     "@type": "Person",
-    //     name: "Heidi Simelius",
-    //   },
-    // })),
     ...kinkyBootsMusical.performances.map((performance) => ({
       "@context": "https://schema.org",
       "@type": "MusicEvent",
+      organizer: {
+        "@type": "Organization",
+        name: "Oulun teatteri",
+        url: "https://oulunteatteri.fi",
+      },
+      eventStatus: "https://schema.org/EventScheduled",
       name: kinkyBootsMusical.title,
       startDate: `${performance.date}T${performance.time}:00+02:00`,
       location: {
@@ -157,7 +135,7 @@ const KeikatPage = () => {
         name: kinkyBootsMusical.venue,
         address: {
           "@type": "PostalAddress",
-          addressLocality: "Lahti",
+          addressLocality: "Oulu",
           addressCountry: "FI",
         },
       },
@@ -166,8 +144,6 @@ const KeikatPage = () => {
       offers: {
         "@type": "Offer",
         url: kinkyBootsMusical.ticketsUrl,
-        price: "TBA",
-        priceCurrency: "EUR",
         availability: "https://schema.org/InStock",
       },
       performer: {
