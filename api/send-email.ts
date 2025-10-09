@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import * as SibApiV3Sdk from "sib-api-v3-sdk";
+import * as Brevo from "@getbrevo/brevo";
 
 // CORS headers
 const corsHeaders = {
@@ -36,52 +36,77 @@ const COLORS = {
   muted: "#888899",
 };
 
-function validateRequest(body: any): { valid: boolean; error?: string; data?: EmailRequest } {
-  // Check required common fields
-  if (!body.name || typeof body.name !== "string" || body.name.trim().length === 0) {
-    return { valid: false, error: "Name is required" };
-  }
-  if (!body.email || typeof body.email !== "string" || !body.email.includes("@")) {
-    return { valid: false, error: "Valid email is required" };
-  }
-  if (!body.message || typeof body.message !== "string" || body.message.trim().length === 0) {
-    return { valid: false, error: "Message is required" };
-  }
-  if (!body.formType || !["contact", "booking"].includes(body.formType)) {
-    return { valid: false, error: "Valid form type is required" };
-  }
-  // Phone is only required for booking forms
-  if (body.formType === "booking" && (!body.phone || typeof body.phone !== "string" || body.phone.trim().length === 0)) {
-    return { valid: false, error: "Phone number is required for booking inquiries" };
+// Define a clear return type (a discriminated union) for our validation result
+type ValidationResult =
+  | { valid: true; data: EmailRequest }
+  | { valid: false; error: string };
+
+function validateRequest(body: unknown): ValidationResult {
+  // 1. First, ensure the body is a non-null object.
+  if (typeof body !== "object" || body === null) {
+    return { valid: false, error: "Invalid request body: must be an object." };
   }
 
-  // Length limits
-  if (body.name.length > 100) {
-    return { valid: false, error: "Name must be less than 100 characters" };
+  // 2. Cast the body to a record of unknown values to safely access properties.
+  const data = body as Record<string, unknown>;
+
+  // 3. Validate each property's type and value.
+  if (typeof data.name !== "string" || data.name.trim().length === 0) {
+    return { valid: false, error: "Name is required and must be a string." };
   }
-  if (body.email.length > 255) {
-    return { valid: false, error: "Email must be less than 255 characters" };
+  if (typeof data.email !== "string" || !data.email.includes("@")) {
+    return { valid: false, error: "A valid email is required." };
   }
-  if (body.message.length > 2000) {
-    return { valid: false, error: "Message must be less than 2000 characters" };
+  if (typeof data.message !== "string" || data.message.trim().length === 0) {
+    return { valid: false, error: "Message is required and must be a string." };
+  }
+  if (data.formType !== "contact" && data.formType !== "booking") {
+    return { valid: false, error: "Valid form type is required." };
   }
 
-  return {
-    valid: true,
-    data: {
-      formType: body.formType,
-      name: body.name.trim(),
-      email: body.email.trim(),
-      message: body.message.trim(),
-      phone: body.phone ? body.phone.trim() : "",
-      date: body.date ? String(body.date).trim() : undefined,
-      location: body.location ? String(body.location).trim() : undefined,
-      eventType: body.eventType ? String(body.eventType).trim() : undefined,
-    },
+  // 4. Conditional validation based on formType.
+  if (data.formType === "booking") {
+    if (typeof data.phone !== "string" || data.phone.trim().length === 0) {
+      return { valid: false, error: "Phone number is required for booking." };
+    }
+  }
+
+  // 5. If all checks pass, construct a new, clean, and fully-typed data object.
+  const validatedData: EmailRequest = {
+    formType: data.formType,
+    name: data.name.trim(),
+    email: data.email.trim(),
+    message: data.message.trim(),
+    phone: typeof data.phone === "string" ? data.phone.trim() : "",
+    date: typeof data.date === "string" ? data.date.trim() : undefined,
+    location:
+      typeof data.location === "string" ? data.location.trim() : undefined,
+    eventType:
+      typeof data.eventType === "string" ? data.eventType.trim() : undefined,
   };
+
+  // 6. Perform final length checks on the clean data.
+  if (validatedData.name.length > 100) {
+    return { valid: false, error: "Name must be less than 100 characters." };
+  }
+  if (validatedData.email.length > 255) {
+    return { valid: false, error: "Email must be less than 255 characters." };
+  }
+  if (validatedData.message.length > 2000) {
+    return {
+      valid: false,
+      error: "Message must be less than 2000 characters.",
+    };
+  }
+
+  // 7. Return the successful result with the typed data.
+  return { valid: true, data: validatedData };
 }
 
-function generateEmailContent(data: EmailRequest): { subject: string; html: string } {
+function generateEmailContent(data: EmailRequest): {
+  subject: string;
+  html: string;
+} {
   const subject =
     data.formType === "contact"
       ? `HeidiSimelius.fi - yhteydenotto: ${data.name}`
@@ -107,7 +132,9 @@ function generateEmailContent(data: EmailRequest): { subject: string; html: stri
             border: 1px solid ${COLORS.border};
           }
           .header {
-            background: linear-gradient(135deg, ${COLORS.primary} 0%, #c91d3a 100%);
+            background: linear-gradient(135deg, ${
+              COLORS.primary
+            } 0%, #c91d3a 100%);
             padding: 30px;
             text-align: center;
           }
@@ -159,7 +186,11 @@ function generateEmailContent(data: EmailRequest): { subject: string; html: stri
       <body>
         <div class="container">
           <div class="header">
-            <h1>${data.formType === "contact" ? "📧 Uusi Yhteydenotto" : "🎤 Uusi Varaus"}</h1>
+            <h1>${
+              data.formType === "contact"
+                ? "📧 Uusi Yhteydenotto"
+                : "🎤 Uusi Varaus"
+            }</h1>
           </div>
           <div class="content">
             <div class="field">
@@ -168,14 +199,22 @@ function generateEmailContent(data: EmailRequest): { subject: string; html: stri
             </div>
             <div class="field">
               <div class="label">Sähköposti</div>
-              <div class="value"><a href="mailto:${escapeHtml(data.email)}" style="color: ${COLORS.secondary}; text-decoration: none;">${escapeHtml(data.email)}</a></div>
+              <div class="value"><a href="mailto:${escapeHtml(
+                data.email
+              )}" style="color: ${
+    COLORS.secondary
+  }; text-decoration: none;">${escapeHtml(data.email)}</a></div>
             </div>
             ${
               data.phone && data.phone.length > 0
                 ? `
             <div class="field">
               <div class="label">Puhelinnumero</div>
-              <div class="value"><a href="tel:${escapeHtml(data.phone)}" style="color: ${COLORS.secondary}; text-decoration: none;">${escapeHtml(data.phone)}</a></div>
+              <div class="value"><a href="tel:${escapeHtml(
+                data.phone
+              )}" style="color: ${
+                    COLORS.secondary
+                  }; text-decoration: none;">${escapeHtml(data.phone)}</a></div>
             </div>
             `
                 : ""
@@ -212,12 +251,17 @@ function generateEmailContent(data: EmailRequest): { subject: string; html: stri
             }
             <div class="field">
               <div class="label">Viesti</div>
-              <div class="value">${escapeHtml(data.message).replace(/\n/g, "<br>")}</div>
+              <div class="value">${escapeHtml(data.message).replace(
+                /\n/g,
+                "<br>"
+              )}</div>
             </div>
           </div>
           <div class="footer">
             Lähetetty HeidiSimelius.fi -sivustolta<br>
-            ${new Date().toLocaleString("fi-FI", { timeZone: "Europe/Helsinki" })}
+            ${new Date().toLocaleString("fi-FI", {
+              timeZone: "Europe/Helsinki",
+            })}
           </div>
         </div>
       </body>
@@ -266,7 +310,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Check for API key
     const apiKey = process.env.BREVO_API_KEY;
     if (!apiKey) {
       console.error("BREVO_API_KEY environment variable is not set");
@@ -277,7 +320,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    // Validate request body
     const validation = validateRequest(req.body);
     if (!validation.valid) {
       return res.status(400).json({
@@ -289,17 +331,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const emailData = validation.data!;
 
-    // Configure Brevo API
-    const defaultClient = SibApiV3Sdk.ApiClient.instance;
-    const apiKeyAuth = defaultClient.authentications["api-key"];
-    apiKeyAuth.apiKey = apiKey;
+    // NEW: Configure Brevo API with the new package
+    const apiInstance = new Brevo.TransactionalEmailsApi();
+    apiInstance.setApiKey(Brevo.TransactionalEmailsApiApiKeys.apiKey, apiKey);
 
-    // Generate email content
     const { subject, html } = generateEmailContent(emailData);
 
-    // Create email instance
-    const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+    // Create email instance (uses 'Brevo' instead of 'SibApiV3Sdk')
+    const sendSmtpEmail = new Brevo.SendSmtpEmail();
 
     sendSmtpEmail.sender = { name: SENDER_NAME, email: SENDER_EMAIL };
     sendSmtpEmail.to = [{ email: RECIPIENT_EMAIL }];
@@ -307,30 +346,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     sendSmtpEmail.subject = subject;
     sendSmtpEmail.htmlContent = html;
 
-    // Send email
     console.log(`Sending email: ${subject}`);
     const result = await apiInstance.sendTransacEmail(sendSmtpEmail);
-    console.log("Email sent successfully:", result.messageId);
+    console.log("Email sent successfully:", result); // result object structure might be different
 
     return res.status(200).json({
       success: true,
       message: "Email sent successfully",
-      messageId: result.messageId,
       ...corsHeaders,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error sending email:", error);
-
-    // Handle Brevo API errors
-    if (error.response) {
-      console.error("Brevo API error:", error.response.text);
-      return res.status(error.response.status || 500).json({
-        success: false,
-        error: "Failed to send email. Please try again later.",
-        ...corsHeaders,
-      });
-    }
-
     return res.status(500).json({
       success: false,
       error: "Internal server error",
