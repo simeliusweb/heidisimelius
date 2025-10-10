@@ -14,30 +14,43 @@ import BilebandiPage from "./pages/BilebandiPage";
 import LoginPage from "./pages/LoginPage";
 import AdminPage from "./pages/AdminPage";
 import ScrollToTop from "./components/ScrollToTop";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
   const location = useLocation();
-  const isBilebandiPage =
-    location.pathname === "/bilebandi-heidi-and-the-hot-stuff";
+  const isBilebandiPage = location.pathname === "/bilebandi-heidi-and-the-hot-stuff";
+  const isAuthPage = location.pathname === "/login";
+
+  if (isAuthPage) {
+    return (
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    );
+  }
 
   return (
     <div className="relative min-h-screen">
       <ScrollToTop />
-
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/bio" element={<BioPage />} />
         <Route path="/keikat" element={<KeikatPage />} />
         <Route path="/galleria" element={<GalleriaPage />} />
-        <Route
-          path="/bilebandi-heidi-and-the-hot-stuff"
-          element={<BilebandiPage />}
+        <Route path="/bilebandi-heidi-and-the-hot-stuff" element={<BilebandiPage />} />
+        
+        <Route 
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+          }
         />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/admin" element={<AdminPage />} />
+
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
