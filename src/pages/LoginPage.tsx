@@ -1,18 +1,18 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useEffect } from 'react';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect } from "react";
 
 const loginSchema = z.object({
-  email: z.string().email({ message: 'Please enter a valid email address.' }),
-  password: z.string().min(1, { message: 'Password is required.' }),
+  email: z.string().email({ message: "Anna validi sähköpostiosoite." }),
+  password: z.string().min(1, { message: "Salasana vaaditaan." }),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -22,14 +22,16 @@ const LoginPage = () => {
   const { toast } = useToast();
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: '', password: '' },
+    defaultValues: { email: "", password: "" },
   });
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (session) {
-        navigate('/admin');
+        navigate("/admin");
       }
     };
     checkSession();
@@ -44,13 +46,13 @@ const LoginPage = () => {
 
       if (error) throw error;
 
-      toast({ title: 'Login successful!', description: 'Redirecting to admin panel...' });
-      navigate('/admin');
+      toast({ title: "Login successful!", description: "Siirrytään sisällönhallintaan..." });
+      navigate("/admin");
     } catch (error: any) {
       toast({
-        variant: 'destructive',
-        title: 'Login failed',
-        description: error.message || 'Please check your credentials and try again.',
+        variant: "destructive",
+        title: "Login failed",
+        description: error.message || "Tarkista kirjautumistietosi.",
       });
     }
   };
@@ -59,7 +61,7 @@ const LoginPage = () => {
     <div className="flex items-center justify-center min-h-screen bg-background">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Admin Login</CardTitle>
+          <CardTitle className="text-2xl">Sisällönhallintaan kirjautuminen</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -69,9 +71,9 @@ const LoginPage = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Sähköposti</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="admin@example.com" {...field} />
+                      <Input type="email" placeholder="Sähköposti" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -82,7 +84,7 @@ const LoginPage = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Salasana</FormLabel>
                     <FormControl>
                       <Input type="password" placeholder="••••••••" {...field} />
                     </FormControl>
@@ -91,7 +93,7 @@ const LoginPage = () => {
                 )}
               />
               <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? 'Signing In...' : 'Sign In'}
+                {form.formState.isSubmitting ? "Kirjaudutaan..." : "Kirjaudu sisään"}
               </Button>
             </form>
           </Form>
