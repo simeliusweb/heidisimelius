@@ -11,6 +11,8 @@ import KeikatPage from "./pages/KeikatPage";
 import GalleriaPage from "./pages/GalleriaPage";
 import NotFound from "./pages/NotFound";
 import BilebandiPage from "./pages/BilebandiPage";
+import LoginPage from "./pages/LoginPage";
+import AdminPage from "./pages/AdminPage";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -34,6 +36,8 @@ const AppContent = () => {
           path="/bilebandi-heidi-and-the-hot-stuff"
           element={<BilebandiPage />}
         />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/admin" element={<AdminPage />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
