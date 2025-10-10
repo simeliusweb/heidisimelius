@@ -8,6 +8,9 @@
 
 
 ## Update log for Vercel deployments:
+10.10. JSu
+* Test for automatic deployments to be turned off.
+
 9.10. JSu
 * Rm bgs with noise.
 * Update landing element signature styling on desktop.
