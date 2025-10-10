@@ -21,6 +21,7 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   const location = useLocation();
   const isBilebandiPage = location.pathname === "/bilebandi-heidi-and-the-hot-stuff";
+  const isAdminPage = location.pathname === "/admin";
   const isAuthPage = location.pathname === "/login";
 
   if (isAuthPage) {
@@ -41,8 +42,8 @@ const AppContent = () => {
         <Route path="/keikat" element={<KeikatPage />} />
         <Route path="/galleria" element={<GalleriaPage />} />
         <Route path="/bilebandi-heidi-and-the-hot-stuff" element={<BilebandiPage />} />
-        
-        <Route 
+
+        <Route
           path="/admin"
           element={
             <ProtectedRoute>
@@ -54,7 +55,7 @@ const AppContent = () => {
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {!isBilebandiPage && <Footer />}
+      {!isBilebandiPage && !isAdminPage && <Footer />}
     </div>
   );
 };
