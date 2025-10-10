@@ -14,7 +14,138 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      gigs: {
+        Row: {
+          address_country: string
+          address_locality: string
+          created_at: string
+          description: string
+          event_page_url: string | null
+          gig_type: Database["public"]["Enums"]["gig_type_enum"]
+          id: string
+          image_alt: string
+          image_url: string
+          organizer_name: string | null
+          organizer_url: string | null
+          performances: Json
+          tickets_url: string | null
+          title: string
+          venue: string
+        }
+        Insert: {
+          address_country: string
+          address_locality: string
+          created_at?: string
+          description: string
+          event_page_url?: string | null
+          gig_type: Database["public"]["Enums"]["gig_type_enum"]
+          id?: string
+          image_alt: string
+          image_url: string
+          organizer_name?: string | null
+          organizer_url?: string | null
+          performances: Json
+          tickets_url?: string | null
+          title: string
+          venue: string
+        }
+        Update: {
+          address_country?: string
+          address_locality?: string
+          created_at?: string
+          description?: string
+          event_page_url?: string | null
+          gig_type?: Database["public"]["Enums"]["gig_type_enum"]
+          id?: string
+          image_alt?: string
+          image_url?: string
+          organizer_name?: string | null
+          organizer_url?: string | null
+          performances?: Json
+          tickets_url?: string | null
+          title?: string
+          venue?: string
+        }
+        Relationships: []
+      }
+      page_content: {
+        Row: {
+          content: Json
+          created_at: string
+          page_name: string
+          updated_at: string
+        }
+        Insert: {
+          content: Json
+          created_at?: string
+          page_name: string
+          updated_at?: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          page_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      photo_sets: {
+        Row: {
+          created_at: string
+          id: string
+          photographer_name: string
+          photographer_url: string | null
+          photos: Json
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          photographer_name: string
+          photographer_url?: string | null
+          photos: Json
+          title: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          photographer_name?: string
+          photographer_url?: string | null
+          photos?: Json
+          title?: string
+        }
+        Relationships: []
+      }
+      videos: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_featured: boolean | null
+          section: Database["public"]["Enums"]["video_section_enum"]
+          title: string | null
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_featured?: boolean | null
+          section: Database["public"]["Enums"]["video_section_enum"]
+          title?: string | null
+          url: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_featured?: boolean | null
+          section?: Database["public"]["Enums"]["video_section_enum"]
+          title?: string | null
+          url?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +154,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      gig_type_enum: "Musiikki" | "Teatteri"
+      video_section_enum: "Musavideot" | "Muut videot"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +282,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      gig_type_enum: ["Musiikki", "Teatteri"],
+      video_section_enum: ["Musavideot", "Muut videot"],
+    },
   },
 } as const
