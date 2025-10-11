@@ -31,24 +31,27 @@ const AdminPage = () => {
           Kirjaudu ulos
         </Button>
       </div>
-      <Tabs defaultValue="gigs" className="w-full">
+      <Tabs defaultValue="keikat" className="w-full">
         <TabsList>
-          <TabsTrigger value="gigs">Keikat</TabsTrigger>
-          <TabsTrigger value="photo_sets">Galleria</TabsTrigger>
-          <TabsTrigger value="videos">Videot</TabsTrigger>
-          <TabsTrigger value="page_content">Bio</TabsTrigger>
+          <TabsTrigger value="keikat">Keikat</TabsTrigger>
+          <TabsTrigger value="galleria">Galleria</TabsTrigger>
+          <TabsTrigger value="videot">Videot</TabsTrigger>
+          <TabsTrigger value="bio">Bio</TabsTrigger>
         </TabsList>
-        <TabsContent value="gigs" className="mt-4">
-          <p>The form for managing gigs will be here.</p>
+        <TabsContent value="keikat" className="mt-4">
+          <p>Keikat -page's content.</p>
         </TabsContent>
-        <TabsContent value="photo_sets" className="mt-4">
-          <p>The form for managing photo sets will be here.</p>
+        <TabsContent value="galleria" className="mt-4">
+          <p>Galleria -page's content.</p>
         </TabsContent>
-        <TabsContent value="videos" className="mt-4">
-          <p>The form for managing videos will be here.</p>
+        <TabsContent value="videot" className="mt-4">
+          <p>
+            Videot -element's content. Includes the "Musavideot" and the "Muut
+            videot" -section management.
+          </p>
         </TabsContent>
-        <TabsContent value="page_content" className="mt-4">
-          <p>The form for managing general page content will be here.</p>
+        <TabsContent value="bio" className="mt-4">
+          <p>Bio -page's content.</p>
         </TabsContent>
       </Tabs>
     </div>
