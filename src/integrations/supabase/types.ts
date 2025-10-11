@@ -21,13 +21,14 @@ export type Database = {
           created_at: string
           description: string
           event_page_url: string | null
+          gig_group_id: string | null
           gig_type: Database["public"]["Enums"]["gig_type_enum"]
           id: string
           image_alt: string
           image_url: string
           organizer_name: string | null
           organizer_url: string | null
-          performances: Json
+          performance_date: string
           tickets_url: string | null
           title: string
           venue: string
@@ -38,13 +39,14 @@ export type Database = {
           created_at?: string
           description: string
           event_page_url?: string | null
+          gig_group_id?: string | null
           gig_type: Database["public"]["Enums"]["gig_type_enum"]
           id?: string
           image_alt: string
           image_url: string
           organizer_name?: string | null
           organizer_url?: string | null
-          performances: Json
+          performance_date?: string
           tickets_url?: string | null
           title: string
           venue: string
@@ -55,13 +57,14 @@ export type Database = {
           created_at?: string
           description?: string
           event_page_url?: string | null
+          gig_group_id?: string | null
           gig_type?: Database["public"]["Enums"]["gig_type_enum"]
           id?: string
           image_alt?: string
           image_url?: string
           organizer_name?: string | null
           organizer_url?: string | null
-          performances?: Json
+          performance_date?: string
           tickets_url?: string | null
           title?: string
           venue?: string
