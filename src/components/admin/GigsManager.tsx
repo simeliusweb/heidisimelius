@@ -38,15 +38,26 @@ const fetchGigs = async (): Promise<Gig[]> => {
 };
 
 const GigsManager = () => {
-  const [isAddGigOpen, setIsAddGigOpen] = useState(false);
-  const [isEditGigOpen, setIsEditGigOpen] = useState(false);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedGig, setSelectedGig] = useState<Gig | null>(null);
+  const [gigToCopy, setGigToCopy] = useState<Gig | null>(null);
 
   const { data: gigs, isLoading, error } = useQuery<Gig[]>({ queryKey: ['gigs'], queryFn: fetchGigs });
 
   const handleEditClick = (gig: Gig) => {
     setSelectedGig(gig);
-    setIsEditGigOpen(true);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleCopyClick = (gig: Gig) => {
+    setGigToCopy(gig);
+    setIsAddDialogOpen(true);
+  };
+  
+  const handleAddNewClick = () => {
+    setGigToCopy(null);
+    setIsAddDialogOpen(true);
   };
 
   if (isLoading) return <div>Ladataan keikkoja...</div>;
@@ -55,7 +66,7 @@ const GigsManager = () => {
   return (
     <div>
       <div className="flex justify-end mb-4">
-        <Button onClick={() => setIsAddGigOpen(true)}>
+        <Button onClick={handleAddNewClick}>
           <PlusCircle className="mr-2 h-4 w-4" />
           Lisää uusi keikka
         </Button>
@@ -87,7 +98,7 @@ const GigsManager = () => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => handleEditClick(gig)}>Muokkaa</DropdownMenuItem>
-                        <DropdownMenuItem>Kopioi</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleCopyClick(gig)}>Kopioi</DropdownMenuItem>
                         <DropdownMenuItem className="text-destructive">Poista</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -103,8 +114,8 @@ const GigsManager = () => {
         </Table>
       </div>
       
-      <AddGigForm isOpen={isAddGigOpen} onOpenChange={setIsAddGigOpen} onSuccess={() => setIsAddGigOpen(false)} />
-      <EditGigForm isOpen={isEditGigOpen} onOpenChange={setIsEditGigOpen} gig={selectedGig} />
+      <AddGigForm isOpen={isAddDialogOpen} onOpenChange={setIsAddDialogOpen} onSuccess={() => setIsAddDialogOpen(false)} gigToCopy={gigToCopy} />
+      <EditGigForm isOpen={isEditDialogOpen} onOpenChange={setIsEditDialogOpen} gig={selectedGig} />
     </div>
   );
 };

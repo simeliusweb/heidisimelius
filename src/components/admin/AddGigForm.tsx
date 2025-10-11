@@ -4,6 +4,7 @@ import * as z from 'zod';
 import { supabase } from '@/integrations/supabase/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
+import { useEffect } from 'react';
 import { format } from 'date-fns';
 import { fi } from 'date-fns/locale';
 import { Button } from '@/components/ui/button';
@@ -18,12 +19,13 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { CalendarIcon, PlusCircle, Trash2 } from 'lucide-react';
 import { uploadGigImage } from '@/lib/storage';
+import { Gig } from './GigsManager';
 
 // Zod schema for validation
 const gigFormSchema = z.object({
   title: z.string().min(2, { message: 'Otsikko on pakollinen.' }),
   venue: z.string().min(2, { message: 'Paikka on pakollinen.' }),
-  image_file: z.instanceof(FileList).refine(files => files?.length > 0, 'Kuva on pakollinen.'),
+  image_file: z.instanceof(FileList).optional(),
   image_alt: z.string().min(10, { message: 'Kuvateksti on pakollinen ja kuvaileva.' }),
   description: z.string().min(10, { message: 'Kuvaus on pakollinen.' }),
   event_page_url: z.string().url({ message: 'Anna kelvollinen URL.' }).optional().or(z.literal('')),
@@ -44,29 +46,14 @@ type GigFormValues = z.infer<typeof gigFormSchema>;
 interface AddGigFormProps { 
   isOpen: boolean; 
   onOpenChange: (isOpen: boolean) => void; 
-  onSuccess: () => void; 
+  onSuccess: () => void;
+  gigToCopy: Gig | null;
 }
 
-const AddGigForm = ({ isOpen, onOpenChange, onSuccess }: AddGigFormProps) => {
+const AddGigForm = ({ isOpen, onOpenChange, onSuccess, gigToCopy }: AddGigFormProps) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
-  const form = useForm<GigFormValues>({
-    resolver: zodResolver(gigFormSchema),
-    defaultValues: {
-      title: '',
-      venue: '',
-      image_alt: '',
-      description: '',
-      event_page_url: '',
-      tickets_url: '',
-      organizer_name: '',
-      organizer_url: '',
-      address_locality: '',
-      address_country: 'FI',
-      gig_type: 'Musiikki',
-      performances: [{ date: new Date(), time: '19:00' }],
-    },
-  });
+  const form = useForm<GigFormValues>({ resolver: zodResolver(gigFormSchema) });
   
   const { fields, append, remove } = useFieldArray({ 
     control: form.control, 
@@ -74,6 +61,21 @@ const AddGigForm = ({ isOpen, onOpenChange, onSuccess }: AddGigFormProps) => {
   });
   
   const imageFileRef = form.register('image_file');
+
+  useEffect(() => {
+    if (gigToCopy) {
+      form.reset({
+        ...gigToCopy,
+        performances: [{ date: new Date(), time: '19:00' }],
+      });
+    } else {
+      form.reset({
+        title: '', venue: '', image_alt: '', description: '', event_page_url: '', tickets_url: '',
+        organizer_name: '', organizer_url: '', address_locality: '', address_country: 'FI',
+        gig_type: 'Musiikki', performances: [{ date: new Date(), time: '19:00' }],
+      });
+    }
+  }, [gigToCopy, form]);
 
   const mutation = useMutation({
     mutationFn: async (gigsToInsert: any[]) => {
@@ -97,35 +99,24 @@ const AddGigForm = ({ isOpen, onOpenChange, onSuccess }: AddGigFormProps) => {
 
   const onSubmit = async (data: GigFormValues) => {
     try {
-      const imageFile = data.image_file[0];
-      if (!imageFile) throw new Error('Kuvatiedosto puuttuu.');
+      let imageUrl = gigToCopy?.image_url;
+      const imageFile = data.image_file?.[0];
 
-      const imageUrl = await uploadGigImage(imageFile);
+      if (imageFile) {
+        imageUrl = await uploadGigImage(imageFile);
+      }
+      
+      if (!imageUrl) {
+        throw new Error("Kuva on pakollinen. Lisää uusi kuva tai kopioi olemassaolevasta keikasta.");
+      }
+
       const gigGroupId = uuidv4();
-
       const gigsToInsert = data.performances.map(performance => {
         const performanceDate = new Date(performance.date);
         const [hours, minutes] = performance.time.split(':').map(Number);
         performanceDate.setHours(hours, minutes);
-        
-        return {
-          title: data.title,
-          venue: data.venue,
-          image_url: imageUrl,
-          image_alt: data.image_alt,
-          description: data.description,
-          event_page_url: data.event_page_url,
-          tickets_url: data.tickets_url,
-          organizer_name: data.organizer_name,
-          organizer_url: data.organizer_url,
-          address_locality: data.address_locality,
-          address_country: data.address_country,
-          gig_type: data.gig_type,
-          gig_group_id: gigGroupId,
-          performance_date: performanceDate.toISOString(),
-        };
+        return { ...data, image_url: imageUrl, gig_group_id: gigGroupId, performance_date: performanceDate.toISOString(), performances: undefined, image_file: undefined };
       });
-
       mutation.mutate(gigsToInsert);
     } catch (error: any) {
       toast({ 
@@ -140,7 +131,7 @@ const AddGigForm = ({ isOpen, onOpenChange, onSuccess }: AddGigFormProps) => {
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Lisää uusi keikka</DialogTitle>
+          <DialogTitle>{gigToCopy ? 'Kopioi keikka' : 'Lisää uusi keikka'}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-1">
@@ -172,7 +163,7 @@ const AddGigForm = ({ isOpen, onOpenChange, onSuccess }: AddGigFormProps) => {
                 )} 
               />
               <FormItem>
-                <FormLabel>Kuva</FormLabel>
+                <FormLabel>{gigToCopy ? 'Vaihda kuva (valinnainen)' : 'Kuva'}</FormLabel>
                 <FormControl>
                   <Input 
                     type="file" 
@@ -386,7 +377,7 @@ const AddGigForm = ({ isOpen, onOpenChange, onSuccess }: AddGigFormProps) => {
                 Peruuta
               </Button>
               <Button type="submit" disabled={mutation.isPending}>
-                {mutation.isPending ? 'Tallennetaan...' : 'Tallenna keikat'}
+                {mutation.isPending ? 'Tallennetaan...' : (gigToCopy ? 'Luo kopio' : 'Tallenna keikat')}
               </Button>
             </DialogFooter>
           </form>
