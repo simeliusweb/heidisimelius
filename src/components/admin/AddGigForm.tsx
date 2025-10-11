@@ -115,7 +115,9 @@ const AddGigForm = ({ isOpen, onOpenChange, onSuccess, gigToCopy }: AddGigFormPr
         const performanceDate = new Date(performance.date);
         const [hours, minutes] = performance.time.split(':').map(Number);
         performanceDate.setHours(hours, minutes);
-        return { ...data, image_url: imageUrl, gig_group_id: gigGroupId, performance_date: performanceDate.toISOString(), performances: undefined, image_file: undefined };
+        const gigData = { ...data, image_url: imageUrl, gig_group_id: gigGroupId, performance_date: performanceDate.toISOString(), performances: undefined };
+        delete gigData.image_file; // Explicitly remove image_file before insert
+        return gigData;
       });
       mutation.mutate(gigsToInsert);
     } catch (error: any) {
