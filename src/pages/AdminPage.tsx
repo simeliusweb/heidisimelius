@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import GigsManager from "@/components/admin/GigsManager";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="container mx-auto py-24">
+    <div className="container mx-auto py-10">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold">Sisällön hallinta</h1>
         <Button variant="outline" onClick={handleSignOut}>
@@ -39,16 +40,16 @@ const AdminPage = () => {
           <TabsTrigger value="bio">Bio</TabsTrigger>
         </TabsList>
         <TabsContent value="keikat" className="mt-4">
-          <p>Keikat -page's content.</p>
+          <GigsManager />
         </TabsContent>
         <TabsContent value="galleria" className="mt-4">
-          <p>Galleria -page's content.</p>
+          <p>Gallerian sisällön hallinta tulee tähän.</p>
         </TabsContent>
         <TabsContent value="videot" className="mt-4">
-          <p>Videot -element's content. Includes the "Musavideot" and the "Muut videot" -section management.</p>
+           <p>Videoiden sisällön hallinta tulee tähän.</p>
         </TabsContent>
         <TabsContent value="bio" className="mt-4">
-          <p>Bio -page's content.</p>
+          <p>Bion sisällön hallinta tulee tähän.</p>
         </TabsContent>
       </Tabs>
     </div>
