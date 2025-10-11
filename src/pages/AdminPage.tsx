@@ -24,7 +24,7 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-24">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold">Sisällön hallinta</h1>
         <Button variant="outline" onClick={handleSignOut}>
@@ -45,10 +45,7 @@ const AdminPage = () => {
           <p>Galleria -page's content.</p>
         </TabsContent>
         <TabsContent value="videot" className="mt-4">
-          <p>
-            Videot -element's content. Includes the "Musavideot" and the "Muut
-            videot" -section management.
-          </p>
+          <p>Videot -element's content. Includes the "Musavideot" and the "Muut videot" -section management.</p>
         </TabsContent>
         <TabsContent value="bio" className="mt-4">
           <p>Bio -page's content.</p>
