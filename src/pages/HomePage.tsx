@@ -92,8 +92,6 @@ const HomePage = () => {
                     venue: "Oulun teatteri",
                     slug: "kinkyboots-musikaali",
                     performances: [
-                      { date: "2025-10-10", time: "19:00" },
-                      { date: "2025-10-11", time: "13:00" },
                       { date: "2025-10-17", time: "19:00" },
                       { date: "2025-10-18", time: "19:00" },
                       { date: "2025-10-23", time: "19:00" },

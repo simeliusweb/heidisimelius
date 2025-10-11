@@ -21,8 +21,6 @@ const KeikatPage = () => {
     ticketsUrl:
       "https://oulunteatteri.lippu.fi/webshop/webticket/eventlist?production=52 ",
     performances: [
-      { date: "2025-10-10", time: "19:00" },
-      { date: "2025-10-11", time: "13:00" },
       { date: "2025-10-17", time: "19:00" },
       { date: "2025-10-18", time: "19:00" },
       { date: "2025-10-23", time: "19:00" },
@@ -105,6 +103,20 @@ const KeikatPage = () => {
       venue: "Oulun teatteri",
       gigType: "Teatteri" as const,
       date: "3.10.2025",
+    },
+    {
+      imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
+      title: "Kinky Boots -musikaali",
+      venue: "Oulun teatteri",
+      gigType: "Teatteri" as const,
+      date: "10.10.2025",
+    },
+    {
+      imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
+      title: "Kinky Boots -musikaali",
+      venue: "Oulun teatteri",
+      gigType: "Teatteri" as const,
+      date: "11.10.2025",
     },
   ];
 
