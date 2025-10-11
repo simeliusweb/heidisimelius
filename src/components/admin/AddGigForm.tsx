@@ -115,8 +115,13 @@ const AddGigForm = ({ isOpen, onOpenChange, onSuccess, gigToCopy }: AddGigFormPr
         const performanceDate = new Date(performance.date);
         const [hours, minutes] = performance.time.split(':').map(Number);
         performanceDate.setHours(hours, minutes);
-        const gigData = { ...data, image_url: imageUrl, gig_group_id: gigGroupId, performance_date: performanceDate.toISOString(), performances: undefined };
-        delete gigData.image_file; // Explicitly remove image_file before insert
+        
+        const gigData = { ...data, image_url: imageUrl, gig_group_id: gigGroupId, performance_date: performanceDate.toISOString() };
+        
+        // Explicitly remove properties that are not in the database table
+        delete gigData.image_file;
+        delete gigData.performances;
+        
         return gigData;
       });
       mutation.mutate(gigsToInsert);
