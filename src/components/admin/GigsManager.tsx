@@ -7,19 +7,31 @@ import { Button } from '@/components/ui/button';
 import { MoreHorizontal, PlusCircle } from 'lucide-react';
 import { format } from 'date-fns';
 import AddGigForm from './AddGigForm';
+import EditGigForm from './EditGigForm';
 
 export type Gig = {
   id: string;
   created_at: string;
   title: string;
   venue: string;
+  image_url: string;
+  image_alt: string;
+  description: string;
+  event_page_url?: string;
+  tickets_url?: string;
+  gig_type: 'Musiikki' | 'Teatteri';
   performance_date: string;
+  organizer_name?: string;
+  organizer_url?: string;
+  address_locality: string;
+  address_country: string;
+  gig_group_id?: string;
 };
 
 const fetchGigs = async (): Promise<Gig[]> => {
   const { data, error } = await supabase
     .from('gigs')
-    .select('id, created_at, title, venue, performance_date')
+    .select('*')
     .order('performance_date', { ascending: false });
   if (error) throw new Error(error.message);
   return data;
@@ -27,7 +39,15 @@ const fetchGigs = async (): Promise<Gig[]> => {
 
 const GigsManager = () => {
   const [isAddGigOpen, setIsAddGigOpen] = useState(false);
+  const [isEditGigOpen, setIsEditGigOpen] = useState(false);
+  const [selectedGig, setSelectedGig] = useState<Gig | null>(null);
+
   const { data: gigs, isLoading, error } = useQuery<Gig[]>({ queryKey: ['gigs'], queryFn: fetchGigs });
+
+  const handleEditClick = (gig: Gig) => {
+    setSelectedGig(gig);
+    setIsEditGigOpen(true);
+  };
 
   if (isLoading) return <div>Ladataan keikkoja...</div>;
   if (error) return <div>Virhe haettaessa keikkoja: {error.message}</div>;
@@ -66,7 +86,7 @@ const GigsManager = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem>Muokkaa</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEditClick(gig)}>Muokkaa</DropdownMenuItem>
                         <DropdownMenuItem>Kopioi</DropdownMenuItem>
                         <DropdownMenuItem className="text-destructive">Poista</DropdownMenuItem>
                       </DropdownMenuContent>
@@ -82,7 +102,9 @@ const GigsManager = () => {
           </TableBody>
         </Table>
       </div>
+      
       <AddGigForm isOpen={isAddGigOpen} onOpenChange={setIsAddGigOpen} onSuccess={() => setIsAddGigOpen(false)} />
+      <EditGigForm isOpen={isEditGigOpen} onOpenChange={setIsEditGigOpen} gig={selectedGig} />
     </div>
   );
 };
