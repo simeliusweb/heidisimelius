@@ -1,64 +1,41 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal, PlusCircle } from 'lucide-react';
 import { format } from 'date-fns';
+import AddGigForm from './AddGigForm';
 
-// Define the type for a single gig based on our database schema
 export type Gig = {
   id: string;
   created_at: string;
   title: string;
   venue: string;
   performance_date: string;
-  // Add other fields as needed for display
 };
 
-// Fetch function for react-query
-const fetchGigs = async () => {
+const fetchGigs = async (): Promise<Gig[]> => {
   const { data, error } = await supabase
     .from('gigs')
-    .select('*')
+    .select('id, created_at, title, venue, performance_date')
     .order('performance_date', { ascending: false });
-
-  if (error) {
-    throw new Error(error.message);
-  }
+  if (error) throw new Error(error.message);
   return data;
 };
 
 const GigsManager = () => {
-  const { data: gigs, isLoading, error } = useQuery<Gig[]>({
-    queryKey: ['gigs'],
-    queryFn: fetchGigs,
-  });
+  const [isAddGigOpen, setIsAddGigOpen] = useState(false);
+  const { data: gigs, isLoading, error } = useQuery<Gig[]>({ queryKey: ['gigs'], queryFn: fetchGigs });
 
-  if (isLoading) {
-    return <div>Ladataan keikkoja...</div>;
-  }
-
-  if (error) {
-    return <div>Virhe haettaessa keikkoja: {error.message}</div>;
-  }
+  if (isLoading) return <div>Ladataan keikkoja...</div>;
+  if (error) return <div>Virhe haettaessa keikkoja: {error.message}</div>;
 
   return (
     <div>
       <div className="flex justify-end mb-4">
-        <Button>
+        <Button onClick={() => setIsAddGigOpen(true)}>
           <PlusCircle className="mr-2 h-4 w-4" />
           Lisää uusi keikka
         </Button>
@@ -79,9 +56,7 @@ const GigsManager = () => {
                 <TableRow key={gig.id}>
                   <TableCell className="font-medium">{gig.title}</TableCell>
                   <TableCell>{gig.venue}</TableCell>
-                  <TableCell>
-                    {format(new Date(gig.performance_date), 'dd.MM.yyyy HH:mm')}
-                  </TableCell>
+                  <TableCell>{format(new Date(gig.performance_date), 'dd.MM.yyyy HH:mm')}</TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -93,9 +68,7 @@ const GigsManager = () => {
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem>Muokkaa</DropdownMenuItem>
                         <DropdownMenuItem>Kopioi</DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
-                          Poista
-                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive">Poista</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -103,14 +76,13 @@ const GigsManager = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={4} className="h-24 text-center">
-                  Ei keikkoja löytynyt.
-                </TableCell>
+                <TableCell colSpan={4} className="h-24 text-center">Ei keikkoja löytynyt.</TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
+      <AddGigForm isOpen={isAddGigOpen} onOpenChange={setIsAddGigOpen} onSuccess={() => setIsAddGigOpen(false)} />
     </div>
   );
 };
