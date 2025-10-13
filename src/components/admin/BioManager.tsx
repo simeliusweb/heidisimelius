@@ -167,7 +167,7 @@ const BioManager = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <div className="text-muted-foreground">Ladataan bion sisältöä...</div>
+        <div className="text-accent">Ladataan bion sisältöä...</div>
       </div>
     );
   }
@@ -204,7 +204,7 @@ const BioManager = () => {
                   <FormControl>
                     <Textarea
                       placeholder="Kirjoita johdantokappaleet tähän..."
-                      className="min-h-[200px] placeholder:text-muted-foreground"
+                      className="min-h-[200px] placeholder:text-accent"
                       {...field}
                     />
                   </FormControl>
@@ -227,7 +227,7 @@ const BioManager = () => {
                     <FormControl>
                       <Input
                         placeholder="https://www.youtube.com/embed/..."
-                        className="placeholder:text-muted-foreground"
+                        className="placeholder:text-accent"
                         {...field}
                       />
                     </FormControl>
@@ -244,7 +244,7 @@ const BioManager = () => {
                     <FormControl>
                       <Input
                         placeholder="Videokuvaus..."
-                        className="placeholder:text-muted-foreground"
+                        className="placeholder:text-accent"
                         {...field}
                       />
                     </FormControl>
@@ -270,7 +270,7 @@ const BioManager = () => {
                     <FormControl>
                       <Textarea
                         placeholder="Kirjoita lainaus tähän..."
-                        className="min-h-[150px] placeholder:text-muted-foreground"
+                        className="min-h-[150px] placeholder:text-accent"
                         {...field}
                       />
                     </FormControl>
@@ -290,7 +290,7 @@ const BioManager = () => {
                     <FormControl>
                       <Input
                         placeholder="Lainauksen tekijä..."
-                        className="placeholder:text-muted-foreground"
+                        className="placeholder:text-accent"
                         {...field}
                       />
                     </FormControl>
@@ -315,7 +315,7 @@ const BioManager = () => {
                   <FormControl>
                     <Textarea
                       placeholder="Kirjoita lopetuskappaleet tähän..."
-                      className="min-h-[200px] placeholder:text-muted-foreground"
+                      className="min-h-[200px] placeholder:text-accent"
                       {...field}
                     />
                   </FormControl>
@@ -342,12 +342,12 @@ const BioManager = () => {
                   >
                     CV-Simelius-Heidi.pdf
                   </a>
-                  <span className="text-sm text-muted-foreground">
+                  <span className="text-sm text-accent">
                     (avautuu uudessa välilehdessä)
                   </span>
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-foreground">
                   CV:tä ei ole vielä ladattu.
                 </p>
               )}
@@ -368,7 +368,7 @@ const BioManager = () => {
                       className="cursor-pointer"
                     />
                   </FormControl>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-foreground">
                     Uuden CV:n lataaminen korvaa nykyisen CV:n.
                   </p>
                   <FormMessage />
