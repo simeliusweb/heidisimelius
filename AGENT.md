@@ -21,3 +21,19 @@ This document contains the durable, universal principles that govern all develop
 ## 3. Data Transformation & Mapping
 
 - **Principle 3.1 (Explicit Object Construction):** When mapping data from one type to another (e.g., from form values to a database insert object), construct the target object explicitly, field by field. Avoid relying solely on spread syntax (`...`) when types differ, as this can inadvertently include unwanted properties or miss required transformations, leading to type mismatches.
+
+---
+
+## 4. User Interface & Experience
+
+- **Principle 4.1 (Intelligent Input Enhancement):** When implementing custom form inputs with auto-formatting or validation, create explicit event handlers that integrate cleanly with existing form management systems. Use `onChange`, `onBlur`, and `onKeyDown` handlers to provide intelligent input assistance while preserving form library compatibility.
+- **Principle 4.2 (Layout Optimization):** Small CSS class adjustments (e.g., `w-full` to `w-fit`) can significantly improve visual hierarchy and user experience. Always consider the visual impact of layout changes on user workflow efficiency.
+- **Principle 4.3 (UI Completeness):** When implementing form elements, ensure all visual indicators are included (e.g., required asterisks, consistent labeling). Missing visual cues can confuse users and degrade the overall experience.
+- **Principle 4.4 (Component Consistency):** Similar components across the application should maintain consistent labeling, behavior, and visual presentation. This includes terminology, formatting, and interaction patterns.
+
+---
+
+## 5. Code Quality & Consistency
+
+- **Principle 5.1 (Formatting Consistency):** Maintain consistent code formatting patterns throughout implementations. Use double quotes for string literals, proper line breaks for long function parameters, and consistent spacing to improve code readability and maintainability.
+- **Principle 5.2 (User Feedback Integration):** When users provide corrections or improvements, integrate them immediately as they often reveal subtle but important quality enhancements that improve the overall user experience and code quality.

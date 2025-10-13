@@ -26,7 +26,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, PlusCircle } from "lucide-react";
+import { Copy, MoreHorizontal, Pencil, PlusCircle, Trash } from "lucide-react";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import AddGigForm from "./AddGigForm";
@@ -128,7 +128,7 @@ const GigsManager = () => {
   if (error) return <div>Virhe haettaessa keikkoja: {error.message}</div>;
 
   return (
-    <div>
+    <div className="max-w-[800px] mx-auto">
       <div className="flex justify-end mb-4">
         <Button onClick={handleAddNewClick}>
           <PlusCircle className="mr-2 h-4 w-4" />
@@ -140,9 +140,9 @@ const GigsManager = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Otsikko</TableHead>
-              <TableHead>Paikka</TableHead>
-              <TableHead>Päivämäärä</TableHead>
-              <TableHead className="text-right">Toiminnot</TableHead>
+              <TableHead className="w-[200px]">Paikka</TableHead>
+              <TableHead className="w-[140px]">Päivämäärä</TableHead>
+              <TableHead className="text-right w-[100px]">Toiminnot</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -152,7 +152,7 @@ const GigsManager = () => {
                   <TableCell className="font-medium">{gig.title}</TableCell>
                   <TableCell>{gig.venue}</TableCell>
                   <TableCell>
-                    {format(new Date(gig.performance_date), "dd.MM.yyyy HH:mm")}
+                    {format(new Date(gig.performance_date), "dd.MM. HH:mm")}
                   </TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
@@ -164,16 +164,16 @@ const GigsManager = () => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => handleEditClick(gig)}>
-                          Muokkaa
+                          <Pencil className="mr-2 h-4 w-4" /> Muokkaa
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleCopyClick(gig)}>
-                          Kopioi
+                          <Copy className="mr-2 h-4 w-4" /> Kopioi
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-destructive"
                           onSelect={() => handleDeleteClick(gig)}
                         >
-                          Poista
+                          <Trash className="mr-2 h-4 w-4" /> Poista
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -210,11 +210,17 @@ const GigsManager = () => {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Oletko täysin varma?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Tämä toiminto poistaa keikan '{gigToDelete?.title}' päivämäärällä{" "}
-              {gigToDelete
-                ? format(new Date(gigToDelete.performance_date), "d.M.yyyy")
-                : ""}{" "}
+            <AlertDialogDescription className="text-accent">
+              Tämä toiminto poistaa keikan{" "}
+              <span className="italic text-secondary">
+                {gigToDelete?.title}
+              </span>{" "}
+              päivämäärällä{" "}
+              <span className="italic text-secondary">
+                {gigToDelete
+                  ? format(new Date(gigToDelete.performance_date), "d.M.yyyy")
+                  : ""}{" "}
+              </span>
               pysyvästi. Toimintoa ei voi perua.
             </AlertDialogDescription>
           </AlertDialogHeader>

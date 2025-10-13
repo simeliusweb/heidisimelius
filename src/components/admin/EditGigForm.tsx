@@ -39,7 +39,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, ExternalLink } from "lucide-react";
 import { uploadGigImage } from "@/lib/storage";
 import { Gig } from "./GigsManager";
 
@@ -211,8 +211,56 @@ const EditGigForm = ({ isOpen, onOpenChange, gig }: EditGigFormProps) => {
                   </FormItem>
                 )}
               />
+              <FormField
+                name="address_locality"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Kaupunki <span className="text-secondary">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Kaupunki"
+                        className="placeholder:text-accent"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="gig_type"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Keikan tyyppi <span className="text-secondary">*</span>
+                    </FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder="Valitse tyyppi"
+                            className="placeholder:text-accent"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Musiikki">Musiikki</SelectItem>
+                        <SelectItem value="Teatteri">Teatteri</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormItem>
-                <FormLabel>Vaihda kuva (valinnainen)</FormLabel>
+                <FormLabel>Vaihda kuva</FormLabel>
                 <FormControl>
                   <Input
                     type="file"
@@ -229,6 +277,15 @@ const EditGigForm = ({ isOpen, onOpenChange, gig }: EditGigFormProps) => {
                   <FormItem>
                     <FormLabel>
                       Kuvan alt-teksti <span className="text-secondary">*</span>
+                      <a
+                        href="https://docs.google.com/document/d/1eK76knLEhmWHDbD1ZuX5hAG41491lWokbmA83YkAzo0/edit?usp=drive_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex text-accent"
+                      >
+                        Ohje alt-tekstin luontiin{" "}
+                        <ExternalLink className="ml-1 w-4 h-4" />
+                      </a>
                     </FormLabel>
                     <FormControl>
                       <Textarea
@@ -260,6 +317,146 @@ const EditGigForm = ({ isOpen, onOpenChange, gig }: EditGigFormProps) => {
                   </FormItem>
                 )}
               />
+              <div>
+                <FormLabel>
+                  Esityspäivät ja -ajat{" "}
+                  <span className="text-secondary">*</span>
+                </FormLabel>
+                <div className="flex items-center gap-2 p-3 border rounded-md mt-2">
+                  <FormField
+                    control={form.control}
+                    name="performance_date"
+                    render={({ field }) => (
+                      <FormItem className="w-fit">
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                className={cn(
+                                  "w-fit pl-3 text-left font-normal",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {field.value ? (
+                                  format(field.value, "d.M.yyyy")
+                                ) : (
+                                  <span>Valitse päivä</span>
+                                )}
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              locale={fi}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="performance_time"
+                    render={({ field }) => {
+                      const handleTimeChange = (
+                        e: React.ChangeEvent<HTMLInputElement>
+                      ) => {
+                        let value = e.target.value;
+
+                        // Only allow numeric digits
+                        value = value.replace(/[^0-9]/g, "");
+
+                        // Limit to 4 digits maximum
+                        if (value.length > 4) {
+                          value = value.slice(0, 4);
+                        }
+
+                        // Auto-add colon after 2 digits
+                        if (value.length >= 2) {
+                          value = value.slice(0, 2) + ":" + value.slice(2);
+                        }
+
+                        // Validate hour range
+                        if (value.length >= 2) {
+                          const hour = parseInt(value.slice(0, 2));
+                          if (hour > 23) {
+                            value =
+                              "23" +
+                              (value.length > 2 ? ":" + value.slice(3) : "");
+                          }
+                        }
+
+                        // Validate minute range - first digit cannot be > 5
+                        if (value.length > 3) {
+                          const minuteFirstDigit = parseInt(
+                            value.slice(3, 4),
+                            10
+                          );
+                          if (minuteFirstDigit > 5) {
+                            value = value.slice(0, 3) + "5" + value.slice(4);
+                          }
+                        }
+
+                        field.onChange(value);
+                      };
+
+                      const handleTimeBlur = (
+                        e: React.FocusEvent<HTMLInputElement>
+                      ) => {
+                        let value = e.target.value;
+
+                        // Auto-pad minutes if only hour is provided
+                        if (value.match(/^\d{1,2}:?$/)) {
+                          const hour = value.replace(":", "");
+                          if (hour.length <= 2) {
+                            value = hour.padStart(2, "0") + ":00";
+                          }
+                        }
+
+                        field.onChange(value);
+                        field.onBlur();
+                      };
+
+                      const handleTimeKeyDown = (
+                        e: React.KeyboardEvent<HTMLInputElement>
+                      ) => {
+                        // Clear entire field on backspace when not empty
+                        if (
+                          e.key === "Backspace" &&
+                          field.value &&
+                          field.value.length > 0
+                        ) {
+                          e.preventDefault();
+                          field.onChange("");
+                        }
+                      };
+
+                      return (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              className="w-[100px]"
+                              placeholder="HH:MM"
+                              value={field.value}
+                              onChange={handleTimeChange}
+                              onBlur={handleTimeBlur}
+                              onKeyDown={handleTimeKeyDown}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </div>
+              </div>
               <FormField
                 name="event_page_url"
                 control={form.control}
@@ -328,110 +525,6 @@ const EditGigForm = ({ isOpen, onOpenChange, gig }: EditGigFormProps) => {
                   </FormItem>
                 )}
               />
-              <FormField
-                name="address_locality"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Kaupunki <span className="text-secondary">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Kaupunki"
-                        className="placeholder:text-accent"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="gig_type"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Keikan tyyppi <span className="text-secondary">*</span>
-                    </FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Valitse tyyppi" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Musiikki">Musiikki</SelectItem>
-                        <SelectItem value="Teatteri">Teatteri</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div>
-              <FormLabel>Esityspäivä ja -aika</FormLabel>
-              <div className="flex items-center gap-2 p-3 border rounded-md mt-2">
-                <FormField
-                  control={form.control}
-                  name="performance_date"
-                  render={({ field }) => (
-                    <FormItem className="w-fit">
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              className={cn(
-                                "w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              <CalendarIcon className="mr-2 h-4 w-4" />
-                              {field.value ? (
-                                format(field.value, "d.M.yyyy")
-                              ) : (
-                                <span>Valitse päivä</span>
-                              )}
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            locale={fi}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="performance_time"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          className="w-[100px]"
-                          placeholder="HH:MM"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
             </div>
             <DialogFooter>
               <Button

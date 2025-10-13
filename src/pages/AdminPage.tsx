@@ -24,7 +24,7 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="container mx-auto py-24">
+    <div className="container max-w-[1000px] mx-auto py-24">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold">Sisällön hallinta</h1>
         <Button variant="outline" onClick={handleSignOut}>
@@ -33,10 +33,18 @@ const AdminPage = () => {
       </div>
       <Tabs defaultValue="keikat" className="w-full">
         <TabsList>
-          <TabsTrigger value="keikat">Keikat</TabsTrigger>
-          <TabsTrigger value="galleria">Galleria</TabsTrigger>
-          <TabsTrigger value="videot">Videot</TabsTrigger>
-          <TabsTrigger value="bio">Bio</TabsTrigger>
+          <TabsTrigger value="keikat" className="text-foreground">
+            Keikat
+          </TabsTrigger>
+          <TabsTrigger value="galleria" className="text-foreground">
+            Galleria
+          </TabsTrigger>
+          <TabsTrigger value="videot" className="text-foreground">
+            Videot
+          </TabsTrigger>
+          <TabsTrigger value="bio" className="text-foreground">
+            Bio
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="keikat" className="mt-4">
           <GigsManager />
