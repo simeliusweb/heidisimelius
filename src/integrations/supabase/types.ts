@@ -97,6 +97,7 @@ export type Database = {
           created_at: string
           id: string
           is_press_kit: boolean
+          order_index: number
           photographer_name: string
           photographer_url: string | null
           photos: Json
@@ -107,6 +108,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_press_kit?: boolean
+          order_index?: number
           photographer_name: string
           photographer_url?: string | null
           photos: Json
@@ -117,6 +119,7 @@ export type Database = {
           created_at?: string
           id?: string
           is_press_kit?: boolean
+          order_index?: number
           photographer_name?: string
           photographer_url?: string | null
           photos?: Json
