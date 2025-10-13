@@ -96,6 +96,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          is_press_kit: boolean
           photographer_name: string
           photographer_url: string | null
           photos: Json
@@ -104,6 +105,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          is_press_kit?: boolean
           photographer_name: string
           photographer_url?: string | null
           photos: Json
@@ -112,6 +114,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          is_press_kit?: boolean
           photographer_name?: string
           photographer_url?: string | null
           photos?: Json
