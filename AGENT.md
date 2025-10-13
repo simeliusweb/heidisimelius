@@ -44,13 +44,23 @@ This document contains the durable, universal principles that govern all develop
 - **Principle 5.2 (User Feedback Integration):** When users provide corrections or improvements, integrate them immediately as they often reveal subtle but important quality enhancements that improve the overall user experience and code quality.
 - **Principle 5.3 (Build Over Linter):** When linter errors persist but builds succeed, prioritize build success as the source of truth for functionality. Linter false positives should not block progress when the build confirms the code is functionally correct.
 - **Principle 5.4 (String Handling Precision):** When working with multi-line strings containing quotes or special characters, ensure proper escaping to prevent runtime errors. Use template literals or proper quote escaping techniques to maintain string integrity and prevent parsing issues.
+- **Principle 5.5 (Variable Scope Vigilance):** Always check for variable name conflicts when creating new variables in functions that interact with existing query data or state. Use descriptive, unique variable names to prevent shadowing and scope confusion. When extending existing functions, audit all variable names to ensure no conflicts with parent scope variables.
+- **Principle 5.6 (Build Verification Protocol):** Run build tests after each major change to prevent compound errors and ensure system integrity. Never accumulate multiple changes without intermediate build verification, as this makes error isolation significantly more difficult.
 
 ---
 
-## 6. System Analysis & Architecture
+## 6. Form Management & Schema Evolution
 
-- **Principle 6.1 (Complete System Analysis):** When implementing features that affect data ordering, sequencing, or state management, analyze ALL CRUD operations that could impact that ordering. Don't implement UI features in isolation - ensure the underlying data operations maintain integrity across Create, Read, Update, and Delete operations.
-- **Principle 6.2 (Data Integrity First):** Before implementing UI features that manipulate data ordering, ensure all database operations maintain data integrity. This includes proper index management, gap-free sequences, and consistent state across all operations.
-- **Principle 6.3 (User Feedback Integration):** User corrections often reveal critical gaps in system analysis. When users provide feedback that corrects your approach, integrate it immediately and learn from it to prevent similar oversights in future implementations.
-- **Principle 6.4 (External API Verification):** Before implementing features that depend on external library capabilities, verify the actual API surface through documentation or testing. Never assume external APIs support specific features without verification, as this leads to implementation dead-ends and wasted effort.
-- **Principle 6.5 (Pattern Replication Over Innovation):** When similar functionality already exists in the codebase, replicate the proven pattern exactly rather than creating new approaches. This ensures consistency, reduces bugs, and leverages battle-tested implementations.
+- **Principle 6.1 (Form Schema Evolution Safety):** When extending existing form schemas with new fields, ensure the form reset logic, submission handlers, and validation schemas are updated to handle new fields properly. Always audit form data flow from schema definition through form reset, validation, and submission to prevent silent data loss or validation failures.
+- **Principle 6.2 (Storage Pattern Consistency):** When implementing file upload functionality, carefully consider whether to use UUID-based filenames (for unique files) or static paths (for overwritable files). Match the pattern to the use case requirements - unique files need UUIDs, while overwritable files (like CVs) should use static paths with upsert options.
+
+---
+
+## 7. System Analysis & Architecture
+
+- **Principle 7.1 (Complete System Analysis):** When implementing features that affect data ordering, sequencing, or state management, analyze ALL CRUD operations that could impact that ordering. Don't implement UI features in isolation - ensure the underlying data operations maintain integrity across Create, Read, Update, and Delete operations.
+- **Principle 7.2 (Data Integrity First):** Before implementing UI features that manipulate data ordering, ensure all database operations maintain data integrity. This includes proper index management, gap-free sequences, and consistent state across all operations.
+- **Principle 7.3 (User Feedback Integration):** User corrections often reveal critical gaps in system analysis. When users provide feedback that corrects your approach, integrate it immediately and learn from it to prevent similar oversights in future implementations.
+- **Principle 7.4 (External API Verification):** Before implementing features that depend on external library capabilities, verify the actual API surface through documentation or testing. Never assume external APIs support specific features without verification, as this leads to implementation dead-ends and wasted effort.
+- **Principle 7.5 (Pattern Replication Over Innovation):** When similar functionality already exists in the codebase, replicate the proven pattern exactly rather than creating new approaches. This ensures consistency, reduces bugs, and leverages battle-tested implementations.
+- **Principle 7.6 (Migration Dependency Verification):** Before implementing features that require database migrations, verify that the migration system is properly configured and linked. Check migration dependencies early in the process to prevent deployment blockers and ensure smooth database schema evolution.
