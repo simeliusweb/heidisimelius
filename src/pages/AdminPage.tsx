@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import GigsManager from "@/components/admin/GigsManager";
 import VideosManager from "@/components/admin/videos/VideosManager";
+import GalleryManager from "@/components/admin/gallery/GalleryManager";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ const AdminPage = () => {
           <GigsManager />
         </TabsContent>
         <TabsContent value="galleria" className="mt-4">
-          <p>Gallerian sisällön hallinta tulee tähän.</p>
+          <GalleryManager />
         </TabsContent>
         <TabsContent value="videot" className="mt-4">
           <VideosManager />
