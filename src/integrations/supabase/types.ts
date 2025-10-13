@@ -125,6 +125,7 @@ export type Database = {
           description: string | null
           id: string
           is_featured: boolean | null
+          order_index: number
           section: Database["public"]["Enums"]["video_section_enum"]
           title: string | null
           url: string
@@ -134,6 +135,7 @@ export type Database = {
           description?: string | null
           id?: string
           is_featured?: boolean | null
+          order_index?: number
           section: Database["public"]["Enums"]["video_section_enum"]
           title?: string | null
           url: string
@@ -143,6 +145,7 @@ export type Database = {
           description?: string | null
           id?: string
           is_featured?: boolean | null
+          order_index?: number
           section?: Database["public"]["Enums"]["video_section_enum"]
           title?: string | null
           url?: string
