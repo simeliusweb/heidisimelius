@@ -2,9 +2,12 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import PageMeta from "@/components/PageMeta";
 import StructuredData from "@/components/StructuredData";
 import { pageMetadata } from "@/config/metadata";
+import { BioContent } from "@/types/content";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +19,46 @@ const BioPage = () => {
   const textContentRef = useRef<HTMLDivElement>(null);
   const teatteriHeadingRef = useRef<HTMLHeadingElement>(null);
   const suomennoksetHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  // Fetch bio content from database
+  const fetchBioContent = async (): Promise<BioContent> => {
+    const { data, error } = await supabase
+      .from("page_content")
+      .select("content")
+      .eq("page_name", "bio")
+      .single();
+
+    if (error) {
+      if (error.code === "PGRST116") {
+        // No data found, return default content
+        return {
+          introParagraphs:
+            'Heidi Simelius on laulaja, lauluntekijä ja esiintyjä. Hän keikkailee esittäen omaa musiikkiaan ja julkaisi vuonna 2023 ensimmäisen EP:nsä Mä vastaan. Viiden biisin EP sisältää nimikkokappaleen lisäksi mm. kappaleet Missä sä oot? ja Meitä ei ole enää. Heidi on julkaissut aiemmin seitsemän singleä, mm. kappaleet Mun sydän on mun ja Upee. Heidin kappaleet ovat suomenkielisiä sekä vahvasti tekstilähtöisiä ja musiikki on tyyliltään soulahtavaa poppia.\n\nHeidi oli mukana Voice of Finlandin uusimmalla kaudella, jossa hän lauloi tiensä semifinaaliin. Heidi esiintyy vaihtelevasti myös erilaisten kokoonpanojen kanssa ja hänet on voitu nähdä mm. Suomen varusmiessoittokunnan "80\'s kiertueen" ja Gospel Helsinki -kuoron vierailevana solistina sekä keikoilla Pekka Simojoen kanssa.',
+          featuredVideoUrl:
+            "https://www.youtube.com/embed/3iOHoeFv4ZE?si=Y0dJ3DzDAxWcbrjD",
+          featuredVideoCaption:
+            "Tässä esitin Knockout-vaiheessa Jennifer Rushin kappaleen The Power Of Love!",
+          quoteText:
+            "Olen The Voice of Finland -ohjelman musiikkituottaja ja minulla oli ilo tehdä kaudella 2023-24 Heidi Simeliuksen kanssa useita musiikkinumeroita harjoituksineen ja suunnitteluineen. Tällä yli 6kk periodilla minulle on muodostunut Heidistä hyvin määrätietoinen, eteenpäin pyrkivä ja oman tiensä poikkkeuksellisen hyvin näkevä artisti, jonka musikaalisuus on ilmeistä. Suosittelen ja kannustan lämpimästi Heidiä oman musan tekemiseen ja esilletuomiseen joten tsekatkaa tää tyyppi❤️",
+          quoteAuthor: "Lenni-Kalle Taipale",
+          concludingParagraphs:
+            "Heidi on valmistunut Tampereen Ammattikorkeakoulussa musiikkiteatterin ammattilaiskesi vuonna 2023 sekä Metropolia Ammattikorkeakoulusta muusikoksi esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.\n\nKaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin Tootsie-musikaalissa. Kaudella 2022 – 2023 hän ihastutti Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa. Tulevalla kaudella 2025 Heidi nähdään Oulun teatterin Kinky Boots -musikaalissa. Heidi tekee nimeä myös musikaali-suomentajana ja hänen ensimmäinen kokonaan suomentamansa musikaali Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.",
+        };
+      }
+      throw new Error(error.message);
+    }
+
+    return data.content as unknown as BioContent;
+  };
+
+  const {
+    data: bioContent,
+    isLoading: isBioLoading,
+    error: bioError,
+  } = useQuery<BioContent>({
+    queryKey: ["bio-content"],
+    queryFn: fetchBioContent,
+  });
 
   const heidiSchema = {
     "@context": "https://schema.org",
@@ -145,6 +188,33 @@ const BioPage = () => {
     };
   }, []);
 
+  // Handle loading state
+  if (isBioLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-muted-foreground">Ladataan bion sisältöä...</div>
+      </div>
+    );
+  }
+
+  // Handle error state
+  if (bioError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-destructive">
+          Virhe bion sisällön lataamisessa: {bioError.message}
+        </div>
+      </div>
+    );
+  }
+
+  // Helper function to render paragraphs from newline-separated text
+  const renderParagraphs = (text: string) => {
+    return text
+      .split("\n")
+      .map((paragraph, index) => <p key={index}>{paragraph}</p>);
+  };
+
   return (
     <div
       style={{
@@ -215,30 +285,16 @@ const BioPage = () => {
               {/* Narrative Introduction */}
               <section className="px-8 md:pb-8">
                 <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
-                  <p>
-                    Heidi Simelius on laulaja, lauluntekijä ja esiintyjä. Hän
-                    keikkailee esittäen omaa musiikkiaan ja julkaisi vuonna 2023
-                    ensimmäisen EP:nsä Mä vastaan. Viiden biisin EP sisältää
-                    nimikkokappaleen lisäksi mm. kappaleet Missä sä oot? ja
-                    Meitä ei ole enää. Heidi on julkaissut aiemmin seitsemän
-                    singleä, mm. kappaleet Mun sydän on mun ja Upee. Heidin
-                    kappaleet ovat suomenkielisiä sekä vahvasti tekstilähtöisiä
-                    ja musiikki on tyyliltään soulahtavaa poppia.
-                  </p>
-                  <p>
-                    Heidi oli mukana Voice of Finlandin uusimmalla kaudella,
-                    jossa hän lauloi tiensä semifinaaliin. Heidi esiintyy
-                    vaihtelevasti myös erilaisten kokoonpanojen kanssa ja hänet
-                    on voitu nähdä mm. Suomen varusmiessoittokunnan "80's
-                    kiertueen" ja Gospel Helsinki -kuoron vierailevana solistina
-                    sekä keikoilla Pekka Simojoen kanssa.
-                  </p>
+                  {bioContent && renderParagraphs(bioContent.introParagraphs)}
 
                   <figure className="not-prose">
                     <div className="aspect-video w-full">
                       <iframe
                         className="h-full w-full rounded-lg shadow-lg"
-                        src="https://www.youtube.com/embed/3iOHoeFv4ZE?si=Y0dJ3DzDAxWcbrjD"
+                        src={
+                          bioContent?.featuredVideoUrl ||
+                          "https://www.youtube.com/embed/3iOHoeFv4ZE?si=Y0dJ3DzDAxWcbrjD"
+                        }
                         title="YouTube video player"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerPolicy="strict-origin-when-cross-origin"
@@ -246,8 +302,8 @@ const BioPage = () => {
                       ></iframe>
                     </div>
                     <figcaption className="mt-2 text-center text-base italic">
-                      Tässä esitin Knockout-vaiheessa Jennifer Rushin kappaleen
-                      The Power Of Love!
+                      {bioContent?.featuredVideoCaption ||
+                        "Tässä esitin Knockout-vaiheessa Jennifer Rushin kappaleen The Power Of Love!"}
                     </figcaption>
                   </figure>
 
@@ -261,38 +317,17 @@ const BioPage = () => {
                     </span>
                     <blockquote className="relative z-10 text-md italic leading-relaxed text-foreground/80">
                       <p>
-                        Olen The Voice of Finland -ohjelman musiikkituottaja ja
-                        minulla oli ilo tehdä kaudella 2023-24 Heidi Simeliuksen
-                        kanssa useita musiikkinumeroita harjoituksineen ja
-                        suunnitteluineen. Tällä yli 6kk periodilla minulle on
-                        muodostunut Heidistä hyvin määrätietoinen, eteenpäin
-                        pyrkivä ja oman tiensä poikkkeuksellisen hyvin näkevä
-                        artisti, jonka musikaalisuus on ilmeistä. Suosittelen ja
-                        kannustan lämpimästi Heidiä oman musan tekemiseen ja
-                        esilletuomiseen joten tsekatkaa tää tyyppi❤️
+                        {bioContent?.quoteText ||
+                          "Olen The Voice of Finland -ohjelman musiikkituottaja ja minulla oli ilo tehdä kaudella 2023-24 Heidi Simeliuksen kanssa useita musiikkinumeroita harjoituksineen ja suunnitteluineen. Tällä yli 6kk periodilla minulle on muodostunut Heidistä hyvin määrätietoinen, eteenpäin pyrkivä ja oman tiensä poikkkeuksellisen hyvin näkevä artisti, jonka musikaalisuus on ilmeistä. Suosittelen ja kannustan lämpimästi Heidiä oman musan tekemiseen ja esilletuomiseen joten tsekatkaa tää tyyppi❤️"}
                       </p>
                     </blockquote>
                     <figcaption className="relative z-10 mt-6 text-right font-semibold text-foreground">
-                      – Lenni-Kalle Taipale
+                      – {bioContent?.quoteAuthor || "Lenni-Kalle Taipale"}
                     </figcaption>
                   </figure>
 
-                  <p>
-                    Heidi on valmistunut Tampereen Ammattikorkeakoulussa
-                    musiikkiteatterin ammattilaiskesi vuonna 2023 sekä
-                    Metropolia Ammattikorkeakoulusta muusikoksi
-                    esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.
-                  </p>
-                  <p>
-                    Kaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin
-                    Tootsie-musikaalissa. Kaudella 2022 – 2023 hän ihastutti
-                    Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa.
-                    Tulevalla kaudella 2025 Heidi nähdään Oulun teatterin Kinky
-                    Boots -musikaalissa. Heidi tekee nimeä myös
-                    musikaali-suomentajana ja hänen ensimmäinen kokonaan
-                    suomentamansa musikaali Laillisesti Blondi nähtiin
-                    Sellosalissa keväällä 2022.
-                  </p>
+                  {bioContent &&
+                    renderParagraphs(bioContent.concludingParagraphs)}
                 </div>
 
                 {/* CV Download Button */}

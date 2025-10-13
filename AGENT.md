@@ -33,14 +33,17 @@ This document contains the durable, universal principles that govern all develop
 - **Principle 4.5 (Layout Pattern Recognition):** When refactoring UI layouts, always identify existing successful patterns first and replicate them exactly rather than creating new patterns. This ensures visual consistency and reduces cognitive load for users.
 - **Principle 4.6 (Incremental Layout Verification):** Verify layout changes at each step rather than waiting until completion. This prevents compound errors and ensures each modification maintains the intended visual hierarchy.
 - **Principle 4.7 (Conditional Validation Alignment):** When form fields are conditionally rendered (hidden/shown based on state), validation schemas must also be conditional to prevent silent validation failures. Use `.superRefine()` or similar conditional validation patterns to ensure validation rules match the actual UI state.
+- **Principle 4.8 (Form Layout Optimization):** For complex form fields, prefer single-column layouts over multi-column grids to improve mobile experience and reduce cognitive load. Use appropriate container width constraints (e.g., `max-w-[800px]`) to enhance form readability and user experience.
+- **Principle 4.9 (Design System Color Consistency):** Always use consistent design system colors for similar UI elements. Required field indicators, error states, and interactive elements should follow the established color hierarchy to maintain visual consistency and user familiarity.
 
 ---
 
 ## 5. Code Quality & Consistency
 
-- **Principle 5.1 (Formatting Consistency):** Maintain consistent code formatting patterns throughout implementations. Use double quotes for string literals, proper line breaks for long function parameters, and consistent spacing to improve code readability and maintainability.
+- **Principle 5.1 (Formatting Consistency):** Maintain consistent code formatting patterns throughout implementations. Use double quotes for string literals, proper line breaks for long function parameters, and consistent spacing to improve code readability and maintainability. Inconsistent formatting creates maintenance burden and user confusion, directly impacting code quality and developer experience.
 - **Principle 5.2 (User Feedback Integration):** When users provide corrections or improvements, integrate them immediately as they often reveal subtle but important quality enhancements that improve the overall user experience and code quality.
 - **Principle 5.3 (Build Over Linter):** When linter errors persist but builds succeed, prioritize build success as the source of truth for functionality. Linter false positives should not block progress when the build confirms the code is functionally correct.
+- **Principle 5.4 (String Handling Precision):** When working with multi-line strings containing quotes or special characters, ensure proper escaping to prevent runtime errors. Use template literals or proper quote escaping techniques to maintain string integrity and prevent parsing issues.
 
 ---
 

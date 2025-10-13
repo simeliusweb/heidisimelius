@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import GigsManager from "@/components/admin/GigsManager";
 import VideosManager from "@/components/admin/videos/VideosManager";
 import GalleryManager from "@/components/admin/gallery/GalleryManager";
+import BioManager from "@/components/admin/BioManager";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ const AdminPage = () => {
           <VideosManager />
         </TabsContent>
         <TabsContent value="bio" className="mt-4">
-          <p>Bion sisällön hallinta tulee tähän.</p>
+          <BioManager />
         </TabsContent>
       </Tabs>
     </div>
