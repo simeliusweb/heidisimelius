@@ -331,16 +331,22 @@ const BioPage = () => {
                 </div>
 
                 {/* CV Download Button */}
-                <div className="mt-12 w-fit mx-auto">
-                  <Button size="lg" asChild className="element-embedded-effect">
-                    <a
-                      href="/files/CV%20Simelius%20Heidi.pdf"
-                      download="CV Simelius Heidi.pdf"
+                {bioContent?.cvUrl && (
+                  <div className="mt-12 w-fit mx-auto">
+                    <Button
+                      size="lg"
+                      asChild
+                      className="element-embedded-effect"
                     >
-                      Lataa CV (PDF)
-                    </a>
-                  </Button>
-                </div>
+                      <a
+                        href={bioContent.cvUrl}
+                        download="CV Simelius Heidi.pdf"
+                      >
+                        Lataa CV (PDF)
+                      </a>
+                    </Button>
+                  </div>
+                )}
               </section>
 
               {/* Mobile Image 1 */}

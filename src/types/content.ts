@@ -5,4 +5,5 @@ export interface BioContent {
   quoteText: string;
   quoteAuthor: string;
   concludingParagraphs: string;
+  cvUrl?: string;
 }

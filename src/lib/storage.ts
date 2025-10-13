@@ -114,3 +114,29 @@ export const uploadPressKitZip = async (
 
   return data.publicUrl;
 };
+
+export const uploadCvPdf = async (file: File): Promise<string> => {
+  if (!file) {
+    throw new Error("No file provided for upload.");
+  }
+
+  const filePath = "cv/CV-Simelius-Heidi.pdf";
+
+  const { error: uploadError } = await supabase.storage
+    .from("documents")
+    .upload(filePath, file, {
+      upsert: true,
+    });
+
+  if (uploadError) {
+    throw new Error(`CV upload failed: ${uploadError.message}`);
+  }
+
+  const { data } = supabase.storage.from("documents").getPublicUrl(filePath);
+
+  if (!data || !data.publicUrl) {
+    throw new Error("Could not get public URL for the uploaded CV.");
+  }
+
+  return data.publicUrl;
+};

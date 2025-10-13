@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { BioContent } from "@/types/content";
+import { uploadCvPdf } from "@/lib/storage";
 
 // Zod schema for validation
 const bioFormSchema = z.object({
@@ -37,6 +38,7 @@ const bioFormSchema = z.object({
   concludingParagraphs: z
     .string()
     .min(10, { message: "Lopetusteksti on pakollinen." }),
+  cv_file: z.instanceof(FileList).optional(),
 });
 
 type BioFormValues = z.infer<typeof bioFormSchema>;
@@ -132,15 +134,34 @@ const BioManager = () => {
   });
 
   const onSubmit = async (data: BioFormValues) => {
-    const bioContent: BioContent = {
+    let cvUrl = bioContent?.cvUrl;
+
+    // Handle CV upload if a new file is provided
+    if (data.cv_file && data.cv_file.length > 0) {
+      try {
+        cvUrl = await uploadCvPdf(data.cv_file[0]);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Virhe",
+          description: `CV:n lataaminen epäonnistui: ${
+            error instanceof Error ? error.message : "Tuntematon virhe"
+          }`,
+        });
+        return;
+      }
+    }
+
+    const updatedBioContent: BioContent = {
       introParagraphs: data.introParagraphs,
       featuredVideoUrl: data.featuredVideoUrl || "",
       featuredVideoCaption: data.featuredVideoCaption || "",
       quoteText: data.quoteText,
       quoteAuthor: data.quoteAuthor,
       concludingParagraphs: data.concludingParagraphs,
+      cvUrl: cvUrl,
     };
-    mutation.mutate(bioContent);
+    mutation.mutate(updatedBioContent);
   };
 
   if (isLoading) {
@@ -303,6 +324,58 @@ const BioManager = () => {
               )}
             />
           </div>
+
+          {/* CV Management Section */}
+          <fieldset className="space-y-4">
+            <h3 className="text-lg font-semibold">CV-hallinta</h3>
+
+            {/* Current CV Display */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Nykyinen CV:</label>
+              {bioContent?.cvUrl ? (
+                <div className="flex items-center space-x-2">
+                  <a
+                    href={bioContent.cvUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    CV-Simelius-Heidi.pdf
+                  </a>
+                  <span className="text-sm text-muted-foreground">
+                    (avautuu uudessa välilehdessä)
+                  </span>
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  CV:tä ei ole vielä ladattu.
+                </p>
+              )}
+            </div>
+
+            {/* CV Upload Field */}
+            <FormField
+              name="cv_file"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Lataa uusi CV (PDF)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      accept=".pdf"
+                      onChange={(e) => field.onChange(e.target.files)}
+                      className="cursor-pointer"
+                    />
+                  </FormControl>
+                  <p className="text-sm text-muted-foreground">
+                    Uuden CV:n lataaminen korvaa nykyisen CV:n.
+                  </p>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </fieldset>
 
           {/* Submit Button */}
           <div className="flex justify-end">
