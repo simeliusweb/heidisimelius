@@ -30,6 +30,8 @@ This document contains the durable, universal principles that govern all develop
 - **Principle 4.2 (Layout Optimization):** Small CSS class adjustments (e.g., `w-full` to `w-fit`) can significantly improve visual hierarchy and user experience. Always consider the visual impact of layout changes on user workflow efficiency.
 - **Principle 4.3 (UI Completeness):** When implementing form elements, ensure all visual indicators are included (e.g., required asterisks, consistent labeling). Missing visual cues can confuse users and degrade the overall experience.
 - **Principle 4.4 (Component Consistency):** Similar components across the application should maintain consistent labeling, behavior, and visual presentation. This includes terminology, formatting, and interaction patterns.
+- **Principle 4.5 (Layout Pattern Recognition):** When refactoring UI layouts, always identify existing successful patterns first and replicate them exactly rather than creating new patterns. This ensures visual consistency and reduces cognitive load for users.
+- **Principle 4.6 (Incremental Layout Verification):** Verify layout changes at each step rather than waiting until completion. This prevents compound errors and ensures each modification maintains the intended visual hierarchy.
 
 ---
 
@@ -37,3 +39,12 @@ This document contains the durable, universal principles that govern all develop
 
 - **Principle 5.1 (Formatting Consistency):** Maintain consistent code formatting patterns throughout implementations. Use double quotes for string literals, proper line breaks for long function parameters, and consistent spacing to improve code readability and maintainability.
 - **Principle 5.2 (User Feedback Integration):** When users provide corrections or improvements, integrate them immediately as they often reveal subtle but important quality enhancements that improve the overall user experience and code quality.
+- **Principle 5.3 (Build Over Linter):** When linter errors persist but builds succeed, prioritize build success as the source of truth for functionality. Linter false positives should not block progress when the build confirms the code is functionally correct.
+
+---
+
+## 6. System Analysis & Architecture
+
+- **Principle 6.1 (Complete System Analysis):** When implementing features that affect data ordering, sequencing, or state management, analyze ALL CRUD operations that could impact that ordering. Don't implement UI features in isolation - ensure the underlying data operations maintain integrity across Create, Read, Update, and Delete operations.
+- **Principle 6.2 (Data Integrity First):** Before implementing UI features that manipulate data ordering, ensure all database operations maintain data integrity. This includes proper index management, gap-free sequences, and consistent state across all operations.
+- **Principle 6.3 (User Feedback Integration):** User corrections often reveal critical gaps in system analysis. When users provide feedback that corrects your approach, integrate it immediately and learn from it to prevent similar oversights in future implementations.

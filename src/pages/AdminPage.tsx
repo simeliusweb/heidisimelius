@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import GigsManager from "@/components/admin/GigsManager";
+import VideosManager from "@/components/admin/videos/VideosManager";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const AdminPage = () => {
           <p>Gallerian sisällön hallinta tulee tähän.</p>
         </TabsContent>
         <TabsContent value="videot" className="mt-4">
-          <p>Videoiden sisällön hallinta tulee tähän.</p>
+          <VideosManager />
         </TabsContent>
         <TabsContent value="bio" className="mt-4">
           <p>Bion sisällön hallinta tulee tähän.</p>
