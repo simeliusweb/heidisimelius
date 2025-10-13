@@ -100,6 +100,7 @@ export type Database = {
           photographer_name: string
           photographer_url: string | null
           photos: Json
+          press_kit_zip_url: string | null
           title: string
         }
         Insert: {
@@ -109,6 +110,7 @@ export type Database = {
           photographer_name: string
           photographer_url?: string | null
           photos: Json
+          press_kit_zip_url?: string | null
           title: string
         }
         Update: {
@@ -118,6 +120,7 @@ export type Database = {
           photographer_name?: string
           photographer_url?: string | null
           photos?: Json
+          press_kit_zip_url?: string | null
           title?: string
         }
         Relationships: []
