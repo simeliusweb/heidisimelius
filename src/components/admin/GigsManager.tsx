@@ -139,10 +139,15 @@ const GigsManager = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Otsikko</TableHead>
-              <TableHead className="w-[200px]">Paikka</TableHead>
-              <TableHead className="w-[140px]">Päivämäärä</TableHead>
-              <TableHead className="text-right w-[100px]">Toiminnot</TableHead>
+              <TableHead className="text-secondary">Otsikko</TableHead>
+              <TableHead className="w-[100px] text-secondary">Kuva</TableHead>
+              <TableHead className="w-[200px] text-secondary">Paikka</TableHead>
+              <TableHead className="w-[140px] text-secondary">
+                Päivämäärä
+              </TableHead>
+              <TableHead className="text-right w-[100px] text-secondary">
+                Toiminnot
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -150,6 +155,13 @@ const GigsManager = () => {
               gigs.map((gig) => (
                 <TableRow key={gig.id}>
                   <TableCell className="font-medium">{gig.title}</TableCell>
+                  <TableCell>
+                    <img
+                      src={gig.image_url}
+                      alt={gig.image_alt}
+                      className="w-16 h-16 object-cover rounded-md"
+                    />
+                  </TableCell>
                   <TableCell>{gig.venue}</TableCell>
                   <TableCell>
                     {format(new Date(gig.performance_date), "dd.MM. HH:mm")}
@@ -182,7 +194,7 @@ const GigsManager = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={4} className="h-24 text-center">
+                <TableCell colSpan={5} className="h-24 text-center">
                   Ei keikkoja löytynyt.
                 </TableCell>
               </TableRow>
