@@ -140,3 +140,29 @@ export const uploadCvPdf = async (file: File): Promise<string> => {
 
   return data.publicUrl;
 };
+
+export const uploadBioImage = async (file: File): Promise<string> => {
+  if (!file) {
+    throw new Error("No file provided for upload.");
+  }
+
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${uuidv4()}.${fileExt}`;
+  const filePath = `bio_images/${fileName}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from("images")
+    .upload(filePath, file);
+
+  if (uploadError) {
+    throw new Error(`Bio image upload failed: ${uploadError.message}`);
+  }
+
+  const { data } = supabase.storage.from("images").getPublicUrl(filePath);
+
+  if (!data || !data.publicUrl) {
+    throw new Error("Could not get public URL for the uploaded bio image.");
+  }
+
+  return data.publicUrl;
+};

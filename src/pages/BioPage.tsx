@@ -42,6 +42,24 @@ const BioPage = () => {
           quoteAuthor: "Lenni-Kalle Taipale",
           concludingParagraphs:
             "Heidi on valmistunut Tampereen Ammattikorkeakoulussa musiikkiteatterin ammattilaiskesi vuonna 2023 sekä Metropolia Ammattikorkeakoulusta muusikoksi esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.\n\nKaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin Tootsie-musikaalissa. Kaudella 2022 – 2023 hän ihastutti Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa. Tulevalla kaudella 2025 Heidi nähdään Oulun teatterin Kinky Boots -musikaalissa. Heidi tekee nimeä myös musikaali-suomentajana ja hänen ensimmäinen kokonaan suomentamansa musikaali Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.",
+          bioImage1: {
+            src: "/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg",
+            alt: "Heidi Simelius Seuraa singlen kuvauksissa.",
+            description: "Heidi Simelius Seuraa singlen kuvauksissa.",
+            photographerName: "Titta Toivanen",
+          },
+          bioImage2: {
+            src: "/images/Heidi-Simelius-Kinky-Boots-Oulun-teatteri-musikaali.jpeg",
+            alt: "Heidi Simelius Oulun teatterin Kinky Boots -musikaalin promokuvassa.",
+            description: 'Musikaalissa "Kinky Boots" Oulun teatterissa.',
+            photographerName: "Kati Leinonen",
+          },
+          bioImage3: {
+            src: "/images/Heidi-Simelius-koskettimet-ja-laulu-kuva-AWA.webp",
+            alt: "Heidi Simelius Seuraa singlen kuvauksissa.",
+            description: "Heidi Simelius Seuraa singlen kuvauksissa.",
+            photographerName: "AWA",
+          },
           theatreCredits: [],
           translationCredits: [],
           soloAlbums: [],
@@ -370,14 +388,21 @@ const BioPage = () => {
                 <div className="md:hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                   <img
                     src={
+                      bioContent?.bioImage1?.src ||
                       "images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg"
                     }
-                    alt="Heidi Simelius Seuraa singlen kuvauksissa."
+                    alt={
+                      bioContent?.bioImage1?.alt ||
+                      "Heidi Simelius Seuraa singlen kuvauksissa."
+                    }
                     className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                   />
                 </div>
                 <figcaption className="mt-2 px-8 text-center text-base italic">
-                  Kuva: Titta Toivanen
+                  {bioContent?.bioImage1?.description &&
+                  bioContent?.bioImage1?.photographerName
+                    ? `${bioContent.bioImage1.description} Kuva: ${bioContent.bioImage1.photographerName}`
+                    : `Kuva: ${bioContent.bioImage1.photographerName}`}
                 </figcaption>
               </figure>
 
@@ -436,15 +461,21 @@ const BioPage = () => {
                 <div className="overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                   <img
                     src={
+                      bioContent?.bioImage2?.src ||
                       "/images/Heidi-Simelius-Kinky-Boots-Oulun-teatteri-musikaali.jpeg"
                     }
-                    alt="Heidi Simelius Oulun teatterin Kinky Boots -musikaalin promokuvassa."
+                    alt={
+                      bioContent?.bioImage2?.alt ||
+                      "Heidi Simelius Oulun teatterin Kinky Boots -musikaalin promokuvassa."
+                    }
                     className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                   />
                 </div>
                 <figcaption className="mt-2 px-8 text-center text-base italic">
-                  Musikaalissa "Kinky Boots" Oulun teatterissa. Kuva: Kati
-                  Leinonen
+                  {bioContent?.bioImage2?.description &&
+                  bioContent?.bioImage2?.photographerName
+                    ? `${bioContent.bioImage2.description} Kuva: ${bioContent.bioImage2.photographerName}`
+                    : `Kuva: ${bioContent.bioImage2.photographerName}`}
                 </figcaption>
               </figure>
 
@@ -582,14 +613,21 @@ const BioPage = () => {
                 <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                   <img
                     src={
+                      bioContent?.bioImage3?.src ||
                       "/images/Heidi-Simelius-koskettimet-ja-laulu-kuva-AWA.webp"
                     }
-                    alt="Heidi Simelius Seuraa singlen kuvauksissa."
+                    alt={
+                      bioContent?.bioImage3?.alt ||
+                      "Heidi Simelius Seuraa singlen kuvauksissa."
+                    }
                     className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                   />
                 </div>
                 <figcaption className="mt-2 px-8 text-center text-base italic">
-                  Kuva: AWA
+                  {bioContent?.bioImage3?.description &&
+                  bioContent?.bioImage3?.photographerName
+                    ? `${bioContent.bioImage3.description} Kuva: ${bioContent.bioImage3.photographerName}`
+                    : `Kuva: ${bioContent.bioImage3.photographerName}`}
                 </figcaption>
               </figure>
             </div>
@@ -601,40 +639,60 @@ const BioPage = () => {
                 <div ref={image1Ref} className="absolute inset-0 opacity-100">
                   <img
                     src={
+                      bioContent?.bioImage1?.src ||
                       "images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg"
                     }
-                    alt="Heidi Simelius Seuraa singlen kuvauksissa."
+                    alt={
+                      bioContent?.bioImage1?.alt ||
+                      "Heidi Simelius Seuraa singlen kuvauksissa."
+                    }
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                   <figcaption className="absolute bottom-0 w-full rounded-b-lg bg-gradient-to-t from-black/60 to-transparent p-3 text-center text-base italic text-white">
-                    Kuva: Titta Toivanen
+                    {bioContent?.bioImage1?.description &&
+                    bioContent?.bioImage1?.photographerName
+                      ? `${bioContent.bioImage1.description} Kuva: ${bioContent.bioImage1.photographerName}`
+                      : `Kuva: ${bioContent.bioImage1.photographerName}`}
                   </figcaption>
                 </div>
                 {/* Image 2 - Initially hidden */}
                 <div ref={image2Ref} className="absolute inset-0 opacity-0">
                   <img
                     src={
+                      bioContent?.bioImage2?.src ||
                       "/images/Heidi-Simelius-Kinky-Boots-Oulun-teatteri-musikaali.jpeg"
                     }
-                    alt="Heidi Simelius Mä vastaan EP:n promokuvauksissa."
+                    alt={
+                      bioContent?.bioImage2?.alt ||
+                      "Heidi Simelius Oulun teatterin Kinky Boots -musikaalin promokuvassa."
+                    }
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                   <figcaption className="absolute bottom-0 w-full rounded-b-lg bg-gradient-to-t from-black/60 to-transparent p-3 text-center text-base italic text-white">
-                    Musikaalissa "Kinky Boots" Oulun teatterissa. Kuva: Kati
-                    Leinonen
+                    {bioContent?.bioImage2?.description &&
+                    bioContent?.bioImage2?.photographerName
+                      ? `${bioContent.bioImage2.description} Kuva: ${bioContent.bioImage2.photographerName}`
+                      : `Kuva: ${bioContent.bioImage2.photographerName}`}
                   </figcaption>
                 </div>
                 {/* Image 3 - Initially hidden */}
                 <div ref={image3Ref} className="absolute inset-0 opacity-0">
                   <img
                     src={
+                      bioContent?.bioImage3?.src ||
                       "/images/Heidi-Simelius-koskettimet-ja-laulu-kuva-AWA.webp"
                     }
-                    alt="Heidi Simelius Seuraa singlen kuvauksissa."
+                    alt={
+                      bioContent?.bioImage3?.alt ||
+                      "Heidi Simelius Seuraa singlen kuvauksissa."
+                    }
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                   <figcaption className="absolute bottom-0 w-full rounded-b-lg bg-gradient-to-t from-black/60 to-transparent p-3 text-center text-base italic text-white">
-                    Kuva: AWA
+                    {bioContent?.bioImage3?.description &&
+                    bioContent?.bioImage3?.photographerName
+                      ? `${bioContent.bioImage3.description} Kuva: ${bioContent.bioImage3.photographerName}`
+                      : `Kuva: ${bioContent.bioImage3.photographerName}`}
                   </figcaption>
                 </div>
               </div>

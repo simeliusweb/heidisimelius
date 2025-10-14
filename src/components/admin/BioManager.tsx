@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { BioContent, Credit, StudioItem } from "@/types/content";
-import { uploadCvPdf } from "@/lib/storage";
+import { uploadCvPdf, uploadBioImage } from "@/lib/storage";
 import { v4 as uuidv4 } from "uuid";
 import { Trash2, PlusCircle } from "lucide-react";
 import { getYouTubeEmbedUrl } from "@/lib/utils";
@@ -46,6 +46,25 @@ const bioFormSchema = z.object({
     .string()
     .min(10, { message: "Lopetusteksti on pakollinen." }),
   cv_file: z.instanceof(FileList).optional(),
+  // Bio page images
+  bio_image_1_file: z.instanceof(FileList).optional(),
+  bio_image_1_alt: z.string().min(1, "Alt-teksti on pakollinen."),
+  bio_image_1_description: z.string().optional(),
+  bio_image_1_photographer: z
+    .string()
+    .min(1, "Valokuvaajan nimi on pakollinen."),
+  bio_image_2_file: z.instanceof(FileList).optional(),
+  bio_image_2_alt: z.string().min(1, "Alt-teksti on pakollinen."),
+  bio_image_2_description: z.string().optional(),
+  bio_image_2_photographer: z
+    .string()
+    .min(1, "Valokuvaajan nimi on pakollinen."),
+  bio_image_3_file: z.instanceof(FileList).optional(),
+  bio_image_3_alt: z.string().min(1, "Alt-teksti on pakollinen."),
+  bio_image_3_description: z.string().optional(),
+  bio_image_3_photographer: z
+    .string()
+    .min(1, "Valokuvaajan nimi on pakollinen."),
   theatreCredits: z
     .array(
       z.object({
@@ -115,6 +134,24 @@ const defaultBioContent: BioContent = {
   quoteAuthor: "Lenni-Kalle Taipale",
   concludingParagraphs:
     "Heidi on valmistunut Tampereen Ammattikorkeakoulussa musiikkiteatterin ammattilaiskesi vuonna 2023 sekä Metropolia Ammattikorkeakoulusta muusikoksi esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.\n\nKaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin Tootsie-musikaalissa. Kaudella 2022 – 2023 hän ihastutti Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa. Tulevalla kaudella 2025 Heidi nähdään Oulun teatterin Kinky Boots -musikaalissa. Heidi tekee nimeä myös musikaali-suomentajana ja hänen ensimmäinen kokonaan suomentamansa musikaali Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.",
+  bioImage1: {
+    src: "/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg",
+    alt: "Heidi Simelius Seuraa singlen kuvauksissa.",
+    description: "Heidi Simelius Seuraa singlen kuvauksissa.",
+    photographerName: "Titta Toivanen",
+  },
+  bioImage2: {
+    src: "/images/Heidi-Simelius-Kinky-Boots-Oulun-teatteri-musikaali.jpeg",
+    alt: "Heidi Simelius Oulun teatterin Kinky Boots -musikaalin promokuvassa.",
+    description: 'Musikaalissa "Kinky Boots" Oulun teatterissa.',
+    photographerName: "Kati Leinonen",
+  },
+  bioImage3: {
+    src: "/images/Heidi-Simelius-koskettimet-ja-laulu-kuva-AWA.webp",
+    alt: "Heidi Simelius Seuraa singlen kuvauksissa.",
+    description: "Heidi Simelius Seuraa singlen kuvauksissa.",
+    photographerName: "AWA",
+  },
   theatreCredits: [],
   translationCredits: [],
   soloAlbums: [],
@@ -202,6 +239,15 @@ const BioManager = () => {
         quoteText: bioContent.quoteText,
         quoteAuthor: bioContent.quoteAuthor,
         concludingParagraphs: bioContent.concludingParagraphs,
+        bio_image_1_alt: bioContent.bioImage1?.alt || "",
+        bio_image_1_description: bioContent.bioImage1?.description || "",
+        bio_image_1_photographer: bioContent.bioImage1?.photographerName || "",
+        bio_image_2_alt: bioContent.bioImage2?.alt || "",
+        bio_image_2_description: bioContent.bioImage2?.description || "",
+        bio_image_2_photographer: bioContent.bioImage2?.photographerName || "",
+        bio_image_3_alt: bioContent.bioImage3?.alt || "",
+        bio_image_3_description: bioContent.bioImage3?.description || "",
+        bio_image_3_photographer: bioContent.bioImage3?.photographerName || "",
         theatreCredits: sortItemsByYear(bioContent.theatreCredits),
         translationCredits: sortItemsByYear(bioContent.translationCredits),
         soloAlbums: sortItemsByYear(bioContent.soloAlbums),
@@ -255,6 +301,101 @@ const BioManager = () => {
       }
     }
 
+    // Handle bio image uploads
+    let bioImage1 = bioContent?.bioImage1;
+    let bioImage2 = bioContent?.bioImage2;
+    let bioImage3 = bioContent?.bioImage3;
+
+    // Upload bio image 1 if a new file is provided
+    if (data.bio_image_1_file && data.bio_image_1_file.length > 0) {
+      try {
+        const imageUrl = await uploadBioImage(data.bio_image_1_file[0]);
+        bioImage1 = {
+          src: imageUrl,
+          alt: data.bio_image_1_alt,
+          description: data.bio_image_1_description || "",
+          photographerName: data.bio_image_1_photographer,
+        };
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Virhe",
+          description: `Bion kuvan 1 lataaminen epäonnistui: ${
+            error instanceof Error ? error.message : "Tuntematon virhe"
+          }`,
+        });
+        return;
+      }
+    } else if (bioContent?.bioImage1) {
+      // Keep existing image but update metadata
+      bioImage1 = {
+        ...bioContent.bioImage1,
+        alt: data.bio_image_1_alt,
+        description: data.bio_image_1_description || "",
+        photographerName: data.bio_image_1_photographer,
+      };
+    }
+
+    // Upload bio image 2 if a new file is provided
+    if (data.bio_image_2_file && data.bio_image_2_file.length > 0) {
+      try {
+        const imageUrl = await uploadBioImage(data.bio_image_2_file[0]);
+        bioImage2 = {
+          src: imageUrl,
+          alt: data.bio_image_2_alt,
+          description: data.bio_image_2_description || "",
+          photographerName: data.bio_image_2_photographer,
+        };
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Virhe",
+          description: `Bion kuvan 2 lataaminen epäonnistui: ${
+            error instanceof Error ? error.message : "Tuntematon virhe"
+          }`,
+        });
+        return;
+      }
+    } else if (bioContent?.bioImage2) {
+      // Keep existing image but update metadata
+      bioImage2 = {
+        ...bioContent.bioImage2,
+        alt: data.bio_image_2_alt,
+        description: data.bio_image_2_description || "",
+        photographerName: data.bio_image_2_photographer,
+      };
+    }
+
+    // Upload bio image 3 if a new file is provided
+    if (data.bio_image_3_file && data.bio_image_3_file.length > 0) {
+      try {
+        const imageUrl = await uploadBioImage(data.bio_image_3_file[0]);
+        bioImage3 = {
+          src: imageUrl,
+          alt: data.bio_image_3_alt,
+          description: data.bio_image_3_description || "",
+          photographerName: data.bio_image_3_photographer,
+        };
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Virhe",
+          description: `Bion kuvan 3 lataaminen epäonnistui: ${
+            error instanceof Error ? error.message : "Tuntematon virhe"
+          }`,
+        });
+        return;
+      }
+    } else if (bioContent?.bioImage3) {
+      // Keep existing image but update metadata
+      bioImage3 = {
+        ...bioContent.bioImage3,
+        alt: data.bio_image_3_alt,
+        description: data.bio_image_3_description || "",
+        photographerName: data.bio_image_3_photographer,
+      };
+    }
+
     const updatedBioContent: BioContent = {
       introParagraphs: data.introParagraphs,
       featuredVideoUrl: data.featuredVideoUrl,
@@ -263,6 +404,9 @@ const BioManager = () => {
       quoteAuthor: data.quoteAuthor,
       concludingParagraphs: data.concludingParagraphs,
       cvUrl: cvUrl,
+      bioImage1: bioImage1,
+      bioImage2: bioImage2,
+      bioImage3: bioImage3,
       theatreCredits: sortItemsByYear(
         (data.theatreCredits || []).filter(
           (credit): credit is Credit =>
@@ -530,6 +674,314 @@ const BioManager = () => {
                 </FormItem>
               )}
             />
+          </fieldset>
+
+          {/* Bio Page Images Section */}
+          <fieldset className="space-y-6">
+            <h3 className="text-lg font-semibold">Bio sivun kuvat</h3>
+
+            {/* Image 1 */}
+            <div className="space-y-4 p-4 border rounded-lg">
+              <h4 className="text-md font-medium">Kuva 1</h4>
+
+              {/* Current Image Preview */}
+              {bioContent?.bioImage1?.src && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Nykyinen kuva:</label>
+                  <div className="max-w-xs">
+                    <img
+                      src={bioContent.bioImage1.src}
+                      alt={bioContent.bioImage1.alt}
+                      className="w-full h-auto rounded-lg shadow-sm"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* File Upload */}
+              <FormField
+                name="bio_image_1_file"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Lataa uusi kuva</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => field.onChange(e.target.files)}
+                        className="cursor-pointer"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Alt Text */}
+              <FormField
+                name="bio_image_1_alt"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Alt-teksti (ei näy käyttäjille){" "}
+                      <span className="text-secondary">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Kuvausteksti..."
+                        className="placeholder:text-accent"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Description */}
+              <FormField
+                name="bio_image_1_description"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Kuvaus</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Kuvaus..."
+                        className="placeholder:text-accent"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Photographer */}
+              <FormField
+                name="bio_image_1_photographer"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Valokuvaaja <span className="text-secondary">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Valokuvaajan nimi..."
+                        className="placeholder:text-accent"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* Image 2 */}
+            <div className="space-y-4 p-4 border rounded-lg">
+              <h4 className="text-md font-medium">Kuva 2</h4>
+
+              {/* Current Image Preview */}
+              {bioContent?.bioImage2?.src && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Nykyinen kuva:</label>
+                  <div className="max-w-xs">
+                    <img
+                      src={bioContent.bioImage2.src}
+                      alt={bioContent.bioImage2.alt}
+                      className="w-full h-auto rounded-lg shadow-sm"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* File Upload */}
+              <FormField
+                name="bio_image_2_file"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Lataa uusi kuva</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => field.onChange(e.target.files)}
+                        className="cursor-pointer"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Alt Text */}
+              <FormField
+                name="bio_image_2_alt"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Alt-teksti (ei näy käyttäjille){" "}
+                      <span className="text-secondary">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Kuvausteksti..."
+                        className="placeholder:text-accent"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Description */}
+              <FormField
+                name="bio_image_2_description"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Kuvaus</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Kuvaus..."
+                        className="placeholder:text-accent"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Photographer */}
+              <FormField
+                name="bio_image_2_photographer"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Valokuvaaja <span className="text-secondary">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Valokuvaajan nimi..."
+                        className="placeholder:text-accent"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* Image 3 */}
+            <div className="space-y-4 p-4 border rounded-lg">
+              <h4 className="text-md font-medium">Kuva 3</h4>
+
+              {/* Current Image Preview */}
+              {bioContent?.bioImage3?.src && (
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Nykyinen kuva:</label>
+                  <div className="max-w-xs">
+                    <img
+                      src={bioContent.bioImage3.src}
+                      alt={bioContent.bioImage3.alt}
+                      className="w-full h-auto rounded-lg shadow-sm"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* File Upload */}
+              <FormField
+                name="bio_image_3_file"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Lataa uusi kuva</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => field.onChange(e.target.files)}
+                        className="cursor-pointer"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Alt Text */}
+              <FormField
+                name="bio_image_3_alt"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Alt-teksti (ei näy käyttäjille){" "}
+                      <span className="text-secondary">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Kuvausteksti..."
+                        className="placeholder:text-accent"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Description */}
+              <FormField
+                name="bio_image_3_description"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Kuvaus</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Kuvaus..."
+                        className="placeholder:text-accent"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Photographer */}
+              <FormField
+                name="bio_image_3_photographer"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Valokuvaaja <span className="text-secondary">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Valokuvaajan nimi..."
+                        className="placeholder:text-accent"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </fieldset>
 
           {/* Theatre Credits Section */}
@@ -1042,7 +1494,7 @@ const BioManager = () => {
           </fieldset>
 
           {/* Submit Button */}
-          <div className="flex justify-end">
+          <div className="flex justify-center sticky bottom-[24px]">
             <Button type="submit" disabled={mutation.isPending}>
               {mutation.isPending ? "Tallennetaan..." : "Tallenna muutokset"}
             </Button>

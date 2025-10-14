@@ -13,6 +13,13 @@ export interface StudioItem {
   year: number;
 }
 
+export interface BioImage {
+  src: string;
+  alt: string;
+  description: string;
+  photographerName: string;
+}
+
 export interface BioContent {
   introParagraphs: string;
   featuredVideoUrl: string;
@@ -21,6 +28,11 @@ export interface BioContent {
   quoteAuthor: string;
   concludingParagraphs: string;
   cvUrl?: string;
+
+  // Bio page images
+  bioImage1?: BioImage;
+  bioImage2?: BioImage;
+  bioImage3?: BioImage;
 
   // New Fields
   theatreCredits?: Credit[];
