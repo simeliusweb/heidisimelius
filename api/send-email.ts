@@ -9,7 +9,7 @@ const corsHeaders = {
 };
 
 // Email configuration
-const RECIPIENT_EMAIL = "suorantacoding@gmail.com";
+const RECIPIENT_EMAIL = "simelius.heidi@gmail.com";
 const SENDER_EMAIL = "heidi@heidisimelius.fi";
 const SENDER_NAME = "HeidiSimelius.fi";
 
