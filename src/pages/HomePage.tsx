@@ -78,13 +78,13 @@ const HomePage = () => {
               {(() => {
                 // Event data with performances
                 const upcomingEvents = [
-                  // {
-                  //   imageUrl: "/images/demo/placeholder-trio.jpg",
-                  //   title: "Heidi Simelius Trio Live",
-                  //   venue: "G Livelab, Tampere",
-                  //   slug: "heidi-simelius-trio-live",
-                  //   performances: [{ date: "2025-11-15", time: "20:00" }],
-                  // },
+                  {
+                    imageUrl: "/images/demo/placeholder-trio.jpg",
+                    title: "Heidi Simelius Trio Live",
+                    venue: "G Livelab, Tampere",
+                    slug: "heidi-simelius-trio-live",
+                    performances: [{ date: "2025-11-15", time: "20:00" }],
+                  },
                   {
                     imageUrl:
                       "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
