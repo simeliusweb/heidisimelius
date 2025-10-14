@@ -52,7 +52,19 @@ const BioPage = () => {
       throw new Error(error.message);
     }
 
-    return data.content as unknown as BioContent;
+    // Sort all credit types by year in descending order before returning
+    const content = data.content as unknown as BioContent;
+    return {
+      ...content,
+      theatreCredits:
+        content.theatreCredits?.sort((a, b) => b.year - a.year) || [],
+      translationCredits:
+        content.translationCredits?.sort((a, b) => b.year - a.year) || [],
+      soloAlbums: content.soloAlbums?.sort((a, b) => b.year - a.year) || [],
+      singles: content.singles?.sort((a, b) => b.year - a.year) || [],
+      collaborations:
+        content.collaborations?.sort((a, b) => b.year - a.year) || [],
+    };
   };
 
   const {
@@ -71,7 +83,7 @@ const BioPage = () => {
     jobTitle: "Laulaja, lauluntekijä ja esiintyjä",
     url: "https://www.heidisimelius.fi/bio",
     image:
-      "https://www.heidisimelius.fi/images/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg",
+      "https://www.heidisimelius.fi/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg",
     sameAs: [
       "https://www.instagram.com/Heidisimelius",
       "https://www.facebook.com/HeidiSimelius",
@@ -215,14 +227,14 @@ const BioPage = () => {
   // Helper function to render paragraphs from newline-separated text
   const renderParagraphs = (text: string) => {
     return text
-      .split("\n")
+      .split("\\n")
       .map((paragraph, index) => <p key={index}>{paragraph}</p>);
   };
 
   return (
     <div
       style={{
-        backgroundImage: ` 
+        backgroundImage: `  
         linear-gradient(
       12deg,
       hsl(234deg 24% 8%) 0%,
@@ -253,9 +265,9 @@ const BioPage = () => {
       <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center">
         {/* Hero Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-top 
-               bg-[url('/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-3.jpg')] 
-               sm:bg-[url('/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-4.jpg')]"
+          className="absolute inset-0 bg-cover bg-top  
+                bg-[url('/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-3.jpg')]  
+                sm:bg-[url('/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-4.jpg')]"
         />
 
         {/* Dark Gradient Overlay */}

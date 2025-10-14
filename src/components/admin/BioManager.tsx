@@ -185,6 +185,13 @@ const BioManager = () => {
     queryFn: fetchBioContent,
   });
 
+  // Helper function to sort credits by year in descending order
+  const sortItemsByYear = <T extends { year: number }>(
+    items: T[] | undefined
+  ) => {
+    return items ? [...items].sort((a, b) => b.year - a.year) : [];
+  };
+
   // Update form when data is loaded
   useEffect(() => {
     if (bioContent) {
@@ -195,11 +202,11 @@ const BioManager = () => {
         quoteText: bioContent.quoteText,
         quoteAuthor: bioContent.quoteAuthor,
         concludingParagraphs: bioContent.concludingParagraphs,
-        theatreCredits: bioContent.theatreCredits || [],
-        translationCredits: bioContent.translationCredits || [],
-        soloAlbums: bioContent.soloAlbums || [],
-        singles: bioContent.singles || [],
-        collaborations: bioContent.collaborations || [],
+        theatreCredits: sortItemsByYear(bioContent.theatreCredits),
+        translationCredits: sortItemsByYear(bioContent.translationCredits),
+        soloAlbums: sortItemsByYear(bioContent.soloAlbums),
+        singles: sortItemsByYear(bioContent.singles),
+        collaborations: sortItemsByYear(bioContent.collaborations),
       });
     }
   }, [bioContent, form]);
@@ -256,40 +263,50 @@ const BioManager = () => {
       quoteAuthor: data.quoteAuthor,
       concludingParagraphs: data.concludingParagraphs,
       cvUrl: cvUrl,
-      theatreCredits: (data.theatreCredits || []).filter(
-        (credit): credit is Credit =>
-          credit.id !== undefined &&
-          credit.title !== undefined &&
-          credit.year !== undefined &&
-          credit.details !== undefined
+      theatreCredits: sortItemsByYear(
+        (data.theatreCredits || []).filter(
+          (credit): credit is Credit =>
+            credit.id !== undefined &&
+            credit.title !== undefined &&
+            credit.year !== undefined &&
+            credit.details !== undefined
+        )
       ),
-      translationCredits: (data.translationCredits || []).filter(
-        (credit): credit is Credit =>
-          credit.id !== undefined &&
-          credit.title !== undefined &&
-          credit.year !== undefined &&
-          credit.details !== undefined
+      translationCredits: sortItemsByYear(
+        (data.translationCredits || []).filter(
+          (credit): credit is Credit =>
+            credit.id !== undefined &&
+            credit.title !== undefined &&
+            credit.year !== undefined &&
+            credit.details !== undefined
+        )
       ),
-      soloAlbums: (data.soloAlbums || []).filter(
-        (item): item is StudioItem =>
-          item.id !== undefined &&
-          item.title !== undefined &&
-          item.year !== undefined &&
-          item.artistOrCollaborator !== undefined
+      soloAlbums: sortItemsByYear(
+        (data.soloAlbums || []).filter(
+          (item): item is StudioItem =>
+            item.id !== undefined &&
+            item.title !== undefined &&
+            item.year !== undefined &&
+            item.artistOrCollaborator !== undefined
+        )
       ),
-      singles: (data.singles || []).filter(
-        (item): item is StudioItem =>
-          item.id !== undefined &&
-          item.title !== undefined &&
-          item.year !== undefined &&
-          item.artistOrCollaborator !== undefined
+      singles: sortItemsByYear(
+        (data.singles || []).filter(
+          (item): item is StudioItem =>
+            item.id !== undefined &&
+            item.title !== undefined &&
+            item.year !== undefined &&
+            item.artistOrCollaborator !== undefined
+        )
       ),
-      collaborations: (data.collaborations || []).filter(
-        (item): item is StudioItem =>
-          item.id !== undefined &&
-          item.title !== undefined &&
-          item.year !== undefined &&
-          item.artistOrCollaborator !== undefined
+      collaborations: sortItemsByYear(
+        (data.collaborations || []).filter(
+          (item): item is StudioItem =>
+            item.id !== undefined &&
+            item.title !== undefined &&
+            item.year !== undefined &&
+            item.artistOrCollaborator !== undefined
+        )
       ),
     };
     mutation.mutate(updatedBioContent);
