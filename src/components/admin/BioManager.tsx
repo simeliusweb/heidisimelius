@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { supabase } from "@/integrations/supabase/client";
@@ -17,8 +17,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { BioContent } from "@/types/content";
+import { BioContent, Credit, StudioItem } from "@/types/content";
 import { uploadCvPdf } from "@/lib/storage";
+import { v4 as uuidv4 } from "uuid";
+import { Trash2, PlusCircle } from "lucide-react";
+import { getYouTubeEmbedUrl } from "@/lib/utils";
 
 // Zod schema for validation
 const bioFormSchema = z.object({
@@ -27,9 +30,13 @@ const bioFormSchema = z.object({
     .min(10, { message: "Johdantoteksti on pakollinen." }),
   featuredVideoUrl: z
     .string()
-    .url({ message: "Anna kelvollinen YouTube URL." })
-    .optional()
-    .or(z.literal("")),
+    .trim()
+    .min(1, { message: "YouTube-URL on pakollinen." })
+    .refine((val) => getYouTubeEmbedUrl(val) !== undefined, {
+      message:
+        "Anna kelvollinen YouTube-video-URL (esim. youtube.com/watch?v=ID tai youtu.be/ID).",
+    })
+    .transform((val) => getYouTubeEmbedUrl(val) || ""),
   featuredVideoCaption: z.string().optional(),
   quoteText: z.string().min(10, { message: "Lainaus on pakollinen." }),
   quoteAuthor: z
@@ -39,6 +46,59 @@ const bioFormSchema = z.object({
     .string()
     .min(10, { message: "Lopetusteksti on pakollinen." }),
   cv_file: z.instanceof(FileList).optional(),
+  theatreCredits: z
+    .array(
+      z.object({
+        id: z.string(),
+        year: z.number().min(1900).max(2100),
+        title: z.string().min(1, "Otsikko on pakollinen."),
+        details: z.string().min(1, "Tiedot ovat pakollisia."),
+      })
+    )
+    .optional(),
+  translationCredits: z
+    .array(
+      z.object({
+        id: z.string(),
+        year: z.number().min(1900).max(2100),
+        title: z.string().min(1, "Otsikko on pakollinen."),
+        details: z.string().min(1, "Tiedot ovat pakollisia."),
+      })
+    )
+    .optional(),
+  soloAlbums: z
+    .array(
+      z.object({
+        id: z.string(),
+        title: z.string().min(1, "Otsikko on pakollinen."),
+        subtitle: z.string().optional(),
+        artistOrCollaborator: z.string().min(1, "Artisti on pakollinen."),
+        year: z.number().min(1900).max(2100),
+      })
+    )
+    .optional(),
+  singles: z
+    .array(
+      z.object({
+        id: z.string(),
+        title: z.string().min(1, "Otsikko on pakollinen."),
+        artistOrCollaborator: z.string().min(1, "Artisti on pakollinen."),
+        year: z.number().min(1900).max(2100),
+      })
+    )
+    .optional(),
+  collaborations: z
+    .array(
+      z.object({
+        id: z.string(),
+        title: z.string().min(1, "Otsikko on pakollinen."),
+        artistOrCollaborator: z
+          .string()
+          .min(1, "Yhteistyökumppani on pakollinen."),
+        year: z.number().min(1900).max(2100),
+      })
+    )
+    .optional(),
 });
 
 type BioFormValues = z.infer<typeof bioFormSchema>;
@@ -47,8 +107,7 @@ type BioFormValues = z.infer<typeof bioFormSchema>;
 const defaultBioContent: BioContent = {
   introParagraphs:
     'Heidi Simelius on laulaja, lauluntekijä ja esiintyjä. Hän keikkailee esittäen omaa musiikkiaan ja julkaisi vuonna 2023 ensimmäisen EP:nsä Mä vastaan. Viiden biisin EP sisältää nimikkokappaleen lisäksi mm. kappaleet Missä sä oot? ja Meitä ei ole enää. Heidi on julkaissut aiemmin seitsemän singleä, mm. kappaleet Mun sydän on mun ja Upee. Heidin kappaleet ovat suomenkielisiä sekä vahvasti tekstilähtöisiä ja musiikki on tyyliltään soulahtavaa poppia.\n\nHeidi oli mukana Voice of Finlandin uusimmalla kaudella, jossa hän lauloi tiensä semifinaaliin. Heidi esiintyy vaihtelevasti myös erilaisten kokoonpanojen kanssa ja hänet on voitu nähdä mm. Suomen varusmiessoittokunnan "80\'s kiertueen" ja Gospel Helsinki -kuoron vierailevana solistina sekä keikoilla Pekka Simojoen kanssa.',
-  featuredVideoUrl:
-    "https://www.youtube.com/embed/3iOHoeFv4ZE?si=Y0dJ3DzDAxWcbrjD",
+  featuredVideoUrl: "https://www.youtube.com/embed/3iOHoeFv4ZE",
   featuredVideoCaption:
     "Tässä esitin Knockout-vaiheessa Jennifer Rushin kappaleen The Power Of Love!",
   quoteText:
@@ -56,6 +115,11 @@ const defaultBioContent: BioContent = {
   quoteAuthor: "Lenni-Kalle Taipale",
   concludingParagraphs:
     "Heidi on valmistunut Tampereen Ammattikorkeakoulussa musiikkiteatterin ammattilaiskesi vuonna 2023 sekä Metropolia Ammattikorkeakoulusta muusikoksi esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.\n\nKaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin Tootsie-musikaalissa. Kaudella 2022 – 2023 hän ihastutti Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa. Tulevalla kaudella 2025 Heidi nähdään Oulun teatterin Kinky Boots -musikaalissa. Heidi tekee nimeä myös musikaali-suomentajana ja hänen ensimmäinen kokonaan suomentamansa musikaali Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.",
+  theatreCredits: [],
+  translationCredits: [],
+  soloAlbums: [],
+  singles: [],
+  collaborations: [],
 };
 
 const fetchBioContent = async (): Promise<BioContent> => {
@@ -85,6 +149,33 @@ const BioManager = () => {
     defaultValues: defaultBioContent,
   });
 
+  // useFieldArray hooks for dynamic lists
+  const {
+    fields: theatreFields,
+    append: appendTheatre,
+    remove: removeTheatre,
+  } = useFieldArray({ control: form.control, name: "theatreCredits" });
+  const {
+    fields: translationFields,
+    append: appendTranslation,
+    remove: removeTranslation,
+  } = useFieldArray({ control: form.control, name: "translationCredits" });
+  const {
+    fields: soloAlbumFields,
+    append: appendSoloAlbum,
+    remove: removeSoloAlbum,
+  } = useFieldArray({ control: form.control, name: "soloAlbums" });
+  const {
+    fields: singleFields,
+    append: appendSingle,
+    remove: removeSingle,
+  } = useFieldArray({ control: form.control, name: "singles" });
+  const {
+    fields: collaborationFields,
+    append: appendCollaboration,
+    remove: removeCollaboration,
+  } = useFieldArray({ control: form.control, name: "collaborations" });
+
   const {
     data: bioContent,
     isLoading,
@@ -104,6 +195,11 @@ const BioManager = () => {
         quoteText: bioContent.quoteText,
         quoteAuthor: bioContent.quoteAuthor,
         concludingParagraphs: bioContent.concludingParagraphs,
+        theatreCredits: bioContent.theatreCredits || [],
+        translationCredits: bioContent.translationCredits || [],
+        soloAlbums: bioContent.soloAlbums || [],
+        singles: bioContent.singles || [],
+        collaborations: bioContent.collaborations || [],
       });
     }
   }, [bioContent, form]);
@@ -154,12 +250,47 @@ const BioManager = () => {
 
     const updatedBioContent: BioContent = {
       introParagraphs: data.introParagraphs,
-      featuredVideoUrl: data.featuredVideoUrl || "",
+      featuredVideoUrl: data.featuredVideoUrl,
       featuredVideoCaption: data.featuredVideoCaption || "",
       quoteText: data.quoteText,
       quoteAuthor: data.quoteAuthor,
       concludingParagraphs: data.concludingParagraphs,
       cvUrl: cvUrl,
+      theatreCredits: (data.theatreCredits || []).filter(
+        (credit): credit is Credit =>
+          credit.id !== undefined &&
+          credit.title !== undefined &&
+          credit.year !== undefined &&
+          credit.details !== undefined
+      ),
+      translationCredits: (data.translationCredits || []).filter(
+        (credit): credit is Credit =>
+          credit.id !== undefined &&
+          credit.title !== undefined &&
+          credit.year !== undefined &&
+          credit.details !== undefined
+      ),
+      soloAlbums: (data.soloAlbums || []).filter(
+        (item): item is StudioItem =>
+          item.id !== undefined &&
+          item.title !== undefined &&
+          item.year !== undefined &&
+          item.artistOrCollaborator !== undefined
+      ),
+      singles: (data.singles || []).filter(
+        (item): item is StudioItem =>
+          item.id !== undefined &&
+          item.title !== undefined &&
+          item.year !== undefined &&
+          item.artistOrCollaborator !== undefined
+      ),
+      collaborations: (data.collaborations || []).filter(
+        (item): item is StudioItem =>
+          item.id !== undefined &&
+          item.title !== undefined &&
+          item.year !== undefined &&
+          item.artistOrCollaborator !== undefined
+      ),
     };
     mutation.mutate(updatedBioContent);
   };
@@ -224,9 +355,16 @@ const BioManager = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>YouTube URL</FormLabel>
+                    <p className="text-sm text-accent">
+                      Muotoa:
+                      <br />
+                      https://www.youtube.com/watch?v=...
+                      <br />
+                      https://youtu.be/...
+                    </p>
                     <FormControl>
                       <Input
-                        placeholder="https://www.youtube.com/embed/..."
+                        placeholder="URL-osoite"
                         className="placeholder:text-accent"
                         {...field}
                       />
@@ -338,7 +476,7 @@ const BioManager = () => {
                     href={bioContent.cvUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:underline"
+                    className="text-secondary hover:underline"
                   >
                     CV-Simelius-Heidi.pdf
                   </a>
@@ -368,13 +506,522 @@ const BioManager = () => {
                       className="cursor-pointer"
                     />
                   </FormControl>
-                  <p className="text-sm text-foreground">
+                  <p className="text-sm text-accent">
                     Uuden CV:n lataaminen korvaa nykyisen CV:n.
                   </p>
                   <FormMessage />
                 </FormItem>
               )}
             />
+          </fieldset>
+
+          {/* Theatre Credits Section */}
+          <fieldset className="space-y-4">
+            <h3 className="text-lg font-semibold">Teatteri</h3>
+            {theatreFields.map((field, index) => (
+              <div
+                key={field.id}
+                className="flex gap-4 p-4 border rounded-lg relative"
+              >
+                <FormField
+                  name={`theatreCredits.${index}.year`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="w-[80px]">
+                      <FormLabel>
+                        Vuosi <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          className="placeholder:text-accent"
+                          placeholder="2023"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseInt(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name={`theatreCredits.${index}.title`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="w-[300px]">
+                      <FormLabel>
+                        Otsikko <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Kinky Boots"
+                          {...field}
+                          className="placeholder:text-accent"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name={`theatreCredits.${index}.details`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>
+                        Tiedot <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="placeholder:text-accent"
+                          placeholder="Oulun teatteri | Ensemble / Nicola Us"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeTheatre(index)}
+                  className="absolute top-2 right-2"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() =>
+                appendTheatre({
+                  id: uuidv4(),
+                  year: new Date().getFullYear(),
+                  title: "",
+                  details: "",
+                })
+              }
+              className="w-fit"
+            >
+              <PlusCircle className="h-4 w-4 mr-2" />
+              Lisää teatterikrediitti
+            </Button>
+          </fieldset>
+
+          {/* Translation Credits Section */}
+          <fieldset className="space-y-4">
+            <h3 className="text-lg font-semibold">Suomennokset</h3>
+            {translationFields.map((field, index) => (
+              <div
+                key={field.id}
+                className="flex gap-4 p-4 border rounded-lg relative"
+              >
+                <FormField
+                  name={`translationCredits.${index}.year`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="w-[80px]">
+                      <FormLabel>
+                        Vuosi <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          className="placeholder:text-accent"
+                          placeholder="2021"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseInt(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name={`translationCredits.${index}.title`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="w-[300px]">
+                      <FormLabel>
+                        Otsikko <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="placeholder:text-accent"
+                          placeholder="Legally Blonde / Laillisesti Blondi"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name={`translationCredits.${index}.details`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>
+                        Tiedot <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="placeholder:text-accent"
+                          placeholder="Musiikkiopisto Juvenalia"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeTranslation(index)}
+                  className="absolute top-2 right-2"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() =>
+                appendTranslation({
+                  id: uuidv4(),
+                  year: new Date().getFullYear(),
+                  title: "",
+                  details: "",
+                })
+              }
+              className="w-fit"
+            >
+              <PlusCircle className="h-4 w-4 mr-2" />
+              Lisää suomennoskrediitti
+            </Button>
+          </fieldset>
+
+          {/* Solo Albums Section */}
+          <fieldset className="space-y-4">
+            <h3 className="text-lg font-semibold">Sooloalbumit</h3>
+            {soloAlbumFields.map((field, index) => (
+              <div
+                key={field.id}
+                className="flex gap-4 p-4 border rounded-lg relative"
+              >
+                <FormField
+                  name={`soloAlbums.${index}.year`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="w-[80px]">
+                      <FormLabel>
+                        Vuosi <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          className="placeholder:text-accent"
+                          placeholder="2023"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseInt(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name={`soloAlbums.${index}.title`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Otsikko <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="placeholder:text-accent"
+                          placeholder="Mä vastaan EP"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name={`soloAlbums.${index}.artistOrCollaborator`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>
+                        Artisti <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="placeholder:text-accent"
+                          placeholder="Heidi Simelius"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name={`soloAlbums.${index}.subtitle`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Alaotsikko</FormLabel>
+                      <FormControl>
+                        <Input
+                          className="placeholder:text-accent"
+                          placeholder="(singlet Meitä ei ole enää ja Missä sä oot?)"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeSoloAlbum(index)}
+                  className="absolute top-2 right-2"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() =>
+                appendSoloAlbum({
+                  id: uuidv4(),
+                  title: "",
+                  subtitle: "",
+                  artistOrCollaborator: "Heidi Simelius",
+                  year: new Date().getFullYear(),
+                })
+              }
+              className="w-fit"
+            >
+              <PlusCircle className="h-4 w-4 mr-2" />
+              Lisää sooloalbumi
+            </Button>
+          </fieldset>
+
+          {/* Singles Section */}
+          <fieldset className="space-y-4">
+            <h3 className="text-lg font-semibold">Singlet</h3>
+            {singleFields.map((field, index) => (
+              <div
+                key={field.id}
+                className="flex gap-4 p-4 border rounded-lg relative"
+              >
+                <FormField
+                  name={`singles.${index}.year`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="w-[80px]">
+                      <FormLabel>
+                        Vuosi <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          className="placeholder:text-accent"
+                          placeholder="2021"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseInt(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name={`singles.${index}.title`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Otsikko <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="placeholder:text-accent"
+                          placeholder="Mun sydän on mun"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name={`singles.${index}.artistOrCollaborator`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>
+                        Artisti <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="placeholder:text-accent"
+                          placeholder="Heidi Simelius"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeSingle(index)}
+                  className="absolute top-2 right-2"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() =>
+                appendSingle({
+                  id: uuidv4(),
+                  title: "",
+                  artistOrCollaborator: "Heidi Simelius",
+                  year: new Date().getFullYear(),
+                })
+              }
+              className="w-fit"
+            >
+              <PlusCircle className="h-4 w-4 mr-2" />
+              Lisää single
+            </Button>
+          </fieldset>
+
+          {/* Collaborations Section */}
+          <fieldset className="space-y-4">
+            <h3 className="text-lg font-semibold">Yhteistyöt</h3>
+            {collaborationFields.map((field, index) => (
+              <div
+                key={field.id}
+                className="flex gap-4 p-4 border rounded-lg relative"
+              >
+                <FormField
+                  name={`collaborations.${index}.year`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="w-[80px]">
+                      <FormLabel>
+                        Vuosi <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          className="placeholder:text-accent"
+                          placeholder="2022"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseInt(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name={`collaborations.${index}.title`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Otsikko <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="placeholder:text-accent"
+                          placeholder="Rautalanka-autot"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name={`collaborations.${index}.artistOrCollaborator`}
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>
+                        Yhteistyökumppani{" "}
+                        <span className="text-secondary">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          className="placeholder:text-accent"
+                          placeholder="Pekka Simojoki"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeCollaboration(index)}
+                  className="absolute top-2 right-2"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() =>
+                appendCollaboration({
+                  id: uuidv4(),
+                  title: "",
+                  artistOrCollaborator: "",
+                  year: new Date().getFullYear(),
+                })
+              }
+              className="w-fit"
+            >
+              <PlusCircle className="h-4 w-4 mr-2" />
+              Lisää yhteistyö
+            </Button>
           </fieldset>
 
           {/* Submit Button */}

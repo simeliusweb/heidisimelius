@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import PageMeta from "@/components/PageMeta";
 import StructuredData from "@/components/StructuredData";
 import { pageMetadata } from "@/config/metadata";
-import { BioContent } from "@/types/content";
+import { BioContent, Credit, StudioItem } from "@/types/content";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,8 +34,7 @@ const BioPage = () => {
         return {
           introParagraphs:
             'Heidi Simelius on laulaja, lauluntekijä ja esiintyjä. Hän keikkailee esittäen omaa musiikkiaan ja julkaisi vuonna 2023 ensimmäisen EP:nsä Mä vastaan. Viiden biisin EP sisältää nimikkokappaleen lisäksi mm. kappaleet Missä sä oot? ja Meitä ei ole enää. Heidi on julkaissut aiemmin seitsemän singleä, mm. kappaleet Mun sydän on mun ja Upee. Heidin kappaleet ovat suomenkielisiä sekä vahvasti tekstilähtöisiä ja musiikki on tyyliltään soulahtavaa poppia.\n\nHeidi oli mukana Voice of Finlandin uusimmalla kaudella, jossa hän lauloi tiensä semifinaaliin. Heidi esiintyy vaihtelevasti myös erilaisten kokoonpanojen kanssa ja hänet on voitu nähdä mm. Suomen varusmiessoittokunnan "80\'s kiertueen" ja Gospel Helsinki -kuoron vierailevana solistina sekä keikoilla Pekka Simojoen kanssa.',
-          featuredVideoUrl:
-            "https://www.youtube.com/embed/3iOHoeFv4ZE?si=Y0dJ3DzDAxWcbrjD",
+          featuredVideoUrl: "https://www.youtube.com/embed/3iOHoeFv4ZE",
           featuredVideoCaption:
             "Tässä esitin Knockout-vaiheessa Jennifer Rushin kappaleen The Power Of Love!",
           quoteText:
@@ -43,6 +42,11 @@ const BioPage = () => {
           quoteAuthor: "Lenni-Kalle Taipale",
           concludingParagraphs:
             "Heidi on valmistunut Tampereen Ammattikorkeakoulussa musiikkiteatterin ammattilaiskesi vuonna 2023 sekä Metropolia Ammattikorkeakoulusta muusikoksi esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.\n\nKaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin Tootsie-musikaalissa. Kaudella 2022 – 2023 hän ihastutti Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa. Tulevalla kaudella 2025 Heidi nähdään Oulun teatterin Kinky Boots -musikaalissa. Heidi tekee nimeä myös musikaali-suomentajana ja hänen ensimmäinen kokonaan suomentamansa musikaali Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.",
+          theatreCredits: [],
+          translationCredits: [],
+          soloAlbums: [],
+          singles: [],
+          collaborations: [],
         };
       }
       throw new Error(error.message);
@@ -293,7 +297,7 @@ const BioPage = () => {
                         className="h-full w-full rounded-lg shadow-lg"
                         src={
                           bioContent?.featuredVideoUrl ||
-                          "https://www.youtube.com/embed/3iOHoeFv4ZE?si=Y0dJ3DzDAxWcbrjD"
+                          "https://www.youtube.com/embed/3iOHoeFv4ZE"
                         }
                         title="YouTube video player"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -366,96 +370,54 @@ const BioPage = () => {
               </figure>
 
               {/* Theatre Section */}
-              <section className="px-8 md:px-6">
-                <h2
-                  ref={teatteriHeadingRef}
-                  className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-4 sm:mb-8 pt-4"
-                >
-                  Teatteri
-                </h2>
-                <div className="space-y-6 font-source text-foreground">
-                  <div>
-                    <h3 className="text-xl font-semibold italic">2025</h3>
-                    <ul className="list-disc list-inside space-y-1 text-accent">
-                      <li className="list-none">
-                        <span className="text-foreground">Kinky Boots</span> |
-                        Oulun teatteri | Ensemble / Nicola Us
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold italic">2023</h3>
-                    <ul className="list-disc list-inside space-y-1 text-accent">
-                      <li className="list-none">
-                        <span className="text-foreground">Tootsie</span> |
-                        Lahden Kaupunginteatteri | Ensemble
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold italic">2022</h3>
-                    <ul className="list-disc list-inside space-y-1 text-accent">
-                      <li className="list-none">
-                        <span className="text-foreground">Rakastajatar</span> |
-                        Porin Teatteri / Ensemble
-                      </li>
-                      <li className="list-none">
-                        <span className="text-foreground">
-                          Songs For A New World
-                        </span>{" "}
-                        | TAMK | Ensemble
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold italic">2018</h3>
-                    <ul className="list-disc list-inside space-y-1 text-accent">
-                      <li className="list-none">
-                        <span className="text-foreground">
-                          Spring Awakening
-                        </span>{" "}
-                        | Falmouth University, Englanti | Ensemble
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold italic">2016</h3>
-                    <ul className="list-disc list-inside space-y-1 text-accent">
-                      <li className="list-none">
-                        <span className="text-foreground">Suruttomat</span> |
-                        Sellosali, Juvenalia Musiikkiteatterilinja | Johanna
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold italic">2014</h3>
-                    <ul className="list-disc list-inside space-y-1 text-accent">
-                      <li className="list-none">
-                        <span className="text-foreground">Evita</span> |
-                        Tampereen Työväen Teatteri | Ensemble / Rakastajatar Us
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold italic">2011</h3>
-                    <ul className="list-disc list-inside space-y-1 text-accent">
-                      <li className="list-none">
-                        <span className="text-foreground">
-                          Onnen Vuori -musikaali
-                        </span>{" "}
-                        | Suomen Lähetysseura, kiertueita ympäri Suomea |
-                        Angelina
-                      </li>
-                      <li className="list-none">
-                        <span className="text-foreground">
-                          Stage – Silmistä Pois -musikaali
-                        </span>{" "}
-                        | Helsinki Peacock ja Tampere-talo | Ensemble
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
+              {bioContent?.theatreCredits &&
+                bioContent.theatreCredits.length > 0 && (
+                  <section className="px-8 md:px-6">
+                    <h2
+                      ref={teatteriHeadingRef}
+                      className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-4 sm:mb-8 pt-4"
+                    >
+                      Teatteri
+                    </h2>
+                    <div className="space-y-6 font-source text-foreground">
+                      {(() => {
+                        // Group credits by year
+                        const groupedCredits = bioContent.theatreCredits.reduce(
+                          (acc, credit) => {
+                            (acc[credit.year] = acc[credit.year] || []).push(
+                              credit
+                            );
+                            return acc;
+                          },
+                          {} as Record<number, Credit[]>
+                        );
+
+                        // Sort years in descending order and render
+                        return Object.keys(groupedCredits)
+                          .sort((a, b) => Number(b) - Number(a))
+                          .map((year) => (
+                            <div key={year}>
+                              <h3 className="text-xl font-semibold italic">
+                                {year}
+                              </h3>
+                              <ul className="list-disc list-inside space-y-1 text-accent">
+                                {groupedCredits[Number(year)].map(
+                                  (credit, index) => (
+                                    <li key={index} className="list-none">
+                                      <span className="text-foreground">
+                                        {credit.title}
+                                      </span>{" "}
+                                      | {credit.details}
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            </div>
+                          ));
+                      })()}
+                    </div>
+                  </section>
+                )}
 
               {/* Mobile Image 2 */}
               <figure className="md:hidden">
@@ -475,155 +437,131 @@ const BioPage = () => {
               </figure>
 
               {/* Translations Section */}
-              <section className="px-8 md:px-6">
-                <h2
-                  ref={suomennoksetHeadingRef}
-                  className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-4 sm:mb-8 pt-8"
-                >
-                  Suomennokset
-                </h2>
-                <div className="space-y-4 font-source text-foreground">
-                  <div>
-                    <h3 className="text-xl font-semibold italic">2021</h3>
-                    <ul className="list-disc list-inside space-y-1 text-accent">
-                      <li className="list-none">
-                        <span className="text-foreground">
-                          Legally Blonde / Laillisesti Blondi
-                        </span>{" "}
-                        | Musiikkiopisto Juvenalia
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
+              {bioContent?.translationCredits &&
+                bioContent.translationCredits.length > 0 && (
+                  <section className="px-8 md:px-6">
+                    <h2
+                      ref={suomennoksetHeadingRef}
+                      className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-4 sm:mb-8 pt-8"
+                    >
+                      Suomennokset
+                    </h2>
+                    <div className="space-y-4 font-source text-foreground">
+                      {(() => {
+                        // Group credits by year
+                        const groupedCredits =
+                          bioContent.translationCredits.reduce(
+                            (acc, credit) => {
+                              (acc[credit.year] = acc[credit.year] || []).push(
+                                credit
+                              );
+                              return acc;
+                            },
+                            {} as Record<number, Credit[]>
+                          );
 
-              {/* Discography Section */}
+                        // Sort years in descending order and render
+                        return Object.keys(groupedCredits)
+                          .sort((a, b) => Number(b) - Number(a))
+                          .map((year) => (
+                            <div key={year}>
+                              <h3 className="text-xl font-semibold italic">
+                                {year}
+                              </h3>
+                              <ul className="list-disc list-inside space-y-1 text-accent">
+                                {groupedCredits[Number(year)].map(
+                                  (credit, index) => (
+                                    <li key={index} className="list-none">
+                                      <span className="text-foreground">
+                                        {credit.title}
+                                      </span>{" "}
+                                      | {credit.details}
+                                    </li>
+                                  )
+                                )}
+                              </ul>
+                            </div>
+                          ));
+                      })()}
+                    </div>
+                  </section>
+                )}
+
+              {/* Studio Section */}
               <section className="px-8 md:px-6">
                 <h2 className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-4 sm:mb-8 pt-8">
                   Studio
                 </h2>
                 <div className="space-y-4 md:space-y-8 font-source text-foreground">
-                  <div className="pb-4">
-                    <h3 className="text-2xl font-semibold mb-2">
-                      Sooloalbumit
-                    </h3>
-                    <ul className="space-y-2 text-accent">
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">
-                          Mä vastaan EP (singlet Meitä ei ole enää ja Missä sä
-                          oot?)
-                        </span>{" "}
-                        | Heidi Simelius | (2023)
-                      </li>
-                    </ul>
-                  </div>
+                  {/* Solo Albums */}
+                  {bioContent?.soloAlbums &&
+                    bioContent.soloAlbums.length > 0 && (
+                      <div className="pb-4">
+                        <h3 className="text-2xl font-semibold mb-2">
+                          Sooloalbumit
+                        </h3>
+                        <ul className="space-y-2 text-accent">
+                          {bioContent.soloAlbums.map((album, index) => (
+                            <li
+                              key={index}
+                              className="border-l-2 border-primary pl-4"
+                            >
+                              <span className="text-foreground">
+                                {album.title}
+                                {album.subtitle && ` ${album.subtitle}`}
+                              </span>{" "}
+                              | {album.artistOrCollaborator} | ({album.year})
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
 
-                  <div className="pb-4">
-                    <h3 className="text-2xl font-semibold mb-2">Singlet</h3>
-                    <ul className="space-y-2 text-accent">
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">
-                          Mun sydän on mun
-                        </span>{" "}
-                        | Heidi Simelius | (2021)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Seuraa</span> | Heidi
-                        Simelius | (2021)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Huulet</span> | Heidi
-                        Simelius | (2021)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Upee</span> | Heidi
-                        Simelius | (2021)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Tähän jää</span> |
-                        Heidi Simelius | (2020)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Ikiaikojen taa</span>{" "}
-                        | Heidi Simelius | (2019)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">
-                          Sun sylissä (akustinen)
-                        </span>{" "}
-                        | Heidi Simelius | (2019)
-                      </li>
-                    </ul>
-                  </div>
+                  {/* Singles */}
+                  {bioContent?.singles && bioContent.singles.length > 0 && (
+                    <div className="pb-4">
+                      <h3 className="text-2xl font-semibold mb-2">Singlet</h3>
+                      <ul className="space-y-2 text-accent">
+                        {bioContent.singles.map((single, index) => (
+                          <li
+                            key={index}
+                            className="border-l-2 border-primary pl-4"
+                          >
+                            <span className="text-foreground">
+                              {single.title}
+                            </span>{" "}
+                            | {single.artistOrCollaborator} | ({single.year})
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
-                  <div>
-                    <h3 className="text-2xl font-semibold mb-2">Yhteistyöt</h3>
-                    <ul className="space-y-2 text-accent">
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">
-                          Rautalanka-autot
-                        </span>{" "}
-                        | Pekka Simojoki | (2022)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">
-                          Keskiyön Auringon Maa
-                        </span>{" "}
-                        | Saila | Yksityinen | (2019)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">
-                          Häikäisevän kirkas
-                        </span>{" "}
-                        | Pekka Simojoki | Sisandi | (2018)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">
-                          Valon samba -lattariylistyslevy
-                        </span>{" "}
-                        | Yksityinen | (2017)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Avara</span> | Pekka
-                        Simojoki | (2016)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">
-                          Parasta laatua -lastenlevy
-                        </span>{" "}
-                        | Pekka Simojoki | Rainmaker | (2016)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Kutsu</span> | Poika &
-                        Maria | Päivä Osakeyhtiö | (2015)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">
-                          Maksettu on – Lauluja riihikirkosta
-                        </span>{" "}
-                        | Rainmaker | (2014)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Ylistys</span> | Pekka
-                        Simojoki | Rainmaker | (2012)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Onnen vuori</span> |
-                        Pekka Simojoki ja Anna-Mari Kaskinen | Rainmaker |
-                        (2011)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">Uniikki</span> |
-                        Aikamedia Oy | (2009)
-                      </li>
-                      <li className="border-l-2 border-primary pl-4">
-                        <span className="text-foreground">
-                          Tuhatta ja sataa
-                        </span>{" "}
-                        | Pekka Simojoki | Rainmaker | (2005)
-                      </li>
-                    </ul>
-                  </div>
+                  {/* Collaborations */}
+                  {bioContent?.collaborations &&
+                    bioContent.collaborations.length > 0 && (
+                      <div>
+                        <h3 className="text-2xl font-semibold mb-2">
+                          Yhteistyöt
+                        </h3>
+                        <ul className="space-y-2 text-accent">
+                          {bioContent.collaborations.map(
+                            (collaboration, index) => (
+                              <li
+                                key={index}
+                                className="border-l-2 border-primary pl-4"
+                              >
+                                <span className="text-foreground">
+                                  {collaboration.title}
+                                </span>{" "}
+                                | {collaboration.artistOrCollaborator} | (
+                                {collaboration.year})
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      </div>
+                    )}
                 </div>
               </section>
 
