@@ -11,6 +11,7 @@ import { pageMetadata } from "@/config/metadata";
 import HeroImageAndText from "@/components/HeroImageAndText";
 import ShadowHeading from "@/components/ShadowHeading";
 import { Gig } from "@/components/admin/GigsManager";
+import { Video } from "@/components/admin/videos/VideosManager";
 
 const fetchUpcomingGigs = async (): Promise<Gig[]> => {
   const now = new Date().toISOString();
@@ -46,6 +47,16 @@ const fetchUpcomingGigs = async (): Promise<Gig[]> => {
   return Array.from(groupedGigs.values());
 };
 
+// Fetch videos from Supabase
+const fetchVideos = async (): Promise<Video[]> => {
+  const { data, error } = await supabase
+    .from("videos")
+    .select("*")
+    .order("order_index", { ascending: true });
+  if (error) throw new Error(error.message);
+  return data;
+};
+
 const HomePage = () => {
   const {
     data: upcomingGigs,
@@ -55,6 +66,27 @@ const HomePage = () => {
     queryKey: ["upcoming-gigs"],
     queryFn: fetchUpcomingGigs,
   });
+
+  const {
+    data: videosData,
+    isLoading: videosLoading,
+    error: videosError,
+  } = useQuery<Video[]>({
+    queryKey: ["videos"],
+    queryFn: fetchVideos,
+  });
+
+  // Filter and map music videos for VideosSection
+  const musicVideos =
+    videosData
+      ?.filter((video) => video.section === "Musavideot")
+      .map((video) => ({
+        url: video.url,
+        title: video.title || undefined,
+        description: video.description || undefined,
+        isFeatured: video.is_featured || false,
+      })) || [];
+
   return (
     <>
       <PageMeta
@@ -199,23 +231,33 @@ const HomePage = () => {
           </section>
 
           {/* Videos Section */}
-          <VideosSection
-            sectionTitle="Musavideot"
-            variant="featured"
-            videos={[
-              {
-                url: "https://www.youtube.com/watch?v=nNooz5tHV6U",
-                isFeatured: true,
-              },
-              { url: "https://www.youtube.com/watch?v=lR4VJkIKmZ0" },
-              { url: "https://www.youtube.com/watch?v=m-ZMCIMdZrQ" },
-              { url: "https://www.youtube.com/watch?v=xeI9fczPexk" },
-              { url: "https://www.youtube.com/watch?v=eqQEVrCPCxQ" },
-              { url: "https://www.youtube.com/watch?v=EMVUePUaVAY" },
-              { url: "https://www.youtube.com/watch?v=Ikfy983tspw" },
-              { url: "https://www.youtube.com/watch?v=wmpajFyxkVE" },
-            ]}
-          />
+          {videosLoading ? (
+            <section className="container mx-auto px-6 py-16">
+              <div className="text-center">
+                <p className="text-lg">Ladataan videoita...</p>
+              </div>
+            </section>
+          ) : videosError ? (
+            <section className="container mx-auto px-6 py-16">
+              <div className="text-center">
+                <p className="text-lg text-destructive">
+                  Virhe haettaessa videoita: {videosError.message}
+                </p>
+              </div>
+            </section>
+          ) : musicVideos.length > 0 ? (
+            <VideosSection
+              sectionTitle="Musavideot"
+              variant="featured"
+              videos={musicVideos}
+            />
+          ) : (
+            <section className="container mx-auto px-6 py-16">
+              <div className="text-center">
+                <p className="text-lg">Ei videoita saatavilla.</p>
+              </div>
+            </section>
+          )}
 
           {/* Instagram Feed Section */}
           <section className="container mx-auto px-6 py-16">

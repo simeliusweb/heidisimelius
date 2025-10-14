@@ -185,6 +185,8 @@ const GalleriaPage = () => {
       ?.filter((video) => video.section === "Musavideot")
       .map((video) => ({
         url: video.url,
+        title: video.title || undefined,
+        description: video.description || undefined,
         isFeatured: video.is_featured || false,
       })) || [];
 
