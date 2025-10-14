@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { format } from "date-fns";
 import EventGroup from "@/components/EventGroup";
 import PastGigCard from "@/components/PastGigCard";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,70 @@ import { FaInstagram } from "react-icons/fa";
 import ShadowHeading from "@/components/ShadowHeading";
 import { PageImagesContent } from "@/types/content";
 import { defaultPageImagesContent } from "@/lib/utils";
+import { Gig } from "@/components/admin/GigsManager";
+
+interface MusicEvent {
+  "@context": string;
+  "@type": string;
+  eventStatus: string;
+  name: string;
+  startDate: string;
+  location: {
+    "@type": string;
+    name: string;
+    address: {
+      "@type": string;
+      addressLocality: string;
+      addressCountry: string;
+    };
+  };
+  image: string;
+  description: string;
+  performer: {
+    "@type": string;
+    name: string;
+  };
+  offers?: {
+    "@type": string;
+    url: string;
+    availability: string;
+  };
+  organizer?: {
+    "@type": string;
+    name: string;
+    url?: string;
+  };
+}
+
+const fetchPastGigs = async (): Promise<Gig[]> => {
+  const now = new Date().toISOString();
+
+  const { data, error } = await supabase
+    .from("gigs")
+    .select("*")
+    .lt("performance_date", now)
+    .order("performance_date", { ascending: false });
+
+  if (error) throw new Error(error.message);
+  if (!data) return [];
+
+  return data;
+};
+
+const fetchUpcomingGigsForKeikat = async (): Promise<Gig[]> => {
+  const now = new Date().toISOString();
+
+  const { data, error } = await supabase
+    .from("gigs")
+    .select("*")
+    .gte("performance_date", now)
+    .order("performance_date", { ascending: true });
+
+  if (error) throw new Error(error.message);
+  if (!data) return [];
+
+  return data;
+};
 
 const fetchPageImagesContent = async (): Promise<PageImagesContent> => {
   const { data, error } = await supabase
@@ -39,159 +104,129 @@ const KeikatPage = () => {
     queryFn: fetchPageImagesContent,
   });
 
-  const kinkyBootsMusical = {
-    imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
-    title: "Kinky Boots -musikaali",
-    venue: "Oulun teatteri",
-    description:
-      "Kaudella 2025 Heidi nähdään Oulun teatterin Kinky Boots -musikaalissa.",
-    eventPageUrl: "https://oulunteatteri.fi/naytelma/kinky-boots/",
-    ticketsUrl:
-      "https://oulunteatteri.lippu.fi/webshop/webticket/eventlist?production=52 ",
-    performances: [
-      { date: "2025-10-17", time: "19:00" },
-      { date: "2025-10-18", time: "19:00" },
-      { date: "2025-10-23", time: "19:00" },
-      { date: "2025-10-24", time: "19:00" },
-      { date: "2025-10-30", time: "19:00" },
-      { date: "2025-10-31", time: "13:00" },
-      { date: "2025-11-07", time: "19:00" },
-      { date: "2025-11-08", time: "13:00" },
-      { date: "2025-11-26", time: "19:00" },
-      { date: "2025-11-28", time: "19:00" },
-      { date: "2025-11-29", time: "19:00" },
-    ],
-  };
-
-  // const heidiTrioLive = {
-  //   imageUrl: "/images/demo/placeholder-trio.jpg",
-  //   title: "Heidi Simelius Trio Live",
-  //   venue: "G Livelab, Tampere",
-  //   description:
-  //     "Heidi Simelius esittää uuden albuminsa kappaleita trionsa kanssa.",
-  //   ticketsUrl: "https://example.com/tickets/trio",
-  //   eventPageUrl: "https://oulunteatteri.fi/naytelma/kinky-boots/",
-  //   performances: [{ date: "2025-11-15", time: "20:00" }],
-  // };
-
-  // All past gigs data
-  const allPastGigs = [
-    {
-      imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
-      title: "Kinky Boots -musikaali",
-      venue: "Oulun teatteri",
-      gigType: "Teatteri" as const,
-      date: "5.9.2025",
-    },
-    {
-      imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
-      title: "Kinky Boots -musikaali",
-      venue: "Oulun teatteri",
-      gigType: "Teatteri" as const,
-      date: "6.9.2025",
-    },
-    {
-      imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
-      title: "Kinky Boots -musikaali",
-      venue: "Oulun teatteri",
-      gigType: "Teatteri" as const,
-      date: "12.9.2025",
-    },
-    {
-      imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
-      title: "Kinky Boots -musikaali",
-      venue: "Oulun teatteri",
-      gigType: "Teatteri" as const,
-      date: "13.9.2025",
-    },
-    {
-      imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
-      title: "Kinky Boots -musikaali",
-      venue: "Oulun teatteri",
-      gigType: "Teatteri" as const,
-      date: "26.9.2025",
-    },
-    {
-      imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
-      title: "Kinky Boots -musikaali",
-      venue: "Oulun teatteri",
-      gigType: "Teatteri" as const,
-      date: "27.9.2025",
-    },
-    {
-      imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
-      title: "Kinky Boots -musikaali",
-      venue: "Oulun teatteri",
-      gigType: "Teatteri" as const,
-      date: "2.10.2025",
-    },
-    {
-      imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
-      title: "Kinky Boots -musikaali",
-      venue: "Oulun teatteri",
-      gigType: "Teatteri" as const,
-      date: "3.10.2025",
-    },
-    {
-      imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
-      title: "Kinky Boots -musikaali",
-      venue: "Oulun teatteri",
-      gigType: "Teatteri" as const,
-      date: "10.10.2025",
-    },
-    {
-      imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
-      title: "Kinky Boots -musikaali",
-      venue: "Oulun teatteri",
-      gigType: "Teatteri" as const,
-      date: "11.10.2025",
-    },
-  ];
-
-  // Sort past gigs by date in descending order (most recent first)
-  const sortedPastGigs = [...allPastGigs].sort((a, b) => {
-    const parseDate = (dateStr: string) => {
-      const [day, month, year] = dateStr.split(".").map(Number);
-      return new Date(year, month - 1, day);
-    };
-    return parseDate(b.date).getTime() - parseDate(a.date).getTime();
+  // Fetch past gigs
+  const {
+    data: pastGigsData,
+    isLoading: isLoadingPastGigs,
+    error: pastGigsError,
+  } = useQuery<Gig[]>({
+    queryKey: ["past-gigs"],
+    queryFn: fetchPastGigs,
   });
 
-  // Generate MusicEvent structured data for all performances
-  const musicEventsSchema = [
-    ...kinkyBootsMusical.performances.map((performance) => ({
-      "@context": "https://schema.org",
-      "@type": "MusicEvent",
-      organizer: {
-        "@type": "Organization",
-        name: "Oulun teatteri",
-        url: "https://oulunteatteri.fi",
-      },
-      eventStatus: "https://schema.org/EventScheduled",
-      name: kinkyBootsMusical.title,
-      startDate: `${performance.date}T${performance.time}:00+02:00`,
-      location: {
-        "@type": "Place",
-        name: kinkyBootsMusical.venue,
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: "Oulu",
-          addressCountry: "FI",
-        },
-      },
-      image: kinkyBootsMusical.imageUrl,
-      description: kinkyBootsMusical.description,
-      offers: {
-        "@type": "Offer",
-        url: kinkyBootsMusical.ticketsUrl,
-        availability: "https://schema.org/InStock",
-      },
-      performer: {
-        "@type": "Person",
-        name: "Heidi Simelius",
-      },
-    })),
-  ];
+  // Fetch upcoming gigs
+  const {
+    data: upcomingGigsData,
+    isLoading: isLoadingUpcomingGigs,
+    error: upcomingGigsError,
+  } = useQuery<Gig[]>({
+    queryKey: ["upcoming-gigs-keikat"],
+    queryFn: fetchUpcomingGigsForKeikat,
+  });
+
+  // Process and group upcoming gigs
+  const groupedUpcomingGigs = upcomingGigsData
+    ? (() => {
+        const groupedGigs = new Map<
+          string,
+          { gig: Gig; performances: { date: string; time: string }[] }
+        >();
+
+        upcomingGigsData.forEach((gig) => {
+          const groupKey = gig.gig_group_id || gig.id;
+
+          if (!groupedGigs.has(groupKey)) {
+            // Create new group with this gig as the main event
+            const performanceDate = new Date(gig.performance_date);
+            groupedGigs.set(groupKey, {
+              gig,
+              performances: [
+                {
+                  date: format(performanceDate, "yyyy-MM-dd"),
+                  time: format(performanceDate, "HH:mm"),
+                },
+              ],
+            });
+          } else {
+            // Add performance to existing group
+            const existingGroup = groupedGigs.get(groupKey)!;
+            const performanceDate = new Date(gig.performance_date);
+            existingGroup.performances.push({
+              date: format(performanceDate, "yyyy-MM-dd"),
+              time: format(performanceDate, "HH:mm"),
+            });
+          }
+        });
+
+        // Sort performances within each group by date
+        groupedGigs.forEach((group) => {
+          group.performances.sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+          );
+        });
+
+        return Array.from(groupedGigs.values());
+      })()
+    : [];
+
+  // Filter into music and theatre events
+  const musicEventGroups = groupedUpcomingGigs.filter(
+    (group) => group.gig.gig_type === "Musiikki"
+  );
+  const theatreEventGroups = groupedUpcomingGigs.filter(
+    (group) => group.gig.gig_type === "Teatteri"
+  );
+
+  // Generate MusicEvent structured data for all upcoming gigs
+  const musicEventsSchema = upcomingGigsData
+    ? upcomingGigsData.map((gig) => {
+        const performanceDate = new Date(gig.performance_date);
+        const isoDate = performanceDate.toISOString();
+
+        const event: MusicEvent = {
+          "@context": "https://schema.org",
+          "@type": "MusicEvent",
+          eventStatus: "https://schema.org/EventScheduled",
+          name: gig.title,
+          startDate: isoDate,
+          location: {
+            "@type": "Place",
+            name: gig.venue,
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: gig.address_locality,
+              addressCountry: gig.address_country,
+            },
+          },
+          image: gig.image_url,
+          description: gig.description,
+          performer: {
+            "@type": "Person",
+            name: "Heidi Simelius",
+          },
+        };
+
+        // Add conditional offers field
+        if (gig.tickets_url) {
+          event.offers = {
+            "@type": "Offer",
+            url: gig.tickets_url,
+            availability: "https://schema.org/InStock",
+          };
+        }
+
+        // Add conditional organizer field
+        if (gig.organizer_name) {
+          event.organizer = {
+            "@type": "Organization",
+            name: gig.organizer_name,
+            ...(gig.organizer_url && { url: gig.organizer_url }),
+          };
+        }
+
+        return event;
+      })
+    : [];
 
   return (
     <div
@@ -260,15 +295,41 @@ const KeikatPage = () => {
           shadowColorClass="accent"
           shadowOpacity={100}
         />
-        {/* {heidiTrioLive ? (
-          <EventGroup {...heidiTrioLive} id="heidi-simelius-trio-live" />
-        ) : ( */}
-        <>
-          {/* Show this section when there are no gigs coming */}
+        {isLoadingUpcomingGigs ? (
+          <div className="text-center py-8">
+            <p className="text-lg">Ladataan musiikkikeikkoja...</p>
+          </div>
+        ) : upcomingGigsError ? (
+          <div className="text-center py-8">
+            <p className="text-lg text-destructive">
+              Virhe haettaessa musiikkikeikkoja: {upcomingGigsError.message}
+            </p>
+          </div>
+        ) : musicEventGroups.length > 0 ? (
+          <div className="space-y-8">
+            {musicEventGroups.map((group) => (
+              <EventGroup
+                key={group.gig.id}
+                imageUrl={group.gig.image_url}
+                title={group.gig.title}
+                venue={group.gig.venue}
+                description={group.gig.description}
+                eventPageUrl={group.gig.event_page_url}
+                ticketsUrl={group.gig.tickets_url}
+                performances={group.performances}
+                id={group.gig.title
+                  .toLowerCase()
+                  .replace(/[^a-z0-9\s-]/g, " ")
+                  .replace(/\s+/g, "-")
+                  .trim()}
+              />
+            ))}
+          </div>
+        ) : (
           <div className="max-w-[800px] mx-auto px-4">
             <p className="max-w-[290px] text-sm text-center mx-auto text-foreground">
-              Tulevia keikkoja ei ole juuri nyt kalenterissa. Seuraa minua
-              Instagramissa, niin pysyt parhaiten ajan tasalla tulevista
+              Tulevia musiikkikeikkoja ei ole juuri nyt kalenterissa. Seuraa
+              minua Instagramissa, niin pysyt parhaiten ajan tasalla tulevista
               esiintymisistä!
             </p>
             <a
@@ -284,8 +345,7 @@ const KeikatPage = () => {
               </span>
             </a>
           </div>
-        </>
-        {/* )} */}
+        )}
       </section>
 
       {/* Teatteriesitykset Section */}
@@ -295,14 +355,57 @@ const KeikatPage = () => {
           shadowColorClass="accent"
           shadowOpacity={100}
         />
-        <EventGroup
-          {...kinkyBootsMusical}
-          id={kinkyBootsMusical.title
-            .toLowerCase()
-            .replace(/[^a-z0-9\s-]/g, " ")
-            .replace(/\s+/g, "-")
-            .trim()}
-        />
+        {isLoadingUpcomingGigs ? (
+          <div className="text-center py-8">
+            <p className="text-lg">Ladataan teatteriesityksiä...</p>
+          </div>
+        ) : upcomingGigsError ? (
+          <div className="text-center py-8">
+            <p className="text-lg text-destructive">
+              Virhe haettaessa teatteriesityksiä: {upcomingGigsError.message}
+            </p>
+          </div>
+        ) : theatreEventGroups.length > 0 ? (
+          <div className="space-y-8">
+            {theatreEventGroups.map((group) => (
+              <EventGroup
+                key={group.gig.id}
+                imageUrl={group.gig.image_url}
+                title={group.gig.title}
+                venue={group.gig.venue}
+                description={group.gig.description}
+                eventPageUrl={group.gig.event_page_url}
+                ticketsUrl={group.gig.tickets_url}
+                performances={group.performances}
+                id={group.gig.title
+                  .toLowerCase()
+                  .replace(/[^a-z0-9\s-]/g, " ")
+                  .replace(/\s+/g, "-")
+                  .trim()}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="max-w-[800px] mx-auto px-4">
+            <p className="max-w-[290px] text-sm text-center mx-auto text-foreground">
+              Tulevia teatteriesityksiä ei ole juuri nyt kalenterissa. Seuraa
+              minua Instagramissa, niin pysyt parhaiten ajan tasalla tulevista
+              esiintymisistä!
+            </p>
+            <a
+              href="https://www.instagram.com/Heidisimelius/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-6 flex justify-center items-center gap-3 text-secondary-foreground transition-all duration-300 w-fit mx-auto"
+              aria-label="Seuraa Heidi Simeliusta Instagramissa"
+            >
+              <FaInstagram className="h-6 w-6 transition-transform duration-300 group-hover:scale-110" />
+              <span className="text-lg font-semibold group-hover:underline">
+                @heidisimelius
+              </span>
+            </a>
+          </div>
+        )}
       </section>
 
       {/* Past Gigs Section */}
@@ -314,28 +417,53 @@ const KeikatPage = () => {
         />
 
         <div className="space-y-8">
-          <div className="space-y-4 max-w-[800px] mx-auto">
-            {sortedPastGigs.slice(0, visibleCount).map((gig, index) => (
-              <PastGigCard key={index} {...gig} />
-            ))}
-          </div>
-
-          <div className="flex justify-center">
-            {visibleCount < sortedPastGigs.length ? (
-              <Button
-                onClick={() => setVisibleCount((prev) => prev + 10)}
-                size="lg"
-                variant="outline"
-                className="element-embedded-effect"
-              >
-                Näytä lisää
-              </Button>
-            ) : (
-              <p className="text-lg text-foreground font-source-sans">
-                Tässä kaikki!
+          {isLoadingPastGigs ? (
+            <div className="text-center py-8">
+              <p className="text-lg">Ladataan menneitä keikkoja...</p>
+            </div>
+          ) : pastGigsError ? (
+            <div className="text-center py-8">
+              <p className="text-lg text-destructive">
+                Virhe haettaessa menneitä keikkoja: {pastGigsError.message}
               </p>
-            )}
-          </div>
+            </div>
+          ) : pastGigsData && pastGigsData.length > 0 ? (
+            <>
+              <div className="space-y-4 max-w-[800px] mx-auto">
+                {pastGigsData.slice(0, visibleCount).map((gig) => (
+                  <PastGigCard
+                    key={gig.id}
+                    imageUrl={gig.image_url}
+                    title={gig.title}
+                    venue={gig.venue}
+                    gigType={gig.gig_type}
+                    date={format(new Date(gig.performance_date), "d.M.yyyy")}
+                  />
+                ))}
+              </div>
+
+              <div className="flex justify-center">
+                {visibleCount < pastGigsData.length ? (
+                  <Button
+                    onClick={() => setVisibleCount((prev) => prev + 10)}
+                    size="lg"
+                    variant="outline"
+                    className="element-embedded-effect"
+                  >
+                    Näytä lisää
+                  </Button>
+                ) : (
+                  <p className="text-lg text-foreground font-source-sans">
+                    Tässä kaikki!
+                  </p>
+                )}
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-lg">Ei menneitä keikkoja löytynyt.</p>
+            </div>
+          )}
         </div>
       </section>
     </div>

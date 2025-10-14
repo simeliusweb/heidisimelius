@@ -9,6 +9,7 @@ This document contains the durable, universal principles that govern all develop
 - **Principle 1.1 (No 'any'):** The `any` type is strictly forbidden. All code must be type-safe. Type assertions should be avoided in favor of proper type definitions, guards, and inference.
 - **Principle 1.2 (Explicit is Better):** Explicitly type function parameters and return values. Rely on inference for local variables unless clarity demands an explicit type.
 - **Principle 1.3 (Established Type Casting Patterns):** When working with Supabase JSON content, always use the established `as unknown as Json` pattern rather than `as any`. Follow existing codebase patterns for type casting to maintain consistency and prevent runtime errors.
+- **Principle 1.4 (Structured Data Type Safety):** When creating JSON-LD structured data or complex object mappings, always define proper interfaces instead of using `any` types. This ensures type safety for complex nested structures like MusicEvent schemas and prevents runtime errors in structured data generation.
 
 ---
 
@@ -22,6 +23,7 @@ This document contains the durable, universal principles that govern all develop
 ## 3. Data Transformation & Mapping
 
 - **Principle 3.1 (Explicit Object Construction):** When mapping data from one type to another (e.g., from form values to a database insert object), construct the target object explicitly, field by field. Avoid relying solely on spread syntax (`...`) when types differ, as this can inadvertently include unwanted properties or miss required transformations, leading to type mismatches.
+- **Principle 3.2 (Conditional Field Construction):** When building objects with conditional fields (e.g., optional offers, organizer data), use explicit object construction with conditional logic rather than spread syntax. This ensures proper type safety and prevents undefined properties from being included in the final object.
 
 ---
 
@@ -72,3 +74,4 @@ This document contains the durable, universal principles that govern all develop
 - **Principle 7.5 (Pattern Replication Over Innovation):** When similar functionality already exists in the codebase, replicate the proven pattern exactly rather than creating new approaches. This ensures consistency, reduces bugs, and leverages battle-tested implementations.
 - **Principle 7.6 (Migration Dependency Verification):** Before implementing features that require database migrations, verify that the migration system is properly configured and linked. Check migration dependencies early in the process to prevent deployment blockers and ensure smooth database schema evolution.
 - **Principle 7.7 (Code Formatting Vigilance):** Maintain consistent code formatting patterns throughout implementations, especially for complex form layouts and multi-line parameters. Inconsistent formatting creates maintenance burden and user confusion, directly impacting code quality and developer experience. Pay special attention to formatting when users provide corrections, as they often reveal important quality enhancements.
+- **Principle 7.8 (System-Wide Impact Analysis):** When modifying shared components or data structures, always identify and check ALL consumers of the changed component. Use grep searches to verify no other components are affected. This prevents regressions and ensures system-wide consistency.
