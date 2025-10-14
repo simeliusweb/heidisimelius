@@ -5,7 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect } from "react";
@@ -46,13 +53,19 @@ const LoginPage = () => {
 
       if (error) throw error;
 
-      toast({ title: "Login successful!", description: "Siirrytään sisällönhallintaan..." });
+      toast({
+        title: "Login successful!",
+        description: "Siirrytään sisällönhallintaan...",
+      });
       navigate("/admin");
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast({
         variant: "destructive",
         title: "Login failed",
-        description: error.message || "Tarkista kirjautumistietosi.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Tarkista kirjautumistietosi.",
       });
     }
   };
@@ -61,7 +74,9 @@ const LoginPage = () => {
     <div className="flex items-center justify-center min-h-screen bg-background">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Sisällönhallintaan kirjautuminen</CardTitle>
+          <CardTitle className="text-2xl">
+            Sisällönhallintaan kirjautuminen
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -86,14 +101,24 @@ const LoginPage = () => {
                   <FormItem>
                     <FormLabel>Salasana</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="••••••••"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? "Kirjaudutaan..." : "Kirjaudu sisään"}
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting
+                  ? "Kirjaudutaan..."
+                  : "Kirjaudu sisään"}
               </Button>
             </form>
           </Form>
