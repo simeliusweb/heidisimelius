@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { Json } from "@/integrations/supabase/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +22,16 @@ import { uploadCvPdf, uploadBioImage } from "@/lib/storage";
 import { v4 as uuidv4 } from "uuid";
 import { Trash2, PlusCircle } from "lucide-react";
 import { getYouTubeEmbedUrl } from "@/lib/utils";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 // Zod schema for validation
 const bioFormSchema = z.object({
@@ -180,6 +190,12 @@ const fetchBioContent = async (): Promise<BioContent> => {
 const BioManager = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [creditToDelete, setCreditToDelete] = useState<{
+    type: string;
+    index: number;
+    title: string;
+  } | null>(null);
 
   const form = useForm<BioFormValues>({
     resolver: zodResolver(bioFormSchema),
@@ -473,6 +489,61 @@ const BioManager = () => {
       </div>
     );
   }
+
+  const handleDeleteClick = (type: string, index: number, title: string) => {
+    setCreditToDelete({ type, index, title });
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (creditToDelete) {
+      switch (creditToDelete.type) {
+        case "theatreCredits":
+          removeTheatre(creditToDelete.index);
+          break;
+        case "translationCredits":
+          removeTranslation(creditToDelete.index);
+          break;
+        case "soloAlbums":
+          removeSoloAlbum(creditToDelete.index);
+          break;
+        case "singles":
+          removeSingle(creditToDelete.index);
+          break;
+        case "collaborations":
+          removeCollaboration(creditToDelete.index);
+          break;
+        default:
+          break;
+      }
+      toast({
+        title: "Poistettu!",
+        description: `${creditToDelete.title} poistettiin onnistuneesti.`,
+      });
+      setIsDeleteDialogOpen(false);
+      setCreditToDelete(null);
+
+      // Submit form to update the database
+      try {
+        await form.handleSubmit(onSubmit)();
+        toast({
+          title: "Poistettu!",
+          description: `${creditToDelete.title} poistettiin onnistuneesti.`,
+        });
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Virhe",
+          description: `Poistaminen epäonnistui: ${
+            error instanceof Error ? error.message : "Tuntematon virhe"
+          }`,
+        });
+      } finally {
+        setIsDeleteDialogOpen(false);
+        setCreditToDelete(null);
+      }
+    }
+  };
 
   return (
     <div className="space-y-6 max-w-[800px] mx-auto">
@@ -1057,7 +1128,9 @@ const BioManager = () => {
                   type="button"
                   variant="ghost"
                   size="icon"
-                  onClick={() => removeTheatre(index)}
+                  onClick={() =>
+                    handleDeleteClick("theatreCredits", index, field.title)
+                  }
                   className="absolute top-2 right-2"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -1155,7 +1228,9 @@ const BioManager = () => {
                   type="button"
                   variant="ghost"
                   size="icon"
-                  onClick={() => removeTranslation(index)}
+                  onClick={() =>
+                    handleDeleteClick("translationCredits", index, field.title)
+                  }
                   className="absolute top-2 right-2"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -1270,7 +1345,9 @@ const BioManager = () => {
                   type="button"
                   variant="ghost"
                   size="icon"
-                  onClick={() => removeSoloAlbum(index)}
+                  onClick={() =>
+                    handleDeleteClick("soloAlbums", index, field.title)
+                  }
                   className="absolute top-2 right-2"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -1369,7 +1446,9 @@ const BioManager = () => {
                   type="button"
                   variant="ghost"
                   size="icon"
-                  onClick={() => removeSingle(index)}
+                  onClick={() =>
+                    handleDeleteClick("singles", index, field.title)
+                  }
                   className="absolute top-2 right-2"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -1468,7 +1547,9 @@ const BioManager = () => {
                   type="button"
                   variant="ghost"
                   size="icon"
-                  onClick={() => removeCollaboration(index)}
+                  onClick={() =>
+                    handleDeleteClick("collaborations", index, field.title)
+                  }
                   className="absolute top-2 right-2"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -1501,6 +1582,34 @@ const BioManager = () => {
           </div>
         </form>
       </Form>
+
+      {/* Confirmation Dialog for Deletion */}
+      <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Oletko täysin varma?</AlertDialogTitle>
+            <AlertDialogDescription className="text-accent">
+              Tämä toiminto poistaa krediitin{" "}
+              <span className="italic text-secondary">
+                {creditToDelete?.title}
+              </span>{" "}
+              pysyvästi. Toimintoa ei voi perua.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Peruuta</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Kyllä, poista
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
