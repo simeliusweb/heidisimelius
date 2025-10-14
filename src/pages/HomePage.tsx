@@ -1,6 +1,8 @@
 import { Helmet } from "react-helmet-async";
 import { HashLink } from "react-router-hash-link";
-import { format, parse } from "date-fns";
+import { format } from "date-fns";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import VideosSection from "@/components/VideosSection";
 import UpcomingGigCard from "@/components/UpcomingGigCard";
@@ -8,8 +10,51 @@ import PageMeta from "@/components/PageMeta";
 import { pageMetadata } from "@/config/metadata";
 import HeroImageAndText from "@/components/HeroImageAndText";
 import ShadowHeading from "@/components/ShadowHeading";
+import { Gig } from "@/components/admin/GigsManager";
+
+const fetchUpcomingGigs = async (): Promise<Gig[]> => {
+  const now = new Date().toISOString();
+
+  const { data, error } = await supabase
+    .from("gigs")
+    .select("*")
+    .gte("performance_date", now)
+    .order("performance_date", { ascending: true });
+
+  if (error) throw new Error(error.message);
+  if (!data) return [];
+
+  // Group gigs by gig_group_id and select the earliest performance for each group
+  const groupedGigs = new Map<string, Gig>();
+
+  data.forEach((gig) => {
+    const groupKey = gig.gig_group_id || gig.id; // Use gig_group_id or individual gig id
+
+    if (!groupedGigs.has(groupKey)) {
+      groupedGigs.set(groupKey, gig);
+    } else {
+      const existingGig = groupedGigs.get(groupKey)!;
+      // Keep the gig with the earlier performance_date
+      if (
+        new Date(gig.performance_date) < new Date(existingGig.performance_date)
+      ) {
+        groupedGigs.set(groupKey, gig);
+      }
+    }
+  });
+
+  return Array.from(groupedGigs.values());
+};
 
 const HomePage = () => {
+  const {
+    data: upcomingGigs,
+    isLoading,
+    error,
+  } = useQuery<Gig[]>({
+    queryKey: ["upcoming-gigs"],
+    queryFn: fetchUpcomingGigs,
+  });
   return (
     <>
       <PageMeta
@@ -75,77 +120,50 @@ const HomePage = () => {
               shadowOpacity={100}
             />
             <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto mb-8">
-              {(() => {
-                // Event data with performances
-                const upcomingEvents = [
-                  {
-                    imageUrl: "/images/demo/placeholder-trio.jpg",
-                    title: "Heidi Simelius Trio Live",
-                    venue: "G Livelab, Tampere",
-                    slug: "heidi-simelius-trio-live",
-                    performances: [{ date: "2025-11-15", time: "20:00" }],
-                  },
-                  {
-                    imageUrl:
-                      "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
-                    title: "Kinky Boots -musikaali",
-                    venue: "Oulun teatteri",
-                    slug: "kinkyboots-musikaali",
-                    performances: [
-                      { date: "2025-10-17", time: "19:00" },
-                      { date: "2025-10-18", time: "19:00" },
-                      { date: "2025-10-23", time: "19:00" },
-                      { date: "2025-10-24", time: "19:00" },
-                      { date: "2025-10-30", time: "19:00" },
-                      { date: "2025-10-31", time: "13:00" },
-                      { date: "2025-11-07", time: "19:00" },
-                      { date: "2025-11-08", time: "13:00" },
-                      { date: "2025-11-26", time: "19:00" },
-                      { date: "2025-11-28", time: "19:00" },
-                      { date: "2025-11-29", time: "19:00" },
-                    ],
-                  },
-                ];
+              {isLoading ? (
+                <div className="text-center py-8">
+                  <p className="text-lg">Ladataan keikkoja...</p>
+                </div>
+              ) : error ? (
+                <div className="text-center py-8">
+                  <p className="text-lg text-destructive">
+                    Virhe haettaessa keikkoja: {error.message}
+                  </p>
+                </div>
+              ) : upcomingGigs && upcomingGigs.length > 0 ? (
+                upcomingGigs.slice(0, 3).map((gig) => {
+                  const performanceDate = new Date(gig.performance_date);
+                  const nextDate = format(performanceDate, "dd.MM.yyyy");
+                  const nextTime = format(performanceDate, "HH:mm");
 
-                // Process data to find soonest upcoming date for each event
-                const upcomingGigPreviews = upcomingEvents
-                  .map((event) => {
-                    const soonestPerformance = event.performances[0];
-                    const date = parse(
-                      soonestPerformance.date,
-                      "yyyy-MM-dd",
-                      new Date()
-                    );
+                  // Generate slug from title for navigation
+                  const slug = gig.title
+                    .toLowerCase()
+                    .replace(/[^a-z0-9\s-]/g, "")
+                    .replace(/\s+/g, "-")
+                    .trim();
 
-                    return {
-                      imageUrl: event.imageUrl,
-                      title: event.title,
-                      venue: event.venue,
-                      slug: event.slug,
-                      nextDate: format(date, "dd.MM.yyyy"),
-                      nextTime: soonestPerformance.time,
-                      dateObj: date,
-                    };
-                  })
-                  .sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime())
-                  .slice(0, 3);
-
-                return upcomingGigPreviews.map((gig, index) => (
-                  <HashLink
-                    key={index}
-                    to={`/keikat#${gig.slug}`}
-                    className="basis-full md:basis-[calc(33.333%-1rem)] hover:opacity-80 transition-opacity"
-                  >
-                    <UpcomingGigCard
-                      imageUrl={gig.imageUrl}
-                      title={gig.title}
-                      nextDate={gig.nextDate}
-                      nextTime={gig.nextTime}
-                      venue={gig.venue}
-                    />
-                  </HashLink>
-                ));
-              })()}
+                  return (
+                    <HashLink
+                      key={gig.id}
+                      to={`/keikat#${slug}`}
+                      className="basis-full md:basis-[calc(33.333%-1rem)] hover:opacity-80 transition-opacity"
+                    >
+                      <UpcomingGigCard
+                        imageUrl={gig.image_url}
+                        title={gig.title}
+                        nextDate={nextDate}
+                        nextTime={nextTime}
+                        venue={gig.venue}
+                      />
+                    </HashLink>
+                  );
+                })
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-lg">Ei tulevia keikkoja tällä hetkellä.</p>
+                </div>
+              )}
             </div>
             <div className="text-center">
               <Button

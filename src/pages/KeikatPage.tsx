@@ -295,7 +295,14 @@ const KeikatPage = () => {
           shadowColorClass="accent"
           shadowOpacity={100}
         />
-        <EventGroup {...kinkyBootsMusical} id="kinkyboots-musikaali" />
+        <EventGroup
+          {...kinkyBootsMusical}
+          id={kinkyBootsMusical.title
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, " ")
+            .replace(/\s+/g, "-")
+            .trim()}
+        />
       </section>
 
       {/* Past Gigs Section */}
