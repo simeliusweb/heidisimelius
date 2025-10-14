@@ -69,7 +69,7 @@ const BilebandiPage = () => {
           email: data.email,
           phone: data.phone,
           message: data.message,
-          date: data.date,
+          date: format(data.date, "d.M.yyyy"),
           location: data.location,
           eventType: data.eventType,
         }),

@@ -24,7 +24,7 @@ import { ExternalLink } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
 const contactSchema = z.object({
-  subject: z.string().trim().min(1, { message: "Aihe vaaditaan" }).max(100),
+  name: z.string().trim().min(1, { message: "Aihe vaaditaan" }).max(100),
   email: z
     .string()
     .trim()
@@ -70,7 +70,7 @@ const Footer = () => {
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
-      subject: "",
+      name: "",
       email: "",
       message: "",
     },
@@ -85,7 +85,7 @@ const Footer = () => {
         },
         body: JSON.stringify({
           formType: "contact",
-          name: data.subject,
+          name: data.name,
           email: data.email,
           phone: "",
           message: data.message,
@@ -106,7 +106,8 @@ const Footer = () => {
     } catch (error) {
       toast({
         title: "Virhe lähetyksessä",
-        description: error instanceof Error ? error.message : "Yritä uudelleen myöhemmin.",
+        description:
+          error instanceof Error ? error.message : "Yritä uudelleen myöhemmin.",
         variant: "destructive",
       });
     }
@@ -155,7 +156,7 @@ const Footer = () => {
               >
                 <FormField
                   control={form.control}
-                  name="subject"
+                  name="name"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
