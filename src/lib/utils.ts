@@ -31,19 +31,23 @@ export const defaultPageImagesContent: PageImagesContent = {
   keikat_hero: {
     src: "/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-16.webp",
     alt: "Keikat-sivun hero-kuva",
+    photographer_name: "Ville Huuri",
   },
   galleria_hero: {
     src: "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg",
     alt: "Galleria-sivun hero-kuva",
+    photographer_name: "Valosanni",
   },
   bio_hero: {
     desktop: {
       src: "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-4.jpg",
       alt: "Bio-sivun desktop hero-kuva",
+      photographer_name: "Titta Toivanen",
     },
     mobile: {
       src: "/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-3.jpg",
       alt: "Bio-sivun mobiili hero-kuva",
+      photographer_name: "Titta Toivanen",
     },
   },
   bilebandi_hero: {

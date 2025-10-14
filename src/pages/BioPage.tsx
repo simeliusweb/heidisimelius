@@ -343,7 +343,9 @@ const BioPage = () => {
 
         {/* Credits */}
         <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
-          Kuva: Titta Toivanen
+          Kuva:{" "}
+          {pageImagesContent?.bio_hero?.desktop?.photographer_name ||
+            "Titta Toivanen"}
         </p>
       </section>
 

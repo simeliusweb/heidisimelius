@@ -45,6 +45,7 @@ export interface BioContent {
 export interface PageImage {
   src: string;
   alt: string;
+  photographer_name?: string;
 }
 
 export interface ResponsivePageImage {

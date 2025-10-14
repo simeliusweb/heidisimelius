@@ -65,6 +65,7 @@ const ImageManager = () => {
         [imageKey]: {
           src: imageUrl,
           alt: imageData.alt,
+          photographer_name: imageData.photographer_name,
         },
       };
 
@@ -113,6 +114,7 @@ const ImageManager = () => {
       [imageKey]: {
         src: imageUrl,
         alt: imageData.alt,
+        photographer_name: imageData.photographer_name,
       },
     };
 
@@ -154,10 +156,12 @@ const ImageManager = () => {
         desktop: {
           src: desktopImageUrl,
           alt: imageData.desktop.alt,
+          photographer_name: imageData.desktop.photographer_name,
         },
         mobile: {
           src: mobileImageUrl,
           alt: imageData.mobile.alt,
+          photographer_name: imageData.mobile.photographer_name,
         },
       },
     };
@@ -219,6 +223,7 @@ const ImageManager = () => {
         currentData={pageImagesContent}
         onUpdate={handleImageUpdate}
         isUpdating={updatePageImagesMutation.isPending}
+        showPhotographerField={true}
       />
 
       <SingleImageUploader
@@ -228,6 +233,7 @@ const ImageManager = () => {
         currentData={pageImagesContent}
         onUpdate={handleImageUpdate}
         isUpdating={updatePageImagesMutation.isPending}
+        showPhotographerField={true}
       />
 
       <DualImageUploader

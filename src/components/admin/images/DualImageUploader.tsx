@@ -36,6 +36,9 @@ const dualImageFormSchema = z.object({
   desktopAlt: z
     .string()
     .min(1, { message: "Desktop alt-teksti on pakollinen." }),
+  desktopPhotographerName: z
+    .string()
+    .min(1, { message: "Kuvaajan nimi on pakollinen." }),
   mobileImageFile: z
     .instanceof(File, { message: "Mobiilikuva on pakollinen." })
     .refine((file) => file.size > 0, { message: "Mobiilikuva on pakollinen." })
@@ -49,6 +52,9 @@ const dualImageFormSchema = z.object({
   mobileAlt: z
     .string()
     .min(1, { message: "Mobiili alt-teksti on pakollinen." }),
+  mobilePhotographerName: z
+    .string()
+    .min(1, { message: "Kuvaajan nimi on pakollinen." }),
 });
 
 type DualImageFormValues = z.infer<typeof dualImageFormSchema>;
@@ -93,10 +99,12 @@ const DualImageUploader = ({
         desktop: {
           src: "", // Will be set by parent after upload
           alt: data.desktopAlt,
+          photographer_name: data.desktopPhotographerName,
         },
         mobile: {
           src: "", // Will be set by parent after upload
           alt: data.mobileAlt,
+          photographer_name: data.mobilePhotographerName,
         },
       },
       data.desktopImageFile,
@@ -205,6 +213,34 @@ const DualImageUploader = ({
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="desktopPhotographerName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Valokuvaajan nimi{" "}
+                      <span className="text-secondary">*</span>
+                    </FormLabel>
+                    {currentImage && currentImage.desktop.photographer_name && (
+                      <p className="text-sm text-accent">
+                        Nykyinen valokuvaaja:
+                        <br />
+                        {currentImage.desktop.photographer_name}
+                      </p>
+                    )}
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="placeholder:text-accent"
+                        placeholder="Valokuvaajan nimi"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
             {/* Mobile Image Section */}
@@ -251,6 +287,34 @@ const DualImageUploader = ({
                         {...field}
                         className="placeholder:text-accent"
                         placeholder="Kuvaile mobiilikuvaa"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="mobilePhotographerName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Valokuvaajan nimi{" "}
+                      <span className="text-secondary">*</span>
+                    </FormLabel>
+                    {currentImage && currentImage.mobile.photographer_name && (
+                      <p className="text-sm text-accent">
+                        Nykyinen valokuvaaja:
+                        <br />
+                        {currentImage.mobile.photographer_name}
+                      </p>
+                    )}
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="placeholder:text-accent"
+                        placeholder="Valokuvaajan nimi"
                       />
                     </FormControl>
                     <FormMessage />

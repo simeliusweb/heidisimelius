@@ -34,6 +34,9 @@ const imageFormSchema = z.object({
       { message: "Tuetut tiedostotyypit: JPG, PNG, WEBP." }
     ),
   alt: z.string().min(1, { message: "Alt-teksti on pakollinen." }),
+  photographer_name: z
+    .string()
+    .min(1, { message: "Kuvaajan nimi on pakollinen." }),
 });
 
 type ImageFormValues = z.infer<typeof imageFormSchema>;
@@ -49,6 +52,7 @@ interface SingleImageUploaderProps {
     imageFile: File
   ) => Promise<void>;
   isUpdating: boolean;
+  showPhotographerField?: boolean;
 }
 
 const SingleImageUploader = ({
@@ -58,6 +62,7 @@ const SingleImageUploader = ({
   currentData,
   onUpdate,
   isUpdating,
+  showPhotographerField = false,
 }: SingleImageUploaderProps) => {
   // Form setup
   const form = useForm<ImageFormValues>({
@@ -74,6 +79,7 @@ const SingleImageUploader = ({
       {
         src: "", // Will be set by parent after upload
         alt: data.alt,
+        photographer_name: data.photographer_name,
       },
       data.imageFile
     );
@@ -166,6 +172,36 @@ const SingleImageUploader = ({
                 </FormItem>
               )}
             />
+
+            {showPhotographerField && (
+              <FormField
+                control={form.control}
+                name="photographer_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Valokuvaajan nimi{" "}
+                      <span className="text-secondary">*</span>
+                    </FormLabel>
+                    {imageToDisplay && imageToDisplay.photographer_name && (
+                      <p className="text-sm text-accent">
+                        Nykyinen valokuvaaja:
+                        <br />
+                        {imageToDisplay.photographer_name}
+                      </p>
+                    )}
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="placeholder:text-accent"
+                        placeholder="Valokuvaajan nimi"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
 
             <Button
               type="submit"
