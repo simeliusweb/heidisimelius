@@ -80,6 +80,9 @@ const SingleImageUploader = ({
   };
 
   const currentImage = currentData?.[imageKey];
+  const imageToDisplay =
+    currentImage &&
+    ("desktop" in currentImage ? currentImage.desktop : currentImage);
 
   return (
     <Card>
@@ -91,13 +94,13 @@ const SingleImageUploader = ({
       </CardHeader>
       <CardContent className="flex gap-4">
         {/* Current Image Preview */}
-        {currentImage && (
+        {imageToDisplay && (
           <div className="space-y-2">
             <h4 className="text-sm font-medium">Nykyinen kuva:</h4>
             <div className="relative w-64 h-64 border rounded-lg overflow-hidden">
               <img
-                src={currentImage.src}
-                alt={currentImage.alt}
+                src={imageToDisplay.src}
+                alt={imageToDisplay.alt}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -145,11 +148,11 @@ const SingleImageUploader = ({
                     Alt-teksti (ei näy käyttäjille){" "}
                     <span className="text-secondary">*</span>
                   </FormLabel>
-                  {currentImage && (
+                  {imageToDisplay && (
                     <p className="text-sm text-accent">
                       Nykyinen alt-teksti:
                       <br />
-                      {currentImage.alt}
+                      {imageToDisplay.alt}
                     </p>
                   )}
                   <FormControl>
@@ -175,7 +178,7 @@ const SingleImageUploader = ({
                   Päivitetään...
                 </>
               ) : (
-                `Päivitä ${title.toLowerCase()}`
+                `Päivitä ${title}`
               )}
             </Button>
           </form>

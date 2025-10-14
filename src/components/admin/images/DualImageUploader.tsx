@@ -270,7 +270,7 @@ const DualImageUploader = ({
                   Päivitetään...
                 </>
               ) : (
-                `Päivitä ${title.toLowerCase()}`
+                `Päivitä ${title}`
               )}
             </Button>
           </form>
