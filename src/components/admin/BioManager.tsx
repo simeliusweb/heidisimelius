@@ -555,7 +555,9 @@ const BioManager = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
           {/* Introductory Text Section */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Johdantoteksti</h3>
+            <h3 className="text-lg font-semibold text-secondary">
+              Johdantoteksti
+            </h3>
             <FormField
               name="introParagraphs"
               control={form.control}
@@ -579,7 +581,9 @@ const BioManager = () => {
 
           {/* Featured Video Section */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Esittelyvideo</h3>
+            <h3 className="text-lg font-semibold text-secondary">
+              Esittelyvideo
+            </h3>
             <div className="grid grid-cols-1 gap-4">
               <FormField
                 name="featuredVideoUrl"
@@ -627,7 +631,9 @@ const BioManager = () => {
 
           {/* Featured Quote Section */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Esittelylaina</h3>
+            <h3 className="text-lg font-semibold text-secondary">
+              Esittelylainaus
+            </h3>
             <div className="space-y-4">
               <FormField
                 name="quoteText"
@@ -673,7 +679,9 @@ const BioManager = () => {
 
           {/* Concluding Text Section */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Lopetusteksti</h3>
+            <h3 className="text-lg font-semibold text-secondary">
+              Lopetusteksti
+            </h3>
             <FormField
               name="concludingParagraphs"
               control={form.control}
@@ -697,7 +705,9 @@ const BioManager = () => {
 
           {/* CV Management Section */}
           <fieldset className="space-y-4">
-            <h3 className="text-lg font-semibold">CV-hallinta</h3>
+            <h3 className="text-lg font-semibold text-secondary">
+              CV-hallinta
+            </h3>
 
             {/* Current CV Display */}
             <div className="space-y-2">
@@ -749,7 +759,9 @@ const BioManager = () => {
 
           {/* Bio Page Images Section */}
           <fieldset className="space-y-6">
-            <h3 className="text-lg font-semibold">Bio sivun kuvat</h3>
+            <h3 className="text-lg font-semibold text-secondary">
+              Bio sivun kuvat
+            </h3>
 
             {/* Image 1 */}
             <div className="space-y-4 p-4 border rounded-lg">
@@ -1057,7 +1069,7 @@ const BioManager = () => {
 
           {/* Theatre Credits Section */}
           <fieldset className="space-y-4">
-            <h3 className="text-lg font-semibold">Teatteri</h3>
+            <h3 className="text-lg font-semibold text-secondary">Teatteri</h3>
             {theatreFields.map((field, index) => (
               <div
                 key={field.id}
@@ -1157,7 +1169,9 @@ const BioManager = () => {
 
           {/* Translation Credits Section */}
           <fieldset className="space-y-4">
-            <h3 className="text-lg font-semibold">Suomennokset</h3>
+            <h3 className="text-lg font-semibold text-secondary">
+              Suomennokset
+            </h3>
             {translationFields.map((field, index) => (
               <div
                 key={field.id}
@@ -1257,7 +1271,9 @@ const BioManager = () => {
 
           {/* Solo Albums Section */}
           <fieldset className="space-y-4">
-            <h3 className="text-lg font-semibold">Sooloalbumit</h3>
+            <h3 className="text-lg font-semibold text-secondary">
+              Sooloalbumit
+            </h3>
             {soloAlbumFields.map((field, index) => (
               <div
                 key={field.id}
@@ -1375,7 +1391,7 @@ const BioManager = () => {
 
           {/* Singles Section */}
           <fieldset className="space-y-4">
-            <h3 className="text-lg font-semibold">Singlet</h3>
+            <h3 className="text-lg font-semibold text-secondary">Singlet</h3>
             {singleFields.map((field, index) => (
               <div
                 key={field.id}
@@ -1475,7 +1491,7 @@ const BioManager = () => {
 
           {/* Collaborations Section */}
           <fieldset className="space-y-4">
-            <h3 className="text-lg font-semibold">Yhteistyöt</h3>
+            <h3 className="text-lg font-semibold text-secondary">Yhteistyöt</h3>
             {collaborationFields.map((field, index) => (
               <div
                 key={field.id}
