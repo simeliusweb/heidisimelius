@@ -142,6 +142,11 @@ const BioPage = () => {
   };
 
   useEffect(() => {
+    // If the data hasn't loaded yet, do nothing.
+    if (!bioContent) {
+      return;
+    }
+
     const mm = gsap.matchMedia();
 
     mm.add("(min-width: 768px)", () => {
@@ -250,7 +255,7 @@ const BioPage = () => {
     return () => {
       mm.revert();
     };
-  }, []);
+  }, [bioContent]);
 
   // Handle loading state
   if (isBioLoading) {
