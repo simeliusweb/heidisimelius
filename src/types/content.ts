@@ -41,3 +41,12 @@ export interface BioContent {
   singles?: StudioItem[];
   collaborations?: StudioItem[];
 }
+
+export interface PageImage {
+  src: string;
+  alt: string;
+}
+
+export interface PageImagesContent {
+  home_hero: PageImage;
+}

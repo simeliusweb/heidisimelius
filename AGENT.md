@@ -8,6 +8,7 @@ This document contains the durable, universal principles that govern all develop
 
 - **Principle 1.1 (No 'any'):** The `any` type is strictly forbidden. All code must be type-safe. Type assertions should be avoided in favor of proper type definitions, guards, and inference.
 - **Principle 1.2 (Explicit is Better):** Explicitly type function parameters and return values. Rely on inference for local variables unless clarity demands an explicit type.
+- **Principle 1.3 (Established Type Casting Patterns):** When working with Supabase JSON content, always use the established `as unknown as Json` pattern rather than `as any`. Follow existing codebase patterns for type casting to maintain consistency and prevent runtime errors.
 
 ---
 
@@ -48,6 +49,7 @@ This document contains the durable, universal principles that govern all develop
 - **Principle 5.5 (Variable Scope Vigilance):** Always check for variable name conflicts when creating new variables in functions that interact with existing query data or state. Use descriptive, unique variable names to prevent shadowing and scope confusion. When extending existing functions, audit all variable names to ensure no conflicts with parent scope variables.
 - **Principle 5.6 (Build Verification Protocol):** Run build tests after each major change to prevent compound errors and ensure system integrity. Never accumulate multiple changes without intermediate build verification, as this makes error isolation significantly more difficult.
 - **Principle 5.7 (Fallback Logic Simplicity):** Keep fallback logic simple and direct rather than overly complex conditional chains. Complex fallback logic is harder to maintain and debug. When displaying data with optional fields, prefer direct property access over complex conditional logic that checks multiple conditions.
+- **Principle 5.8 (User Feedback Integration Protocol):** When users provide corrections or improvements, integrate them immediately as they often reveal subtle but important quality enhancements that improve the overall user experience and code quality. User feedback is a critical source of system improvement and should be treated as high-priority input.
 
 ---
 
@@ -66,3 +68,4 @@ This document contains the durable, universal principles that govern all develop
 - **Principle 7.4 (External API Verification):** Before implementing features that depend on external library capabilities, verify the actual API surface through documentation or testing. Never assume external APIs support specific features without verification, as this leads to implementation dead-ends and wasted effort.
 - **Principle 7.5 (Pattern Replication Over Innovation):** When similar functionality already exists in the codebase, replicate the proven pattern exactly rather than creating new approaches. This ensures consistency, reduces bugs, and leverages battle-tested implementations.
 - **Principle 7.6 (Migration Dependency Verification):** Before implementing features that require database migrations, verify that the migration system is properly configured and linked. Check migration dependencies early in the process to prevent deployment blockers and ensure smooth database schema evolution.
+- **Principle 7.7 (Code Formatting Vigilance):** Maintain consistent code formatting patterns throughout implementations, especially for complex form layouts and multi-line parameters. Inconsistent formatting creates maintenance burden and user confusion, directly impacting code quality and developer experience. Pay special attention to formatting when users provide corrections, as they often reveal important quality enhancements.

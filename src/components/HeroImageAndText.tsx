@@ -1,7 +1,36 @@
 import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import BottomBranding from "./BottomBranding";
 import { Loader2 } from "lucide-react";
+import { PageImagesContent } from "@/types/content";
+
+// Default content for when no data exists
+const defaultPageImagesContent: PageImagesContent = {
+  home_hero: {
+    src: "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp",
+    alt: "Heidi Simelius on laulaja, lauluntekijä ja esiintyjä.",
+  },
+};
+
+const fetchPageImagesContent = async (): Promise<PageImagesContent> => {
+  const { data, error } = await supabase
+    .from("page_content")
+    .select("content")
+    .eq("page_name", "page_images")
+    .single();
+
+  if (error) {
+    if (error.code === "PGRST116") {
+      // No data found, return default content
+      return defaultPageImagesContent;
+    }
+    throw new Error(error.message);
+  }
+
+  return data.content as unknown as PageImagesContent;
+};
 
 const HeroImageAndText = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -12,6 +41,16 @@ const HeroImageAndText = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSpinnerVisible, setIsSpinnerVisible] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null); // Ref for the content to animate in
+
+  // Fetch page images content
+  const {
+    data: pageImagesContent,
+    isLoading: isDataLoading,
+    error: dataError,
+  } = useQuery({
+    queryKey: ["page_content", "page_images"],
+    queryFn: fetchPageImagesContent,
+  });
 
   // Effect for handling text perspective shifts according to cursor movements
   useEffect(() => {
@@ -52,6 +91,11 @@ const HeroImageAndText = () => {
 
   // Effect to handle asset loading and fade-in animation with a threshold
   useEffect(() => {
+    // Don't start loading until we have the image data
+    if (isDataLoading || !pageImagesContent) {
+      return;
+    }
+
     // We'll store the animation instance here to clean it up later
     let heroScrollAnimation: gsap.core.Tween;
 
@@ -67,8 +111,7 @@ const HeroImageAndText = () => {
 
     // 3. Asset loading promise
     const assetsPromise = new Promise<void>((resolve, reject) => {
-      const imageUrl =
-        "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp";
+      const imageUrl = pageImagesContent.home_hero.src;
       const fontPromise = document.fonts.ready;
       const imagePromise = new Promise<void>((resolveImg, rejectImg) => {
         const img = new Image();
@@ -138,7 +181,7 @@ const HeroImageAndText = () => {
         heroScrollAnimation.scrollTrigger?.kill();
       }
     };
-  }, []);
+  }, [isDataLoading, pageImagesContent]);
 
   useEffect(() => {
     if (contentRef.current) {
@@ -195,7 +238,7 @@ const HeroImageAndText = () => {
     )`,
       }}
     >
-      {isLoading && isSpinnerVisible && (
+      {(isLoading || isDataLoading) && isSpinnerVisible && (
         <Loader2 className="absolute h-12 w-12 animate-spin text-primary" />
       )}
 
@@ -217,8 +260,14 @@ const HeroImageAndText = () => {
 
           {/* --- Central Image --- */}
           <img
-            src="/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp"
-            alt="Heidi Simelius on laulaja, lauluntekijä ja esiintyjä."
+            src={
+              pageImagesContent?.home_hero?.src ||
+              "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp"
+            }
+            alt={
+              pageImagesContent?.home_hero?.alt ||
+              "Heidi Simelius on laulaja, lauluntekijä ja esiintyjä."
+            }
             className="relative z-30 h-auto w-[370px] shadow-lg image-glow-home-hero"
           />
 
