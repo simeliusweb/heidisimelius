@@ -47,6 +47,15 @@ export interface PageImage {
   alt: string;
 }
 
+export interface ResponsivePageImage {
+  desktop: PageImage;
+  mobile: PageImage;
+}
+
 export interface PageImagesContent {
   home_hero: PageImage;
+  keikat_hero: PageImage;
+  galleria_hero: PageImage;
+  bio_hero: ResponsivePageImage;
+  bilebandi_hero: ResponsivePageImage;
 }

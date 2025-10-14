@@ -20,6 +20,8 @@ import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import "react-photo-album/masonry.css";
 import { breakpointValues, useBreakpoint } from "@/hooks/useBreakpoint";
+import { PageImagesContent } from "@/types/content";
+import { defaultPageImagesContent } from "@/lib/utils";
 
 export type PhotoSet = Tables<"photo_sets">;
 export type Video = Tables<"videos">;
@@ -60,12 +62,36 @@ const fetchVideos = async (): Promise<Video[]> => {
   return data;
 };
 
+const fetchPageImagesContent = async (): Promise<PageImagesContent> => {
+  const { data, error } = await supabase
+    .from("page_content")
+    .select("content")
+    .eq("page_name", "page_images")
+    .single();
+
+  if (error) {
+    if (error.code === "PGRST116") {
+      // No data found, return default content
+      return defaultPageImagesContent;
+    }
+    throw new Error(error.message);
+  }
+
+  return data.content as unknown as PageImagesContent;
+};
+
 const GalleriaPage = () => {
   // State for the single lightbox
   const [lightboxIndex, setLightboxIndex] = useState(-1);
   const [activeSlides, setActiveSlides] = useState<Photo[]>([]);
   const isXl = useBreakpoint("xl");
   const isSm = useBreakpoint("sm");
+
+  // Fetch page images content
+  const { data: pageImagesContent } = useQuery({
+    queryKey: ["page_content", "page_images"],
+    queryFn: fetchPageImagesContent,
+  });
 
   // Fetch data from Supabase
   const {
@@ -222,8 +248,13 @@ const GalleriaPage = () => {
       <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center">
         {/* Hero Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-[40%_top] 
-               bg-[url('/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg')]"
+          className="absolute inset-0 bg-cover bg-[40%_top]"
+          style={{
+            backgroundImage: `url(${
+              pageImagesContent?.galleria_hero?.src ||
+              "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg"
+            })`,
+          }}
         />
         {/* Dark Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/0 to-background/100" />

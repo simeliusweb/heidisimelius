@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import EventGroup from "@/components/EventGroup";
 import PastGigCard from "@/components/PastGigCard";
 import { Button } from "@/components/ui/button";
@@ -7,9 +9,35 @@ import StructuredData from "@/components/StructuredData";
 import { pageMetadata } from "@/config/metadata";
 import { FaInstagram } from "react-icons/fa";
 import ShadowHeading from "@/components/ShadowHeading";
+import { PageImagesContent } from "@/types/content";
+import { defaultPageImagesContent } from "@/lib/utils";
+
+const fetchPageImagesContent = async (): Promise<PageImagesContent> => {
+  const { data, error } = await supabase
+    .from("page_content")
+    .select("content")
+    .eq("page_name", "page_images")
+    .single();
+
+  if (error) {
+    if (error.code === "PGRST116") {
+      // No data found, return default content
+      return defaultPageImagesContent;
+    }
+    throw new Error(error.message);
+  }
+
+  return data.content as unknown as PageImagesContent;
+};
 
 const KeikatPage = () => {
   const [visibleCount, setVisibleCount] = useState(2);
+
+  // Fetch page images content
+  const { data: pageImagesContent } = useQuery({
+    queryKey: ["page_content", "page_images"],
+    queryFn: fetchPageImagesContent,
+  });
 
   const kinkyBootsMusical = {
     imageUrl: "/images/Kinky-Boots-musikaali-Oulun-teatteri-promokuva-1.jpeg",
@@ -201,7 +229,10 @@ const KeikatPage = () => {
         <div
           className="absolute inset-0 bg-cover bg-bottom bg-no-repeat"
           style={{
-            backgroundImage: `url(/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-16.webp)`,
+            backgroundImage: `url(${
+              pageImagesContent?.keikat_hero?.src ||
+              "/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-16.webp"
+            })`,
           }}
         />
 

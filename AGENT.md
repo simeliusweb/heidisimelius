@@ -50,6 +50,9 @@ This document contains the durable, universal principles that govern all develop
 - **Principle 5.6 (Build Verification Protocol):** Run build tests after each major change to prevent compound errors and ensure system integrity. Never accumulate multiple changes without intermediate build verification, as this makes error isolation significantly more difficult.
 - **Principle 5.7 (Fallback Logic Simplicity):** Keep fallback logic simple and direct rather than overly complex conditional chains. Complex fallback logic is harder to maintain and debug. When displaying data with optional fields, prefer direct property access over complex conditional logic that checks multiple conditions.
 - **Principle 5.8 (User Feedback Integration Protocol):** When users provide corrections or improvements, integrate them immediately as they often reveal subtle but important quality enhancements that improve the overall user experience and code quality. User feedback is a critical source of system improvement and should be treated as high-priority input.
+- **Principle 5.9 (Code Formatting Vigilance):** Maintain consistent code formatting patterns throughout implementations, especially for multi-line statements, imports, and template literals. Pay special attention to formatting when users provide corrections, as they often reveal important quality enhancements. Inconsistent formatting creates maintenance burden and user confusion, directly impacting code quality and developer experience.
+- **Principle 5.10 (Import Statement Standards):** Multi-line imports should follow consistent formatting patterns with proper line breaks and alignment. This improves code readability and maintains consistency across the codebase.
+- **Principle 5.11 (Template Literal Formatting):** Long template literals should be properly formatted for readability, using appropriate line breaks and indentation to prevent horizontal scrolling and improve code maintainability.
 
 ---
 

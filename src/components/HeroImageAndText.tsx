@@ -5,14 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import BottomBranding from "./BottomBranding";
 import { Loader2 } from "lucide-react";
 import { PageImagesContent } from "@/types/content";
-
-// Default content for when no data exists
-const defaultPageImagesContent: PageImagesContent = {
-  home_hero: {
-    src: "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp",
-    alt: "Heidi Simelius on laulaja, lauluntekijä ja esiintyjä.",
-  },
-};
+import { defaultPageImagesContent } from "@/lib/utils";
 
 const fetchPageImagesContent = async (): Promise<PageImagesContent> => {
   const { data, error } = await supabase

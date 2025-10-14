@@ -7,7 +7,13 @@ import { supabase } from "@/integrations/supabase/client";
 import PageMeta from "@/components/PageMeta";
 import StructuredData from "@/components/StructuredData";
 import { pageMetadata } from "@/config/metadata";
-import { BioContent, Credit, StudioItem } from "@/types/content";
+import {
+  BioContent,
+  Credit,
+  StudioItem,
+  PageImagesContent,
+} from "@/types/content";
+import { defaultPageImagesContent } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -92,6 +98,30 @@ const BioPage = () => {
   } = useQuery<BioContent>({
     queryKey: ["bio-content"],
     queryFn: fetchBioContent,
+  });
+
+  const fetchPageImagesContent = async (): Promise<PageImagesContent> => {
+    const { data, error } = await supabase
+      .from("page_content")
+      .select("content")
+      .eq("page_name", "page_images")
+      .single();
+
+    if (error) {
+      if (error.code === "PGRST116") {
+        // No data found, return default content
+        return defaultPageImagesContent;
+      }
+      throw new Error(error.message);
+    }
+
+    return data.content as unknown as PageImagesContent;
+  };
+
+  // Fetch page images content
+  const { data: pageImagesContent } = useQuery({
+    queryKey: ["page_content", "page_images"],
+    queryFn: fetchPageImagesContent,
   });
 
   const heidiSchema = {
@@ -283,9 +313,22 @@ const BioPage = () => {
       <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center">
         {/* Hero Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-top  
-                bg-[url('/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-3.jpg')]  
-                sm:bg-[url('/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-4.jpg')]"
+          className="absolute inset-0 bg-cover bg-top"
+          style={{
+            backgroundImage: `url(${
+              pageImagesContent?.bio_hero?.mobile?.src ||
+              "/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-3.jpg"
+            })`,
+          }}
+        />
+        <div
+          className="absolute inset-0 bg-cover bg-top hidden sm:block"
+          style={{
+            backgroundImage: `url(${
+              pageImagesContent?.bio_hero?.desktop?.src ||
+              "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-4.jpg"
+            })`,
+          }}
         />
 
         {/* Dark Gradient Overlay */}
