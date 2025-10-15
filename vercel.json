@@ -4,5 +4,11 @@
       "source": "/((?!api/|.*\\..*|_next/|assets/).*)",
       "destination": "/index.html"
     }
+  ],
+  "crons": [
+    {
+      "path": "https://yctdrwogilljanzxcgow.supabase.co/functions/v1/keep-db-alive",
+      "schedule": "0 12 */5 * *"
+    }
   ]
 }
