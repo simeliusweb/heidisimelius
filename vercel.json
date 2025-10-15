@@ -7,7 +7,7 @@
   ],
   "crons": [
     {
-      "path": "https://yctdrwogilljanzxcgow.supabase.co/functions/v1/keep-db-alive",
+      "path": "/api/keep-db-alive",
       "schedule": "0 12 */5 * *"
     }
   ]
