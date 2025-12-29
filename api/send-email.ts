@@ -350,8 +350,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     sendSmtpEmail.htmlContent = html;
 
     console.log(`Sending email: ${subject}`);
-    const result = await apiInstance.sendTransacEmail(sendSmtpEmail);
-    console.log("Email sent successfully:", result); // result object structure might be different
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    // Only log confirmation, not the full result object which might contain sensitive data
+    console.log("Email sent successfully");
 
     return res.status(200).json({
       success: true,
@@ -359,7 +360,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ...corsHeaders,
     });
   } catch (error: unknown) {
-    console.error("Error sending email:", error);
+    // Safely log error without exposing potential API keys or sensitive data
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    const errorName = error instanceof Error ? error.name : "Error";
+
+    // Sanitize error message to remove potential API key exposure
+    const sanitizedMessage = errorMessage.replace(
+      /xkeysib-[a-f0-9]{64}/gi,
+      "[API_KEY_REDACTED]"
+    );
+
+    console.error("Error sending email:", {
+      name: errorName,
+      message: sanitizedMessage,
+      // Explicitly avoid logging the full error object which might contain request/response data
+    });
+
     return res.status(500).json({
       success: false,
       error: "Internal server error",
