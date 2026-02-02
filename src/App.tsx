@@ -11,6 +11,7 @@ import KeikatPage from "./pages/KeikatPage";
 import GalleriaPage from "./pages/GalleriaPage";
 import NotFound from "./pages/NotFound";
 import BilebandiPage from "./pages/BilebandiPage";
+import LaulunopetusPage from "./pages/LaulunopetusPage";
 import LoginPage from "./pages/LoginPage";
 import AdminPage from "./pages/AdminPage";
 import ScrollToTop from "./components/ScrollToTop";
@@ -42,6 +43,7 @@ const AppContent = () => {
         <Route path="/keikat" element={<KeikatPage />} />
         <Route path="/galleria" element={<GalleriaPage />} />
         <Route path="/bilebandi-heidi-and-the-hot-stuff" element={<BilebandiPage />} />
+        <Route path="/laulunopetus" element={<LaulunopetusPage />} />
 
         <Route
           path="/admin"

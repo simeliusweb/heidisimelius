@@ -19,4 +19,8 @@ export const pageMetadata = {
     title: "Heidi & The Hot Stuff - Bilebändi | Heidi Simelius",
     description: "Etsitkö energistä bilebändiä häihin tai yritysjuhliin? Tutustu Heidi & The Hot Stuff -yhtyeeseen ja varaa keikalle!",
   },
+  laulunopetus: {
+    title: "Laulunopetus Tampereella | Heidi Simelius",
+    description: "Henkilökohtaista pop/jazz-laulunopetusta Tampereen keskustassa. Tarjolla kokeilutunteja, yksittäisiä tunteja ja sarjakortteja. Varaa tunnit nyt!",
+  },
 };
