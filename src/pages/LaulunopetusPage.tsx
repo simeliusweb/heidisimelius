@@ -113,7 +113,7 @@ const LaulunopetusPage = () => {
 
         {/* Hero Content */}
         <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2 w-full px-4">
-          <h1 className="relative z-1 text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-playfair font-extrabold text-center text-secondary w-fit mx-auto leading-tight">
+          <h1 className="relative z-1 text-3xl xs:text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-center text-secondary w-fit mx-auto leading-tight">
             Laulunopetus Tampereella
           </h1>
         </div>
@@ -127,7 +127,7 @@ const LaulunopetusPage = () => {
       {/* Main Content */}
       <div className="main-content pt-16 overflow-hidden">
         {/* Tagline */}
-        <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-santorini text-muted-foreground pt-8 md:pt-12 pb-8 leading-loose text-center italic px-4">
+        <p className="text-lg xs:text-xl sm:text-2xl md:text-2xl font-santorini text-muted-foreground pt-8 md:pt-12 pb-8 leading-loose text-center italic px-4">
           Laulunopetusta Tampereen keskustassa
         </p>
 
