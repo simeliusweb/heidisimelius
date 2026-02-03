@@ -114,7 +114,7 @@ const LaulunopetusPage = () => {
         {/* Hero Content */}
         <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2 w-full px-4">
           <h1 className="relative z-1 text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-playfair font-extrabold text-center text-secondary w-fit mx-auto leading-tight">
-            Laulunopetusta Tampereella
+            Laulunopetus Tampereella
           </h1>
         </div>
 
@@ -128,7 +128,7 @@ const LaulunopetusPage = () => {
       <div className="main-content pt-16 overflow-hidden">
         {/* Tagline */}
         <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-santorini text-muted-foreground pt-8 md:pt-12 pb-8 leading-loose text-center italic px-4">
-          Laulunopetus Tampereen keskustassa
+          Laulunopetusta Tampereen keskustassa
         </p>
 
         <div className="container px-6 md:px-8 py-8 md:py-12 max-w-4xl mx-auto">
