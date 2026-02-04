@@ -4,12 +4,13 @@ import StructuredData from "@/components/StructuredData";
 import { pageMetadata } from "@/config/metadata";
 
 const LaulunopetusPage = () => {
+  // SEO UPDATE: Made areaServed specific to Tampere and added keywords to description
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "Laulunopetus ja äänivalmennus",
+    name: "Laulunopetus Tampere ja äänivalmennus",
     description:
-      "Henkilökohtaista laulunopetusta ja äänenkäytön valmennusta. Tarjolla kokeilutunteja, yksittäisiä tunteja ja sarjakortteja.",
+      "Henkilökohtaista laulunopetusta ja äänenkäytön valmennusta Tampereen keskustassa. Tarjolla kokeilutunteja, yksittäisiä laulutunteja ja sarjakortteja.",
     provider: {
       "@type": "Person",
       name: "Heidi Simelius",
@@ -26,13 +27,13 @@ const LaulunopetusPage = () => {
       ],
     },
     areaServed: {
-      "@type": "Country",
-      name: "Finland",
+      "@type": "City",
+      name: "Tampere",
     },
     offers: [
       {
         "@type": "Offer",
-        name: "Ensimmäinen kokeilutunti",
+        name: "Ensimmäinen kokeilutunti - Laulunopetus",
         description:
           "Kertaluontoinen kokeilutunti uusille oppilaille (45 min).",
         price: "40.00",
@@ -51,7 +52,7 @@ const LaulunopetusPage = () => {
       },
       {
         "@type": "Offer",
-        name: "Tuntipaketti (5x45min)",
+        name: "Laulutuntipaketti (5x45min)",
         description: "Viiden kerran paketti laulutunteja (yhteensä 225 min).",
         price: "280.00",
         priceCurrency: "EUR",
@@ -126,7 +127,7 @@ const LaulunopetusPage = () => {
 
       {/* Main Content */}
       <div className="main-content pt-16 overflow-hidden">
-        {/* Tagline */}
+        {/* Tagline - Contains both "Laulunopettaja" and "Tampere" - Excellent */}
         <p className="text-lg xs:text-xl sm:text-2xl md:text-2xl font-santorini text-muted-foreground pt-8 md:pt-12 pb-8 leading-loose text-center italic px-4">
           Laulunopettaja Tampereen keskustassa
         </p>
@@ -134,9 +135,12 @@ const LaulunopetusPage = () => {
         <div className="container px-6 md:px-8 py-8 md:py-12 max-w-4xl mx-auto">
           {/* Intro Section */}
           <section className="mb-16">
+            {/* SEO UPDATE: Added specific location context to the lead paragraph */}
             <p className="text-xl md:text-2xl font-source text-primary mb-8 text-center leading-relaxed">
-              Haluaisitko varmuutta laulutekniikkaan ja esiintymiseen?
-              Haluisitko tulkita suuria tunteita ja laulaa korkealta kovaa?
+              Etsitkö laadukasta{" "}
+              <span className="font-semibold">laulunopetusta Tampereella</span>?
+              Haluaisitko varmuutta tekniikkaan, tulkita suuria tunteita tai
+              laulaa korkealta ja kovaa?
             </p>
 
             <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
@@ -147,24 +151,27 @@ const LaulunopetusPage = () => {
                 esiintymisvalmennus.
               </p>
 
+              {/* SEO UPDATE: Changed "Opettajana" to "Laulunopettajana" */}
               <p>
-                Opettajana haluan luoda positiivisen pedagogian keinoin rennon
-                ja luovan oppimisilmapiirin, jossa on helppo heittäytyä ja
-                kokeilla uutta. Tunneillani saa olla oma itsensä ja lähdemme
+                Laulunopettajana haluan luoda positiivisen pedagogian keinoin
+                rennon ja luovan oppimisilmapiirin, jossa on helppo heittäytyä
+                ja kokeilla uutta. Tunneillani saa olla oma itsensä ja lähdemme
                 liikkeelle jokaisen oppilaan omista lähtökohdista, vahvuuksista
                 ja tavoitteista.
               </p>
 
               <p>
-                Voit tulla tunneilleni aloittelijana tai jo pidempään laulua
-                harrastaneena/ammattilaisena!
+                Voit tulla laulutunneille aloittelijana tai jo pidempään laulua
+                harrastaneena tai ammattilaisena!
               </p>
 
-              <p className="font-semibold">Voimme harjoitella esim.</p>
+              <p className="font-semibold">
+                Laulutunneilla voimme harjoitella esim.
+              </p>
               <ul className="list-disc list-inside space-y-2 text-accent ml-4">
                 <li>
                   <span className="text-foreground">
-                    tekniikkaa ja laulun fysiologiaa
+                    laulutekniikkaa ja äänen fysiologiaa
                   </span>
                 </li>
                 <li>
@@ -173,11 +180,13 @@ const LaulunopetusPage = () => {
                   </span>
                 </li>
                 <li>
-                  <span className="text-foreground">pääsykoekappaleita</span>
+                  <span className="text-foreground">
+                    pääsykoekappaleita musiikkialan hakuihin
+                  </span>
                 </li>
                 <li>
                   <span className="text-foreground">
-                    esiintymisvarmuutta karaokelavoille
+                    esiintymisvarmuutta karaokelavoille tai keikoille
                   </span>
                 </li>
               </ul>
@@ -225,8 +234,9 @@ const LaulunopetusPage = () => {
 
           {/* Pricing Section */}
           <section className="mb-16">
+            {/* SEO UPDATE: Added "Tampere" to H2 to capture "Laulunopetus Tampere" searches */}
             <h2 className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-8 text-center">
-              Hinnat
+              Hinnat – Laulunopetus Tampere
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -283,7 +293,7 @@ const LaulunopetusPage = () => {
             <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
               <p>
                 Opiskelen tällä hetkellä pop/jazz-laulun pedagogiikkaa
-                Metropolia ammattikorkeakoulussa. Lauluopettajana olen toiminut
+                Metropolia ammattikorkeakoulussa. Laulunopettajana olen toiminut
                 yksityisesti vuodesta 2016 ja sijaistanut mm. Pirkanmaan
                 musiikkiopistossa, Tampereen laulukoululla sekä Tampereenseudun
                 työväenopistossa.
@@ -308,13 +318,14 @@ const LaulunopetusPage = () => {
                 Olen keikkaillut laulajana yli kymmenen vuoden ajan niin
                 solistina kuin taustalaulajanakin sekä toiminut myös
                 studiolaulajana. Teen keikkaa ja omaa musiikkia myös artistina.
-                Opettajana ammennan tietotaitoa siis hyvin käytännönläheisesti
-                monenlaisesta työkokemuksesta musiikin kentällä.
+                Laulunopettajana ammennan tietotaitoa siis hyvin
+                käytännönläheisesti monenlaisesta työkokemuksesta musiikin
+                kentällä.
               </p>
 
               <p className="text-primary font-semibold text-xl">
                 Laulaminen on minulle tapa ilmaista itseäni ja tulkita tunteita.
-                Tule laulutunneille kokemaan laulamisen iloa!
+                Tule laulutunneille Tampereelle kokemaan laulamisen iloa!
               </p>
             </div>
           </section>
