@@ -14,7 +14,7 @@ const LaulunopetusPage = () => {
     provider: {
       "@type": "Person",
       name: "Heidi Simelius",
-      jobTitle: "Laulaja, lauluntekijä, esiintyjä ja laulunopettaja",
+      jobTitle: "Laulaja, lauluntekijä, laulunopettaja ja esiintyjä",
       image:
         "https://www.heidisimelius.fi/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg",
       url: "https://www.heidisimelius.fi/bio",

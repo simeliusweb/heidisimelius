@@ -39,7 +39,7 @@ const BioPage = () => {
         // No data found, return default content
         return {
           introParagraphs:
-            'Heidi Simelius on laulaja, lauluntekijä ja esiintyjä. Hän keikkailee esittäen omaa musiikkiaan ja julkaisi vuonna 2023 ensimmäisen EP:nsä Mä vastaan. Viiden biisin EP sisältää nimikkokappaleen lisäksi mm. kappaleet Missä sä oot? ja Meitä ei ole enää. Heidi on julkaissut aiemmin seitsemän singleä, mm. kappaleet Mun sydän on mun ja Upee. Heidin kappaleet ovat suomenkielisiä sekä vahvasti tekstilähtöisiä ja musiikki on tyyliltään soulahtavaa poppia.\n\nHeidi oli mukana Voice of Finlandin uusimmalla kaudella, jossa hän lauloi tiensä semifinaaliin. Heidi esiintyy vaihtelevasti myös erilaisten kokoonpanojen kanssa ja hänet on voitu nähdä mm. Suomen varusmiessoittokunnan "80\'s kiertueen" ja Gospel Helsinki -kuoron vierailevana solistina sekä keikoilla Pekka Simojoen kanssa.',
+            'Heidi Simelius on laulaja, lauluntekijä, laulunopettaja ja esiintyjä. Hän keikkailee esittäen omaa musiikkiaan ja julkaisi vuonna 2023 ensimmäisen EP:nsä Mä vastaan. Viiden biisin EP sisältää nimikkokappaleen lisäksi mm. kappaleet Missä sä oot? ja Meitä ei ole enää. Heidi on julkaissut aiemmin seitsemän singleä, mm. kappaleet Mun sydän on mun ja Upee. Heidin kappaleet ovat suomenkielisiä sekä vahvasti tekstilähtöisiä ja musiikki on tyyliltään soulahtavaa poppia.\n\nHeidi oli mukana Voice of Finlandin uusimmalla kaudella, jossa hän lauloi tiensä semifinaaliin. Heidi esiintyy vaihtelevasti myös erilaisten kokoonpanojen kanssa ja hänet on voitu nähdä mm. Suomen varusmiessoittokunnan "80\'s kiertueen" ja Gospel Helsinki -kuoron vierailevana solistina sekä keikoilla Pekka Simojoen kanssa.',
           featuredVideoUrl: "https://www.youtube.com/embed/3iOHoeFv4ZE",
           featuredVideoCaption:
             "Tässä esitin Knockout-vaiheessa Jennifer Rushin kappaleen The Power Of Love!",
@@ -128,7 +128,7 @@ const BioPage = () => {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Heidi Simelius",
-    jobTitle: "Laulaja, lauluntekijä ja esiintyjä",
+    jobTitle: "Laulaja, lauluntekijä, laulunopettaja ja esiintyjä",
     url: "https://www.heidisimelius.fi/bio",
     image:
       "https://www.heidisimelius.fi/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg",
@@ -214,10 +214,10 @@ const BioPage = () => {
                   end: "bottom bottom", // End when the bottom of the text is at the bottom of the viewport
                   scrub: 1,
                 },
-              }
+              },
             );
           }
-        }
+        },
       );
     });
 
@@ -247,7 +247,7 @@ const BioPage = () => {
               end: "bottom top", // End when the bottom of the mask hits the top of the viewport
               scrub: 1, // Smoothly link animation to scroll
             },
-          }
+          },
         );
       });
     });
@@ -487,11 +487,11 @@ const BioPage = () => {
                         const groupedCredits = bioContent.theatreCredits.reduce(
                           (acc, credit) => {
                             (acc[credit.year] = acc[credit.year] || []).push(
-                              credit
+                              credit,
                             );
                             return acc;
                           },
-                          {} as Record<number, Credit[]>
+                          {} as Record<number, Credit[]>,
                         );
 
                         // Sort years in descending order and render
@@ -511,7 +511,7 @@ const BioPage = () => {
                                       </span>{" "}
                                       | {credit.details}
                                     </li>
-                                  )
+                                  ),
                                 )}
                               </ul>
                             </div>
@@ -561,11 +561,11 @@ const BioPage = () => {
                           bioContent.translationCredits.reduce(
                             (acc, credit) => {
                               (acc[credit.year] = acc[credit.year] || []).push(
-                                credit
+                                credit,
                               );
                               return acc;
                             },
-                            {} as Record<number, Credit[]>
+                            {} as Record<number, Credit[]>,
                           );
 
                         // Sort years in descending order and render
@@ -585,7 +585,7 @@ const BioPage = () => {
                                       </span>{" "}
                                       | {credit.details}
                                     </li>
-                                  )
+                                  ),
                                 )}
                               </ul>
                             </div>
@@ -665,7 +665,7 @@ const BioPage = () => {
                                 | {collaboration.artistOrCollaborator} | (
                                 {collaboration.year})
                               </li>
-                            )
+                            ),
                           )}
                         </ul>
                       </div>

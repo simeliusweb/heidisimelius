@@ -140,7 +140,7 @@ const HeroImageAndText = () => {
               duration: 0.8,
               ease: "power2.out",
               delay: 0.1,
-            }
+            },
           );
         }
 
@@ -259,7 +259,7 @@ const HeroImageAndText = () => {
             }
             alt={
               pageImagesContent?.home_hero?.alt ||
-              "Heidi Simelius on laulaja, lauluntekijä ja esiintyjä."
+              "Heidi Simelius on laulaja, lauluntekijä, laulunopettaja ja esiintyjä."
             }
             className="relative z-30 h-auto w-[370px] shadow-lg image-glow-home-hero"
           />

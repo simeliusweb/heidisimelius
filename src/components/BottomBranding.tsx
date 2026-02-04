@@ -3,6 +3,7 @@ const BottomBranding = () => {
     { label: "KEIKAT", href: "/keikat" },
     { label: "BIO", href: "/bio" },
     { label: "GALLERIA", href: "/galleria" },
+    { label: "LAULUNOPETUS", href: "/laulunopetus" },
   ];
 
   return (

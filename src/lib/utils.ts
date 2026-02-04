@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const getYouTubeEmbedUrl = (
-  url: string | undefined
+  url: string | undefined,
 ): string | undefined => {
   if (!url) return undefined;
 
@@ -26,7 +26,7 @@ export const getYouTubeEmbedUrl = (
 export const defaultPageImagesContent: PageImagesContent = {
   home_hero: {
     src: "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp",
-    alt: "Heidi Simelius on laulaja, lauluntekijä ja esiintyjä.",
+    alt: "Heidi Simelius on laulaja, lauluntekijä, laulunopettaja ja esiintyjä.",
   },
   keikat_hero: {
     src: "/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-16.webp",

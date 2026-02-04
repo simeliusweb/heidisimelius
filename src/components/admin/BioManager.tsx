@@ -82,7 +82,7 @@ const bioFormSchema = z.object({
         year: z.number().min(1900).max(2100),
         title: z.string().min(1, "Otsikko on pakollinen."),
         details: z.string().min(1, "Tiedot ovat pakollisia."),
-      })
+      }),
     )
     .optional(),
   translationCredits: z
@@ -92,7 +92,7 @@ const bioFormSchema = z.object({
         year: z.number().min(1900).max(2100),
         title: z.string().min(1, "Otsikko on pakollinen."),
         details: z.string().min(1, "Tiedot ovat pakollisia."),
-      })
+      }),
     )
     .optional(),
   soloAlbums: z
@@ -103,7 +103,7 @@ const bioFormSchema = z.object({
         subtitle: z.string().optional(),
         artistOrCollaborator: z.string().min(1, "Artisti on pakollinen."),
         year: z.number().min(1900).max(2100),
-      })
+      }),
     )
     .optional(),
   singles: z
@@ -113,7 +113,7 @@ const bioFormSchema = z.object({
         title: z.string().min(1, "Otsikko on pakollinen."),
         artistOrCollaborator: z.string().min(1, "Artisti on pakollinen."),
         year: z.number().min(1900).max(2100),
-      })
+      }),
     )
     .optional(),
   collaborations: z
@@ -125,7 +125,7 @@ const bioFormSchema = z.object({
           .string()
           .min(1, "Yhteistyökumppani on pakollinen."),
         year: z.number().min(1900).max(2100),
-      })
+      }),
     )
     .optional(),
 });
@@ -135,7 +135,7 @@ type BioFormValues = z.infer<typeof bioFormSchema>;
 // Default content for when no data exists
 const defaultBioContent: BioContent = {
   introParagraphs:
-    'Heidi Simelius on laulaja, lauluntekijä ja esiintyjä. Hän keikkailee esittäen omaa musiikkiaan ja julkaisi vuonna 2023 ensimmäisen EP:nsä Mä vastaan. Viiden biisin EP sisältää nimikkokappaleen lisäksi mm. kappaleet Missä sä oot? ja Meitä ei ole enää. Heidi on julkaissut aiemmin seitsemän singleä, mm. kappaleet Mun sydän on mun ja Upee. Heidin kappaleet ovat suomenkielisiä sekä vahvasti tekstilähtöisiä ja musiikki on tyyliltään soulahtavaa poppia.\n\nHeidi oli mukana Voice of Finlandin uusimmalla kaudella, jossa hän lauloi tiensä semifinaaliin. Heidi esiintyy vaihtelevasti myös erilaisten kokoonpanojen kanssa ja hänet on voitu nähdä mm. Suomen varusmiessoittokunnan "80\'s kiertueen" ja Gospel Helsinki -kuoron vierailevana solistina sekä keikoilla Pekka Simojoen kanssa.',
+    'Heidi Simelius on laulaja, lauluntekijä, laulunopettaja ja esiintyjä. Hän keikkailee esittäen omaa musiikkiaan ja julkaisi vuonna 2023 ensimmäisen EP:nsä Mä vastaan. Viiden biisin EP sisältää nimikkokappaleen lisäksi mm. kappaleet Missä sä oot? ja Meitä ei ole enää. Heidi on julkaissut aiemmin seitsemän singleä, mm. kappaleet Mun sydän on mun ja Upee. Heidin kappaleet ovat suomenkielisiä sekä vahvasti tekstilähtöisiä ja musiikki on tyyliltään soulahtavaa poppia.\n\nHeidi oli mukana Voice of Finlandin uusimmalla kaudella, jossa hän lauloi tiensä semifinaaliin. Heidi esiintyy vaihtelevasti myös erilaisten kokoonpanojen kanssa ja hänet on voitu nähdä mm. Suomen varusmiessoittokunnan "80\'s kiertueen" ja Gospel Helsinki -kuoron vierailevana solistina sekä keikoilla Pekka Simojoen kanssa.',
   featuredVideoUrl: "https://www.youtube.com/embed/3iOHoeFv4ZE",
   featuredVideoCaption:
     "Tässä esitin Knockout-vaiheessa Jennifer Rushin kappaleen The Power Of Love!",
@@ -240,7 +240,7 @@ const BioManager = () => {
 
   // Helper function to sort credits by year in descending order
   const sortItemsByYear = <T extends { year: number }>(
-    items: T[] | undefined
+    items: T[] | undefined,
   ) => {
     return items ? [...items].sort((a, b) => b.year - a.year) : [];
   };
@@ -429,8 +429,8 @@ const BioManager = () => {
             credit.id !== undefined &&
             credit.title !== undefined &&
             credit.year !== undefined &&
-            credit.details !== undefined
-        )
+            credit.details !== undefined,
+        ),
       ),
       translationCredits: sortItemsByYear(
         (data.translationCredits || []).filter(
@@ -438,8 +438,8 @@ const BioManager = () => {
             credit.id !== undefined &&
             credit.title !== undefined &&
             credit.year !== undefined &&
-            credit.details !== undefined
-        )
+            credit.details !== undefined,
+        ),
       ),
       soloAlbums: sortItemsByYear(
         (data.soloAlbums || []).filter(
@@ -447,8 +447,8 @@ const BioManager = () => {
             item.id !== undefined &&
             item.title !== undefined &&
             item.year !== undefined &&
-            item.artistOrCollaborator !== undefined
-        )
+            item.artistOrCollaborator !== undefined,
+        ),
       ),
       singles: sortItemsByYear(
         (data.singles || []).filter(
@@ -456,8 +456,8 @@ const BioManager = () => {
             item.id !== undefined &&
             item.title !== undefined &&
             item.year !== undefined &&
-            item.artistOrCollaborator !== undefined
-        )
+            item.artistOrCollaborator !== undefined,
+        ),
       ),
       collaborations: sortItemsByYear(
         (data.collaborations || []).filter(
@@ -465,8 +465,8 @@ const BioManager = () => {
             item.id !== undefined &&
             item.title !== undefined &&
             item.year !== undefined &&
-            item.artistOrCollaborator !== undefined
-        )
+            item.artistOrCollaborator !== undefined,
+        ),
       ),
     };
     mutation.mutate(updatedBioContent);

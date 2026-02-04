@@ -132,7 +132,7 @@ const HomePage = () => {
               Heidi Simelius
             </h2>
             <p className="text-xl md:text-2xl text-foreground font-source mb-8 relative z-19">
-              laulaja, lauluntekijä ja esiintyjä.
+              laulaja | lauluntekijä | laulunopettaja | esiintyjä
             </p>
             <Button
               asChild
@@ -237,9 +237,9 @@ const HomePage = () => {
                 Haluatko oppia laulamaan?
               </h2>
               <p className="text-foreground font-source text-center mb-6 text-base sm:text-lg">
-                Heidi toimii myös laulunopettajana Tampereen keskustassa. Tarjolla
-                yksilöllistä pop/jazz-laulunopetusta niin aloittelijoille kuin
-                kokeneemmillekin laulajille.
+                Heidi toimii myös laulunopettajana Tampereen keskustassa.
+                Tarjolla yksilöllistä pop/jazz-laulunopetusta niin
+                aloittelijoille kuin kokeneemmillekin laulajille.
               </p>
               <div className="text-center">
                 <Button
