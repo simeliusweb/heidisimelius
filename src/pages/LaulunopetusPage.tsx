@@ -113,8 +113,8 @@ const LaulunopetusPage = () => {
 
         {/* Hero Content */}
         <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2 w-full px-4">
-          <h1 className="relative z-1 text-3xl xs:text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-playfair font-extrabold text-center text-secondary w-fit mx-auto leading-tight">
-            Laulunopetus Tampereella
+          <h1 className="relative z-1 text-4xl xs:text-5xl sm:text-5xl md:text-6xl lg:text-7xl font-playfair font-extrabold text-center text-secondary w-fit mx-auto leading-tight">
+            Laulunopetus
           </h1>
         </div>
 
@@ -194,6 +194,33 @@ const LaulunopetusPage = () => {
                 kautta!
               </Button>
             </div>
+          </section>
+
+          {/* Testimonial Quote - Annemari */}
+          <section className="mb-16">
+            <figure className="relative mx-auto max-w-3xl rounded-lg bg-card p-8">
+              <span
+                className="absolute top-0 left-0 -translate-x-4 -translate-y-4 text-9xl font-serif text-accent opacity-20 select-none"
+                aria-hidden="true"
+              >
+                "
+              </span>
+              <blockquote className="relative z-10 text-md italic leading-relaxed text-foreground/80">
+                <p>
+                  Suosittelen lämpimästi Heidin laulutunteja. Olen ottanut
+                  pariin otteeseen 5x laulutuntipaketit, joiden aikana ehtii
+                  mainiosti treenata tekniikkaa, itse kappaletta ja vielä pohtia
+                  esiintymistäkin. Näihin kaikkiin osa-alueisiin Heidiltä saa
+                  rautaisen ammattitaitoista ohjausta/opetusta - tietenkin
+                  rennossa ja positiivisessa ilmapiirissä. Heidin laulutunnit
+                  sopivat sekä aloittelijoille että kokeneemmillekin laulajille
+                  <span className="not-italic"> 🩷🥰</span>
+                </p>
+              </blockquote>
+              <figcaption className="relative z-10 mt-6 text-right font-semibold text-foreground">
+                – Annemari
+              </figcaption>
+            </figure>
           </section>
 
           {/* Pricing Section */}
