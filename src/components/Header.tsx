@@ -137,6 +137,7 @@ const Header = () => {
     { label: "Keikat", href: "/keikat" },
     { label: "Bio", href: "/bio" },
     { label: "Galleria", href: "/galleria" },
+    { label: "Laulunopetus", href: "/laulunopetus" },
     {
       label: "Heidi & The Hot Stuff",
       href: "/bilebandi-heidi-and-the-hot-stuff",

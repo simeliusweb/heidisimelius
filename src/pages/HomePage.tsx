@@ -230,6 +230,30 @@ const HomePage = () => {
             </div>
           </section>
 
+          {/* Laulunopetus Promo Section */}
+          <section className="container mx-auto px-6 py-16">
+            <div className="max-w-3xl mx-auto bg-card rounded-lg p-6 sm:p-8 border border-border">
+              <h2 className="text-2xl sm:text-3xl font-sans font-extrabold text-secondary-foreground mb-4 text-center">
+                Haluatko oppia laulamaan?
+              </h2>
+              <p className="text-foreground font-source text-center mb-6 text-base sm:text-lg">
+                Heidi toimii myös laulunopettajana Tampereen keskustassa. Tarjolla
+                yksilöllistä pop/jazz-laulunopetusta niin aloittelijoille kuin
+                kokeneemmillekin laulajille.
+              </p>
+              <div className="text-center">
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="custom-lifted-primary"
+                >
+                  <a href="/laulunopetus">Tutustu laulunopetukseen</a>
+                </Button>
+              </div>
+            </div>
+          </section>
+
           {/* Videos Section */}
           {videosLoading ? (
             <section className="container mx-auto px-6 py-16">

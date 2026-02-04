@@ -431,6 +431,21 @@ const BioPage = () => {
                     </Button>
                   </div>
                 )}
+
+                {/* Laulunopetus CTA */}
+                <div className="mt-12 bg-card rounded-lg p-6 border border-border">
+                  <h3 className="text-xl sm:text-2xl font-sans font-extrabold text-secondary-foreground mb-3">
+                    Heidi opettaa myös laulua
+                  </h3>
+                  <p className="text-foreground font-source mb-4 text-sm sm:text-base">
+                    Heidin ammattitaitoa voi hyödyntää myös laulutunneilla.
+                    Yksilöllistä pop/jazz-laulunopetusta positiivisen pedagogian
+                    hengessä Tampereen keskustassa.
+                  </p>
+                  <Button asChild size="lg" className="element-embedded-effect">
+                    <a href="/laulunopetus">Lue lisää laulunopetuksesta</a>
+                  </Button>
+                </div>
               </section>
 
               {/* Mobile Image 1 */}

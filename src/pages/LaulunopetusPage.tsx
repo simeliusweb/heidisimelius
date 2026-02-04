@@ -128,7 +128,7 @@ const LaulunopetusPage = () => {
       <div className="main-content pt-16 overflow-hidden">
         {/* Tagline */}
         <p className="text-lg xs:text-xl sm:text-2xl md:text-2xl font-santorini text-muted-foreground pt-8 md:pt-12 pb-8 leading-loose text-center italic px-4">
-          Laulunopetusta Tampereen keskustassa
+          Laulunopettaja Tampereen keskustassa
         </p>
 
         <div className="container px-6 md:px-8 py-8 md:py-12 max-w-4xl mx-auto">
