@@ -29,17 +29,15 @@ const HeroImageAndText = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const heidiShadowRef = useRef<HTMLHeadingElement>(null);
   const simeliusShadowRef = useRef<HTMLHeadingElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  // State to manage the loading process
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSpinnerVisible, setIsSpinnerVisible] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null); // Ref for the content to animate in
+  const [isReady, setIsReady] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   // Fetch page images content
   const {
     data: pageImagesContent,
     isLoading: isDataLoading,
-    error: dataError,
   } = useQuery({
     queryKey: ["page_content", "page_images"],
     queryFn: fetchPageImagesContent,
@@ -53,18 +51,15 @@ const HeroImageAndText = () => {
 
     if (!container || !heidiShadow || !simeliusShadow) return;
 
-    const movementStrength = 4; // How much the shadow moves. Adjust this value for more/less effect.
+    const movementStrength = 4;
 
-    // --- Desktop: Mouse Move Animation ---
     const handleMouseMove = (event: MouseEvent) => {
       const { clientX, clientY } = event;
       const { offsetWidth, offsetHeight } = container;
 
-      // Calculate position from -1 to 1
       const xPos = (clientX / offsetWidth - 0.5) * 2;
       const yPos = (clientY / offsetHeight - 0.5) * 2;
 
-      // Animate the shadows
       gsap.to([heidiShadow, simeliusShadow], {
         x: -xPos * movementStrength,
         y: -yPos * movementStrength,
@@ -73,123 +68,86 @@ const HeroImageAndText = () => {
       });
     };
 
-    // Add event listener
     container.addEventListener("mousemove", handleMouseMove);
-
-    // Cleanup function
-    return () => {
-      container.removeEventListener("mousemove", handleMouseMove);
-    };
+    return () => container.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Effect to handle asset loading and fade-in animation with a threshold
+  // Wait for image + font, then fade in
   useEffect(() => {
-    // Don't start loading until we have the image data
-    if (isDataLoading || !pageImagesContent) {
-      return;
-    }
+    if (isDataLoading || !pageImagesContent) return;
 
-    // We'll store the animation instance here to clean it up later
+    let cancelled = false;
     let heroScrollAnimation: gsap.core.Tween;
 
-    // 1. Set the content to its starting animation state (invisible)
-    if (contentRef.current) {
-      gsap.set(contentRef.current, { opacity: 0 });
-    }
+    // Show spinner only if loading takes longer than 200ms
+    const spinnerTimeout = window.setTimeout(() => {
+      if (!cancelled) setShowSpinner(true);
+    }, 200);
 
-    // 2. Set a timer to show the spinner only if loading is slow
-    const spinnerTimeoutId: number = window.setTimeout(() => {
-      setIsSpinnerVisible(true);
-    }, 200); // 200ms threshold
+    const imageUrl = pageImagesContent.home_hero.src;
 
-    // 3. Asset loading promise
-    const assetsPromise = new Promise<void>((resolve, reject) => {
-      const imageUrl = pageImagesContent.home_hero.src;
-      const fontPromise = document.fonts.ready;
-      const imagePromise = new Promise<void>((resolveImg, rejectImg) => {
-        const img = new Image();
-        img.src = imageUrl;
-        img.onload = () => resolveImg();
-        img.onerror = () => rejectImg();
-      });
-
-      // Correctly chain the promises by passing the resolve/reject handlers directly.
-      Promise.all([fontPromise, imagePromise])
-        .then(() => resolve())
-        .catch(reject);
+    // Preload the image
+    const imagePromise = new Promise<void>((resolve, reject) => {
+      const img = new Image();
+      img.src = imageUrl;
+      img.onload = () => resolve();
+      img.onerror = () => reject(new Error("Image failed to load"));
     });
 
-    // 4. Wait for assets to load
-    assetsPromise
+    // Load the specific font (not just document.fonts.ready which can resolve prematurely)
+    const fontPromise = document.fonts.load("1em Santorini").then(() => {
+      // Double-check that it actually loaded
+      if (!document.fonts.check("1em Santorini")) {
+        return document.fonts.ready;
+      }
+    });
+
+    Promise.all([imagePromise, fontPromise])
       .then(() => {
-        // Clear the timer immediately so the spinner doesn't flash.
-        clearTimeout(spinnerTimeoutId);
+        if (cancelled) return;
+        clearTimeout(spinnerTimeout);
+        setShowSpinner(false);
+        setIsReady(true);
 
-        // Mark loading as complete and hide the spinner
-        setIsLoading(false);
-        setIsSpinnerVisible(false);
-
-        // Animate the content in
+        // Fade-in animation
         if (contentRef.current) {
           gsap.fromTo(
             contentRef.current,
             { opacity: 0, scale: 0.98 },
-            {
-              opacity: 1,
-              scale: 1,
-              duration: 0.8,
-              ease: "power2.out",
-              delay: 0.1,
-            },
+            { opacity: 1, scale: 1, duration: 0.8, ease: "power2.out", delay: 0.05 },
           );
         }
 
-        // Create the parallax animation.
+        // Parallax scroll animation
         heroScrollAnimation = gsap.to(contentRef.current, {
           y: 140,
           ease: "none",
           scrollTrigger: {
             trigger: contentRef.current,
-            start: "top top", // When top of trigger hits top of viewport
-            end: "bottom top", // When bottom of trigger hits top of viewport
-            scrub: true, // Smoothly link animation to scroll position
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
           },
         });
       })
       .catch((error) => {
-        clearTimeout(spinnerTimeoutId);
-        console.error("Failed to load critical hero assets:", error);
-        setIsLoading(false);
-        setIsSpinnerVisible(false);
+        if (cancelled) return;
+        console.error("Failed to load hero assets:", error);
+        clearTimeout(spinnerTimeout);
+        setShowSpinner(false);
+        setIsReady(true);
+        // Show content anyway on error
         if (contentRef.current) {
-          gsap.to(contentRef.current, { opacity: 1, scale: 1 });
+          gsap.set(contentRef.current, { opacity: 1 });
         }
       });
 
-    // 5. Cleanup function for when the component unmounts
     return () => {
-      clearTimeout(spinnerTimeoutId);
-      // If the scroll animation was created, kill its ScrollTrigger instance
-      if (heroScrollAnimation) {
-        heroScrollAnimation.scrollTrigger?.kill();
-      }
+      cancelled = true;
+      clearTimeout(spinnerTimeout);
+      if (heroScrollAnimation) heroScrollAnimation.scrollTrigger?.kill();
     };
   }, [isDataLoading, pageImagesContent]);
-
-  useEffect(() => {
-    if (contentRef.current) {
-      gsap.to(contentRef.current, {
-        y: 140,
-        ease: "none",
-        scrollTrigger: {
-          trigger: contentRef.current,
-          start: "top top", // When top of trigger hits top of viewport
-          end: "bottom top", // When bottom of trigger hits top of viewport
-          scrub: true, // Smoothly link animation to scroll position
-        },
-      });
-    }
-  }, []);
 
   return (
     <div
@@ -231,11 +189,12 @@ const HeroImageAndText = () => {
     )`,
       }}
     >
-      {(isLoading || isDataLoading) && isSpinnerVisible && (
+      {!isReady && showSpinner && (
         <Loader2 className="absolute h-12 w-12 animate-spin text-primary" />
       )}
 
-      <div ref={contentRef} className="relative">
+      {/* opacity:0 via inline style prevents flash before GSAP takes over */}
+      <div ref={contentRef} className="relative" style={{ opacity: 0 }}>
         {/* Inner container for scaling */}
         <div className="scale-[0.45] xxs:scale-[0.5] xs:scale-[0.55] sm:scale-75 md:scale-90 lg:scale-100">
           {/* --- "Heidi" Word Group --- */}

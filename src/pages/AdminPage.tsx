@@ -8,6 +8,7 @@ import VideosManager from "@/components/admin/videos/VideosManager";
 import GalleryManager from "@/components/admin/gallery/GalleryManager";
 import BioManager from "@/components/admin/BioManager";
 import ImageManager from "@/components/admin/images/ImageManager";
+import LaulunopetusManager from "@/components/admin/LaulunopetusManager";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -52,6 +53,9 @@ const AdminPage = () => {
           <TabsTrigger value="kuvat" className="text-foreground">
             Kuvat
           </TabsTrigger>
+          <TabsTrigger value="laulunopetus" className="text-foreground">
+            Laulunopetus
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="keikat" className="mt-4">
           <GigsManager />
@@ -67,6 +71,9 @@ const AdminPage = () => {
         </TabsContent>
         <TabsContent value="kuvat" className="mt-4">
           <ImageManager />
+        </TabsContent>
+        <TabsContent value="laulunopetus" className="mt-4">
+          <LaulunopetusManager />
         </TabsContent>
       </Tabs>
     </div>

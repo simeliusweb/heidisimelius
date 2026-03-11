@@ -42,6 +42,36 @@ export interface BioContent {
   collaborations?: StudioItem[];
 }
 
+export interface PricingTier {
+  id: string;
+  name: string;
+  price: string;
+  duration: string;
+  isFeatured?: boolean;
+}
+
+export interface Testimonial {
+  id: string;
+  text: string;
+  author: string;
+}
+
+export interface LaulunopetusContent {
+  tagline: string;
+  introLeadParagraph: string;
+  introBodyParagraphs: string;
+  practiceItems: string[];
+  ctaButtonText: string;
+  testimonials: Testimonial[];
+  pricingTitle: string;
+  pricingTiers: PricingTier[];
+  backgroundTitle: string;
+  backgroundParagraphs: string;
+  closingCta: string;
+  finalCtaButtonText: string;
+  heroImageCredit: string;
+}
+
 export interface PageImage {
   src: string;
   alt: string;
