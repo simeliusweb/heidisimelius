@@ -28,6 +28,8 @@ export interface BioContent {
   quoteAuthor: string;
   concludingParagraphs: string;
   musicalExperienceParagraphs?: string;
+  koulutusTitle?: string;
+  musikaaliproduktiotTitle?: string;
   cvUrl?: string;
 
   // Bio page images

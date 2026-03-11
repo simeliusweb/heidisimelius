@@ -57,6 +57,8 @@ const bioFormSchema = z.object({
     .string()
     .min(10, { message: "Koulutustausta-teksti on pakollinen." }),
   musicalExperienceParagraphs: z.string().optional(),
+  koulutusTitle: z.string().optional(),
+  musikaaliproduktiotTitle: z.string().optional(),
   cv_file: z.instanceof(FileList).optional(),
   // Bio page images
   bio_image_1_file: z.instanceof(FileList).optional(),
@@ -216,6 +218,8 @@ const BioManager = () => {
       quoteAuthor: defaultBioContent.quoteAuthor,
       concludingParagraphs: defaultBioContent.concludingParagraphs,
       musicalExperienceParagraphs: defaultBioContent.musicalExperienceParagraphs || "",
+      koulutusTitle: defaultBioContent.koulutusTitle || "Koulutus",
+      musikaaliproduktiotTitle: defaultBioContent.musikaaliproduktiotTitle || "Musikaaliproduktiot",
       bio_image_1_alt: defaultBioContent.bioImage1?.alt || "",
       bio_image_1_description: defaultBioContent.bioImage1?.description || "",
       bio_image_1_photographer: defaultBioContent.bioImage1?.photographerName || "",
@@ -292,6 +296,8 @@ const BioManager = () => {
         quoteAuthor: bioContent.quoteAuthor,
         concludingParagraphs: bioContent.concludingParagraphs,
         musicalExperienceParagraphs: bioContent.musicalExperienceParagraphs || "",
+        koulutusTitle: bioContent.koulutusTitle || "Koulutus",
+        musikaaliproduktiotTitle: bioContent.musikaaliproduktiotTitle || "Musikaaliproduktiot",
         bio_image_1_alt: bioContent.bioImage1?.alt || "",
         bio_image_1_description: bioContent.bioImage1?.description || "",
         bio_image_1_photographer: bioContent.bioImage1?.photographerName || "",
@@ -462,6 +468,8 @@ const BioManager = () => {
       quoteAuthor: data.quoteAuthor,
       concludingParagraphs: data.concludingParagraphs,
       musicalExperienceParagraphs: data.musicalExperienceParagraphs || "",
+      koulutusTitle: data.koulutusTitle || "Koulutus",
+      musikaaliproduktiotTitle: data.musikaaliproduktiotTitle || "Musikaaliproduktiot",
       cvUrl: cvUrl,
       bioImage1: bioImage1,
       bioImage2: bioImage2,
@@ -731,6 +739,22 @@ const BioManager = () => {
               Koulutustausta
             </h3>
             <FormField
+              name="koulutusTitle"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Osion otsikko</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Koulutus"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
               name="concludingParagraphs"
               control={form.control}
               render={({ field }) => (
@@ -848,6 +872,22 @@ const BioManager = () => {
             <h3 className="text-lg font-semibold text-secondary">
               Musikaalikokemus
             </h3>
+            <FormField
+              name="musikaaliproduktiotTitle"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Osion otsikko</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Musikaaliproduktiot"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               name="musicalExperienceParagraphs"
               control={form.control}

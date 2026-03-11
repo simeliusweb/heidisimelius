@@ -11,7 +11,6 @@ import { pageMetadata } from "@/config/metadata";
 import { FaInstagram } from "react-icons/fa";
 import ShadowHeading from "@/components/ShadowHeading";
 import { PageImagesContent } from "@/types/content";
-import { defaultPageImagesContent } from "@/lib/utils";
 import { Gig } from "@/components/admin/GigsManager";
 import useImagePreload from "@/hooks/useImagePreload";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -87,13 +86,7 @@ const fetchPageImagesContent = async (): Promise<PageImagesContent> => {
     .eq("page_name", "page_images")
     .single();
 
-  if (error) {
-    if (error.code === "PGRST116") {
-      // No data found, return default content
-      return defaultPageImagesContent;
-    }
-    throw new Error(error.message);
-  }
+  if (error) throw new Error(error.message);
 
   return data.content as unknown as PageImagesContent;
 };
@@ -107,8 +100,7 @@ const KeikatPage = () => {
     queryFn: fetchPageImagesContent,
   });
 
-  const heroImageSrc = pageImagesContent?.keikat_hero?.src ||
-    "/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-16.webp";
+  const heroImageSrc = pageImagesContent?.keikat_hero?.src;
   const heroImageLoaded = useImagePreload(heroImageSrc);
 
   // Fetch past gigs
@@ -293,10 +285,11 @@ const KeikatPage = () => {
         </div>
 
         {/* Credits */}
-        <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg rounded-bl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
-          Kuva:{" "}
-          {pageImagesContent?.keikat_hero?.photographer_name || "Ville Huuri"}
-        </p>
+        {pageImagesContent?.keikat_hero?.photographer_name && (
+          <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg rounded-bl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
+            Kuva: {pageImagesContent.keikat_hero.photographer_name}
+          </p>
+        )}
       </section>
 
       {/* Musiikkikeikat Section */}

@@ -22,7 +22,6 @@ import "yet-another-react-lightbox/styles.css";
 import "react-photo-album/masonry.css";
 import { breakpointValues, useBreakpoint } from "@/hooks/useBreakpoint";
 import { PageImagesContent } from "@/types/content";
-import { defaultPageImagesContent } from "@/lib/utils";
 import useImagePreload from "@/hooks/useImagePreload";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -72,13 +71,7 @@ const fetchPageImagesContent = async (): Promise<PageImagesContent> => {
     .eq("page_name", "page_images")
     .single();
 
-  if (error) {
-    if (error.code === "PGRST116") {
-      // No data found, return default content
-      return defaultPageImagesContent;
-    }
-    throw new Error(error.message);
-  }
+  if (error) throw new Error(error.message);
 
   return data.content as unknown as PageImagesContent;
 };
@@ -96,8 +89,7 @@ const GalleriaPage = () => {
     queryFn: fetchPageImagesContent,
   });
 
-  const heroImageSrc = pageImagesContent?.galleria_hero?.src ||
-    "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg";
+  const heroImageSrc = pageImagesContent?.galleria_hero?.src;
   const heroImageLoaded = useImagePreload(heroImageSrc);
 
   // Fetch data from Supabase
@@ -302,11 +294,11 @@ const GalleriaPage = () => {
           </h1>
         </div>
         {/* Credits */}
-        <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
-          Kuva:{" "}
-          {pageImagesContent?.galleria_hero?.photographer_name ||
-            "Titta Toivanen"}
-        </p>
+        {pageImagesContent?.galleria_hero?.photographer_name && (
+          <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
+            Kuva: {pageImagesContent.galleria_hero.photographer_name}
+          </p>
+        )}
       </section>
 
       <main className="container mx-auto px-6 pb-12 pt-12 sm:pt-16 lg:pt-24">

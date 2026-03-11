@@ -10,63 +10,6 @@ import useFontLoaded from "@/hooks/useFontLoaded";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const defaultContent: LaulunopetusContent = {
-  tagline: "Laulunopettaja Tampereen keskustassa",
-  introLeadParagraph:
-    "Etsitkö laadukasta laulunopetusta Tampereella? Haluaisitko varmuutta tekniikkaan, tulkita suuria tunteita tai laulaa korkealta ja kovaa?",
-  introBodyParagraphs:
-    "Tarjoan yksilöllistä pop/jazz-laulunopetusta Tampereen keskustassa rautatieaseman tuntumassa. Erityisosaamistani on rytmimusiikki, musikaalikappaleiden vocal coaching ja esiintymisvalmennus.\n\nLaulunopettajana haluan luoda positiivisen pedagogian keinoin rennon ja luovan oppimisilmapiirin, jossa on helppo heittäytyä ja kokeilla uutta. Tunneillani saa olla oma itsensä ja lähdemme liikkeelle jokaisen oppilaan omista lähtökohdista, vahvuuksista ja tavoitteista.\n\nVoit tulla laulutunneille aloittelijana tai jo pidempään laulua harrastaneena tai ammattilaisena!",
-  practiceItems: [
-    "laulutekniikkaa ja äänen fysiologiaa",
-    "tulkintaa ja tarinankerrontaa (ATS eli Acting Through Song)",
-    "pääsykoekappaleita musiikkialan hakuihin",
-    "esiintymisvarmuutta karaokelavoille tai keikoille",
-  ],
-  ctaButtonText:
-    "Varaa kokeilutunti ottamalla yhteyttä alla olevan lomakkeen kautta!",
-  testimonials: [
-    {
-      id: "testimonial-1",
-      text: "Suosittelen lämpimästi Heidin laulutunteja. Olen ottanut pariin otteeseen 5x laulutuntipaketit, joiden aikana ehtii mainiosti treenata tekniikkaa, itse kappaletta ja vielä pohtia esiintymistäkin. Näihin kaikkiin osa-alueisiin Heidiltä saa rautaisen ammattitaitoista ohjausta/opetusta - tietenkin rennossa ja positiivisessa ilmapiirissä. Heidin laulutunnit sopivat sekä aloittelijoille että kokeneemmillekin laulajille 🩷🥰",
-      author: "Annemari",
-    },
-    {
-      id: "testimonial-2",
-      text: "Menin Heidille ekalle laulutunnilleni ikinä ja oon maailman onnellisin et löysin hänet! Heidin kanssa oli tosi helppoa olla ihan alusta lähtien ja sain jo ekalla tunnilla tosi paljon vinkkejä laulamiseen ja tekniikkaan. Opin tosi kokonaisvaltasesti ihmisen äänestä, joka konkretisoi paljon niitä kysymysmerkkejä, joita mulla on laulamiseen liittyen ollut. Ostin heti 5 laulutuntia lisää, koska Heidi on super!",
-      author: "Aino",
-    },
-  ],
-  pricingTitle: "Hinnat – Laulunopetus Tampere",
-  pricingTiers: [
-    {
-      id: "tier-1",
-      name: "Ensimmäinen kokeilutunti",
-      price: "40€",
-      duration: "45 min",
-    },
-    {
-      id: "tier-2",
-      name: "Yksittäiset tunnit",
-      price: "60€",
-      duration: "45 min",
-    },
-    {
-      id: "tier-3",
-      name: "Tuntipaketti",
-      price: "280€",
-      duration: "5 x 45 min",
-      isFeatured: true,
-    },
-  ],
-  backgroundTitle: "Taustani laulunopettajana",
-  backgroundParagraphs:
-    "Opiskelen tällä hetkellä pop/jazz-laulun pedagogiikkaa Metropolia ammattikorkeakoulussa. Laulunopettajana olen toiminut yksityisesti vuodesta 2016 ja sijaistanut mm. Pirkanmaan musiikkiopistossa, Tampereen laulukoululla sekä Tampereenseudun työväenopistossa.\n\nAiemmat opiskeluvuoteni Metropolia ammattikorkeakoulun muusikko-opinnoissa esiintyjä-linjalta toivat minulle erikoisosaamista pop/jazz-laulun eri tyylisuunissa. Vahvuuksiini kuuluu soul ja rnb musiikin äänenkäyttötavat ja melismat. Minulla on kokemusta myös CVT ja Estill -laulutekniikoista.\n\nOpinnot Tampereen ammattikorkeakoulun Musiikkiteatteriopinnoissa toivat erikoisosaamista musikaalilaulun, eläytymisen ja tarinankerronnan parissa. Kokemusta on karttunut myös työskentelystä musikaaleissa.\n\nOlen keikkaillut laulajana yli kymmenen vuoden ajan niin solistina kuin taustalaulajanakin sekä toiminut myös studiolaulajana. Teen keikkaa ja omaa musiikkia myös artistina. Laulunopettajana ammennan tietotaitoa siis hyvin käytännönläheisesti monenlaisesta työkokemuksesta musiikin kentällä.",
-  closingCta:
-    "Laulaminen on minulle tapa ilmaista itseäni ja tulkita tunteita. Tule laulutunneille Tampereelle kokemaan laulamisen iloa!",
-  finalCtaButtonText: "Ota yhteyttä ja varaa aikasi!",
-  heroImageCredit: "Sanni Majamaa",
-};
-
 const fetchLaulunopetusContent =
   async (): Promise<LaulunopetusContent> => {
     const { data, error } = await supabase
@@ -75,26 +18,57 @@ const fetchLaulunopetusContent =
       .eq("page_name", "laulunopetus")
       .single();
 
-    if (error) {
-      if (error.code === "PGRST116") {
-        return defaultContent;
-      }
-      throw new Error(error.message);
-    }
+    if (error) throw new Error(error.message);
 
     return data.content as unknown as LaulunopetusContent;
   };
 
 const LaulunopetusPage = () => {
-  const { data: content } = useQuery<LaulunopetusContent>({
+  const {
+    data: content,
+    isLoading,
+    error,
+  } = useQuery<LaulunopetusContent>({
     queryKey: ["laulunopetus-content"],
     queryFn: fetchLaulunopetusContent,
   });
 
-  const c = content || defaultContent;
-
   const heroImageLoaded = useImagePreload("/images/Heidi-Simelius-laulunopettaja-tampere.jpg");
   const santoriniLoaded = useFontLoaded("Santorini");
+
+  if (isLoading) {
+    return (
+      <div style={{
+        backgroundImage: `linear-gradient(12deg, hsl(234deg 24% 8%) 0%, hsl(234deg 23% 8%) 10%, hsl(234deg 23% 11%) 20%, hsl(239deg 23% 9%) 32%, hsl(238deg 23% 12%) 46%, hsl(236deg 23% 8%) 62%, hsl(234deg 24% 8%) 75%, hsl(234deg 24% 11%) 84%, hsl(234deg 24% 10%) 89%, hsl(234deg 24% 8%) 93%, hsl(235deg 23% 9%) 96%, hsl(235deg 23% 10%) 98%, hsl(234deg 23% 8%) 100%)`,
+        backgroundBlendMode: "overlay",
+      }}>
+        <section className="relative h-[70vh] md:h-[85vh] flex items-end justify-center bg-background">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <LoadingSpinner />
+          </div>
+          <div className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2">
+            <Skeleton className="h-12 sm:h-16 lg:h-20 w-48 sm:w-72 lg:w-80 rounded-lg" />
+          </div>
+        </section>
+        <div className="container px-6 md:px-8 py-24 max-w-4xl mx-auto space-y-6">
+          <Skeleton className="h-6 sm:h-8 w-72 sm:w-96 mx-auto" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-3/4" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !content) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-destructive">
+          Virhe sisällön lataamisessa: {error?.message}
+        </div>
+      </div>
+    );
+  }
 
   // Build structured data from dynamic pricing
   const serviceSchema = {
@@ -122,7 +96,7 @@ const LaulunopetusPage = () => {
       "@type": "City",
       name: "Tampere",
     },
-    offers: c.pricingTiers.map((tier) => ({
+    offers: content.pricingTiers.map((tier) => ({
       "@type": "Offer",
       name: tier.name,
       description: `${tier.name} (${tier.duration})`,
@@ -141,8 +115,8 @@ const LaulunopetusPage = () => {
   };
 
   // Split the first testimonial from the rest (first goes before pricing, rest after background)
-  const firstTestimonial = c.testimonials?.[0];
-  const remainingTestimonials = c.testimonials?.slice(1) || [];
+  const firstTestimonial = content.testimonials?.[0];
+  const remainingTestimonials = content.testimonials?.slice(1) || [];
 
   return (
     <div
@@ -203,7 +177,7 @@ const LaulunopetusPage = () => {
 
         {/* Credits */}
         <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
-          Kuva: {c.heroImageCredit}
+          Kuva: {content.heroImageCredit}
         </p>
       </section>
 
@@ -212,7 +186,7 @@ const LaulunopetusPage = () => {
         {/* Tagline */}
         {santoriniLoaded ? (
           <p className="text-lg xs:text-xl sm:text-2xl md:text-2xl font-santorini text-muted-foreground pt-8 md:pt-12 pb-8 leading-loose text-center italic px-4">
-            {c.tagline}
+            {content.tagline}
           </p>
         ) : (
           <div className="flex justify-center pt-8 md:pt-12 pb-8 px-4">
@@ -224,11 +198,11 @@ const LaulunopetusPage = () => {
           {/* Intro Section */}
           <section className="mb-16">
             <p className="text-xl md:text-2xl font-source text-primary mb-8 text-center leading-relaxed">
-              {c.introLeadParagraph}
+              {content.introLeadParagraph}
             </p>
 
             <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
-              {c.introBodyParagraphs.split("\n\n").map((paragraph, i) => (
+              {content.introBodyParagraphs.split("\n\n").map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
               ))}
 
@@ -236,7 +210,7 @@ const LaulunopetusPage = () => {
                 Laulutunneilla voimme harjoitella esim.
               </p>
               <ul className="list-disc list-inside space-y-2 text-accent ml-4">
-                {c.practiceItems.map((item, i) => (
+                {content.practiceItems.map((item, i) => (
                   <li key={i}>
                     <span className="text-foreground">{item}</span>
                   </li>
@@ -251,7 +225,7 @@ const LaulunopetusPage = () => {
                 onClick={scrollToFooter}
                 className="element-embedded-effect h-auto text-wrap py-2"
               >
-                {c.ctaButtonText}
+                {content.ctaButtonText}
               </Button>
             </div>
           </section>
@@ -279,11 +253,11 @@ const LaulunopetusPage = () => {
           {/* Pricing Section */}
           <section className="mb-16">
             <h2 className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-8 text-center">
-              {c.pricingTitle}
+              {content.pricingTitle}
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {c.pricingTiers.map((tier) => (
+              {content.pricingTiers.map((tier) => (
                 <div
                   key={tier.id}
                   className={`relative bg-card rounded-lg p-6 ${
@@ -316,16 +290,16 @@ const LaulunopetusPage = () => {
           {/* Background Section */}
           <section className="mb-16">
             <h2 className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-8">
-              {c.backgroundTitle}
+              {content.backgroundTitle}
             </h2>
 
             <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
-              {c.backgroundParagraphs.split("\n\n").map((paragraph, i) => (
+              {content.backgroundParagraphs.split("\n\n").map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
               ))}
 
               <p className="text-primary font-semibold text-xl">
-                {c.closingCta}
+                {content.closingCta}
               </p>
             </div>
           </section>
@@ -357,7 +331,7 @@ const LaulunopetusPage = () => {
               onClick={scrollToFooter}
               className="element-embedded-effect"
             >
-              {c.finalCtaButtonText}
+              {content.finalCtaButtonText}
             </Button>
           </section>
         </div>

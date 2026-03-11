@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 import BottomBranding from "./BottomBranding";
 import LoadingSpinner from "./LoadingSpinner";
 import { PageImagesContent } from "@/types/content";
-import { defaultPageImagesContent } from "@/lib/utils";
 
 const fetchPageImagesContent = async (): Promise<PageImagesContent> => {
   const { data, error } = await supabase
@@ -14,13 +13,7 @@ const fetchPageImagesContent = async (): Promise<PageImagesContent> => {
     .eq("page_name", "page_images")
     .single();
 
-  if (error) {
-    if (error.code === "PGRST116") {
-      // No data found, return default content
-      return defaultPageImagesContent;
-    }
-    throw new Error(error.message);
-  }
+  if (error) throw new Error(error.message);
 
   return data.content as unknown as PageImagesContent;
 };
@@ -212,14 +205,8 @@ const HeroImageAndText = () => {
 
           {/* --- Central Image --- */}
           <img
-            src={
-              pageImagesContent?.home_hero?.src ||
-              "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-2-square.webp"
-            }
-            alt={
-              pageImagesContent?.home_hero?.alt ||
-              "Heidi Simelius on laulaja, lauluntekijä, laulunopettaja ja esiintyjä."
-            }
+            src={pageImagesContent?.home_hero?.src}
+            alt={pageImagesContent?.home_hero?.alt}
             className="relative z-30 h-auto w-[370px] shadow-lg image-glow-home-hero"
           />
 

@@ -13,7 +13,6 @@ import {
   StudioItem,
   PageImagesContent,
 } from "@/types/content";
-import { defaultPageImagesContent } from "@/lib/utils";
 import useImagePreload from "@/hooks/useImagePreload";
 import useFontLoaded from "@/hooks/useFontLoaded";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -38,49 +37,7 @@ const BioPage = () => {
       .eq("page_name", "bio")
       .single();
 
-    if (error) {
-      if (error.code === "PGRST116") {
-        // No data found, return default content
-        return {
-          introParagraphs:
-            'Heidi Simelius on laulaja, lauluntekijä, laulunopettaja ja esiintyjä. Hän keikkailee esittäen omaa musiikkiaan ja julkaisi vuonna 2023 ensimmäisen EP:nsä Mä vastaan. Viiden biisin EP sisältää nimikkokappaleen lisäksi mm. kappaleet Missä sä oot? ja Meitä ei ole enää. Heidi on julkaissut aiemmin seitsemän singleä, mm. kappaleet Mun sydän on mun ja Upee. Heidin kappaleet ovat suomenkielisiä sekä vahvasti tekstilähtöisiä ja musiikki on tyyliltään soulahtavaa poppia.\n\nHeidi oli mukana Voice of Finlandin uusimmalla kaudella, jossa hän lauloi tiensä semifinaaliin. Heidi esiintyy vaihtelevasti myös erilaisten kokoonpanojen kanssa ja hänet on voitu nähdä mm. Suomen varusmiessoittokunnan "80\'s kiertueen" ja Gospel Helsinki -kuoron vierailevana solistina sekä keikoilla Pekka Simojoen kanssa.',
-          featuredVideoUrl: "https://www.youtube.com/embed/3iOHoeFv4ZE",
-          featuredVideoCaption:
-            "Tässä esitin Knockout-vaiheessa Jennifer Rushin kappaleen The Power Of Love!",
-          quoteText:
-            "Olen The Voice of Finland -ohjelman musiikkituottaja ja minulla oli ilo tehdä kaudella 2023-24 Heidi Simeliuksen kanssa useita musiikkinumeroita harjoituksineen ja suunnitteluineen. Tällä yli 6kk periodilla minulle on muodostunut Heidistä hyvin määrätietoinen, eteenpäin pyrkivä ja oman tiensä poikkkeuksellisen hyvin näkevä artisti, jonka musikaalisuus on ilmeistä. Suosittelen ja kannustan lämpimästi Heidiä oman musan tekemiseen ja esilletuomiseen joten tsekatkaa tää tyyppi❤️",
-          quoteAuthor: "Lenni-Kalle Taipale",
-          concludingParagraphs:
-            "Heidi on valmistunut Tampereen Ammattikorkeakoulussa musiikkiteatterin ammattilaiskesi vuonna 2023 sekä Metropolia Ammattikorkeakoulusta muusikoksi esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.",
-          musicalExperienceParagraphs:
-            "Kaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin Tootsie-musikaalissa ja kaudella 2022 – 2023 hän ihastutti Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa. Heidi tekee nimeä myös musikaali-suomentajana ja hänen ensimmäinen kokonaan suomentamansa musikaali Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.",
-          bioImage1: {
-            src: "/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg",
-            alt: "Heidi Simelius Seuraa singlen kuvauksissa.",
-            description: "Heidi Simelius Seuraa singlen kuvauksissa.",
-            photographerName: "Titta Toivanen",
-          },
-          bioImage2: {
-            src: "/images/Heidi-Simelius-Kinky-Boots-Oulun-teatteri-musikaali.jpeg",
-            alt: "Heidi Simelius Oulun teatterin Kinky Boots -musikaalin promokuvassa.",
-            description: 'Musikaalissa "Kinky Boots" Oulun teatterissa.',
-            photographerName: "Kati Leinonen",
-          },
-          bioImage3: {
-            src: "/images/Heidi-Simelius-koskettimet-ja-laulu-kuva-AWA.webp",
-            alt: "Heidi Simelius Seuraa singlen kuvauksissa.",
-            description: "Heidi Simelius Seuraa singlen kuvauksissa.",
-            photographerName: "AWA",
-          },
-          theatreCredits: [],
-          translationCredits: [],
-          soloAlbums: [],
-          singles: [],
-          collaborations: [],
-        };
-      }
-      throw new Error(error.message);
-    }
+    if (error) throw new Error(error.message);
 
     // Sort all credit types by year in descending order before returning
     const content = data.content as unknown as BioContent;
@@ -113,13 +70,7 @@ const BioPage = () => {
       .eq("page_name", "page_images")
       .single();
 
-    if (error) {
-      if (error.code === "PGRST116") {
-        // No data found, return default content
-        return defaultPageImagesContent;
-      }
-      throw new Error(error.message);
-    }
+    if (error) throw new Error(error.message);
 
     return data.content as unknown as PageImagesContent;
   };
@@ -130,8 +81,7 @@ const BioPage = () => {
     queryFn: fetchPageImagesContent,
   });
 
-  const heroImageSrc = pageImagesContent?.bio_hero?.mobile?.src ||
-    "/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-3.jpg";
+  const heroImageSrc = pageImagesContent?.bio_hero?.mobile?.src;
   const heroImageLoaded = useImagePreload(heroImageSrc);
   const santoriniLoaded = useFontLoaded("Santorini");
 
@@ -375,19 +325,17 @@ const BioPage = () => {
         <div
           className={`absolute inset-0 bg-cover bg-top transition-opacity duration-700 ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
           style={{
-            backgroundImage: `url(${
-              pageImagesContent?.bio_hero?.mobile?.src ||
-              "/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-3.jpg"
-            })`,
+            backgroundImage: pageImagesContent?.bio_hero?.mobile?.src
+              ? `url(${pageImagesContent.bio_hero.mobile.src})`
+              : undefined,
           }}
         />
         <div
           className={`absolute inset-0 bg-cover bg-top hidden sm:block transition-opacity duration-700 ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
           style={{
-            backgroundImage: `url(${
-              pageImagesContent?.bio_hero?.desktop?.src ||
-              "/images/kuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-4.jpg"
-            })`,
+            backgroundImage: pageImagesContent?.bio_hero?.desktop?.src
+              ? `url(${pageImagesContent.bio_hero.desktop.src})`
+              : undefined,
           }}
         />
 
@@ -402,11 +350,11 @@ const BioPage = () => {
         </div>
 
         {/* Credits */}
-        <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
-          Kuva:{" "}
-          {pageImagesContent?.bio_hero?.desktop?.photographer_name ||
-            "Titta Toivanen"}
-        </p>
+        {pageImagesContent?.bio_hero?.desktop?.photographer_name && (
+          <p className="absolute bottom-0 right-0 text-muted font-sans italic p-2 bg-border/50 rounded-tl-lg text-[8px] sm:text-[12px] [writing-mode:vertical-rl] sm:[writing-mode:initial]">
+            Kuva: {pageImagesContent.bio_hero.desktop.photographer_name}
+          </p>
+        )}
       </section>
 
       {/* Main Content */}
@@ -436,10 +384,7 @@ const BioPage = () => {
                     <div className="aspect-video w-full">
                       <iframe
                         className="h-full w-full rounded-lg shadow-lg"
-                        src={
-                          bioContent?.featuredVideoUrl ||
-                          "https://www.youtube.com/embed/3iOHoeFv4ZE"
-                        }
+                        src={bioContent?.featuredVideoUrl}
                         title="YouTube video player"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerPolicy="strict-origin-when-cross-origin"
@@ -447,8 +392,7 @@ const BioPage = () => {
                       ></iframe>
                     </div>
                     <figcaption className="mt-2 text-center text-base italic">
-                      {bioContent?.featuredVideoCaption ||
-                        "Tässä esitin Knockout-vaiheessa Jennifer Rushin kappaleen The Power Of Love!"}
+                      {bioContent?.featuredVideoCaption}
                     </figcaption>
                   </figure>
 
@@ -462,15 +406,20 @@ const BioPage = () => {
                     </span>
                     <blockquote className="relative z-10 text-md italic leading-relaxed text-foreground/80">
                       <p>
-                        {bioContent?.quoteText ||
-                          "Olen The Voice of Finland -ohjelman musiikkituottaja ja minulla oli ilo tehdä kaudella 2023-24 Heidi Simeliuksen kanssa useita musiikkinumeroita harjoituksineen ja suunnitteluineen. Tällä yli 6kk periodilla minulle on muodostunut Heidistä hyvin määrätietoinen, eteenpäin pyrkivä ja oman tiensä poikkkeuksellisen hyvin näkevä artisti, jonka musikaalisuus on ilmeistä. Suosittelen ja kannustan lämpimästi Heidiä oman musan tekemiseen ja esilletuomiseen joten tsekatkaa tää tyyppi❤️"}
+                        {bioContent?.quoteText}
                       </p>
                     </blockquote>
                     <figcaption className="relative z-10 mt-6 text-right font-semibold text-foreground">
-                      – {bioContent?.quoteAuthor || "Lenni-Kalle Taipale"}
+                      – {bioContent?.quoteAuthor}
                     </figcaption>
                   </figure>
 
+                </div>
+
+                <h2 className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-4 sm:mb-6 mt-12 sm:mt-16">
+                  {bioContent?.koulutusTitle}
+                </h2>
+                <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
                   {bioContent &&
                     renderParagraphs(bioContent.concludingParagraphs)}
                 </div>
@@ -479,15 +428,14 @@ const BioPage = () => {
                 {bioContent?.ctaVisible !== false && (
                   <div className="mt-12 bg-card rounded-lg p-6 border border-border">
                     <h3 className="text-xl sm:text-2xl font-sans font-extrabold text-secondary-foreground mb-3">
-                      {bioContent?.ctaTitle || "Heidi opettaa myös laulua"}
+                      {bioContent?.ctaTitle}
                     </h3>
                     <p className="text-foreground font-source mb-4 text-sm sm:text-base">
-                      {bioContent?.ctaText ||
-                        "Heidin ammattitaitoa voi hyödyntää myös laulutunneilla. Yksilöllistä pop/jazz-laulunopetusta positiivisen pedagogian hengessä Tampereen keskustassa."}
+                      {bioContent?.ctaText}
                     </p>
                     <Button asChild size="lg" className="element-embedded-effect">
-                      <a href={bioContent?.ctaButtonLink || "/laulunopetus"}>
-                        {bioContent?.ctaButtonText || "Lue lisää laulunopetuksesta"}
+                      <a href={bioContent?.ctaButtonLink}>
+                        {bioContent?.ctaButtonText}
                       </a>
                     </Button>
                   </div>
@@ -498,14 +446,8 @@ const BioPage = () => {
               <figure className="md:hidden">
                 <div className="md:hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                   <img
-                    src={
-                      bioContent?.bioImage1?.src ||
-                      "images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg"
-                    }
-                    alt={
-                      bioContent?.bioImage1?.alt ||
-                      "Heidi Simelius Seuraa singlen kuvauksissa."
-                    }
+                    src={bioContent?.bioImage1?.src}
+                    alt={bioContent?.bioImage1?.alt}
                     className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                   />
                 </div>
@@ -513,13 +455,16 @@ const BioPage = () => {
                   {bioContent?.bioImage1?.description &&
                   bioContent?.bioImage1?.photographerName
                     ? `${bioContent.bioImage1.description} Kuva: ${bioContent.bioImage1.photographerName}`
-                    : `Kuva: ${bioContent.bioImage1.photographerName}`}
+                    : `Kuva: ${bioContent?.bioImage1?.photographerName}`}
                 </figcaption>
               </figure>
 
               {/* Musikaalikokemus Section */}
               {bioContent?.musicalExperienceParagraphs && (
                 <section className="px-8 md:px-6">
+                  <h2 className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-4 sm:mb-8 pt-4">
+                    {bioContent?.musikaaliproduktiotTitle}
+                  </h2>
                   <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
                     {renderParagraphs(bioContent.musicalExperienceParagraphs)}
                   </div>
@@ -591,14 +536,8 @@ const BioPage = () => {
               <figure className="md:hidden">
                 <div className="overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                   <img
-                    src={
-                      bioContent?.bioImage2?.src ||
-                      "/images/Heidi-Simelius-Kinky-Boots-Oulun-teatteri-musikaali.jpeg"
-                    }
-                    alt={
-                      bioContent?.bioImage2?.alt ||
-                      "Heidi Simelius Oulun teatterin Kinky Boots -musikaalin promokuvassa."
-                    }
+                    src={bioContent?.bioImage2?.src}
+                    alt={bioContent?.bioImage2?.alt}
                     className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                   />
                 </div>
@@ -606,7 +545,7 @@ const BioPage = () => {
                   {bioContent?.bioImage2?.description &&
                   bioContent?.bioImage2?.photographerName
                     ? `${bioContent.bioImage2.description} Kuva: ${bioContent.bioImage2.photographerName}`
-                    : `Kuva: ${bioContent.bioImage2.photographerName}`}
+                    : `Kuva: ${bioContent?.bioImage2?.photographerName}`}
                 </figcaption>
               </figure>
 
@@ -743,14 +682,8 @@ const BioPage = () => {
               <figure className="md:hidden">
                 <div className="md:hidden overflow-hidden mobile-image-mask [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]">
                   <img
-                    src={
-                      bioContent?.bioImage3?.src ||
-                      "/images/Heidi-Simelius-koskettimet-ja-laulu-kuva-AWA.webp"
-                    }
-                    alt={
-                      bioContent?.bioImage3?.alt ||
-                      "Heidi Simelius Seuraa singlen kuvauksissa."
-                    }
+                    src={bioContent?.bioImage3?.src}
+                    alt={bioContent?.bioImage3?.alt}
                     className="w-full h-auto sm:w-auto md:max-h-[500px] sm:h-auto sm:mx-auto md:rounded-lg shadow-lg [clip-path:polygon(0_0,_100%_5%,_100%_100%,_0_95%)]"
                   />
                 </div>
@@ -758,7 +691,7 @@ const BioPage = () => {
                   {bioContent?.bioImage3?.description &&
                   bioContent?.bioImage3?.photographerName
                     ? `${bioContent.bioImage3.description} Kuva: ${bioContent.bioImage3.photographerName}`
-                    : `Kuva: ${bioContent.bioImage3.photographerName}`}
+                    : `Kuva: ${bioContent?.bioImage3?.photographerName}`}
                 </figcaption>
               </figure>
             </div>
@@ -769,61 +702,43 @@ const BioPage = () => {
                 {/* Image 1 - Initially visible */}
                 <div ref={image1Ref} className="absolute inset-0 opacity-100">
                   <img
-                    src={
-                      bioContent?.bioImage1?.src ||
-                      "images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg"
-                    }
-                    alt={
-                      bioContent?.bioImage1?.alt ||
-                      "Heidi Simelius Seuraa singlen kuvauksissa."
-                    }
+                    src={bioContent?.bioImage1?.src}
+                    alt={bioContent?.bioImage1?.alt}
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                   <figcaption className="absolute bottom-0 w-full rounded-b-lg bg-gradient-to-t from-black/60 to-transparent p-3 text-center text-base italic text-white">
                     {bioContent?.bioImage1?.description &&
                     bioContent?.bioImage1?.photographerName
                       ? `${bioContent.bioImage1.description} Kuva: ${bioContent.bioImage1.photographerName}`
-                      : `Kuva: ${bioContent.bioImage1.photographerName}`}
+                      : `Kuva: ${bioContent?.bioImage1?.photographerName}`}
                   </figcaption>
                 </div>
                 {/* Image 2 - Initially hidden */}
                 <div ref={image2Ref} className="absolute inset-0 opacity-0">
                   <img
-                    src={
-                      bioContent?.bioImage2?.src ||
-                      "/images/Heidi-Simelius-Kinky-Boots-Oulun-teatteri-musikaali.jpeg"
-                    }
-                    alt={
-                      bioContent?.bioImage2?.alt ||
-                      "Heidi Simelius Oulun teatterin Kinky Boots -musikaalin promokuvassa."
-                    }
+                    src={bioContent?.bioImage2?.src}
+                    alt={bioContent?.bioImage2?.alt}
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                   <figcaption className="absolute bottom-0 w-full rounded-b-lg bg-gradient-to-t from-black/60 to-transparent p-3 text-center text-base italic text-white">
                     {bioContent?.bioImage2?.description &&
                     bioContent?.bioImage2?.photographerName
                       ? `${bioContent.bioImage2.description} Kuva: ${bioContent.bioImage2.photographerName}`
-                      : `Kuva: ${bioContent.bioImage2.photographerName}`}
+                      : `Kuva: ${bioContent?.bioImage2?.photographerName}`}
                   </figcaption>
                 </div>
                 {/* Image 3 - Initially hidden */}
                 <div ref={image3Ref} className="absolute inset-0 opacity-0">
                   <img
-                    src={
-                      bioContent?.bioImage3?.src ||
-                      "/images/Heidi-Simelius-koskettimet-ja-laulu-kuva-AWA.webp"
-                    }
-                    alt={
-                      bioContent?.bioImage3?.alt ||
-                      "Heidi Simelius Seuraa singlen kuvauksissa."
-                    }
+                    src={bioContent?.bioImage3?.src}
+                    alt={bioContent?.bioImage3?.alt}
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                   <figcaption className="absolute bottom-0 w-full rounded-b-lg bg-gradient-to-t from-black/60 to-transparent p-3 text-center text-base italic text-white">
                     {bioContent?.bioImage3?.description &&
                     bioContent?.bioImage3?.photographerName
                       ? `${bioContent.bioImage3.description} Kuva: ${bioContent.bioImage3.photographerName}`
-                      : `Kuva: ${bioContent.bioImage3.photographerName}`}
+                      : `Kuva: ${bioContent?.bioImage3?.photographerName}`}
                   </figcaption>
                 </div>
               </div>
