@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import BottomBranding from "./BottomBranding";
-import { Loader2 } from "lucide-react";
+import LoadingSpinner from "./LoadingSpinner";
 import { PageImagesContent } from "@/types/content";
 import { defaultPageImagesContent } from "@/lib/utils";
 
@@ -190,7 +190,7 @@ const HeroImageAndText = () => {
       }}
     >
       {!isReady && showSpinner && (
-        <Loader2 className="absolute h-12 w-12 animate-spin text-primary" />
+        <LoadingSpinner className="absolute" />
       )}
 
       {/* opacity:0 via inline style prevents flash before GSAP takes over */}

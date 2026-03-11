@@ -2,7 +2,7 @@ import { useState, useEffect, ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Session } from '@supabase/supabase-js';
-import { Loader2 } from 'lucide-react';
+import LoadingSpinner from './LoadingSpinner';
 
 const useAuth = () => {
   const [session, setSession] = useState<Session | null>(null);
@@ -35,7 +35,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Loader2 className="h-12 w-12 animate-spin" />
+        <LoadingSpinner />
       </div>
     );
   }

@@ -21,6 +21,7 @@ import { BioContent, Credit, StudioItem } from "@/types/content";
 import { uploadCvPdf, uploadBioImage } from "@/lib/storage";
 import { v4 as uuidv4 } from "uuid";
 import { Trash2, PlusCircle } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import { getYouTubeEmbedUrl } from "@/lib/utils";
 import {
   AlertDialog,
@@ -54,7 +55,8 @@ const bioFormSchema = z.object({
     .min(2, { message: "Lainauksen tekijä on pakollinen." }),
   concludingParagraphs: z
     .string()
-    .min(10, { message: "Lopetusteksti on pakollinen." }),
+    .min(10, { message: "Koulutustausta-teksti on pakollinen." }),
+  musicalExperienceParagraphs: z.string().optional(),
   cv_file: z.instanceof(FileList).optional(),
   // Bio page images
   bio_image_1_file: z.instanceof(FileList).optional(),
@@ -128,6 +130,11 @@ const bioFormSchema = z.object({
       }),
     )
     .optional(),
+  ctaVisible: z.boolean().optional(),
+  ctaTitle: z.string().optional(),
+  ctaText: z.string().optional(),
+  ctaButtonText: z.string().optional(),
+  ctaButtonLink: z.string().optional(),
 });
 
 type BioFormValues = z.infer<typeof bioFormSchema>;
@@ -143,7 +150,9 @@ const defaultBioContent: BioContent = {
     "Olen The Voice of Finland -ohjelman musiikkituottaja ja minulla oli ilo tehdä kaudella 2023-24 Heidi Simeliuksen kanssa useita musiikkinumeroita harjoituksineen ja suunnitteluineen. Tällä yli 6kk periodilla minulle on muodostunut Heidistä hyvin määrätietoinen, eteenpäin pyrkivä ja oman tiensä poikkkeuksellisen hyvin näkevä artisti, jonka musikaalisuus on ilmeistä. Suosittelen ja kannustan lämpimästi Heidiä oman musan tekemiseen ja esilletuomiseen joten tsekatkaa tää tyyppi❤️",
   quoteAuthor: "Lenni-Kalle Taipale",
   concludingParagraphs:
-    "Heidi on valmistunut Tampereen Ammattikorkeakoulussa musiikkiteatterin ammattilaiskesi vuonna 2023 sekä Metropolia Ammattikorkeakoulusta muusikoksi esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.\n\nKaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin Tootsie-musikaalissa. Kaudella 2022 – 2023 hän ihastutti Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa. Tulevalla kaudella 2025 Heidi nähdään Oulun teatterin Kinky Boots -musikaalissa. Heidi tekee nimeä myös musikaali-suomentajana ja hänen ensimmäinen kokonaan suomentamansa musikaali Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.",
+    "Heidi on valmistunut Tampereen Ammattikorkeakoulussa musiikkiteatterin ammattilaiskesi vuonna 2023 sekä Metropolia Ammattikorkeakoulusta muusikoksi esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.",
+  musicalExperienceParagraphs:
+    "Kaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin Tootsie-musikaalissa ja kaudella 2022 – 2023 hän ihastutti Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa. Heidi tekee nimeä myös musikaali-suomentajana ja hänen ensimmäinen kokonaan suomentamansa musikaali Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.",
   bioImage1: {
     src: "/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg",
     alt: "Heidi Simelius Seuraa singlen kuvauksissa.",
@@ -199,7 +208,34 @@ const BioManager = () => {
 
   const form = useForm<BioFormValues>({
     resolver: zodResolver(bioFormSchema),
-    defaultValues: defaultBioContent,
+    defaultValues: {
+      introParagraphs: defaultBioContent.introParagraphs,
+      featuredVideoUrl: defaultBioContent.featuredVideoUrl,
+      featuredVideoCaption: defaultBioContent.featuredVideoCaption || "",
+      quoteText: defaultBioContent.quoteText,
+      quoteAuthor: defaultBioContent.quoteAuthor,
+      concludingParagraphs: defaultBioContent.concludingParagraphs,
+      musicalExperienceParagraphs: defaultBioContent.musicalExperienceParagraphs || "",
+      bio_image_1_alt: defaultBioContent.bioImage1?.alt || "",
+      bio_image_1_description: defaultBioContent.bioImage1?.description || "",
+      bio_image_1_photographer: defaultBioContent.bioImage1?.photographerName || "",
+      bio_image_2_alt: defaultBioContent.bioImage2?.alt || "",
+      bio_image_2_description: defaultBioContent.bioImage2?.description || "",
+      bio_image_2_photographer: defaultBioContent.bioImage2?.photographerName || "",
+      bio_image_3_alt: defaultBioContent.bioImage3?.alt || "",
+      bio_image_3_description: defaultBioContent.bioImage3?.description || "",
+      bio_image_3_photographer: defaultBioContent.bioImage3?.photographerName || "",
+      theatreCredits: defaultBioContent.theatreCredits || [],
+      translationCredits: defaultBioContent.translationCredits || [],
+      soloAlbums: defaultBioContent.soloAlbums || [],
+      singles: defaultBioContent.singles || [],
+      collaborations: defaultBioContent.collaborations || [],
+      ctaVisible: true,
+      ctaTitle: "Heidi opettaa myös laulua",
+      ctaText: "Heidin ammattitaitoa voi hyödyntää myös laulutunneilla. Yksilöllistä pop/jazz-laulunopetusta positiivisen pedagogian hengessä Tampereen keskustassa.",
+      ctaButtonText: "Lue lisää laulunopetuksesta",
+      ctaButtonLink: "/laulunopetus",
+    },
   });
 
   // useFieldArray hooks for dynamic lists
@@ -255,6 +291,7 @@ const BioManager = () => {
         quoteText: bioContent.quoteText,
         quoteAuthor: bioContent.quoteAuthor,
         concludingParagraphs: bioContent.concludingParagraphs,
+        musicalExperienceParagraphs: bioContent.musicalExperienceParagraphs || "",
         bio_image_1_alt: bioContent.bioImage1?.alt || "",
         bio_image_1_description: bioContent.bioImage1?.description || "",
         bio_image_1_photographer: bioContent.bioImage1?.photographerName || "",
@@ -269,6 +306,11 @@ const BioManager = () => {
         soloAlbums: sortItemsByYear(bioContent.soloAlbums),
         singles: sortItemsByYear(bioContent.singles),
         collaborations: sortItemsByYear(bioContent.collaborations),
+        ctaVisible: bioContent.ctaVisible !== false,
+        ctaTitle: bioContent.ctaTitle || "Heidi opettaa myös laulua",
+        ctaText: bioContent.ctaText || "Heidin ammattitaitoa voi hyödyntää myös laulutunneilla. Yksilöllistä pop/jazz-laulunopetusta positiivisen pedagogian hengessä Tampereen keskustassa.",
+        ctaButtonText: bioContent.ctaButtonText || "Lue lisää laulunopetuksesta",
+        ctaButtonLink: bioContent.ctaButtonLink || "/laulunopetus",
       });
     }
   }, [bioContent, form]);
@@ -419,6 +461,7 @@ const BioManager = () => {
       quoteText: data.quoteText,
       quoteAuthor: data.quoteAuthor,
       concludingParagraphs: data.concludingParagraphs,
+      musicalExperienceParagraphs: data.musicalExperienceParagraphs || "",
       cvUrl: cvUrl,
       bioImage1: bioImage1,
       bioImage2: bioImage2,
@@ -468,6 +511,11 @@ const BioManager = () => {
             item.artistOrCollaborator !== undefined,
         ),
       ),
+      ctaVisible: data.ctaVisible !== false,
+      ctaTitle: data.ctaTitle || "",
+      ctaText: data.ctaText || "",
+      ctaButtonText: data.ctaButtonText || "",
+      ctaButtonLink: data.ctaButtonLink || "",
     };
     mutation.mutate(updatedBioContent);
   };
@@ -680,7 +728,7 @@ const BioManager = () => {
           {/* Concluding Text Section */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-secondary">
-              Lopetusteksti
+              Koulutustausta
             </h3>
             <FormField
               name="concludingParagraphs"
@@ -688,11 +736,127 @@ const BioManager = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Lopetuskappaleet <span className="text-secondary">*</span>
+                    Koulutustausta <span className="text-secondary">*</span>
                   </FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Kirjoita lopetuskappaleet tähän..."
+                      placeholder="Kirjoita koulutustausta tähän..."
+                      className="min-h-[200px] placeholder:text-accent"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          {/* Laulunopetus CTA Section */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-secondary">
+              Laulunopetus-CTA
+            </h3>
+            <FormField
+              name="ctaVisible"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem className="flex items-center gap-3">
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="!mt-0">Näytä CTA-osio</FormLabel>
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="ctaTitle"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Otsikko</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Esim. Heidi opettaa myös laulua"
+                      className="placeholder:text-accent"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="ctaText"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Teksti</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="CTA-osion teksti..."
+                      className="min-h-[100px] placeholder:text-accent"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <FormField
+                name="ctaButtonText"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Painikkeen teksti</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Esim. Lue lisää laulunopetuksesta"
+                        className="placeholder:text-accent"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="ctaButtonLink"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Painikkeen linkki</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Esim. /laulunopetus"
+                        className="placeholder:text-accent"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          {/* Musikaalikokemus Section */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-secondary">
+              Musikaalikokemus
+            </h3>
+            <FormField
+              name="musicalExperienceParagraphs"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Musikaalikokemus</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Kirjoita musikaalikokemus tähän..."
                       className="min-h-[200px] placeholder:text-accent"
                       {...field}
                     />

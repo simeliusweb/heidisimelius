@@ -7,7 +7,7 @@ import {
   ResponsivePageImage,
 } from "@/types/content";
 import { uploadPageImage } from "@/lib/storage";
-import { Loader2 } from "lucide-react";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import type { Json } from "@/integrations/supabase/types";
 import SingleImageUploader from "./SingleImageUploader";
 import DualImageUploader from "./DualImageUploader";
@@ -190,7 +190,7 @@ const ImageManager = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner />
       </div>
     );
   }

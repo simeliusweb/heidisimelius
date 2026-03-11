@@ -27,12 +27,20 @@ export interface BioContent {
   quoteText: string;
   quoteAuthor: string;
   concludingParagraphs: string;
+  musicalExperienceParagraphs?: string;
   cvUrl?: string;
 
   // Bio page images
   bioImage1?: BioImage;
   bioImage2?: BioImage;
   bioImage3?: BioImage;
+
+  // Laulunopetus CTA section on bio page
+  ctaVisible?: boolean;
+  ctaTitle?: string;
+  ctaText?: string;
+  ctaButtonText?: string;
+  ctaButtonLink?: string;
 
   // New Fields
   theatreCredits?: Credit[];

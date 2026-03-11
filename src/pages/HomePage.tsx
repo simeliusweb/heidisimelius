@@ -10,6 +10,8 @@ import PageMeta from "@/components/PageMeta";
 import { pageMetadata } from "@/config/metadata";
 import HeroImageAndText from "@/components/HeroImageAndText";
 import ShadowHeading from "@/components/ShadowHeading";
+import { Skeleton } from "@/components/ui/skeleton";
+import useFontLoaded from "@/hooks/useFontLoaded";
 import { Gig } from "@/components/admin/GigsManager";
 import { Video } from "@/components/admin/videos/VideosManager";
 
@@ -58,6 +60,8 @@ const fetchVideos = async (): Promise<Video[]> => {
 };
 
 const HomePage = () => {
+  const santoriniLoaded = useFontLoaded("Santorini");
+
   const {
     data: upcomingGigs,
     isLoading,
@@ -128,9 +132,15 @@ const HomePage = () => {
           {/* Intro & Tagline Section */}
           <section className="container mx-auto px-6 pb-16 text-center">
             {/* Large Stylized Name */}
-            <h2 className="text-2xl xs:text-3xl font-santorini text-primary pt-8 sm:pt-4 pb-8 leading-loose translate-y-[-12px] sm:mb-4 z-20 relative">
-              Heidi Simelius
-            </h2>
+            {santoriniLoaded ? (
+              <h2 className="text-2xl xs:text-3xl font-santorini text-primary pt-8 sm:pt-4 pb-8 leading-loose translate-y-[-12px] sm:mb-4 z-20 relative">
+                Heidi Simelius
+              </h2>
+            ) : (
+              <div className="flex justify-center pt-8 sm:pt-4 pb-8 translate-y-[-12px] sm:mb-4 z-20 relative">
+                <Skeleton className="h-8 xs:h-10 w-48 xs:w-56" />
+              </div>
+            )}
             <p className="text-xl md:text-2xl text-foreground font-source mb-8 relative z-19">
               laulaja | lauluntekijä | laulunopettaja | esiintyjä
             </p>
@@ -153,9 +163,18 @@ const HomePage = () => {
             />
             <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto mb-8">
               {isLoading ? (
-                <div className="text-center py-8">
-                  <p className="text-lg">Ladataan keikkoja...</p>
-                </div>
+                <>
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="basis-full md:basis-[calc(33.333%-1rem)] rounded-lg border border-border bg-card overflow-hidden">
+                      <Skeleton className="h-40 w-full" />
+                      <div className="p-4 space-y-3">
+                        <Skeleton className="h-5 w-3/4" />
+                        <Skeleton className="h-4 w-1/2" />
+                        <Skeleton className="h-4 w-2/3" />
+                      </div>
+                    </div>
+                  ))}
+                </>
               ) : error ? (
                 <div className="text-center py-8">
                   <p className="text-lg text-destructive">
@@ -257,9 +276,8 @@ const HomePage = () => {
           {/* Videos Section */}
           {videosLoading ? (
             <section className="container mx-auto px-6 py-16">
-              <div className="text-center">
-                <p className="text-lg">Ladataan videoita...</p>
-              </div>
+              <Skeleton className="h-10 sm:h-12 w-48 sm:w-64 mx-auto mb-8" />
+              <Skeleton className="max-w-3xl mx-auto w-full aspect-video rounded-lg" />
             </section>
           ) : videosError ? (
             <section className="container mx-auto px-6 py-16">

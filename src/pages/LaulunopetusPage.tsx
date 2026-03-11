@@ -5,6 +5,10 @@ import { pageMetadata } from "@/config/metadata";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { LaulunopetusContent } from "@/types/content";
+import useImagePreload from "@/hooks/useImagePreload";
+import useFontLoaded from "@/hooks/useFontLoaded";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const defaultContent: LaulunopetusContent = {
   tagline: "Laulunopettaja Tampereen keskustassa",
@@ -89,6 +93,9 @@ const LaulunopetusPage = () => {
 
   const c = content || defaultContent;
 
+  const heroImageLoaded = useImagePreload("/images/Heidi-Simelius-laulunopettaja-tampere.jpg");
+  const santoriniLoaded = useFontLoaded("Santorini");
+
   // Build structured data from dynamic pricing
   const serviceSchema = {
     "@context": "https://schema.org",
@@ -169,9 +176,16 @@ const LaulunopetusPage = () => {
 
       {/* Hero Section */}
       <section className="relative h-[70vh] md:h-[85vh] flex items-end justify-center">
+        {/* Loading state */}
+        {!heroImageLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center bg-background z-10">
+            <LoadingSpinner />
+          </div>
+        )}
+
         {/* Hero Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-top"
+          className={`absolute inset-0 bg-cover bg-top transition-opacity duration-700 ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
           style={{
             backgroundImage: `url(/images/Heidi-Simelius-laulunopettaja-tampere.jpg)`,
           }}
@@ -181,8 +195,8 @@ const LaulunopetusPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/0 to-background/100" />
 
         {/* Hero Content */}
-        <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2 w-full px-4">
-          <h1 className="relative z-1 text-4xl xs:text-5xl sm:text-5xl md:text-6xl lg:text-7xl font-playfair font-extrabold text-center text-secondary w-fit mx-auto leading-tight">
+        <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2 w-full px-4 z-20">
+          <h1 className="relative text-4xl xs:text-5xl sm:text-5xl md:text-6xl lg:text-7xl font-playfair font-extrabold text-center text-secondary w-fit mx-auto leading-tight">
             Laulunopetus
           </h1>
         </div>
@@ -196,9 +210,15 @@ const LaulunopetusPage = () => {
       {/* Main Content */}
       <div className="main-content pt-16 overflow-hidden">
         {/* Tagline */}
-        <p className="text-lg xs:text-xl sm:text-2xl md:text-2xl font-santorini text-muted-foreground pt-8 md:pt-12 pb-8 leading-loose text-center italic px-4">
-          {c.tagline}
-        </p>
+        {santoriniLoaded ? (
+          <p className="text-lg xs:text-xl sm:text-2xl md:text-2xl font-santorini text-muted-foreground pt-8 md:pt-12 pb-8 leading-loose text-center italic px-4">
+            {c.tagline}
+          </p>
+        ) : (
+          <div className="flex justify-center pt-8 md:pt-12 pb-8 px-4">
+            <Skeleton className="h-6 sm:h-8 w-72 sm:w-96" />
+          </div>
+        )}
 
         <div className="container px-6 md:px-8 py-8 md:py-12 max-w-4xl mx-auto">
           {/* Intro Section */}

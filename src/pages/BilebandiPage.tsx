@@ -7,6 +7,8 @@ import { ArrowDown, CalendarIcon, ExternalLink, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { FaInstagram } from "react-icons/fa";
+import useImagePreload from "@/hooks/useImagePreload";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import PageMeta from "@/components/PageMeta";
 import { pageMetadata } from "@/config/metadata";
 import StructuredData from "@/components/StructuredData";
@@ -55,6 +57,8 @@ const BilebandiPage = () => {
       message: "",
     },
   });
+
+  const heroImageLoaded = useImagePreload("/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff.jpg");
 
   const onSubmit = async (data: BookingFormValues) => {
     try {
@@ -187,11 +191,19 @@ const BilebandiPage = () => {
 
       {/* Hero Section */}
       <section className="relative h-[60vh] xxs:h-[70vh] xs:h-[80vh] sm:h-[100vh] xl:h-[110vh] 2xl:h-[120vh] flex items-end justify-center">
+        {/* Loading state */}
+        {!heroImageLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center bg-background z-10">
+            <LoadingSpinner />
+          </div>
+        )}
+
         {/* Hero Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-[center_20%] md:bg-top lg:bg-[center_5%] xl:bg-[center_5%]
-               md:bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff.jpg')] 
-               bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff-mobile.webp')]"
+          className={`absolute inset-0 bg-cover bg-[center_20%] md:bg-top lg:bg-[center_5%] xl:bg-[center_5%]
+               md:bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff.jpg')]
+               bg-[url('/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff-mobile.webp')]
+               transition-opacity duration-700 ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
         />
       </section>
 

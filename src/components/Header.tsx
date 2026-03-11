@@ -10,7 +10,7 @@ import { HashLink } from "react-router-hash-link";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Link, useLocation } from "react-router-dom";
-import { Loader2 } from "lucide-react";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Header = () => {
   const location = useLocation();
@@ -171,7 +171,7 @@ const Header = () => {
               {isFontLoading ? (
                 isSpinnerVisible ? (
                   // State 1: Loading is slow, show spinner
-                  <Loader2 className="h-4 w-4 animate-spin text-secondary-foreground" />
+                  <LoadingSpinner />
                 ) : // State 2: In the threshold window, show nothing
                 null
               ) : (

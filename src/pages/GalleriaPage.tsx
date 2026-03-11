@@ -8,6 +8,7 @@ import {
   X,
 } from "lucide-react";
 import VideosSection from "@/components/VideosSection";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { useEffect, useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -22,6 +23,8 @@ import "react-photo-album/masonry.css";
 import { breakpointValues, useBreakpoint } from "@/hooks/useBreakpoint";
 import { PageImagesContent } from "@/types/content";
 import { defaultPageImagesContent } from "@/lib/utils";
+import useImagePreload from "@/hooks/useImagePreload";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export type PhotoSet = Tables<"photo_sets">;
 export type Video = Tables<"videos">;
@@ -92,6 +95,10 @@ const GalleriaPage = () => {
     queryKey: ["page_content", "page_images"],
     queryFn: fetchPageImagesContent,
   });
+
+  const heroImageSrc = pageImagesContent?.galleria_hero?.src ||
+    "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg";
+  const heroImageLoaded = useImagePreload(heroImageSrc);
 
   // Fetch data from Supabase
   const {
@@ -201,8 +208,33 @@ const GalleriaPage = () => {
 
   if (photoSetsLoading || videosLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin" />
+      <div style={{
+        backgroundImage: `linear-gradient(12deg, hsl(234deg 24% 8%) 0%, hsl(234deg 23% 8%) 10%, hsl(234deg 23% 11%) 20%, hsl(239deg 23% 9%) 32%, hsl(238deg 23% 12%) 46%, hsl(236deg 23% 8%) 62%, hsl(234deg 24% 8%) 75%, hsl(234deg 24% 11%) 84%, hsl(234deg 24% 10%) 89%, hsl(234deg 24% 8%) 93%, hsl(235deg 23% 9%) 96%, hsl(235deg 23% 10%) 98%, hsl(234deg 23% 8%) 100%)`,
+        backgroundBlendMode: "overlay",
+      }}>
+        {/* Hero Skeleton */}
+        <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center bg-background">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <LoadingSpinner />
+          </div>
+          <div className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2">
+            <Skeleton className="h-16 sm:h-20 lg:h-24 w-48 sm:w-72 lg:w-80 rounded-lg" />
+          </div>
+        </section>
+
+        {/* Content Skeleton */}
+        <div className="container mx-auto px-4 pt-24 pb-16">
+          <Skeleton className="h-10 sm:h-12 w-48 sm:w-64 mx-auto mb-12" />
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-5xl mx-auto">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Skeleton
+                key={i}
+                className="w-full rounded-lg"
+                style={{ height: `${180 + (i % 3) * 40}px` }}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -248,21 +280,24 @@ const GalleriaPage = () => {
 
       {/* Hero Section */}
       <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center">
+        {/* Hero Loading Overlay */}
+        {!heroImageLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center bg-background z-10">
+            <LoadingSpinner />
+          </div>
+        )}
         {/* Hero Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-[40%_top]"
+          className={`absolute inset-0 bg-cover bg-[40%_top] transition-opacity duration-700 ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
           style={{
-            backgroundImage: `url(${
-              pageImagesContent?.galleria_hero?.src ||
-              "/images/Ma-vastaan-kuvat-Valosanni/Heidi-Simelius-Ma-vastaan-kuvat-Valosanni-8.jpg"
-            })`,
+            backgroundImage: `url(${heroImageSrc})`,
           }}
         />
         {/* Dark Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/0 to-background/100" />
         {/* Hero Content */}
-        <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2">
-          <h1 className="relative z-1 text-7xl xs:text-[92px] sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto">
+        <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2 z-20">
+          <h1 className="relative text-7xl xs:text-[92px] sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto">
             Galleria
           </h1>
         </div>

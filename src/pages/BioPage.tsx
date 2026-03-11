@@ -14,6 +14,10 @@ import {
   PageImagesContent,
 } from "@/types/content";
 import { defaultPageImagesContent } from "@/lib/utils";
+import useImagePreload from "@/hooks/useImagePreload";
+import useFontLoaded from "@/hooks/useFontLoaded";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -47,7 +51,9 @@ const BioPage = () => {
             "Olen The Voice of Finland -ohjelman musiikkituottaja ja minulla oli ilo tehdä kaudella 2023-24 Heidi Simeliuksen kanssa useita musiikkinumeroita harjoituksineen ja suunnitteluineen. Tällä yli 6kk periodilla minulle on muodostunut Heidistä hyvin määrätietoinen, eteenpäin pyrkivä ja oman tiensä poikkkeuksellisen hyvin näkevä artisti, jonka musikaalisuus on ilmeistä. Suosittelen ja kannustan lämpimästi Heidiä oman musan tekemiseen ja esilletuomiseen joten tsekatkaa tää tyyppi❤️",
           quoteAuthor: "Lenni-Kalle Taipale",
           concludingParagraphs:
-            "Heidi on valmistunut Tampereen Ammattikorkeakoulussa musiikkiteatterin ammattilaiskesi vuonna 2023 sekä Metropolia Ammattikorkeakoulusta muusikoksi esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.\n\nKaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin Tootsie-musikaalissa. Kaudella 2022 – 2023 hän ihastutti Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa. Tulevalla kaudella 2025 Heidi nähdään Oulun teatterin Kinky Boots -musikaalissa. Heidi tekee nimeä myös musikaali-suomentajana ja hänen ensimmäinen kokonaan suomentamansa musikaali Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.",
+            "Heidi on valmistunut Tampereen Ammattikorkeakoulussa musiikkiteatterin ammattilaiskesi vuonna 2023 sekä Metropolia Ammattikorkeakoulusta muusikoksi esiintyjä-linjalta pääaineenaan pop/jazz-laulu vuonna 2019.",
+          musicalExperienceParagraphs:
+            "Kaudella 2023 – 2024 Heidi nähtiin Lahden Kaupunginteatterin Tootsie-musikaalissa ja kaudella 2022 – 2023 hän ihastutti Porin Teatterin Evita-musikaalissa Rakastajattaren roolissa. Heidi tekee nimeä myös musikaali-suomentajana ja hänen ensimmäinen kokonaan suomentamansa musikaali Laillisesti Blondi nähtiin Sellosalissa keväällä 2022.",
           bioImage1: {
             src: "/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-1.jpg",
             alt: "Heidi Simelius Seuraa singlen kuvauksissa.",
@@ -123,6 +129,11 @@ const BioPage = () => {
     queryKey: ["page_content", "page_images"],
     queryFn: fetchPageImagesContent,
   });
+
+  const heroImageSrc = pageImagesContent?.bio_hero?.mobile?.src ||
+    "/images/pressikuvat-Titta-Toivanen/Heidi-Simelius-kuvat-Titta-Toivanen-3.jpg";
+  const heroImageLoaded = useImagePreload(heroImageSrc);
+  const santoriniLoaded = useFontLoaded("Santorini");
 
   const heidiSchema = {
     "@context": "https://schema.org",
@@ -260,8 +271,45 @@ const BioPage = () => {
   // Handle loading state
   if (isBioLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-muted-foreground">Ladataan bion sisältöä...</div>
+      <div style={{
+        backgroundImage: `linear-gradient(12deg, hsl(234deg 24% 8%) 0%, hsl(234deg 23% 8%) 10%, hsl(234deg 23% 11%) 20%, hsl(239deg 23% 9%) 32%, hsl(238deg 23% 12%) 46%, hsl(236deg 23% 8%) 62%, hsl(234deg 24% 8%) 75%, hsl(234deg 24% 11%) 84%, hsl(234deg 24% 10%) 89%, hsl(234deg 24% 8%) 93%, hsl(235deg 23% 9%) 96%, hsl(235deg 23% 10%) 98%, hsl(234deg 23% 8%) 100%)`,
+        backgroundBlendMode: "overlay",
+        imageRendering: "pixelated" as const,
+      }}>
+        {/* Hero Skeleton */}
+        <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center bg-background">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <LoadingSpinner />
+          </div>
+          <div className="absolute bottom-0 translate-y-1/2 left-1/2 -translate-x-1/2">
+            <Skeleton className="h-16 sm:h-20 lg:h-24 w-32 sm:w-40 lg:w-48 rounded-lg" />
+          </div>
+        </section>
+
+        {/* Content Skeleton */}
+        <div className="pt-16 overflow-hidden">
+          <div className="flex justify-center pt-8 md:pt-12 pb-8">
+            <Skeleton className="h-6 sm:h-8 w-64 sm:w-80" />
+          </div>
+          <div className="container px-8 py-8 md:py-12 max-w-7xl mx-auto">
+            <div className="space-y-6">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-5/6" />
+              <Skeleton className="w-full aspect-video rounded-lg mt-8" />
+              <div className="mx-auto max-w-3xl rounded-lg bg-card p-8 space-y-4 mt-8">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-3/4" />
+                <div className="flex justify-end">
+                  <Skeleton className="h-4 w-24" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -316,9 +364,16 @@ const BioPage = () => {
 
       {/* Hero Section */}
       <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center">
+        {/* Loading state */}
+        {!heroImageLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center bg-background">
+            <LoadingSpinner />
+          </div>
+        )}
+
         {/* Hero Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-top"
+          className={`absolute inset-0 bg-cover bg-top transition-opacity duration-700 ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
           style={{
             backgroundImage: `url(${
               pageImagesContent?.bio_hero?.mobile?.src ||
@@ -327,7 +382,7 @@ const BioPage = () => {
           }}
         />
         <div
-          className="absolute inset-0 bg-cover bg-top hidden sm:block"
+          className={`absolute inset-0 bg-cover bg-top hidden sm:block transition-opacity duration-700 ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
           style={{
             backgroundImage: `url(${
               pageImagesContent?.bio_hero?.desktop?.src ||
@@ -340,8 +395,8 @@ const BioPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/0 to-background/100" />
 
         {/* Hero Content */}
-        <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2">
-          <h1 className="relative z-1 text-8xl sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto">
+        <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2 z-20">
+          <h1 className="relative text-8xl sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto">
             Bio
           </h1>
         </div>
@@ -357,9 +412,15 @@ const BioPage = () => {
       {/* Main Content */}
       <div className="main-content-bio-page pt-16 overflow-hidden">
         {/* Tagline */}
-        <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-santorini text-muted-foreground pt-8 md:pt-12 pb-8 leading-loose text-center italic">
-          Suurta ja sielukasta saundia
-        </p>
+        {santoriniLoaded ? (
+          <p className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-santorini text-muted-foreground pt-8 md:pt-12 pb-8 leading-loose text-center italic">
+            Suurta ja sielukasta saundia
+          </p>
+        ) : (
+          <div className="flex justify-center pt-8 md:pt-12 pb-8">
+            <Skeleton className="h-6 sm:h-8 w-64 sm:w-80" />
+          </div>
+        )}
 
         <div className="md:container px-0 py-8 md:py-12">
           {/* Two-Column Layout on Desktop */}
@@ -414,38 +475,23 @@ const BioPage = () => {
                     renderParagraphs(bioContent.concludingParagraphs)}
                 </div>
 
-                {/* CV Download Button */}
-                {bioContent?.cvUrl && (
-                  <div className="mt-12 w-fit mx-auto">
-                    <Button
-                      size="lg"
-                      asChild
-                      className="element-embedded-effect"
-                    >
-                      <a
-                        href={bioContent.cvUrl}
-                        download="CV Simelius Heidi.pdf"
-                      >
-                        Lataa CV (PDF)
+                {/* Laulunopetus CTA */}
+                {bioContent?.ctaVisible !== false && (
+                  <div className="mt-12 bg-card rounded-lg p-6 border border-border">
+                    <h3 className="text-xl sm:text-2xl font-sans font-extrabold text-secondary-foreground mb-3">
+                      {bioContent?.ctaTitle || "Heidi opettaa myös laulua"}
+                    </h3>
+                    <p className="text-foreground font-source mb-4 text-sm sm:text-base">
+                      {bioContent?.ctaText ||
+                        "Heidin ammattitaitoa voi hyödyntää myös laulutunneilla. Yksilöllistä pop/jazz-laulunopetusta positiivisen pedagogian hengessä Tampereen keskustassa."}
+                    </p>
+                    <Button asChild size="lg" className="element-embedded-effect">
+                      <a href={bioContent?.ctaButtonLink || "/laulunopetus"}>
+                        {bioContent?.ctaButtonText || "Lue lisää laulunopetuksesta"}
                       </a>
                     </Button>
                   </div>
                 )}
-
-                {/* Laulunopetus CTA */}
-                <div className="mt-12 bg-card rounded-lg p-6 border border-border">
-                  <h3 className="text-xl sm:text-2xl font-sans font-extrabold text-secondary-foreground mb-3">
-                    Heidi opettaa myös laulua
-                  </h3>
-                  <p className="text-foreground font-source mb-4 text-sm sm:text-base">
-                    Heidin ammattitaitoa voi hyödyntää myös laulutunneilla.
-                    Yksilöllistä pop/jazz-laulunopetusta positiivisen pedagogian
-                    hengessä Tampereen keskustassa.
-                  </p>
-                  <Button asChild size="lg" className="element-embedded-effect">
-                    <a href="/laulunopetus">Lue lisää laulunopetuksesta</a>
-                  </Button>
-                </div>
               </section>
 
               {/* Mobile Image 1 */}
@@ -470,6 +516,26 @@ const BioPage = () => {
                     : `Kuva: ${bioContent.bioImage1.photographerName}`}
                 </figcaption>
               </figure>
+
+              {/* Musikaalikokemus Section */}
+              {bioContent?.musicalExperienceParagraphs && (
+                <section className="px-8 md:px-6">
+                  <div className="prose prose-lg max-w-none text-foreground font-source space-y-6">
+                    {renderParagraphs(bioContent.musicalExperienceParagraphs)}
+                  </div>
+                </section>
+              )}
+
+              {/* CV Download Button */}
+              {bioContent?.cvUrl && (
+                <div className="mt-12 w-fit mx-auto">
+                  <Button size="lg" asChild className="element-embedded-effect">
+                    <a href={bioContent.cvUrl} download="CV Simelius Heidi.pdf">
+                      Lataa CV (PDF)
+                    </a>
+                  </Button>
+                </div>
+              )}
 
               {/* Theatre Section */}
               {bioContent?.theatreCredits &&

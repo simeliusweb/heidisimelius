@@ -13,6 +13,9 @@ import ShadowHeading from "@/components/ShadowHeading";
 import { PageImagesContent } from "@/types/content";
 import { defaultPageImagesContent } from "@/lib/utils";
 import { Gig } from "@/components/admin/GigsManager";
+import useImagePreload from "@/hooks/useImagePreload";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface MusicEvent {
   "@context": string;
@@ -103,6 +106,10 @@ const KeikatPage = () => {
     queryKey: ["page_content", "page_images"],
     queryFn: fetchPageImagesContent,
   });
+
+  const heroImageSrc = pageImagesContent?.keikat_hero?.src ||
+    "/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-16.webp";
+  const heroImageLoaded = useImagePreload(heroImageSrc);
 
   // Fetch past gigs
   const {
@@ -260,14 +267,18 @@ const KeikatPage = () => {
 
       {/* Page Header with Background Image */}
       <section className="relative z-1 w-full h-[50vh] sm:h-[60vh] md:h-[90vh] flex items-end justify-center">
+        {/* Loading state */}
+        {!heroImageLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center bg-background z-10">
+            <LoadingSpinner />
+          </div>
+        )}
+
         {/* Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-bottom bg-no-repeat"
+          className={`absolute inset-0 bg-cover bg-bottom bg-no-repeat transition-opacity duration-700 ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
           style={{
-            backgroundImage: `url(${
-              pageImagesContent?.keikat_hero?.src ||
-              "/images/2025-glow-festival-favourites-22.8.2025-ville-huuri-16.webp"
-            })`,
+            backgroundImage: `url(${heroImageSrc})`,
           }}
         />
 
@@ -275,8 +286,8 @@ const KeikatPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/0 to-background/100" />
 
         {/* Page Title */}
-        <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2">
-          <h1 className="relative z-1 text-7xl sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto">
+        <div className="absolute bottom-[-12px] sm:bottom-[-13px] lg:bottom-[-16px] translate-y-1/2 left-1/2 -translate-x-1/2 z-20">
+          <h1 className="relative text-7xl sm:text-[112px] lg:text-[128px] font-playfair font-extrabold text-center text-secondary w-fit mx-auto">
             Keikat
           </h1>
         </div>
@@ -296,8 +307,17 @@ const KeikatPage = () => {
           shadowOpacity={100}
         />
         {isLoadingUpcomingGigs ? (
-          <div className="text-center py-8">
-            <p className="text-lg">Ladataan musiikkikeikkoja...</p>
+          <div className="space-y-6 py-4">
+            {[1, 2].map((i) => (
+              <div key={i} className="flex gap-4 p-4 rounded-lg border border-border bg-card max-w-[800px] mx-auto">
+                <Skeleton className="h-24 w-24 rounded-lg flex-shrink-0" />
+                <div className="flex-1 space-y-3">
+                  <Skeleton className="h-5 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                  <Skeleton className="h-4 w-1/3" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : upcomingGigsError ? (
           <div className="text-center py-8">
@@ -356,8 +376,17 @@ const KeikatPage = () => {
           shadowOpacity={100}
         />
         {isLoadingUpcomingGigs ? (
-          <div className="text-center py-8">
-            <p className="text-lg">Ladataan teatteriesityksiä...</p>
+          <div className="space-y-6 py-4">
+            {[1, 2].map((i) => (
+              <div key={i} className="flex gap-4 p-4 rounded-lg border border-border bg-card max-w-[800px] mx-auto">
+                <Skeleton className="h-24 w-24 rounded-lg flex-shrink-0" />
+                <div className="flex-1 space-y-3">
+                  <Skeleton className="h-5 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                  <Skeleton className="h-4 w-1/3" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : upcomingGigsError ? (
           <div className="text-center py-8">
@@ -418,8 +447,16 @@ const KeikatPage = () => {
 
         <div className="space-y-8">
           {isLoadingPastGigs ? (
-            <div className="text-center py-8">
-              <p className="text-lg">Ladataan menneitä keikkoja...</p>
+            <div className="space-y-4 max-w-[800px] mx-auto py-4">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex gap-4 p-4 rounded-lg border border-border bg-card">
+                  <Skeleton className="h-16 w-16 rounded-lg flex-shrink-0" />
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-4 w-2/3" />
+                    <Skeleton className="h-3 w-1/2" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : pastGigsError ? (
             <div className="text-center py-8">
