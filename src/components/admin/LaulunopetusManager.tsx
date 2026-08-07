@@ -135,7 +135,10 @@ const defaultContent: LaulunopetusContent = {
     "esiintymisvarmuutta karaokelavoille tai keikoille",
   ],
   ctaButtonText: "Varaa tunti Tampereen laulukoulun sivuilta",
-  ctaButtonUrl: "https://www.tampereenlaulukoulu.fi/hinnasto",
+  // employee_id preselects Heidi in the laulukoulu booking flow, so the visitor
+  // lands straight on her services instead of having to pick a teacher.
+  ctaButtonUrl:
+    "https://tampereenlaulukoulu.asioi.fi/ajanvaraus?language=fi&pob_id=1&employee_id=1449",
   testimonials: [
     {
       id: "testimonial-1",
@@ -163,7 +166,7 @@ const defaultContent: LaulunopetusContent = {
     {
       id: "school-link-2",
       label: "Varaa aika",
-      url: "https://tampereenlaulukoulu.asioi.fi/ajanvaraus?language=fi&pob_id=1",
+      url: "https://tampereenlaulukoulu.asioi.fi/ajanvaraus?language=fi&pob_id=1&employee_id=1449",
     },
   ],
   pricingTiers: [
