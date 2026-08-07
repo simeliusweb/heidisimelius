@@ -266,6 +266,41 @@ functions need `BREVO_API_KEY` (`api/send-email.ts:313`) and `SUPABASE_FUNCTION_
 (`src/pages/api/keep-db-alive.ts:5`, driving the cron in `vercel.json`) — those are runtime
 vars and must live in the Vercel project env, never in a committed `.env`.
 
+### 9.5 Social sharing showed the generic description (WhatsApp)
+
+Sharing `https://www.heidisimelius.fi/laulunopetus` on WhatsApp previewed the site-wide
+default text, not the page's own.
+
+**Why §9.1 did not fix this:** social scrapers (WhatsApp, Facebook, LinkedIn, Slack) do
+**not** execute JavaScript. They read whatever HTML the server returns. This is a
+client-rendered SPA and `vercel.json` rewrites every route to `/index.html`, so scrapers
+only ever saw the static defaults — the per-page tags `PageMeta` sets at runtime are
+invisible to them. The §9.1 work fixed Google (which does render JS) but could never
+reach WhatsApp.
+
+**Fix:** a `per-route-meta-html` Vite plugin (`vite.config.ts`) emits a real HTML file per
+route at build time — `dist/laulunopetus/index.html` etc. — with that route's
+title/description/og/twitter tags already in the markup. Vercel resolves static files
+before applying the SPA rewrite, so the prebuilt file wins while React Router still takes
+over once the bundle loads.
+
+`src/config/metadata.ts` gained a `routeMetadata` map (URL path -> metadata key) as the
+single source of truth; it now drives the sitemap too, which had been **missing
+`/laulunopetus`** entirely and emitting a duplicate `/` entry.
+
+The plugin **fails the build** if `index.html`'s markup drifts so the injections stop
+matching, rather than silently shipping generic tags.
+
+Note `vite preview` applies its own SPA fallback and does **not** reproduce Vercel's
+filesystem-first routing — it served the root `index.html` for `/laulunopetus`. Verify
+with a plain static server (`npx serve dist`) instead, or against production.
+
+⚠️ Anyone adding a new route must add it to `routeMetadata`, or it gets no per-route tags
+and no sitemap entry.
+
+`og:image` is still the same site-wide press photo on every page. Per-page share images
+would need an image per route — not done.
+
 ### 9.4 Wording tweak
 
 "Voit myös ottaa minuun suoraan yhteyttä **alla olevalla** lomakkeella" → "**sivun
