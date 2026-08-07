@@ -12,10 +12,10 @@ dist
 dist-ssr
 *.local
 
-# Environment variables (contains Supabase + CMS credentials)
-.env
-.env.*
-!.env.example
+# Local-only secrets. .env itself IS tracked: the Vercel project does not define the
+# VITE_* vars, so the production build reads them from the committed .env.
+.env.local
+.env.*.local
 
 # Editor directories and files
 .vscode/*
