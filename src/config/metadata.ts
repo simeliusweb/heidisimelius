@@ -45,3 +45,20 @@ export const pageMetadata = {
       "Heidi Simelius opettaa yksilöllistä pop/jazz-laulua Tampereen laulukoululla Hämeenpuistossa. Laulutunnit sopivat sekä aloittelijoille että kokeneemmille laulajille.",
   },
 };
+
+/**
+ * URL path -> pageMetadata key.
+ *
+ * Used at build time to emit a real HTML file per route with that route's meta tags
+ * already in the markup. Social scrapers (WhatsApp, Facebook, LinkedIn, Slack) do NOT
+ * run JavaScript, so they never see what PageMeta sets at runtime — without these
+ * prebuilt files every shared link shows the site-wide default text.
+ */
+export const routeMetadata: Record<string, keyof typeof pageMetadata> = {
+  "/": "home",
+  "/bio": "bio",
+  "/keikat": "keikat",
+  "/galleria": "galleria",
+  "/bilebandi-heidi-and-the-hot-stuff": "bilebandi",
+  "/laulunopetus": "laulunopetus",
+};
