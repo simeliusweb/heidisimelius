@@ -229,15 +229,49 @@ button and quick links to the main sections so a lost visitor still lands somewh
   leading-loose`.
 - Checked desktop 1440×900 and mobile 390×844; no horizontal overflow, links wrap cleanly.
 
-### 9.3 `.env` untracked
+### 9.3 `.env` — untracked, then restored after it broke production
 
-`.env` was tracked and not in `.gitignore`. Ran `git rm --cached .env` (file kept on disk)
-and added `.env` / `.env.*` to `.gitignore`, plus a committed `.env.example` template.
+**What happened:** `.env` was tracked and not in `.gitignore`, so it was untracked with
+`git rm --cached .env`. That deploy **white-screened the entire live site** for ~3–4
+minutes: every route rendered blank with `supabaseKey is required`.
 
-**The CMS password was never committed** — it existed only in the working tree. Git
-history contains only `VITE_SUPABASE_*`, which are public by design (they ship in the
-client bundle; RLS is what protects the data), so no history rewrite or key rotation is
-needed. The staged deletion is not yet committed.
+**Why:** Vite inlines `VITE_*` values at **build time**. The Vercel project did not define
+them, so the committed `.env` was the build's only source for `VITE_SUPABASE_URL` and
+`VITE_SUPABASE_PUBLISHABLE_KEY`. Removing the file shipped a bundle with no Supabase key.
+
+The pre-check that was done — "are secrets in git history?" — was the wrong question. The
+one that mattered was **"what reads this file at build time?"**
+
+**Fix:** `.env` is tracked again, holding only the three public `VITE_*` values (Vite ships
+every `VITE_*` value to the browser regardless; RLS protects the data). Genuine secrets
+moved to `.env.local`, which is gitignored. Verified the built bundle contains the Supabase
+URL and **not** the CMS password.
+
+**The CMS password was never committed** — it only ever existed in the working tree, so no
+history rewrite or key rotation was needed.
+
+**Follow-up (2026-08-07):** the three `VITE_SUPABASE_*` vars have since been added to the
+Vercel project env. ⚠️ This does **not** yet prove they are correct: Vite gives existing
+process env vars priority over `.env` files, so a misspelled name in Vercel would silently
+fall back to the committed `.env` and everything would still work. The typo only surfaces
+when `.env` is untracked. So when untracking it for good:
+
+1. Untrack and push.
+2. **Watch the deploy land and confirm the page actually renders** — not just that the
+   build hash changed.
+3. Revert immediately if it white-screens.
+
+Note also that `VITE_SUPABASE_PROJECT_ID` is set but read by no code, and the serverless
+functions need `BREVO_API_KEY` (`api/send-email.ts:313`) and `SUPABASE_FUNCTION_URL`
+(`src/pages/api/keep-db-alive.ts:5`, driving the cron in `vercel.json`) — those are runtime
+vars and must live in the Vercel project env, never in a committed `.env`.
+
+### 9.4 Wording tweak
+
+"Voit myös ottaa minuun suoraan yhteyttä **alla olevalla** lomakkeella" → "**sivun
+alaosasta löytyvällä** lomakkeella". The laulukoulu block sits mid-page, so "alla oleva"
+pointed at the background section rather than the contact form. Updated in the live CMS
+content and in the `defaultContent` fallback.
 
 ---
 
