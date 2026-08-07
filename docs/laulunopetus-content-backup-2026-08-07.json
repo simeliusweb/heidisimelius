@@ -1,0 +1,51 @@
+{
+  "tagline": "Laulunopettaja Tampereen keskustassa",
+  "closingCta": "Laulaminen on minulle tapa ilmaista itseäni ja tulkita tunteita. Tule laulutunneille Tampereelle kokemaan laulamisen iloa!",
+  "pricingTiers": [
+    {
+      "id": "tier-1",
+      "name": "Ensimmäinen kokeilutunti",
+      "price": "40€",
+      "duration": "45 min"
+    },
+    {
+      "id": "tier-2",
+      "name": "Yksittäiset tunnit",
+      "price": "60€",
+      "duration": "45 min"
+    },
+    {
+      "id": "tier-3",
+      "name": "Tuntipaketti",
+      "price": "280€",
+      "duration": "5 x 45 min",
+      "isFeatured": true
+    }
+  ],
+  "pricingTitle": "Hinnat – Laulunopetus Tampere",
+  "testimonials": [
+    {
+      "id": "testimonial-1",
+      "text": "Suosittelen lämpimästi Heidin laulutunteja. Olen ottanut pariin otteeseen 5x laulutuntipaketit, joiden aikana ehtii mainiosti treenata tekniikkaa, itse kappaletta ja vielä pohtia esiintymistäkin. Näihin kaikkiin osa-alueisiin Heidiltä saa rautaisen ammattitaitoista ohjausta/opetusta - tietenkin rennossa ja positiivisessa ilmapiirissä. Heidin laulutunnit sopivat sekä aloittelijoille että kokeneemmillekin laulajille 🩷🥰",
+      "author": "Annemari"
+    },
+    {
+      "id": "testimonial-2",
+      "text": "Menin Heidille ekalle laulutunnilleni ikinä ja oon maailman onnellisin et löysin hänet! Heidin kanssa oli tosi helppoa olla ihan alusta lähtien ja sain jo ekalla tunnilla tosi paljon vinkkejä laulamiseen ja tekniikkaan. Opin tosi kokonaisvaltasesti ihmisen äänestä, joka konkretisoi paljon niitä kysymysmerkkejä, joita mulla on laulamiseen liittyen ollut. Ostin heti 5 laulutuntia lisää, koska Heidi on super!",
+      "author": "Aino"
+    }
+  ],
+  "ctaButtonText": "Varaa kokeilutunti ottamalla yhteyttä alla olevan lomakkeen kautta!",
+  "practiceItems": [
+    "laulutekniikkaa ja äänen fysiologiaa",
+    "tulkintaa ja tarinankerrontaa (ATS eli Acting Through Song)",
+    "pääsykoekappaleita musiikkialan hakuihin",
+    "esiintymisvarmuutta karaokelavoille tai keikoille"
+  ],
+  "backgroundTitle": "Taustani laulunopettajana",
+  "heroImageCredit": "Sanni Majamaa",
+  "finalCtaButtonText": "Ota yhteyttä ja varaa aikasi!",
+  "introLeadParagraph": "Etsitkö laadukasta laulunopetusta Tampereella? Haluaisitko varmuutta tekniikkaan, tulkita suuria tunteita tai laulaa korkealta ja kovaa?",
+  "introBodyParagraphs": "Tarjoan yksilöllistä pop/jazz-laulunopetusta Tampereen keskustassa rautatieaseman tuntumassa. Erityisosaamistani on rytmimusiikki, musikaalikappaleiden vocal coaching ja esiintymisvalmennus.\n\nLaulunopettajana haluan luoda positiivisen pedagogian keinoin rennon ja luovan oppimisilmapiirin, jossa on helppo heittäytyä ja kokeilla uutta. Tunneillani saa olla oma itsensä ja lähdemme liikkeelle jokaisen oppilaan omista lähtökohdista, vahvuuksista ja tavoitteista.\n\nVoit tulla laulutunneille aloittelijana tai jo pidempään laulua harrastaneena tai ammattilaisena!",
+  "backgroundParagraphs": "Opiskelen tällä hetkellä pop/jazz-laulun pedagogiikkaa Metropolia ammattikorkeakoulussa. Laulunopettajana olen toiminut yksityisesti vuodesta 2016 ja sijaistanut mm. Pirkanmaan musiikkiopistossa, Tampereen laulukoululla sekä Tampereenseudun työväenopistossa.\n\nAiemmat opiskeluvuoteni Metropolia ammattikorkeakoulun muusikko-opinnoissa esiintyjä-linjalta toivat minulle erikoisosaamista pop/jazz-laulun eri tyylisuunissa. Vahvuuksiini kuuluu soul ja rnb musiikin äänenkäyttötavat ja melismat. Minulla on kokemusta myös CVT ja Estill -laulutekniikoista.\n\nOpinnot Tampereen ammattikorkeakoulun Musiikkiteatteriopinnoissa toivat erikoisosaamista musikaalilaulun, eläytymisen ja tarinankerronnan parissa. Kokemusta on karttunut myös työskentelystä musikaaleissa.\n\nOlen keikkaillut laulajana yli kymmenen vuoden ajan niin solistina kuin taustalaulajanakin sekä toiminut myös studiolaulajana. Teen keikkaa ja omaa musiikkia myös artistina. Laulunopettajana ammennan tietotaitoa siis hyvin käytännönläheisesti monenlaisesta työkokemuksesta musiikin kentällä."
+}

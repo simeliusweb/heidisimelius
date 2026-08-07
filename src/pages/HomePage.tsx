@@ -256,7 +256,7 @@ const HomePage = () => {
                 Haluatko oppia laulamaan?
               </h2>
               <p className="text-foreground font-source text-center mb-6 text-base sm:text-lg">
-                Heidi toimii myös laulunopettajana Tampereen keskustassa.
+                Heidi toimii myös laulunopettajana Tampereen laulukoululla.
                 Tarjolla yksilöllistä pop/jazz-laulunopetusta niin
                 aloittelijoille kuin kokeneemmillekin laulajille.
               </p>

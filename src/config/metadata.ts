@@ -1,3 +1,17 @@
+export const SITE_URL = "https://www.heidisimelius.fi";
+
+// Site-wide fallback for routes that do not render <PageMeta> (login, admin).
+// Must stay in sync with the static tags in index.html so the initial markup and the
+// Helmet-managed tag are identical and no swap happens on mount.
+export const siteDefaultMeta = {
+  title: "Heidi Simelius",
+  description: "Heidi Simelius - Laulaja, lauluntekijä ja esiintyjä",
+  // index.html's static og/twitter tags use this longer social-share copy
+  socialDescription:
+    "Tervetuloa Heidi Simeliuksen virallisille sivuille. Tutustu musiikkiin, tuleviin keikkoihin, teatteritöihin ja bilebändiin.",
+  socialTitle: "Heidi Simelius | Laulaja, lauluntekijä ja esiintyjä",
+};
+
 export const pageMetadata = {
   home: {
     title:
@@ -28,6 +42,6 @@ export const pageMetadata = {
   laulunopetus: {
     title: "Laulunopetus Tampereella | Heidi Simelius",
     description:
-      "Henkilökohtaista pop/jazz-laulunopetusta Tampereen keskustassa. Tarjolla kokeilutunteja, yksittäisiä tunteja ja sarjakortteja. Varaa tunnit nyt!",
+      "Heidi Simelius opettaa yksilöllistä pop/jazz-laulua Tampereen laulukoululla Hämeenpuistossa. Laulutunnit sopivat sekä aloittelijoille että kokeneemmille laulajille.",
   },
 };

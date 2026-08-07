@@ -16,6 +16,8 @@ import LoginPage from "./pages/LoginPage";
 import AdminPage from "./pages/AdminPage";
 import ScrollToTop from "./components/ScrollToTop";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { Helmet } from "react-helmet-async";
+import { siteDefaultMeta, SITE_URL } from "./config/metadata";
 
 const queryClient = new QueryClient();
 
@@ -67,6 +69,29 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      {/*
+        Default meta for routes without <PageMeta> (login, admin). Any page-level
+        PageMeta overrides these by tag name. This must cover every data-rh tag in
+        index.html — Helmet strips the ones it owns but is not asked to render.
+      */}
+      <Helmet>
+        <title>{siteDefaultMeta.title}</title>
+        <meta name="description" content={siteDefaultMeta.description} />
+
+        <meta property="og:title" content={siteDefaultMeta.socialTitle} />
+        <meta
+          property="og:description"
+          content={siteDefaultMeta.socialDescription}
+        />
+        <meta property="og:url" content={`${SITE_URL}/`} />
+
+        <meta property="twitter:title" content={siteDefaultMeta.socialTitle} />
+        <meta
+          property="twitter:description"
+          content={siteDefaultMeta.socialDescription}
+        />
+        <meta property="twitter:url" content={`${SITE_URL}/`} />
+      </Helmet>
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AppContent />
       </BrowserRouter>

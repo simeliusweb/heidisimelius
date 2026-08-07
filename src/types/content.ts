@@ -66,6 +66,12 @@ export interface Testimonial {
   author: string;
 }
 
+export interface SchoolInfoLink {
+  id: string;
+  label: string;
+  url: string;
+}
+
 export interface LaulunopetusContent {
   tagline: string;
   introLeadParagraph: string;
@@ -80,6 +86,20 @@ export interface LaulunopetusContent {
   closingCta: string;
   finalCtaButtonText: string;
   heroImageCredit: string;
+
+  // When set, the CTA buttons link out instead of scrolling to the contact form
+  ctaButtonUrl?: string;
+  finalCtaButtonUrl?: string;
+
+  // Pricing section can be hidden without losing the tiers (Heidi now teaches
+  // at Tampereen laulukoulu, whose prices differ from her private ones)
+  pricingVisible?: boolean;
+
+  // Tampereen laulukoulu info block, shown in place of the hidden pricing
+  schoolInfoVisible?: boolean;
+  schoolInfoTitle?: string;
+  schoolInfoText?: string;
+  schoolInfoLinks?: SchoolInfoLink[];
 }
 
 export interface PageImage {

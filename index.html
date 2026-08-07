@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#10111A" />
     <title>Heidi Simelius</title>
+    <!--
+      data-rh marks this as a react-helmet-async managed tag, so PageMeta REPLACES it
+      instead of appending a second description meta. Without it every page shipped
+      two of them and crawlers took this static one.
+      The content stays as the site-wide fallback for crawlers that do not run JS.
+    -->
     <meta
+      data-rh="true"
       name="description"
       content="Heidi Simelius - Laulaja, lauluntekijä ja esiintyjä"
     />
@@ -25,13 +32,24 @@
       rel="stylesheet"
     />
 
+    <!--
+      Tags carrying data-rh="true" are replaced per page by PageMeta (see the note on
+      the description above). og:type and og:image are page-invariant, so they stay
+      unmarked — Helmet never renders them and would otherwise strip them.
+    -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.heidisimelius.fi/" />
     <meta
+      data-rh="true"
+      property="og:url"
+      content="https://www.heidisimelius.fi/"
+    />
+    <meta
+      data-rh="true"
       property="og:title"
       content="Heidi Simelius | Laulaja, lauluntekijä ja esiintyjä"
     />
     <meta
+      data-rh="true"
       property="og:description"
       content="Tervetuloa Heidi Simeliuksen virallisille sivuille. Tutustu musiikkiin, tuleviin keikkoihin, teatteritöihin ja bilebändiin."
     />
@@ -41,12 +59,18 @@
     />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://www.heidisimelius.fi/" />
     <meta
+      data-rh="true"
+      property="twitter:url"
+      content="https://www.heidisimelius.fi/"
+    />
+    <meta
+      data-rh="true"
       property="twitter:title"
       content="Heidi Simelius | Laulaja, lauluntekijä ja esiintyjä"
     />
     <meta
+      data-rh="true"
       property="twitter:description"
       content="Tervetuloa Heidi Simeliuksen virallisille sivuille. Tutustu musiikkiin, tuleviin keikkoihin, teatteritöihin ja bilebändiin."
     />

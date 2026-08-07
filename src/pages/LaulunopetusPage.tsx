@@ -9,6 +9,7 @@ import useImagePreload from "@/hooks/useImagePreload";
 import useFontLoaded from "@/hooks/useFontLoaded";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ExternalLink } from "lucide-react";
 
 const fetchLaulunopetusContent =
   async (): Promise<LaulunopetusContent> => {
@@ -70,13 +71,19 @@ const LaulunopetusPage = () => {
     );
   }
 
+  const pricingVisible = content.pricingVisible !== false;
+  const schoolInfoLinks = content.schoolInfoLinks || [];
+  const schoolInfoVisible =
+    content.schoolInfoVisible !== false &&
+    Boolean(content.schoolInfoTitle || content.schoolInfoText || schoolInfoLinks.length);
+
   // Build structured data from dynamic pricing
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
     name: "Laulunopetus Tampere ja äänivalmennus",
     description:
-      "Henkilökohtaista laulunopetusta ja äänenkäytön valmennusta Tampereen keskustassa. Tarjolla kokeilutunteja, yksittäisiä laulutunteja ja sarjakortteja.",
+      "Henkilökohtaista laulunopetusta ja äänenkäytön valmennusta Tampereella. Yksilöllistä pop/jazz-laulunopetusta sekä aloittelijoille että kokeneemmille laulajille.",
     provider: {
       "@type": "Person",
       name: "Heidi Simelius",
@@ -96,15 +103,21 @@ const LaulunopetusPage = () => {
       "@type": "City",
       name: "Tampere",
     },
-    offers: content.pricingTiers.map((tier) => ({
-      "@type": "Offer",
-      name: tier.name,
-      description: `${tier.name} (${tier.duration})`,
-      price: tier.price.replace("€", "").replace(",", ".").trim(),
-      priceCurrency: "EUR",
-      availability: "https://schema.org/InStock",
-      url: "https://www.heidisimelius.fi/laulunopetus",
-    })),
+    // Only advertise prices in structured data while they are actually shown on
+    // the page — otherwise Google keeps serving the hidden (private) prices.
+    ...(pricingVisible && content.pricingTiers.length > 0
+      ? {
+          offers: content.pricingTiers.map((tier) => ({
+            "@type": "Offer",
+            name: tier.name,
+            description: `${tier.name} (${tier.duration})`,
+            price: tier.price.replace("€", "").replace(",", ".").trim(),
+            priceCurrency: "EUR",
+            availability: "https://schema.org/InStock",
+            url: "https://www.heidisimelius.fi/laulunopetus",
+          })),
+        }
+      : {}),
   };
 
   const scrollToFooter = () => {
@@ -220,13 +233,31 @@ const LaulunopetusPage = () => {
 
             {/* CTA Button */}
             <div className="mt-12 text-center">
-              <Button
-                size="lg"
-                onClick={scrollToFooter}
-                className="element-embedded-effect h-auto text-wrap py-2"
-              >
-                {content.ctaButtonText}
-              </Button>
+              {content.ctaButtonUrl ? (
+                <Button
+                  asChild
+                  size="lg"
+                  className="element-embedded-effect h-auto text-wrap py-2"
+                >
+                  <a
+                    href={content.ctaButtonUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2"
+                  >
+                    {content.ctaButtonText}
+                    <ExternalLink className="h-4 w-4 shrink-0" />
+                  </a>
+                </Button>
+              ) : (
+                <Button
+                  size="lg"
+                  onClick={scrollToFooter}
+                  className="element-embedded-effect h-auto text-wrap py-2"
+                >
+                  {content.ctaButtonText}
+                </Button>
+              )}
             </div>
           </section>
 
@@ -250,7 +281,50 @@ const LaulunopetusPage = () => {
             </section>
           )}
 
+          {/* Tampereen laulukoulu info (shown in place of the private pricing) */}
+          {schoolInfoVisible && (
+            <section className="mb-16">
+              <div className="mx-auto max-w-3xl rounded-lg bg-card border border-border p-6 sm:p-8 text-center">
+                {content.schoolInfoTitle && (
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-sans font-extrabold text-secondary-foreground mb-4">
+                    {content.schoolInfoTitle}
+                  </h2>
+                )}
+                {content.schoolInfoText && (
+                  <div className="font-source text-foreground space-y-4 text-base sm:text-lg">
+                    {content.schoolInfoText.split("\n\n").map((paragraph, i) => (
+                      <p key={i}>{paragraph}</p>
+                    ))}
+                  </div>
+                )}
+                {schoolInfoLinks.length > 0 && (
+                  <div className="mt-6 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-3">
+                    {schoolInfoLinks.map((link) => (
+                      <Button
+                        key={link.id}
+                        asChild
+                        variant="outline"
+                        className="custom-lifted-primary h-auto text-wrap py-2"
+                      >
+                        <a
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center gap-2"
+                        >
+                          {link.label}
+                          <ExternalLink className="h-4 w-4 shrink-0" />
+                        </a>
+                      </Button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
           {/* Pricing Section */}
+          {pricingVisible && (
           <section className="mb-16">
             <h2 className="text-4xl md:text-5xl font-sans font-extrabold text-secondary-foreground mb-8 text-center">
               {content.pricingTitle}
@@ -286,6 +360,7 @@ const LaulunopetusPage = () => {
               ))}
             </div>
           </section>
+          )}
 
           {/* Background Section */}
           <section className="mb-16">
@@ -326,13 +401,31 @@ const LaulunopetusPage = () => {
 
           {/* Final CTA */}
           <section className="text-center pb-8">
-            <Button
-              size="lg"
-              onClick={scrollToFooter}
-              className="element-embedded-effect"
-            >
-              {content.finalCtaButtonText}
-            </Button>
+            {content.finalCtaButtonUrl ? (
+              <Button
+                asChild
+                size="lg"
+                className="element-embedded-effect h-auto text-wrap py-2"
+              >
+                <a
+                  href={content.finalCtaButtonUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2"
+                >
+                  {content.finalCtaButtonText}
+                  <ExternalLink className="h-4 w-4 shrink-0" />
+                </a>
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                onClick={scrollToFooter}
+                className="element-embedded-effect h-auto text-wrap py-2"
+              >
+                {content.finalCtaButtonText}
+              </Button>
+            )}
           </section>
         </div>
       </div>
