@@ -12,10 +12,12 @@ dist
 dist-ssr
 *.local
 
-# Local-only secrets. .env itself IS tracked: the Vercel project does not define the
-# VITE_* vars, so the production build reads them from the committed .env.
+# Environment files are local-only. Production gets its values from the Vercel
+# project's environment variables, NOT from a committed file.
+.env
 .env.local
 .env.*.local
+!.env.example
 
 # Editor directories and files
 .vscode/*
