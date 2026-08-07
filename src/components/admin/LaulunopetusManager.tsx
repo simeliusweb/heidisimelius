@@ -153,7 +153,7 @@ const defaultContent: LaulunopetusContent = {
   schoolInfoVisible: true,
   schoolInfoTitle: "Hinnasto ja ajanvaraus",
   schoolInfoText:
-    "Opetan Tampereen laulukoululla Hämeenpuistossa, joten laulutuntien hinnat ja ajanvaraus löytyvät laulukoulun sivuilta.\n\nVoit myös ottaa minuun suoraan yhteyttä alla olevalla lomakkeella, jos haluat kysyä lisää laulutunneista.",
+    "Opetan Tampereen laulukoululla Hämeenpuistossa, joten laulutuntien hinnat ja ajanvaraus löytyvät laulukoulun sivuilta.\n\nVoit myös ottaa minuun suoraan yhteyttä sivun alaosasta löytyvällä lomakkeella, jos haluat kysyä lisää laulutunneista.",
   schoolInfoLinks: [
     {
       id: "school-link-1",
