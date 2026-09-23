@@ -275,10 +275,12 @@ const BioPage = () => {
     );
   }
 
-  // Helper function to render paragraphs from newline-separated text
+  // One <p> per line block. The CMS textarea stores real newlines; the old split on a
+  // literal backslash-n never matched, so every paragraph ran together.
   const renderParagraphs = (text: string) => {
     return text
-      .split("\\n")
+      .split(/(?:\r?\n|\\n)+/)
+      .filter((paragraph) => paragraph.trim() !== "")
       .map((paragraph, index) => <p key={index}>{paragraph}</p>);
   };
 
