@@ -3,12 +3,14 @@
  * error page, validation or Brevo error) becomes one Finnish message that tells the
  * visitor where to write instead; the raw server text is never shown.
  */
-export const sendFormFailedMessage = (fallbackEmail: string) =>
-  `Viestin lähetys epäonnistui. Yritä hetken päästä uudelleen tai lähetä sähköpostia osoitteeseen ${fallbackEmail}.`;
+export const sendFormFailedMessage = (fallbackEmail?: string) =>
+  fallbackEmail
+    ? `Viestin lähetys epäonnistui. Yritä hetken päästä uudelleen tai lähetä sähköpostia osoitteeseen ${fallbackEmail}.`
+    : "Viestin lähetys epäonnistui. Yritä hetken päästä uudelleen.";
 
 export const sendForm = async (
   payload: Record<string, unknown>,
-  fallbackEmail: string
+  fallbackEmail?: string
 ): Promise<void> => {
   let ok = false;
   try {

@@ -25,9 +25,6 @@ import { sendForm, sendFormFailedMessage } from "@/lib/sendForm";
 import { ExternalLink } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
-// Shown in the error toast when sending fails.
-const CONTACT_FALLBACK_EMAIL = "simelius.heidi@gmail.com";
-
 const contactSchema = z.object({
   name: z
     .string()
@@ -100,8 +97,7 @@ const Footer = () => {
           phone: "",
           message: data.message,
           ...getSpamFields(),
-        },
-        CONTACT_FALLBACK_EMAIL
+        }
       );
 
       toast({
@@ -116,7 +112,7 @@ const Footer = () => {
         description:
           error instanceof Error
             ? error.message
-            : sendFormFailedMessage(CONTACT_FALLBACK_EMAIL),
+            : sendFormFailedMessage(),
         variant: "destructive",
       });
     }
