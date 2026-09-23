@@ -259,13 +259,14 @@ const AddPhotoSetForm = ({
         description: "Tietoja tallennetaan...",
       });
 
-      // Get current gallery count for order_index assignment
-      const { data: existingGalleries } = await supabase
+      // order_index is counted separately for galleries and the press kit, and the
+      // column is NOT NULL, so the press kit gets the next index of its own kind too.
+      const { data: existingSets } = await supabase
         .from("photo_sets")
         .select("id")
-        .eq("is_press_kit", false);
+        .eq("is_press_kit", isPressKit);
 
-      const nextOrderIndex = existingGalleries?.length || 0;
+      const nextOrderIndex = existingSets?.length || 0;
 
       // Create photo set data
       const photoSetData: PhotoSet = {
@@ -277,7 +278,7 @@ const AddPhotoSetForm = ({
         photos: uploadedImages,
         is_press_kit: isPressKit,
         press_kit_zip_url: zipUrl,
-        order_index: isPressKit ? null : nextOrderIndex,
+        order_index: nextOrderIndex,
       };
 
       const { error } = await supabase.from("photo_sets").insert(photoSetData);
