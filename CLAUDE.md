@@ -14,6 +14,8 @@ npm run build      # Production build
 npm run build:dev  # Development build
 npm run lint       # Run ESLint
 npm run preview    # Preview production build
+npm run test:unit  # Vitest unit tests (api/, src/)
+npm run test:e2e   # Playwright suite in e2e/ (needs BASE_URL; see docs/supabase-migration-plan.md)
 ```
 
 ## Architecture
@@ -69,10 +71,16 @@ const { data } = useQuery({ queryKey: ["gigs"], queryFn: fetchGigs });
 - `documents` - CV PDF (static path with upsert)
 
 ### Environment Variables
-Required in `.env`:
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_PUBLISHABLE_KEY`
-- `BREVO_API_KEY` (for Vercel serverless functions)
+- `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` — inlined into the browser bundle at build time (local `.env`, Vercel env per target)
+- `BREVO_API_KEY` — runtime only, `api/send-email.ts`
+- `CRON_SECRET` — runtime only; `api/keep-db-alive.ts` refuses every call without it
+
+### Backend (Supabase)
+The database, storage and auth live in our own Supabase project `neqprqqhiifqemphpwhu` (eu-north-1) in the **simeliusweb** organisation. It replaced Lovable Cloud (`yctdrwogilljanzxcgow`) in September 2026; Lovable is disconnected from the repo, so don't reconnect it or use its AI.
+
+- **Never use this machine's Supabase CLI or Supabase MCP**: they are logged in to another client's account. Use the Management API (`https://api.supabase.com/v1/projects/neqprqqhiifqemphpwhu/...`) with the owner's personal access token.
+- Schema changes go in `supabase/migrations/` and are applied through the Management API. The public tables need explicit grants (`20260923120100_grant_data_api_roles.sql`), and CMS writes require the `app_metadata.cms_admin` claim (`20260923120200_cms_admin_claim.sql`), which only the service role can set.
+- Migration run book, state and rollback: `docs/supabase-migration-plan.md` (start at §0).
 
 ### Path Alias
 Use `@/` for imports from `src/` directory (configured in vite.config.ts and tsconfig).
@@ -86,7 +94,7 @@ Forms use react-hook-form with zod schemas. When fields are conditionally render
 Uses @dnd-kit for sortable items (videos, photos). Maintains `order_index` in database.
 
 ### Structured Data
-SEO structured data (JSON-LD) for gigs is built in `src/lib/eventStructuredData.ts` (MusicEvent / TheaterEvent by `gig_type`) following Google's Event guidelines — Search Console flags missing `endDate` and `offers` fields. Never emit guessed values such as prices. Gig `ticket_price` / `duration_minutes` stay switched off (`GIG_TICKET_FIELDS_ENABLED` in `src/components/admin/gigTicketFieldsSchema.ts`) until their columns exist; the live Lovable DB does not have them (see `docs/supabase-migration-plan.md` §6.2a). Define interfaces for complex nested structures rather than using `any`.
+SEO structured data (JSON-LD) for gigs is built in `src/lib/eventStructuredData.ts` (MusicEvent / TheaterEvent by `gig_type`) following Google's Event guidelines — Search Console flags missing `endDate` and `offers` fields. Never emit guessed values such as prices. The `ticket_price` / `duration_minutes` columns exist in the new database, but the CMS fields stay switched off (`GIG_TICKET_FIELDS_ENABLED` in `src/components/admin/gigTicketFieldsSchema.ts`) until the post-go-live horizon (`docs/supabase-migration-plan.md` §16). Define interfaces for complex nested structures rather than using `any`.
 
 ### Indexing
 Only the routes in `routeMetadata` (`src/config/metadata.ts`) get prebuilt HTML with their own title and canonical; `vercel.json` rewrites just `/admin` and `/login` to the SPA, so any other path returns a real 404 (`dist/404.html`, noindex). A new public route must be added to `routeMetadata`, or it will 404 on a hard load.
