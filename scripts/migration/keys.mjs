@@ -1,7 +1,7 @@
 // 2B.2k: publishable key, a dedicated secret key for the agent, legacy keys off; 2B.2 user gate #1.
 // Also seeds the run identifiers in .env.generated. Idempotent: an existing migration_agent key is reused.
 import crypto from "node:crypto";
-import { env, mgmt, result, writeGenerated, OLD_URL } from "./lib.mjs";
+import { env, mgmt, readState, result, writeGenerated, OLD_URL } from "./lib.mjs";
 
 const e = env();
 const base = `/v1/projects/${e.NEW_REF}/api-keys`;
@@ -43,7 +43,12 @@ if (legacy.length) {
 }
 result("2B.2k", true, { publishable: true, secret_id: secret.id, legacy: legacyDisabled });
 
-// 2B.2 user gate #1: zero users.
+// 2B.2 user gate #1: zero users. Only meaningful before the users exist (2B.6); after that,
+// `users.mjs --gate` is the gate.
+if (readState().steps?.["2B.6"]?.status === "done") {
+  result("2B.2", "skipped", { reason: "users already created; run users.mjs --gate" });
+  process.exit(0);
+}
 const g = env();
 const r = await fetch(`${g.NEW_URL}/auth/v1/admin/users?per_page=1000`, {
   headers: { apikey: g.NEW_SECRET, Authorization: `Bearer ${g.NEW_SECRET}` },
