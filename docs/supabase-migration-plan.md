@@ -320,7 +320,7 @@ PREP_DONE_AT=
    ```bash
    open -n -a "Google Chrome" --args --remote-debugging-port=9228 --user-data-dir="$HOME/Library/Application Support/claude-pw-profiles/heidisimelius"
    ```
-   Log in to Lovable, Gmail as **simeliusweb@gmail.com**, and Vercel (simeliusweb). Optionally also Supabase and Google Search Console. Leave the window open.
+   Log in to Lovable (account **sandels92@hotmail.com**, not the Gmail), Gmail as **simeliusweb@gmail.com**, and Vercel (simeliusweb, through GitHub). Optionally also Supabase and Google Search Console. Leave the window open.
 8. **P8 Admins:**
    - Confirm that `.env.local`'s `CMS_ACCOUNT` is Heidi's (the real) admin.
    - List any other admins.
@@ -399,7 +399,7 @@ Log `STEP1 done`.
 |---|---|---|
 | 2A.1 | Lovable screenshots → `artifacts/2A/`: Overview, Secrets (names only), Jobs, Emails, Edge functions, Usage, Connectors, Security, Settings. Sensitive pages are saved with explicit filenames in the private dir. | files exist |
 | 2A.2 | Lovable SQL editor: **Q1** (one query per key, so the grid doesn't truncate), **Q2**, **Q3**, **Q4** (Appendix A). Results are read from the DOM → `artifacts/2A/q*.json`. | parsed JSON. If the role is restricted, mark it `partial`. |
-| 2A.3 | **Export project data** (`PA_LOVABLE_EXPORT`). Fetch the link from Gmail, download to `exports/lovable-<date>.backup`. `pg_restore -l` → `artifacts/2A/export-toc.txt`. `pg_restore -f - --schema-only --schema=public --schema=storage` → `export-ddl.sql`. | TOC lists the 4 tables, and the source version is recorded |
+| 2A.3 | **Export project data** (`PA_LOVABLE_EXPORT`). The link email goes to the **Lovable account's inbox (`sandels92@hotmail.com`), not Gmail**, so download the file from Lovable's Cloud → Storage (`database_export_*` bucket) in the MCP browser instead. Save it to `exports/lovable-<date>.backup`. `pg_restore -l` → `artifacts/2A/export-toc.txt`. `pg_restore -f - --schema-only --schema=public --schema=storage` → `export-ddl.sql`. | TOC lists the 4 tables, and the source version is recorded |
 | 2A.4 | Confirm, as anon, that the export's bucket and object are **not** listable or downloadable. Lovable saves the export into Cloud storage. | 4xx or `[]` |
 | 2A.5 | Capture **BL0** (`capture.mjs --label BL0 --base https://www.heidisimelius.fi`), once the capture script exists (2D) | JSON written |
 
