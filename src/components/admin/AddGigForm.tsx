@@ -185,7 +185,7 @@ const AddGigForm = ({
       const gigsToInsert: GigInsert[] = data.performances.map((performance) => {
         const performanceDate = new Date(performance.date);
         const [hours, minutes] = performance.time.split(":").map(Number);
-        performanceDate.setHours(hours, minutes);
+        performanceDate.setHours(hours, minutes, 0, 0);
 
         const gigData: GigInsert = {
           title: data.title,

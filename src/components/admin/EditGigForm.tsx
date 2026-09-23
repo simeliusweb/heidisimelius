@@ -149,7 +149,7 @@ const EditGigForm = ({ isOpen, onOpenChange, gig }: EditGigFormProps) => {
 
       const performanceDate = new Date(data.performance_date);
       const [hours, minutes] = data.performance_time.split(":").map(Number);
-      performanceDate.setHours(hours, minutes);
+      performanceDate.setHours(hours, minutes, 0, 0);
 
       // The ticket fields go through parseGigTicketFields only: as raw form strings they
       // would break the update, and while disabled the DB does not have the columns.
