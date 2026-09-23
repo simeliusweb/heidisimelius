@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import handler from "./keep-db-alive";
+import handler from "../keep-db-alive";
 
 const call = async (authorization?: string) => {
   const res = { statusCode: 0, body: undefined as unknown };
