@@ -1,5 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { assertRowsChanged } from "@/lib/dbWrite";
+import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import {
   PageImagesContent,
@@ -45,147 +47,98 @@ const ImageManager = () => {
     queryFn: fetchPageImagesContent,
   });
 
-  // Update page images content mutation
-  const updatePageImagesMutation = useMutation({
-    mutationFn: async ({
-      imageKey,
-      imageData,
-      imageFile,
-    }: {
-      imageKey: keyof PageImagesContent;
-      imageData: PageImage;
-      imageFile: File;
-    }) => {
-      // Upload the new image
-      const imageUrl = await uploadPageImage(imageFile);
+  // Which image is being uploaded; every update button is disabled meanwhile, so a
+  // double click can't upload twice or overwrite the other image's change.
+  const [pendingKey, setPendingKey] = useState<keyof PageImagesContent | null>(
+    null
+  );
 
-      // Merge with existing content
-      const updatedContent: PageImagesContent = {
-        ...pageImagesContent,
-        [imageKey]: {
-          src: imageUrl,
-          alt: imageData.alt,
-          photographer_name: imageData.photographer_name,
-        },
-      };
+  // Upload the file(s), merge into the page_images document and save it. Errors end up
+  // in a toast instead of being swallowed by the form.
+  const savePageImages = async (
+    imageKey: keyof PageImagesContent,
+    buildContent: () => Promise<PageImagesContent>,
+    successText: string
+  ) => {
+    setPendingKey(imageKey);
+    try {
+      const updatedContent = await buildContent();
 
-      // Upsert the page content
-      const { error } = await supabase.from("page_content").upsert({
-        page_name: "page_images",
-        content: updatedContent as unknown as Json,
-        updated_at: new Date().toISOString(),
-      });
+      const { data: changedRows, error } = await supabase
+        .from("page_content")
+        .upsert({
+          page_name: "page_images",
+          content: updatedContent as unknown as Json,
+          updated_at: new Date().toISOString(),
+        })
+        .select("page_name");
+      if (error) throw new Error(error.message);
+      assertRowsChanged(changedRows);
 
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      return updatedContent;
-    },
-    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["page_content", "page_images"],
       });
-      toast({
-        title: "Onnistui!",
-        description: "Kuva on päivitetty.",
-      });
-    },
-    onError: (error) => {
+      toast({ title: "Onnistui!", description: successText });
+    } catch (error: unknown) {
       toast({
         variant: "destructive",
         title: "Virhe",
-        description: error.message,
+        description: `Kuvan päivitys epäonnistui: ${
+          error instanceof Error ? error.message : "Tuntematon virhe"
+        }`,
       });
-    },
-  });
+    } finally {
+      setPendingKey(null);
+    }
+  };
 
-  const handleImageUpdate = async (
+  const handleImageUpdate = (
     imageKey: keyof PageImagesContent,
     imageData: PageImage,
     imageFile: File
-  ) => {
-    // Upload the new image
-    const imageUrl = await uploadPageImage(imageFile);
+  ) =>
+    savePageImages(
+      imageKey,
+      async () => ({
+        ...pageImagesContent,
+        [imageKey]: {
+          src: await uploadPageImage(imageFile),
+          alt: imageData.alt,
+          photographer_name: imageData.photographer_name,
+        },
+      }),
+      "Kuva on päivitetty."
+    );
 
-    // Merge with existing content
-    const updatedContent: PageImagesContent = {
-      ...pageImagesContent,
-      [imageKey]: {
-        src: imageUrl,
-        alt: imageData.alt,
-        photographer_name: imageData.photographer_name,
-      },
-    };
-
-    // Upsert the page content
-    const { error } = await supabase.from("page_content").upsert({
-      page_name: "page_images",
-      content: updatedContent as unknown as Json,
-      updated_at: new Date().toISOString(),
-    });
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    queryClient.invalidateQueries({
-      queryKey: ["page_content", "page_images"],
-    });
-
-    toast({
-      title: "Onnistui!",
-      description: "Kuva on päivitetty.",
-    });
-  };
-
-  const handleDualImageUpdate = async (
+  const handleDualImageUpdate = (
     imageKey: keyof Pick<PageImagesContent, "bio_hero" | "bilebandi_hero">,
     imageData: ResponsivePageImage,
     desktopFile: File,
     mobileFile: File
-  ) => {
-    // Upload both images
-    const desktopImageUrl = await uploadPageImage(desktopFile);
-    const mobileImageUrl = await uploadPageImage(mobileFile);
-
-    // Merge with existing content
-    const updatedContent: PageImagesContent = {
-      ...pageImagesContent,
-      [imageKey]: {
-        desktop: {
-          src: desktopImageUrl,
-          alt: imageData.desktop.alt,
-          photographer_name: imageData.desktop.photographer_name,
-        },
-        mobile: {
-          src: mobileImageUrl,
-          alt: imageData.mobile.alt,
-          photographer_name: imageData.mobile.photographer_name,
-        },
+  ) =>
+    savePageImages(
+      imageKey,
+      async () => {
+        const desktopImageUrl = await uploadPageImage(desktopFile);
+        const mobileImageUrl = await uploadPageImage(mobileFile);
+        return {
+          ...pageImagesContent,
+          [imageKey]: {
+            desktop: {
+              src: desktopImageUrl,
+              alt: imageData.desktop.alt,
+              photographer_name: imageData.desktop.photographer_name,
+            },
+            mobile: {
+              src: mobileImageUrl,
+              alt: imageData.mobile.alt,
+              photographer_name: imageData.mobile.photographer_name,
+            },
+          },
+        };
       },
-    };
-
-    // Upsert the page content
-    const { error } = await supabase.from("page_content").upsert({
-      page_name: "page_images",
-      content: updatedContent as unknown as Json,
-      updated_at: new Date().toISOString(),
-    });
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    queryClient.invalidateQueries({
-      queryKey: ["page_content", "page_images"],
-    });
-
-    toast({
-      title: "Onnistui!",
-      description: "Kuvat on päivitetty.",
-    });
-  };
+      "Kuvat on päivitetty."
+    );
 
   if (isLoading) {
     return (
@@ -213,7 +166,7 @@ const ImageManager = () => {
         imageKey="home_hero"
         currentData={pageImagesContent}
         onUpdate={handleImageUpdate}
-        isUpdating={updatePageImagesMutation.isPending}
+        isUpdating={pendingKey !== null}
       />
 
       <SingleImageUploader
@@ -222,7 +175,7 @@ const ImageManager = () => {
         imageKey="keikat_hero"
         currentData={pageImagesContent}
         onUpdate={handleImageUpdate}
-        isUpdating={updatePageImagesMutation.isPending}
+        isUpdating={pendingKey !== null}
         showPhotographerField={true}
       />
 
@@ -232,7 +185,7 @@ const ImageManager = () => {
         imageKey="galleria_hero"
         currentData={pageImagesContent}
         onUpdate={handleImageUpdate}
-        isUpdating={updatePageImagesMutation.isPending}
+        isUpdating={pendingKey !== null}
         showPhotographerField={true}
       />
 
@@ -242,7 +195,7 @@ const ImageManager = () => {
         imageKey="bio_hero"
         currentData={pageImagesContent}
         onUpdate={handleDualImageUpdate}
-        isUpdating={updatePageImagesMutation.isPending}
+        isUpdating={pendingKey !== null}
       />
 
       {/* <DualImageUploader
@@ -251,7 +204,7 @@ const ImageManager = () => {
         imageKey="bilebandi_hero"
         currentData={pageImagesContent}
         onUpdate={handleDualImageUpdate}
-        isUpdating={updatePageImagesMutation.isPending}
+        isUpdating={pendingKey !== null}
       /> */}
     </div>
   );
