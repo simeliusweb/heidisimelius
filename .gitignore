@@ -19,6 +19,13 @@ dist-ssr
 .env.*.local
 !.env.example
 
+# Vercel CLI link and test artefacts
+.vercel
+baseline/
+test-results/
+playwright-report/
+e2e/.auth/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

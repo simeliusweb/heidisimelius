@@ -1,0 +1,10 @@
+# The Vercel CLI uploads the working copy, including gitignored files. Keep local
+# env files, build output and test artefacts out of CLI deployments.
+.env
+.env.*
+dist
+docs
+baseline
+test-results
+playwright-report
+e2e/.auth
