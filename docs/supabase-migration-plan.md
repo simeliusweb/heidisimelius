@@ -250,6 +250,7 @@ Every script prints one machine-checkable summary line, `RESULT <id> ok|fail <js
 **P0 (agent, before you start):**
 - Create `~/.heidisimelius-migration/` (700) and `~/.heidisimelius-migration/.env.migration` (600) from the template below.
 - **Fill it in with a text editor. Never paste values into chat.**
+- The owner's file actually lives in the repo root as **`.env.migration.local`** (easier to edit in VS Code). It's gitignored by `.env.*.local` and skipped by Vercel CLI uploads, and `$STATE/.env.migration` is a symlink to it. `~/Documents` is not iCloud-synced (checked 2026-09-23). Agent-generated secrets (`.env.generated`) stay in `$STATE`.
 - The folder is deliberately outside `~/Documents`, which may be synced to iCloud.
 
 ```bash
