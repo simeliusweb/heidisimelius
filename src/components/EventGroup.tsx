@@ -12,6 +12,7 @@ interface Performance {
 
 interface EventGroupProps {
   imageUrl: string;
+  imageAlt?: string; // The gig's own alt text; falls back to the title
   title: string;
   venue: string;
   description: string;
@@ -23,6 +24,7 @@ interface EventGroupProps {
 
 const EventGroup = ({
   imageUrl,
+  imageAlt,
   title,
   venue,
   description,
@@ -79,7 +81,7 @@ const EventGroup = ({
           <div className="relative w-full aspect-video [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)]">
             <img
               src={imageUrl}
-              alt={title}
+              alt={imageAlt || title}
               className="w-full h-full object-cover"
             />
           </div>
@@ -162,7 +164,7 @@ const EventGroup = ({
         <div className="relative w-full aspect-video [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)]">
           <img
             src={imageUrl}
-            alt={title}
+            alt={imageAlt || title}
             className="w-full h-full object-cover"
           />
           {performances.length > 0 && (

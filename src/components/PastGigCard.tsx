@@ -4,6 +4,7 @@ import { MapPin, Calendar } from "lucide-react";
 
 interface PastGigCardProps {
   imageUrl: string;
+  imageAlt?: string; // The gig's own alt text; falls back to the title
   title: string;
   gigType: "Musiikki" | "Teatteri";
   date: string;
@@ -12,6 +13,7 @@ interface PastGigCardProps {
 
 const PastGigCard = ({
   imageUrl,
+  imageAlt,
   title,
   gigType,
   date,
@@ -24,7 +26,7 @@ const PastGigCard = ({
         <div className="relative w-full sm:h-48">
           <img
             src={imageUrl}
-            alt={title}
+            alt={imageAlt || title}
             className="w-full h-full object-cover [clip-path:polygon(0_0,_100%_0%,_100%_100%,_0_95%)] sm:[clip-path:polygon(0%_0%,_95%_0%,_100%_100%,_0%_100%)]"
           />
         </div>

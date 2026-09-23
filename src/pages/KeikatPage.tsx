@@ -255,6 +255,7 @@ const KeikatPage = () => {
               <EventGroup
                 key={group.gig.id}
                 imageUrl={group.gig.image_url}
+                imageAlt={group.gig.image_alt}
                 title={group.gig.title}
                 venue={group.gig.venue}
                 description={group.gig.description}
@@ -320,6 +321,7 @@ const KeikatPage = () => {
               <EventGroup
                 key={group.gig.id}
                 imageUrl={group.gig.image_url}
+                imageAlt={group.gig.image_alt}
                 title={group.gig.title}
                 venue={group.gig.venue}
                 description={group.gig.description}
@@ -387,6 +389,7 @@ const KeikatPage = () => {
                   <PastGigCard
                     key={gig.id}
                     imageUrl={gig.image_url}
+                    imageAlt={gig.image_alt}
                     title={gig.title}
                     venue={gig.venue}
                     gigType={gig.gig_type}

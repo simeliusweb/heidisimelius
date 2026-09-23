@@ -5,6 +5,7 @@ import { formatHelsinki } from "@/lib/helsinkiTime";
 
 interface UpcomingGigCardProps {
   imageUrl: string;
+  imageAlt?: string; // The gig's own alt text; falls back to the title
   title: string;
   nextDate: string;
   nextTime: string;
@@ -13,6 +14,7 @@ interface UpcomingGigCardProps {
 
 const UpcomingGigCard = ({
   imageUrl,
+  imageAlt,
   title,
   nextDate,
   nextTime,
@@ -32,7 +34,7 @@ const UpcomingGigCard = ({
         <div className="relative w-full aspect-video">
           <img
             src={imageUrl}
-            alt={title}
+            alt={imageAlt || title}
             className="w-full h-full object-cover"
           />
         </div>

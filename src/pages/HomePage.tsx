@@ -195,6 +195,7 @@ const HomePage = () => {
                     >
                       <UpcomingGigCard
                         imageUrl={gig.image_url}
+                        imageAlt={gig.image_alt}
                         title={gig.title}
                         nextDate={nextDate}
                         nextTime={nextTime}
