@@ -336,6 +336,7 @@ PREP_DONE_AT=
     - The last gpt-engineer commit is still 2025-10-15.
     - MCP browser: Lovable project page and Gmail inbox are logged in.
     - No empty required variables.
+    - **Recorded 2026-09-23:** token and team OK; the bypass works (302 → 200); the Brevo key is valid. Vercel env: `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` and `VITE_SUPABASE_PROJECT_ID` are **single records shared by preview + production, type sensitive** (unreadable, so 8.7 must split them; old values for rollback come from the local `.env`). `BREVO_API_KEY` and `CRON_SECRET` are production-only and sensitive; `CRON_SECRET` is unknown to the agent, so the prod E1/E8 200-check uses the dashboard's cron **Run** button (AGENT-BR) and previews use a random test secret. `SUPABASE_FUNCTION_URL` is in all three targets (delete after the horizon).
     - Every failure is fixed on the spot while the owner is still there.
 
 ### 6.2 Decisions (fill in `D*`)
@@ -512,9 +513,11 @@ set -a; . ~/.heidisimelius-migration/.env.migration; . ~/.heidisimelius-migratio
 vercel deploy "$STATE/build/$SHA" --yes --force \
   --build-env VITE_SUPABASE_URL="$URL" --build-env VITE_SUPABASE_PUBLISHABLE_KEY="$KEY" \
   --env VITE_SUPABASE_URL="$URL" --env VITE_SUPABASE_PUBLISHABLE_KEY="$KEY" \
-  --env CRON_SECRET="$CRON_SECRET_TEST" --meta migrationSha=$SHA --meta purpose=bl2
+  --env CRON_SECRET="$CRON_SECRET_TEST" --env BREVO_API_KEY="$BREVO_API_KEY" --meta migrationSha=$SHA --meta purpose=bl2
 # VERCEL_TOKEN/VERCEL_ORG_ID/VERCEL_PROJECT_ID come from the env; --force skips deployment reuse.
 # CRON_SECRET_TEST is a random value generated per deploy, so the preview's keep-alive is never open.
+# BREVO_API_KEY comes from the owner's file: in Vercel it exists only in Production, and without it every
+# /api/send-email call returns 500 (the key is checked before validation), so C3/C5/C8 couldn't run on P.
 ```
 
 **Exit criteria (all required):**
