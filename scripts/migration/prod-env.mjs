@@ -20,6 +20,32 @@ const values = {
 const show = (envs) =>
   envs.filter((x) => x.key.startsWith("VITE_SUPABASE")).map((x) => `${x.key} ${x.type} ${JSON.stringify(x.target)} ${new Date(x.updatedAt).toISOString()}`);
 
+// 14.5 (PA_PREVIEW_ENV_SWITCH): Preview + Development -> the given values. The preview-only records
+// left by the 8.7 split are sensitive (which can't target development), so each is replaced by an
+// encrypted record for preview+development. Old values stay in .env.generated for a rollback.
+if (process.argv[2] === "--preview-to") {
+  const to = process.argv[3];
+  if (!values[to]) throw new Error("--preview-to new|old");
+  const checks = {};
+  for (const [key, value] of Object.entries(values[to])) {
+    const envs = await list();
+    if (envs.some((x) => x.key === key && x.target.includes("production") && x.target.length > 1)) throw new Error(`${key}: record still shared with production; run --to first`);
+    for (const x of envs.filter((x) => x.key === key && !x.target.includes("production"))) {
+      const d = await api(`/v9/projects/${e.VERCEL_PROJECT_ID}/env/${x.id}`, { method: "DELETE" });
+      if (!d.ok) throw new Error(`remove preview ${key}: ${d.status}`);
+    }
+    const add = await api(`/v10/projects/${e.VERCEL_PROJECT_ID}/env`, { method: "POST", body: JSON.stringify({ key, value, type: "encrypted", target: ["preview", "development"] }) });
+    if (!add.ok) throw new Error(`add preview ${key}: ${add.status} ${(await add.text()).slice(0, 200)}`);
+    const rec = (await list()).find((x) => x.key === key && x.target.includes("preview"));
+    const d = await (await api(`/v1/projects/${e.VERCEL_PROJECT_ID}/env/${rec.id}`)).json();
+    checks[key] = { valueOk: d.value === value, target: rec.target };
+  }
+  const ok = Object.values(checks).every((c) => c.valueOk && c.target.includes("development"));
+  log(`prod-env --preview-to ${to}: ${JSON.stringify(checks)}`);
+  result("14.5", ok, { to, checks, layout: show(await list()) });
+  process.exit(ok ? 0 : 1);
+}
+
 if (mode === "show") {
   console.log(show(await list()).join("\n"));
   process.exit(0);

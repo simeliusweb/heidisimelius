@@ -42,10 +42,12 @@ export function env() {
   if (envCache) return envCache;
   const repoEnv = parseEnvFile(path.join(REPO, ".env"));
   const local = parseEnvFile(path.join(REPO, ".env.local"));
+  const generated = parseEnvFile(path.join(STATE, ".env.generated"));
   envCache = {
     ...parseEnvFile(path.join(STATE, ".env.migration")),
-    ...parseEnvFile(path.join(STATE, ".env.generated")),
-    OLD_ANON: repoEnv.VITE_SUPABASE_PUBLISHABLE_KEY,
+    ...generated,
+    // The old key is pinned in .env.generated at 2B.2k; the repo .env holds the NEW values after 14.5.
+    OLD_ANON: generated.OLD_ANON || repoEnv.VITE_SUPABASE_PUBLISHABLE_KEY,
     CMS_ACCOUNT: local.CMS_ACCOUNT,
     CMS_ACCOUNT_PASSWORD: local.CMS_ACCOUNT_PASSWORD,
   };

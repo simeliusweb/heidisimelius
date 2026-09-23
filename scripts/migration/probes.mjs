@@ -134,13 +134,17 @@ for (const t of TABLES) {
   check("E12-admin-del", r.ok && (await r.json()).length === 1, `${t} delete ${r.status}`);
   ledger.rows = ledger.rows.filter((x) => x !== `${t}:${row[k]}`); saveLedger();
 }
-// B22: admin upsert of bio with identical content leaves the checksum unchanged; anon upsert rejected
-const bio = (await (await rest("page_content?page_name=eq.bio&select=*", e.NEW_PUB)).json())[0];
-r = await rest("page_content", e.NEW_PUB, { method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=representation" }, body: JSON.stringify({ page_name: "bio", content: bio.content }) }, adminTok);
-const bioAfter = (await (await rest("page_content?page_name=eq.bio&select=*", e.NEW_PUB)).json())[0];
-check("B22-admin-upsert", r.ok && JSON.stringify(bioAfter) === JSON.stringify(bio), `admin upsert ${r.status}`);
-r = await rest("page_content", e.NEW_PUB, { method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=representation" }, body: JSON.stringify({ page_name: "bio", content: bio.content }) });
-check("B22-anon-upsert", r.status === 401 || r.status === 403, `anon upsert ${r.status}`);
+// B22 touches the real bio row (identical content); after go-live only E2E rows may be written (R4).
+if (!gl.live) {
+  // B22: admin upsert of bio with identical content leaves the checksum unchanged; anon upsert rejected
+  const bio = (await (await rest("page_content?page_name=eq.bio&select=*", e.NEW_PUB)).json())[0];
+  r = await rest("page_content", e.NEW_PUB, { method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=representation" }, body: JSON.stringify({ page_name: "bio", content: bio.content }) }, adminTok);
+  const bioAfter = (await (await rest("page_content?page_name=eq.bio&select=*", e.NEW_PUB)).json())[0];
+  check("B22-admin-upsert", r.ok && JSON.stringify(bioAfter) === JSON.stringify(bio), `admin upsert ${r.status}`);
+  r = await rest("page_content", e.NEW_PUB, { method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=representation" }, body: JSON.stringify({ page_name: "bio", content: bio.content }) });
+  check("B22-anon-upsert", r.status === 401 || r.status === 403, `anon upsert ${r.status}`);
+
+} else check("B22-skipped-live", true, "");
 
 // ---- E13: storage matrix
 const cvList = await (await fetch(`${e.NEW_URL}/storage/v1/object/list/documents`, { method: "POST", headers: { ...anonHeaders(e.NEW_PUB), "content-type": "application/json" }, body: JSON.stringify({ prefix: "", limit: 100 }) })).json();
