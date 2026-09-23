@@ -218,6 +218,18 @@ const BioPage = () => {
     };
   }, [bioContent]);
 
+  // Title, canonical and the Person JSON-LD don't depend on the database, so they are
+  // rendered in the loading and error states too (crawlers may snapshot either).
+  const head = (
+    <>
+      <PageMeta
+        title={pageMetadata.bio.title}
+        description={pageMetadata.bio.description}
+      />
+      <StructuredData data={heidiSchema} />
+    </>
+  );
+
   // Handle loading state
   if (isBioLoading) {
     return (
@@ -226,6 +238,7 @@ const BioPage = () => {
         backgroundBlendMode: "overlay",
         imageRendering: "pixelated" as const,
       }}>
+        {head}
         {/* Hero Skeleton */}
         <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center bg-background">
           <div className="absolute inset-0 flex items-center justify-center">
@@ -268,6 +281,7 @@ const BioPage = () => {
   if (bioError && !bioContent) {
     return (
       <div className="min-h-screen flex items-center justify-center">
+        {head}
         <div className="text-destructive">
           Virhe bion sisällön lataamisessa: {bioError.message}
         </div>
@@ -308,11 +322,7 @@ const BioPage = () => {
         imageRendering: "pixelated",
       }}
     >
-      <PageMeta
-        title={pageMetadata.bio.title}
-        description={pageMetadata.bio.description}
-      />
-      <StructuredData data={heidiSchema} />
+      {head}
 
       {/* Hero Section */}
       <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center">

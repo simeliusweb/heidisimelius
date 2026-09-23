@@ -198,12 +198,22 @@ const GalleriaPage = () => {
         description: video.description || undefined,
       })) || [];
 
+  // Title and canonical don't depend on the database, so the loading and error states
+  // render them too.
+  const head = (
+    <PageMeta
+      title={pageMetadata.galleria.title}
+      description={pageMetadata.galleria.description}
+    />
+  );
+
   if (photoSetsLoading || videosLoading) {
     return (
       <div style={{
         backgroundImage: `linear-gradient(12deg, hsl(234deg 24% 8%) 0%, hsl(234deg 23% 8%) 10%, hsl(234deg 23% 11%) 20%, hsl(239deg 23% 9%) 32%, hsl(238deg 23% 12%) 46%, hsl(236deg 23% 8%) 62%, hsl(234deg 24% 8%) 75%, hsl(234deg 24% 11%) 84%, hsl(234deg 24% 10%) 89%, hsl(234deg 24% 8%) 93%, hsl(235deg 23% 9%) 96%, hsl(235deg 23% 10%) 98%, hsl(234deg 23% 8%) 100%)`,
         backgroundBlendMode: "overlay",
       }}>
+        {head}
         {/* Hero Skeleton */}
         <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center bg-background">
           <div className="absolute inset-0 flex items-center justify-center">
@@ -235,6 +245,7 @@ const GalleriaPage = () => {
   if ((photoSetsError && !photoSets) || (videosError && !videos)) {
     return (
       <div className="flex items-center justify-center min-h-screen">
+        {head}
         <p>
           Virhe haettaessa tietoja: {(photoSetsError || videosError)?.message}
         </p>
@@ -266,10 +277,7 @@ const GalleriaPage = () => {
         imageRendering: "pixelated",
       }}
     >
-      <PageMeta
-        title={pageMetadata.galleria.title}
-        description={pageMetadata.galleria.description}
-      />
+      {head}
 
       {/* Hero Section */}
       <section className="relative h-[80vh] md:h-[90vh] flex items-end justify-center">

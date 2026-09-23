@@ -37,12 +37,22 @@ const LaulunopetusPage = () => {
   const heroImageLoaded = useImagePreload("/images/Heidi-Simelius-laulunopettaja-tampere.jpg");
   const santoriniLoaded = useFontLoaded("Santorini");
 
+  // Title and canonical don't depend on the database, so the loading and error states
+  // render them too. The Service JSON-LD needs the prices, so it waits for the content.
+  const head = (
+    <PageMeta
+      title={pageMetadata.laulunopetus.title}
+      description={pageMetadata.laulunopetus.description}
+    />
+  );
+
   if (isLoading) {
     return (
       <div style={{
         backgroundImage: `linear-gradient(12deg, hsl(234deg 24% 8%) 0%, hsl(234deg 23% 8%) 10%, hsl(234deg 23% 11%) 20%, hsl(239deg 23% 9%) 32%, hsl(238deg 23% 12%) 46%, hsl(236deg 23% 8%) 62%, hsl(234deg 24% 8%) 75%, hsl(234deg 24% 11%) 84%, hsl(234deg 24% 10%) 89%, hsl(234deg 24% 8%) 93%, hsl(235deg 23% 9%) 96%, hsl(235deg 23% 10%) 98%, hsl(234deg 23% 8%) 100%)`,
         backgroundBlendMode: "overlay",
       }}>
+        {head}
         <section className="relative h-[70vh] md:h-[85vh] flex items-end justify-center bg-background">
           <div className="absolute inset-0 flex items-center justify-center">
             <LoadingSpinner />
@@ -64,6 +74,7 @@ const LaulunopetusPage = () => {
   if (!content) {
     return (
       <div className="min-h-screen flex items-center justify-center">
+        {head}
         <div className="text-destructive">
           Virhe sisällön lataamisessa: {error?.message}
         </div>
@@ -155,10 +166,7 @@ const LaulunopetusPage = () => {
         imageRendering: "pixelated",
       }}
     >
-      <PageMeta
-        title={pageMetadata.laulunopetus.title}
-        description={pageMetadata.laulunopetus.description}
-      />
+      {head}
       <StructuredData data={serviceSchema} />
 
       {/* Hero Section */}
