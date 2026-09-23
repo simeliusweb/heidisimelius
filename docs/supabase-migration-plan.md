@@ -1,6 +1,6 @@
 # Migrate the backend from Lovable Cloud to our own Supabase project
 
-**Status:** 📝 **v2 (audited), ready for the owner prep session.** Nothing has been changed on either database yet.
+**Status:** ✅ **READY for go-live (2026-09-23).** §7–§12 done; see §17 and `~/.heidisimelius-migration/READY.md`. Next: the owner's push (§13), then §14.
 **Date:** 2026-09-23
 **History:**
 - v1 was built from 5 read-only planning passes.
@@ -636,7 +636,13 @@ These are the post-migration items. Appendix D lists the matching bugs.
 - Vercel Pro (commercial use).
 - The remaining CMS validation and UX bugs (Appendix D, rows marked "follow-up").
 
-**READY report summary:** *(filled in by §12)*
+**READY report summary** (2026-09-23, run `20260923bb30`):
+- Tested SHA `8c46d3b`; expected production bundle `index-COg8Uq1i.js`; rollback target `dpl_6yobH7Aoj6…` (d1e582a, `index-BxnMSrKf.js`).
+- New project `neqprqqhiifqemphpwhu` is final: 41/10/6/3 rows, 62 URLs rewritten, Q4 equal to the frozen Lovable DB, 75 objects verified, users = 2 admins + test admin. The old DB was frozen at 8.1 after the owner OK'd Lovable's "Confirm destructive operation" dialog (it flags the word DELETE in the REVOKE).
+- All `@gate` tests green on L, P and Direct; BL1 ≡ BL2 diff empty; CMS write suite 40/40; FX1–FX16 done plus fixes found in review and testing.
+- Production `VITE_SUPABASE_*` point at the new project (own production records; preview still old). Nothing rebuilt: GL is `git push origin main`.
+- Deviations: Lovable has no project export (archive = X1 JSON + storage mirror); Vercel Hobby blocks CLI deploys that carry a non-member commit author, so previews deploy a `git archive` of the SHA; L runs on port 4174.
+- The full report (with the vault-sync list) is `~/.heidisimelius-migration/READY.md`.
 
 ---
 
