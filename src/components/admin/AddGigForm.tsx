@@ -42,7 +42,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { CalendarIcon, ExternalLink, PlusCircle, Trash2 } from "lucide-react";
 import { uploadGigImage } from "@/lib/storage";
-import { Gig, GigInsert } from "./GigsManager";
+import { Gig, GigInsert, optionalGigFieldDefaults } from "./GigsManager";
 import GigTicketFields from "./GigTicketFields";
 import {
   gigTicketFieldDefaults,
@@ -62,18 +62,18 @@ const gigFormSchema = z.object({
   event_page_url: z
     .string()
     .url({ message: "Anna kelvollinen URL." })
-    .optional()
+    .nullish()
     .or(z.literal("")),
   tickets_url: z
     .string()
     .url({ message: "Anna kelvollinen URL." })
-    .optional()
+    .nullish()
     .or(z.literal("")),
-  organizer_name: z.string().optional(),
+  organizer_name: z.string().nullish(),
   organizer_url: z
     .string()
     .url({ message: "Anna kelvollinen URL." })
-    .optional()
+    .nullish()
     .or(z.literal("")),
   address_locality: z.string().min(2, { message: "Kaupunki on pakollinen." }),
   gig_type: z.enum(["Musiikki", "Teatteri"]),
@@ -120,6 +120,7 @@ const AddGigForm = ({
     if (gigToCopy) {
       form.reset({
         ...gigToCopy,
+        ...optionalGigFieldDefaults(gigToCopy),
         ...gigTicketFieldDefaults(gigToCopy),
         performances: [{ date: new Date(), time: "19:00" }],
       });

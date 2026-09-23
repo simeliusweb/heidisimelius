@@ -40,12 +40,12 @@ export type Gig = {
   image_url: string;
   image_alt: string;
   description: string;
-  event_page_url?: string;
-  tickets_url?: string;
+  event_page_url?: string | null;
+  tickets_url?: string | null;
   gig_type: "Musiikki" | "Teatteri";
   performance_date: string;
-  organizer_name?: string;
-  organizer_url?: string;
+  organizer_name?: string | null;
+  organizer_url?: string | null;
   address_locality: string;
   address_country: string;
   gig_group_id?: string;
@@ -54,6 +54,18 @@ export type Gig = {
 };
 
 export type GigInsert = Omit<Gig, "id" | "created_at">;
+
+/**
+ * The optional text fields come back from the DB as NULL. Form inputs need strings,
+ * and the zod URL checks would otherwise reject NULL, so gigs without them could not
+ * be edited or copied.
+ */
+export const optionalGigFieldDefaults = (gig: Gig) => ({
+  event_page_url: gig.event_page_url ?? "",
+  tickets_url: gig.tickets_url ?? "",
+  organizer_name: gig.organizer_name ?? "",
+  organizer_url: gig.organizer_url ?? "",
+});
 
 const fetchGigs = async (): Promise<Gig[]> => {
   const { data, error } = await supabase

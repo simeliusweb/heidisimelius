@@ -41,7 +41,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { CalendarIcon, ExternalLink } from "lucide-react";
 import { uploadGigImage } from "@/lib/storage";
-import { Gig } from "./GigsManager";
+import { Gig, optionalGigFieldDefaults } from "./GigsManager";
 import GigTicketFields from "./GigTicketFields";
 import {
   gigTicketFieldDefaults,
@@ -60,18 +60,18 @@ const editGigFormSchema = z.object({
   event_page_url: z
     .string()
     .url({ message: "Anna kelvollinen URL." })
-    .optional()
+    .nullish()
     .or(z.literal("")),
   tickets_url: z
     .string()
     .url({ message: "Anna kelvollinen URL." })
-    .optional()
+    .nullish()
     .or(z.literal("")),
-  organizer_name: z.string().optional(),
+  organizer_name: z.string().nullish(),
   organizer_url: z
     .string()
     .url({ message: "Anna kelvollinen URL." })
-    .optional()
+    .nullish()
     .or(z.literal("")),
   address_locality: z.string().min(2, { message: "Kaupunki on pakollinen." }),
   gig_type: z.enum(["Musiikki", "Teatteri"]),
@@ -102,6 +102,7 @@ const EditGigForm = ({ isOpen, onOpenChange, gig }: EditGigFormProps) => {
     if (gig) {
       form.reset({
         ...gig,
+        ...optionalGigFieldDefaults(gig),
         ...gigTicketFieldDefaults(gig),
         performance_date: new Date(gig.performance_date),
         performance_time: format(new Date(gig.performance_date), "HH:mm"),
@@ -151,6 +152,11 @@ const EditGigForm = ({ isOpen, onOpenChange, gig }: EditGigFormProps) => {
       const { ticket_price, duration_minutes, ...formData } = data;
       const updatedGigData = {
         ...formData,
+        // Empty optional fields are stored as NULL, as AddGigForm does.
+        event_page_url: formData.event_page_url || null,
+        tickets_url: formData.tickets_url || null,
+        organizer_name: formData.organizer_name || null,
+        organizer_url: formData.organizer_url || null,
         address_country: "FI",
         image_url: imageUrl,
         performance_date: performanceDate.toISOString(),
