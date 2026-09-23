@@ -3,13 +3,14 @@
 //   node import.mjs [--export <dir>] [--no-rewrite]
 import fs from "node:fs";
 import path from "node:path";
-import { STATE, env, readState, sbq, result, setStep, ts, ensureDir } from "./lib.mjs";
+import { STATE, env, readState, sbq, result, setStep, ts, ensureDir, goLiveStatus } from "./lib.mjs";
 import { makeSeed } from "./make-seed.mjs";
 
 const args = process.argv.slice(2);
 const st = readState();
-if (st.golive_at) {
-  result("X2", false, { refused: "golive_at is set" });
+const gl = await goLiveStatus();
+if (gl.live) {
+  result("X2", false, { refused: "production is (or may be) live on the new DB", ...gl });
   process.exit(2);
 }
 const dir = args.includes("--export") ? args[args.indexOf("--export") + 1] : st.last_old_export?.dir;

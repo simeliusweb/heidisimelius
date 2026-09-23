@@ -49,7 +49,10 @@ export function env() {
     CMS_ACCOUNT: local.CMS_ACCOUNT,
     CMS_ACCOUNT_PASSWORD: local.CMS_ACCOUNT_PASSWORD,
   };
-  if (envCache.NEW_REF) envCache.NEW_URL = `https://${envCache.NEW_REF}.supabase.co`;
+  if (envCache.NEW_REF) {
+    if (envCache.NEW_REF.toLowerCase() === OLD_REF) throw new Error("NEW_REF equals the old project ref");
+    envCache.NEW_URL = `https://${envCache.NEW_REF}.supabase.co`;
+  }
   return envCache;
 }
 
@@ -67,8 +70,8 @@ export function writeGenerated(values) {
 /** R4: any non-GET/HEAD request to the old project throws, except auth token/logout (which nothing makes). */
 export function assertAllowed(url, method = "GET") {
   const m = method.toUpperCase();
-  if (String(url).includes(OLD_REF) && m !== "GET" && m !== "HEAD") {
-    const u = new URL(url);
+  const u = new URL(url);
+  if (u.hostname.toLowerCase().includes(OLD_REF) && m !== "GET" && m !== "HEAD") {
     const listing = /^\/storage\/v1\/object\/list\//.test(u.pathname); // read-only listing is a POST
     const authOk = /^\/auth\/v1\/(token|logout)/.test(u.pathname);
     if (!listing && !authOk) throw new Error(`R4 guard: refused ${m} ${u.origin}${u.pathname}`);
@@ -78,6 +81,26 @@ export function assertAllowed(url, method = "GET") {
 export async function guardFetch(url, opts = {}) {
   assertAllowed(url, opts.method || "GET");
   return fetch(url, opts);
+}
+
+/**
+ * Go-live detection. After GL the new DB holds Heidi's live edits: nothing may re-import it, and
+ * probes may only write with ALLOW_PROD_WRITES=1. Detected from state.golive_at OR from the live
+ * production bundle already pointing at the new project, so it works even if nobody set the flag.
+ */
+export async function goLiveStatus() {
+  const e = env();
+  const st = readState();
+  let prodOnNew = null;
+  try {
+    const html = await (await fetch("https://www.heidisimelius.fi/", { cache: "no-store" })).text();
+    const bundle = (html.match(/assets\/index-[A-Za-z0-9_-]+\.js/) || [])[0];
+    const js = bundle ? await (await fetch(`https://www.heidisimelius.fi/${bundle}`)).text() : "";
+    prodOnNew = js ? js.includes(`${e.NEW_REF}.supabase.co`) : null;
+  } catch {
+    prodOnNew = null; // unknown: callers treat unknown as live
+  }
+  return { flag: st.golive_at || null, prodOnNew, live: Boolean(st.golive_at) || prodOnNew !== false };
 }
 
 /** Management API SQL on the NEW project only. */

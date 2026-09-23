@@ -20,3 +20,15 @@ const halts = (s.halts || []).filter((h) => !h.resolved);
 if (halts.length) console.log(`\nOPEN HALTS:\n${halts.map((h) => `- ${h.id}: ${h.reason}`).join("\n")}`);
 const next = ORDER.find((id) => !steps[id] || !["done", "fallback", "skipped"].includes(steps[id].status));
 console.log(`\nNEXT: ${next || "(all done)"}${s.golive_at ? `  (golive_at ${s.golive_at})` : ""}`);
+
+// 14.1: record go-live once the production deployment of the tested SHA is READY on the new ref.
+if (process.argv[2] === "--mark-golive") {
+  const { writeState, goLiveStatus } = await import("./lib.mjs");
+  const g = await goLiveStatus();
+  if (g.prodOnNew !== true) {
+    console.error("refused: the production bundle does not point at the new project yet");
+    process.exit(2);
+  }
+  writeState((st) => { st.golive_at ||= new Date().toISOString(); });
+  console.log("golive_at recorded");
+}

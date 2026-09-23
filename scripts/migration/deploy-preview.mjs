@@ -48,7 +48,8 @@ const p = spawnSync("vercel", cli, {
   encoding: "utf8",
   maxBuffer: 1 << 26,
 });
-const scrub = (s) => [e.VERCEL_TOKEN, e.BREVO_API_KEY, cronTest, key, e.VERCEL_AUTOMATION_BYPASS_SECRET].reduce((acc, v) => (v ? acc.split(v).join("<redacted>") : acc), s || "");
+const extraValues = extra.filter((_, i) => i % 2 === 1).map((kv) => kv.slice(kv.indexOf("=") + 1));
+const scrub = (s) => [e.VERCEL_TOKEN, e.BREVO_API_KEY, cronTest, key, e.VERCEL_AUTOMATION_BYPASS_SECRET, ...extraValues].filter((v) => v && v.length >= 6).reduce((acc, v) => (v ? acc.split(v).join("<redacted>") : acc), s || "");
 const out = scrub(p.stdout) + scrub(p.stderr);
 const deployUrl = (out.match(/https:\/\/heidisimelius-[a-z0-9]+-simeliuswebs-projects\.vercel\.app/) || [])[0];
 if (p.status !== 0 || !deployUrl) {

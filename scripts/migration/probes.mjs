@@ -4,17 +4,22 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { STATE, BUCKETS, TABLES, env, mgmt, anonHeaders, result } from "./lib.mjs";
+import { STATE, BUCKETS, TABLES, env, mgmt, anonHeaders, result, goLiveStatus } from "./lib.mjs";
 
 const e = env();
 if (process.argv.includes("--project") && process.argv[process.argv.indexOf("--project") + 1] !== "new") {
   throw new Error("probes only run against the new project");
 }
+const gl = await goLiveStatus();
+if (gl.live && process.env.ALLOW_PROD_WRITES !== "1") {
+  result("probes", false, { refused: "production is (or may be) live on the new DB; set ALLOW_PROD_WRITES=1 (PA_PROD_TEST_WRITES)", ...gl });
+  process.exit(2);
+}
 const RUN = e.RUN_ID;
 const TAG = `E2E-TESTI-${RUN}-probe`;
 const fails = [];
 const check = (id, cond, detail) => { if (!cond) fails.push(`${id}: ${detail}`); };
-const ledgerFile = path.join(STATE, `ledger-${RUN}.json`);
+const ledgerFile = path.join(STATE, `ledger-${RUN}-probes.json`); // own file: the e2e suite writes ledger-<runId>.json concurrently
 const ledger = fs.existsSync(ledgerFile) ? JSON.parse(fs.readFileSync(ledgerFile, "utf8")) : { rows: [], objects: [] };
 const saveLedger = () => fs.writeFileSync(ledgerFile, JSON.stringify(ledger, null, 1), { mode: 0o600 });
 const md5 = (b) => crypto.createHash("md5").update(b).digest("hex");
@@ -59,16 +64,29 @@ check("E15-schemas", String(pg.db_schema).split(",").map((s) => s.trim()).filter
 r = await fetch(`${e.NEW_URL}/rest/v1/gigs?select=id&limit=1`, { headers: { apikey: e.NEW_PUB, Authorization: `Bearer ${e.OLD_ANON}` } });
 check("E12-oldjwt", r.status === 401, `old-project JWT → ${r.status}`);
 
-// ---- E4 / E12 / B22: table matrix
+// ---- E4 / E12 / B22: table matrix. The "must fail" writes are aimed at E2E rows the test admin
+// creates first, so a policy regression can never damage real content.
+const adminTok = await token(e.TEST_ADMIN_EMAIL, e.TEST_ADMIN_PASSWORD);
+const gigRow = { title: TAG, venue: TAG, image_url: "/images/e2e.jpg", image_alt: TAG, description: TAG, gig_type: "Musiikki", address_locality: "Helsinki", address_country: "FI", performance_date: "2030-01-01T17:00:00Z" };
+const rowsFor = {
+  gigs: gigRow,
+  videos: { url: "https://www.youtube.com/embed/nNooz5tHV6U", title: TAG, section: "Muut videot", order_index: 999 },
+  photo_sets: { title: TAG, photographer_name: TAG, photos: [], order_index: 999 },
+  page_content: { page_name: TAG, content: { e2e: true } },
+};
 const sample = {};
 for (const t of TABLES) {
   const k = t === "page_content" ? "page_name" : "id";
-  const [row] = await (await rest(`${t}?select=*&order=${k}.asc&limit=1`, e.NEW_PUB)).json();
+  r = await rest(t, e.NEW_PUB, { method: "POST", body: JSON.stringify(rowsFor[t]) }, adminTok);
+  const [row] = await r.json();
+  check("E12-admin-ins", r.status === 201 && row, `${t} insert ${r.status}`);
+  if (!row) continue;
+  ledger.rows.push(`${t}:${row[k]}`); saveLedger();
   sample[t] = { k, row };
   r = await rest(t, e.NEW_PUB, { method: "POST", body: JSON.stringify(t === "page_content" ? { page_name: TAG, content: {} } : { title: TAG }) });
   check("E4-ins", r.status === 401 || r.status === 403, `${t} anon insert ${r.status}`);
   const field = t === "page_content" ? "content" : t === "videos" ? "description" : "title";
-  r = await rest(`${t}?${k}=eq.${encodeURIComponent(row[k])}`, e.NEW_PUB, { method: "PATCH", body: JSON.stringify({ [field]: t === "page_content" ? {} : TAG }) });
+  r = await rest(`${t}?${k}=eq.${encodeURIComponent(row[k])}`, e.NEW_PUB, { method: "PATCH", body: JSON.stringify({ [field]: t === "page_content" ? {} : `${TAG}-anon` }) });
   const pj = await r.json().catch(() => null);
   check("E4-upd", (r.ok && Array.isArray(pj) && pj.length === 0) || r.status === 401, `${t} anon update ${r.status}`);
   r = await rest(`${t}?${k}=eq.${encodeURIComponent(row[k])}`, e.NEW_PUB, { method: "DELETE" });
@@ -78,7 +96,6 @@ for (const t of TABLES) {
   check("E4-unchanged", JSON.stringify(again) === JSON.stringify(row), `${t} row changed by anon`);
 }
 
-const adminTok = await token(e.TEST_ADMIN_EMAIL, e.TEST_ADMIN_PASSWORD);
 // a claimless authenticated user: must be able to read but not write
 const noClaimEmail = `simeliusweb+e2e-noclaim-${RUN}@gmail.com`;
 const noClaimPw = crypto.randomBytes(18).toString("base64url");
@@ -87,6 +104,7 @@ const noClaimUser = await cu.json();
 try {
   const noClaimTok = await token(noClaimEmail, noClaimPw);
   for (const t of TABLES) {
+    if (!sample[t]) continue;
     const { k, row } = sample[t];
     r = await rest(`${t}?select=${k}&limit=1`, e.NEW_PUB, {}, noClaimTok);
     check("E12-noclaim-sel", r.status === 200, `${t} select ${r.status}`);
@@ -105,27 +123,16 @@ try {
   await admin(`/users/${noClaimUser.id}`, { method: "DELETE" });
 }
 
-// test admin (claim): full write cycle on an E2E row per table
-const gigRow = { title: TAG, venue: TAG, image_url: "/images/e2e.jpg", image_alt: TAG, description: TAG, gig_type: "Musiikki", address_locality: "Helsinki", address_country: "FI", performance_date: "2030-01-01T17:00:00Z" };
-const rowsFor = {
-  gigs: gigRow,
-  videos: { url: "https://www.youtube.com/embed/nNooz5tHV6U", title: TAG, section: "Muut videot", order_index: 999 },
-  photo_sets: { title: TAG, photographer_name: TAG, photos: [], order_index: 999 },
-  page_content: { page_name: TAG, content: { e2e: true } },
-};
+// test admin (claim): update + delete the E2E rows created above
 for (const t of TABLES) {
-  const k = t === "page_content" ? "page_name" : "id";
-  r = await rest(t, e.NEW_PUB, { method: "POST", body: JSON.stringify(rowsFor[t]) }, adminTok);
-  const [ins] = await r.json();
-  check("E12-admin-ins", r.status === 201 && ins, `${t} insert ${r.status}`);
-  if (!ins) continue;
-  ledger.rows.push(`${t}:${ins[k]}`); saveLedger();
+  if (!sample[t]) continue;
+  const { k, row } = sample[t];
   const field = t === "page_content" ? "content" : "title";
-  r = await rest(`${t}?${k}=eq.${encodeURIComponent(ins[k])}`, e.NEW_PUB, { method: "PATCH", body: JSON.stringify({ [field]: t === "page_content" ? { e2e: 2 } : `${TAG}-2` }) }, adminTok);
+  r = await rest(`${t}?${k}=eq.${encodeURIComponent(row[k])}`, e.NEW_PUB, { method: "PATCH", body: JSON.stringify({ [field]: t === "page_content" ? { e2e: 2 } : `${TAG}-2` }) }, adminTok);
   check("E12-admin-upd", r.ok && (await r.json()).length === 1, `${t} update ${r.status}`);
-  r = await rest(`${t}?${k}=eq.${encodeURIComponent(ins[k])}`, e.NEW_PUB, { method: "DELETE" }, adminTok);
+  r = await rest(`${t}?${k}=eq.${encodeURIComponent(row[k])}`, e.NEW_PUB, { method: "DELETE" }, adminTok);
   check("E12-admin-del", r.ok && (await r.json()).length === 1, `${t} delete ${r.status}`);
-  ledger.rows = ledger.rows.filter((x) => x !== `${t}:${ins[k]}`); saveLedger();
+  ledger.rows = ledger.rows.filter((x) => x !== `${t}:${row[k]}`); saveLedger();
 }
 // B22: admin upsert of bio with identical content leaves the checksum unchanged; anon upsert rejected
 const bio = (await (await rest("page_content?page_name=eq.bio&select=*", e.NEW_PUB)).json())[0];
@@ -136,7 +143,6 @@ r = await rest("page_content", e.NEW_PUB, { method: "POST", headers: { Prefer: "
 check("B22-anon-upsert", r.status === 401 || r.status === 403, `anon upsert ${r.status}`);
 
 // ---- E13: storage matrix
-const cvPath = "cv/CV-Simelius-Heidi.pdf";
 const cvList = await (await fetch(`${e.NEW_URL}/storage/v1/object/list/documents`, { method: "POST", headers: { ...anonHeaders(e.NEW_PUB), "content-type": "application/json" }, body: JSON.stringify({ prefix: "", limit: 100 }) })).json();
 check("E13-anon-list", Array.isArray(cvList), "anon list documents");
 for (const b of BUCKETS) {
@@ -162,15 +168,19 @@ for (const [who, tok] of [["anon", e.NEW_PUB], ["admin", adminTok]]) {
   r = await fetch(`${e.NEW_URL}/storage/v1/bucket`, { method: "POST", headers: { apikey: e.NEW_PUB, Authorization: `Bearer ${tok}`, "content-type": "application/json" }, body: JSON.stringify({ id: `e2e-${RUN}`, name: `e2e-${RUN}`, public: false }) });
   check("E13-create-bucket", r.status >= 400, `${who} create bucket ${r.status}`);
 }
-// anon CV upsert refused; the CV is unchanged
-const cvUrl = `${e.NEW_URL}/storage/v1/object/public/documents/${cvPath}`;
-const cvBefore = await fetch(cvUrl);
-const cvMd5 = cvBefore.ok ? md5(Buffer.from(await cvBefore.arrayBuffer())) : null;
+// anon upsert into documents (where the CV lives) is refused: aimed at a test object, not the real CV
+const docObj = `e2e/${TAG}-cv.pdf`;
+const docUrl = `${e.NEW_URL}/storage/v1/object/public/documents/${docObj}`;
+r = await fetch(`${e.NEW_URL}/storage/v1/object/documents/${docObj}`, { method: "POST", headers: { apikey: e.NEW_PUB, Authorization: `Bearer ${adminTok}`, "content-type": "application/pdf" }, body: "%PDF-e2e" });
+const cvMd5 = r.ok ? md5(Buffer.from("%PDF-e2e")) : null;
 if (cvMd5) {
-  r = await fetch(`${e.NEW_URL}/storage/v1/object/documents/${cvPath}`, { method: "POST", headers: { ...anonHeaders(e.NEW_PUB), "content-type": "application/pdf", "x-upsert": "true" }, body: "x" });
-  const cvAfter = md5(Buffer.from(await (await fetch(cvUrl, { cache: "no-store" })).arrayBuffer()));
-  check("E13-anon-cv", r.status >= 400 && cvAfter === cvMd5, `anon CV upsert ${r.status}`);
-}
+  ledger.objects.push(`documents/${docObj}`); saveLedger();
+  r = await fetch(`${e.NEW_URL}/storage/v1/object/documents/${docObj}`, { method: "POST", headers: { ...anonHeaders(e.NEW_PUB), "content-type": "application/pdf", "x-upsert": "true" }, body: "x" });
+  const after = md5(Buffer.from(await (await fetch(docUrl, { cache: "no-store" })).arrayBuffer()));
+  check("E13-anon-cv", r.status >= 400 && after === cvMd5, `anon upsert in documents ${r.status}`);
+  r = await fetch(`${e.NEW_URL}/storage/v1/object/documents`, { method: "DELETE", headers: { apikey: e.NEW_PUB, Authorization: `Bearer ${adminTok}`, "content-type": "application/json" }, body: JSON.stringify({ prefixes: [docObj] }) });
+  if (r.ok) { ledger.objects = ledger.objects.filter((x) => x !== `documents/${docObj}`); saveLedger(); }
+} else check("E13-anon-cv", false, "could not create the test object");
 
 // ---- E19 advisors
 const allowed = new Set(["public_bucket_allows_listing", "auth_leaked_password_protection", "auth_rls_initplan", "multiple_permissive_policies"]);
