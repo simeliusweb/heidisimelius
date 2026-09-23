@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { assertRowsChanged } from "@/lib/dbWrite";
 import { Video, VideoInsert, VideoUpdate } from "./VideosManager";
@@ -40,19 +40,6 @@ const VideoForm = ({
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  // Fetch videos to calculate order_index for new videos
-  const { data: videos } = useQuery<Video[]>({
-    queryKey: ["videos"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("videos")
-        .select("*")
-        .order("order_index", { ascending: true });
-      if (error) throw error;
-      return data;
-    },
-  });
-
   // Initialize form data when dialog opens or video changes
   useEffect(() => {
     if (isOpen) {
@@ -80,7 +67,17 @@ const VideoForm = ({
 
   const insertMutation = useMutation({
     mutationFn: async (videoData: VideoInsert) => {
-      const { error } = await supabase.from("videos").insert(videoData);
+      // Count the section's videos at save time: the cached list can still include a video
+      // that was just deleted, which left a gap in order_index. After a delete the others are
+      // re-indexed to 0..k-1, so the count is the next free index.
+      const { count, error: countError } = await supabase
+        .from("videos")
+        .select("id", { count: "exact", head: true })
+        .eq("section", videoData.section);
+      if (countError) throw countError;
+      const { error } = await supabase
+        .from("videos")
+        .insert({ ...videoData, order_index: count ?? 0 });
       if (error) throw error;
     },
     onSuccess: () => {
@@ -173,14 +170,6 @@ const VideoForm = ({
       return;
     }
 
-    // Calculate order_index for new videos
-    const calculateOrderIndex = () => {
-      if (video) return undefined; // Don't include order_index for updates
-
-      const sectionVideos = videos?.filter((v) => v.section === section) || [];
-      return sectionVideos.length;
-    };
-
     const videoData = {
       url: url.trim(),
       section,
@@ -190,9 +179,6 @@ const VideoForm = ({
       }),
       ...(section === "Musavideot" && {
         is_featured: isFeatured,
-      }),
-      ...(video === null && {
-        order_index: calculateOrderIndex(),
       }),
     };
 
