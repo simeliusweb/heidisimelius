@@ -42,7 +42,8 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { CalendarIcon, ExternalLink } from "lucide-react";
 import { uploadGigImage } from "@/lib/storage";
-import { Gig, optionalGigFieldDefaults } from "./GigsManager";
+import { Gig } from "./GigsManager";
+import { optionalGigFieldDefaults } from "@/lib/gigFormDefaults";
 import GigTicketFields from "./GigTicketFields";
 import {
   gigTicketFieldDefaults,
