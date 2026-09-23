@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
@@ -14,6 +15,7 @@ import { PageImagesContent } from "@/types/content";
 import { Gig } from "@/components/admin/GigsManager";
 import useImagePreload from "@/hooks/useImagePreload";
 import { buildEventSchema } from "@/lib/eventStructuredData";
+import { gigAnchorId } from "@/lib/gigAnchor";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -136,6 +138,18 @@ const KeikatPage = () => {
       })()
     : [];
 
+  // A link like /keikat#<id> (from a home page card, or loaded directly) points at a card
+  // that only exists once the gigs have loaded, so scroll to it then, once per hash.
+  const { hash } = useLocation();
+  const scrolledHash = useRef<string | null>(null);
+  useEffect(() => {
+    if (!hash || !upcomingGigsData || scrolledHash.current === hash) return;
+    const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (!target) return;
+    scrolledHash.current = hash;
+    target.scrollIntoView({ block: "start" });
+  }, [hash, upcomingGigsData]);
+
   // Filter into music and theatre events
   const musicEventGroups = groupedUpcomingGigs.filter(
     (group) => group.gig.gig_type === "Musiikki"
@@ -249,11 +263,7 @@ const KeikatPage = () => {
                 eventPageUrl={group.gig.event_page_url}
                 ticketsUrl={group.gig.tickets_url}
                 performances={group.performances}
-                id={group.gig.title
-                  .toLowerCase()
-                  .replace(/[^a-z0-9\s-]/g, " ")
-                  .replace(/\s+/g, "-")
-                  .trim()}
+                id={gigAnchorId(group.gig)}
               />
             ))}
           </div>
@@ -318,11 +328,7 @@ const KeikatPage = () => {
                 eventPageUrl={group.gig.event_page_url}
                 ticketsUrl={group.gig.tickets_url}
                 performances={group.performances}
-                id={group.gig.title
-                  .toLowerCase()
-                  .replace(/[^a-z0-9\s-]/g, " ")
-                  .replace(/\s+/g, "-")
-                  .trim()}
+                id={gigAnchorId(group.gig)}
               />
             ))}
           </div>

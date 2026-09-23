@@ -14,6 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import useFontLoaded from "@/hooks/useFontLoaded";
 import { Gig } from "@/components/admin/GigsManager";
 import { Video } from "@/components/admin/videos/VideosManager";
+import { gigAnchorId } from "@/lib/gigAnchor";
 
 const fetchUpcomingGigs = async (): Promise<Gig[]> => {
   const now = new Date().toISOString();
@@ -187,17 +188,10 @@ const HomePage = () => {
                   const nextDate = format(performanceDate, "dd.MM.yyyy");
                   const nextTime = format(performanceDate, "HH:mm");
 
-                  // Generate slug from title for navigation
-                  const slug = gig.title
-                    .toLowerCase()
-                    .replace(/[^a-z0-9\s-]/g, "")
-                    .replace(/\s+/g, "-")
-                    .trim();
-
                   return (
                     <HashLink
                       key={gig.id}
-                      to={`/keikat#${slug}`}
+                      to={`/keikat#${gigAnchorId(gig)}`}
                       className="basis-full md:basis-[calc(33.333%-1rem)] hover:opacity-80 transition-opacity"
                     >
                       <UpcomingGigCard
