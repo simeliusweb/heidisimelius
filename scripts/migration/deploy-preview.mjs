@@ -6,7 +6,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
-import { REPO, STATE, OLD_REF, env, result, writeState, ensureDir } from "./lib.mjs";
+import { REPO, STATE, OLD_REF, env, result, writeState, writeGenerated, ensureDir } from "./lib.mjs";
 
 const args = process.argv.slice(2);
 const arg = (n) => (args.includes(n) ? args[args.indexOf(n) + 1] : undefined);
@@ -74,6 +74,8 @@ const check = {
     : refs.length === 1 && refs[0].startsWith(OLD_REF),
 };
 const label = db === "new" ? "BL2" : "BL1";
+// E1/E8 on the preview need its keep-alive secret; kept only in the private .env.generated.
+writeGenerated({ [`CRON_SECRET_TEST_${label}`]: cronTest });
 writeState((s) => {
   s.deploys ||= {};
   s.deploys[label] = { sha, url: deployUrl, bundle, at: new Date().toISOString() };
