@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import { HashLink } from "react-router-hash-link";
-import { format } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -15,6 +14,7 @@ import useFontLoaded from "@/hooks/useFontLoaded";
 import { Gig } from "@/components/admin/GigsManager";
 import { Video } from "@/components/admin/videos/VideosManager";
 import { gigAnchorId } from "@/lib/gigAnchor";
+import { formatHelsinki } from "@/lib/helsinkiTime";
 
 const fetchUpcomingGigs = async (): Promise<Gig[]> => {
   const now = new Date().toISOString();
@@ -184,9 +184,8 @@ const HomePage = () => {
                 </div>
               ) : upcomingGigs && upcomingGigs.length > 0 ? (
                 upcomingGigs.slice(0, 3).map((gig) => {
-                  const performanceDate = new Date(gig.performance_date);
-                  const nextDate = format(performanceDate, "dd.MM.yyyy");
-                  const nextTime = format(performanceDate, "HH:mm");
+                  const nextDate = formatHelsinki(gig.performance_date, "dd.MM.yyyy");
+                  const nextTime = formatHelsinki(gig.performance_date, "HH:mm");
 
                   return (
                     <HashLink

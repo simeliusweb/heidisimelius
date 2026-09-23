@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { format, parse } from "date-fns";
+import { formatHelsinki } from "@/lib/helsinkiTime";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Clock, ExternalLink, MapPin } from "lucide-react";
@@ -31,7 +32,7 @@ const EventGroup = ({
   id,
 }: EventGroupProps) => {
   const [visibleCount, setVisibleCount] = useState(5);
-  const currentYear = new Date().getFullYear();
+  const currentYear = Number(formatHelsinki(new Date(), "yyyy"));
 
   const showMore = () => {
     setVisibleCount((prev) => prev + 10);

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { format } from "date-fns";
 import EventGroup from "@/components/EventGroup";
 import PastGigCard from "@/components/PastGigCard";
 import { Button } from "@/components/ui/button";
@@ -16,6 +15,7 @@ import { Gig } from "@/components/admin/GigsManager";
 import useImagePreload from "@/hooks/useImagePreload";
 import { buildEventSchema } from "@/lib/eventStructuredData";
 import { gigAnchorId } from "@/lib/gigAnchor";
+import { formatHelsinki } from "@/lib/helsinkiTime";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -106,23 +106,21 @@ const KeikatPage = () => {
 
           if (!groupedGigs.has(groupKey)) {
             // Create new group with this gig as the main event
-            const performanceDate = new Date(gig.performance_date);
             groupedGigs.set(groupKey, {
               gig,
               performances: [
                 {
-                  date: format(performanceDate, "yyyy-MM-dd"),
-                  time: format(performanceDate, "HH:mm"),
+                  date: formatHelsinki(gig.performance_date, "yyyy-MM-dd"),
+                  time: formatHelsinki(gig.performance_date, "HH:mm"),
                 },
               ],
             });
           } else {
             // Add performance to existing group
             const existingGroup = groupedGigs.get(groupKey)!;
-            const performanceDate = new Date(gig.performance_date);
             existingGroup.performances.push({
-              date: format(performanceDate, "yyyy-MM-dd"),
-              time: format(performanceDate, "HH:mm"),
+              date: formatHelsinki(gig.performance_date, "yyyy-MM-dd"),
+              time: formatHelsinki(gig.performance_date, "HH:mm"),
             });
           }
         });
@@ -392,7 +390,7 @@ const KeikatPage = () => {
                     title={gig.title}
                     venue={gig.venue}
                     gigType={gig.gig_type}
-                    date={format(new Date(gig.performance_date), "d.M.yyyy")}
+                    date={formatHelsinki(gig.performance_date, "d.M.yyyy")}
                   />
                 ))}
               </div>

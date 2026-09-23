@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, MapPin } from "lucide-react";
 import { format, parse } from "date-fns";
+import { formatHelsinki } from "@/lib/helsinkiTime";
 
 interface UpcomingGigCardProps {
   imageUrl: string;
@@ -19,7 +20,7 @@ const UpcomingGigCard = ({
 }: UpcomingGigCardProps) => {
   // Parse the date and format it conditionally
   const dateObj = parse(nextDate, "dd.MM.yyyy", new Date());
-  const currentYear = new Date().getFullYear();
+  const currentYear = Number(formatHelsinki(new Date(), "yyyy"));
   const formattedDate =
     dateObj.getFullYear() === currentYear
       ? format(dateObj, "d.M.")
