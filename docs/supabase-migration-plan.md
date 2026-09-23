@@ -31,13 +31,13 @@ The site's database, storage and auth run on **Lovable Cloud**: a Supabase proje
 ## 3. Critical findings that shape the plan
 
 1. **🔴 Any logged-in user is an admin.** Every table has a FOR ALL policy with `auth.uid() IS NOT NULL`, and the storage write policies use `TO authenticated`. Right now the only thing protecting the CMS is `disable_signup: true`. **New Supabase projects allow signups by default.** So the first thing we do on the new project, before any data goes in, is turn off "Allow new users to sign up" and anonymous sign-ins. We keep the policies as they are during the migration, and tighten them afterwards (§11).
-2. **🔴 Production doesn't run the current code.** Production is `main` at `fd4ce94`. Everything on `fix/gsc-seo-issues` is still preview-only, including the fixed keep-alive cron (production's cron has hit a 404 for about 11 months), the real 404s, canonicals, redirects and `noindex` headers. A new free-tier project pauses after 7 idle days, so **that branch must be live in production before cutover**. That also makes production a clean "before" baseline.
+2. **🔴 Production doesn't run the current code.** Production is `main` at `fd4ce94`. The GSC/SEO work (the fixed keep-alive cron — production's cron has hit a 404 for about 11 months — the real 404s, canonicals, redirects and `noindex` headers) is committed on `main` but **not pushed yet**, so it isn't deployed. A new free-tier project pauses after 7 idle days, so **`main` must be live in production before cutover**. That also makes production a clean "before" baseline.
 3. **🟠 Lovable still pushes to `main`.** It has made 320 bot commits, the last on 2025-10-15. `main` deploys straight to production, and there's no branch protection. If anyone prompts the Lovable agent (for example to help export), it can commit a regenerated `client.ts` or `.env`. **Disconnect Lovable's GitHub access before doing anything in Lovable.**
 4. **🟠 API key format.** New Supabase projects only issue `sb_publishable_…` / `sb_secret_…` keys. Supabase's docs say these go in the `apikey` header and are **not** valid as `Authorization: Bearer`. Two places send the key as Bearer: `api/keep-db-alive.ts:29`, and supabase-js 2.75 on anonymous requests (this needs checking). **Mitigation:** upgrade supabase-js, send only `apikey` from keep-alive, and treat "the preview loads its data with the new key" as a hard pass/fail check before cutover (§8, test A1).
 5. **🟠 Old-host URLs are stored in the DB.** Without a rewrite, the site would *look* fine after cutover but still load all its media from Lovable, and break the day Lovable is removed. The rewrite plus a zero-match check is mandatory (§6.4).
 6. **🟠 The Lovable credit balance.** If the workspace runs out of credits, Lovable **pauses the backend**, and the live site stops loading data. Check the balance before starting (§5).
 7. **🟡 The GitHub repo is public.** DB exports, backups and credentials must never go in it. That includes this plan, which contains no secrets.
-8. **🟡 Other work in flight.** There's uncommitted spam-guard work (`api/send-email.ts`, `api/_lib/spamCheck.ts`, `useSpamGuard.ts`, Footer, BilebandiPage) and an unpushed branch `fix/gsc-gig-price-duration`, which adds migration `20260923120000_add_gig_ticket_price_and_duration.sql`. All of it has to be settled first (§5).
+8. **🟡 A pending schema change.** Gig ticket price and show length (for the Event structured data Google flags) are on `main`, but **switched off** (`GIG_TICKET_FIELDS_ENABLED = false`), because the live Lovable DB doesn't have the columns. The migration is **not** in `supabase/migrations/`. It lives only in this plan (§6.2a) and is applied to the new project only. Everything else that was in flight is committed on `main`.
 
 ## 4. Target setup
 
@@ -53,7 +53,7 @@ The site's database, storage and auth run on **Lovable Cloud**: a Supabase proje
 
 ## 5. Phase 0: prerequisites (no Supabase changes yet)
 
-- [ ] **0.1 Settle the in-flight work.** Commit the spam-guard work and merge `fix/gsc-seo-issues` → `main` so it deploys to production. Check on production that the cron endpoint answers (401 without the secret, 200 with it), that 404s are real, and that canonicals are present. Keep `fix/gsc-gig-price-duration` **unmerged** until after cutover: its columns go into the new project's schema from day one (§6.2), and the code merges after.
+- [ ] **0.1 Settle the in-flight work.** Push `main` so the committed work deploys to production. Check on production that the cron endpoint answers (401 without the secret, 200 with it), that 404s are real, and that canonicals are present. Leave `GIG_TICKET_FIELDS_ENABLED` **false**: the columns go into the new project's schema from day one (§6.2a), and the fields get switched on only after cutover (§9 step 9).
 - [ ] **0.2 Code freeze** on `main` for the migration window. Only migration work lands.
 - [ ] **0.3 Set up credential custody** (§4) *before* any credential exists.
 - [ ] **0.4 Lock Lovable out of `main`:**
@@ -127,7 +127,7 @@ union all select 'page_content', count(*), md5(string_agg(to_jsonb(t)::text, E'\
 1. Create the project in `simeliusweb`, region eu-north-1. Store the DB password in the vault right away.
 2. **Right away:** Authentication → turn signups OFF and anonymous sign-ins OFF, and set the Site URL and redirect URLs (§4).
 3. **Schema:** in the SQL editor, paste the 10 migration files in filename order as one `begin; … commit;` script. Then add:
-   - `20260923120000_add_gig_ticket_price_and_duration.sql`. Its columns are additive and nullable, so the current code ignores them.
+   - the gig ticket-price/duration migration from **§6.2a**. Its columns are additive and nullable, and the current code doesn't send them while the flag is off. Also commit it as `supabase/migrations/20260923120000_add_gig_ticket_price_and_duration.sql` at that point, so the repo's migrations match the new project.
    - anything A1/A2 found that the migrations don't have.
 
    **Do not use the `supabase` CLI or MCP on this machine.** They're logged into another client's account.
@@ -143,6 +143,55 @@ union all select 'page_content', count(*), md5(string_agg(to_jsonb(t)::text, E'\
    - Nothing references user IDs, so a new UUID is harmless. Don't copy password hashes.
    - Recreate each user A3 shows (decision D4).
    - Also create a separate **test admin** for the E2E CMS write tests. Delete it after the migration.
+
+### 6.2a Pending schema change: gig ticket price and show length
+
+**Why:** Search Console flags every gig's Event structured data for missing `offers.price` / `offers.priceCurrency`, and `endDate` currently falls back to a fixed 2 hours. Two optional columns fix both. The code is already on `main` (`src/lib/eventStructuredData.ts`, `src/components/admin/GigTicketFields.tsx`, `gigTicketFieldsSchema.ts`), switched off with `GIG_TICKET_FIELDS_ENABLED = false`.
+
+**Rule:** apply this **only to the new project** (§6.2 step 3), never to Lovable Cloud. It's additive and nullable, so the §6.3 import, the A4 checksums (with the two columns dropped) and the cutover all work with it in place and the flag off.
+
+```sql
+-- Search Console flags every gig's Event structured data for missing offers.price /
+-- priceCurrency and endDate. Both columns are optional: gigs without them still render,
+-- they just keep the warning (price) or fall back to a 2 h duration (endDate).
+ALTER TABLE public.gigs
+  ADD COLUMN ticket_price numeric(8, 2) CHECK (ticket_price >= 0),
+  ADD COLUMN duration_minutes smallint CHECK (duration_minutes > 0);
+
+COMMENT ON COLUMN public.gigs.ticket_price IS 'Cheapest ticket in EUR (0 = free entry). Emitted as offers.price.';
+COMMENT ON COLUMN public.gigs.duration_minutes IS 'Show length incl. intermission. Used for the Event endDate.';
+```
+
+**Verify right after applying** (new project, SQL editor):
+```sql
+select column_name, data_type, numeric_precision, numeric_scale, is_nullable
+from information_schema.columns
+where table_schema = 'public' and table_name = 'gigs' and column_name in ('ticket_price', 'duration_minutes');
+-- expected: ticket_price numeric(8,2) YES, duration_minutes smallint YES
+
+select conname, pg_get_constraintdef(oid) from pg_constraint
+where conrelid = 'public.gigs'::regclass and (conname like '%ticket_price%' or conname like '%duration_minutes%');
+-- expected: CHECK (ticket_price >= 0) and CHECK (duration_minutes > 0)
+```
+
+**Switching it on** (cutover step 9, after the POST tests pass):
+1. Regenerate `src/integrations/supabase/types.ts` from the new project (§10). It should gain exactly the two columns on `gigs`.
+2. Set `GIG_TICKET_FIELDS_ENABLED = true` in `src/components/admin/gigTicketFieldsSchema.ts`.
+3. `npx tsc --noEmit -p tsconfig.app.json`, `npm run lint` and `npm run build` pass. Commit on `main` and deploy.
+4. Run G1–G6.
+
+**Tests once it's on (run on production, with the test admin; prefix test gigs `E2E-TESTI-`):**
+
+| ID | Test | Expected | How |
+|---|---|---|---|
+| G1 | Fields show | The add and edit gig dialogs show "Lipun hinta alkaen (€)" and "Kesto (min)". Both are optional. | PW |
+| G2 | Validation | `25e`, `-5` and `1,234` are rejected for the price; `0` and `abc` for the duration. Finnish error messages show and nothing is sent. `24,90` and `0` are accepted as prices. | PW |
+| G3 | Save round-trip | Create a test gig with 2 performances, price `24,90` and duration `150`. Both rows in the DB have `ticket_price = 24.90` and `duration_minutes = 150`. Reopening edit shows `24,90` and `150`. Clearing both and saving stores NULL. | PW + SQL |
+| G4 | Existing gigs still save | Edit an existing gig (NULL in both columns) without touching the new fields. It saves, and both columns stay NULL. | PW |
+| G5 | Event JSON-LD on `/keikat` | For the G3 gig: `offers.price = 24.9`, `offers.priceCurrency = "EUR"`, and `endDate = startDate + 150 min`. With price `0`: `isAccessibleForFree: true`. Without a price: no `price`/`priceCurrency`, and `endDate = startDate + 2 h`. | PW |
+| G6 | Google | Rich Results Test on `/keikat`: 0 errors and no price warning for the gigs that have a price. Then fill in prices and durations for the real upcoming gigs, and click **Validate fix** in GSC → Enhancements → Events. Watch it for 2 weeks. | Manual |
+
+Delete the test gigs afterwards (B15 cleanup).
 
 ### 6.3 Data transfer (rehearsal now, repeated at cutover)
 
@@ -416,7 +465,7 @@ Visitors see no downtime: the old deployment keeps serving until the new build i
    - grep the live bundle: the new ref must be present and the old one absent
 7. End the freeze. Heidi hard-reloads, logs in again (the session key changed), and makes one real edit.
 8. Point the Preview and Development scopes at the new values, and remove the branch-scoped overrides.
-9. Merge `fix/gsc-gig-price-duration` (its columns already exist).
+9. Switch on the gig ticket fields (their columns already exist): follow §6.2a "Switching it on", then run tests G1–G6.
 
 **Rollback:**
 - **Fast:** Vercel → Deployments → the step-3 deployment → **Instant Rollback**. Its bundle and runtime env still point at Lovable, so no rebuild is needed. On Hobby you can only roll back to the previous production deployment, so do it before any other production deploy.

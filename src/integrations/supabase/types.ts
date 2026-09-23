@@ -20,7 +20,6 @@ export type Database = {
           address_locality: string
           created_at: string
           description: string
-          duration_minutes: number | null
           event_page_url: string | null
           gig_group_id: string | null
           gig_type: Database["public"]["Enums"]["gig_type_enum"]
@@ -30,7 +29,6 @@ export type Database = {
           organizer_name: string | null
           organizer_url: string | null
           performance_date: string
-          ticket_price: number | null
           tickets_url: string | null
           title: string
           venue: string
@@ -40,7 +38,6 @@ export type Database = {
           address_locality: string
           created_at?: string
           description: string
-          duration_minutes?: number | null
           event_page_url?: string | null
           gig_group_id?: string | null
           gig_type: Database["public"]["Enums"]["gig_type_enum"]
@@ -50,7 +47,6 @@ export type Database = {
           organizer_name?: string | null
           organizer_url?: string | null
           performance_date?: string
-          ticket_price?: number | null
           tickets_url?: string | null
           title: string
           venue: string
@@ -60,7 +56,6 @@ export type Database = {
           address_locality?: string
           created_at?: string
           description?: string
-          duration_minutes?: number | null
           event_page_url?: string | null
           gig_group_id?: string | null
           gig_type?: Database["public"]["Enums"]["gig_type_enum"]
@@ -70,7 +65,6 @@ export type Database = {
           organizer_name?: string | null
           organizer_url?: string | null
           performance_date?: string
-          ticket_price?: number | null
           tickets_url?: string | null
           title?: string
           venue?: string

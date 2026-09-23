@@ -146,12 +146,15 @@ const EditGigForm = ({ isOpen, onOpenChange, gig }: EditGigFormProps) => {
       const [hours, minutes] = data.performance_time.split(":").map(Number);
       performanceDate.setHours(hours, minutes);
 
+      // The ticket fields go through parseGigTicketFields only: as raw form strings they
+      // would break the update, and while disabled the DB does not have the columns.
+      const { ticket_price, duration_minutes, ...formData } = data;
       const updatedGigData = {
-        ...data,
+        ...formData,
         address_country: "FI",
         image_url: imageUrl,
         performance_date: performanceDate.toISOString(),
-        ...parseGigTicketFields(data),
+        ...parseGigTicketFields({ ticket_price, duration_minutes }),
       };
 
       delete updatedGigData.image_file;

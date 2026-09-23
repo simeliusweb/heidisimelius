@@ -1,6 +1,15 @@
 import * as z from "zod";
 
 /**
+ * OFF until the gigs table has the ticket_price and duration_minutes columns. They are
+ * added only in the new Supabase project, after the move off Lovable Cloud (see
+ * docs/supabase-migration-plan.md, §6.2 and §9). The live Lovable DB does not have them,
+ * so while this is false the admin forms neither show nor send the fields — sending them
+ * would make every gig save fail. Flip to true once the migration is live.
+ */
+export const GIG_TICKET_FIELDS_ENABLED = false;
+
+/**
  * Ticket price + show length, shared by AddGigForm and EditGigForm. Both feed the Event
  * structured data on /keikat (offers.price and endDate) — Google Search Console flags
  * gigs without them.
@@ -18,14 +27,17 @@ export const gigTicketFieldsSchema = {
     .or(z.literal("")),
 };
 
-/** Form strings -> nullable DB numbers. Empty clears the value. */
+/** Form strings -> nullable DB numbers. Empty clears the value. Sends nothing while disabled. */
 export const parseGigTicketFields = (data: {
   ticket_price?: string;
   duration_minutes?: string;
-}) => ({
-  ticket_price: data.ticket_price ? Number(data.ticket_price.replace(",", ".")) : null,
-  duration_minutes: data.duration_minutes ? Number(data.duration_minutes) : null,
-});
+}) =>
+  GIG_TICKET_FIELDS_ENABLED
+    ? {
+        ticket_price: data.ticket_price ? Number(data.ticket_price.replace(",", ".")) : null,
+        duration_minutes: data.duration_minutes ? Number(data.duration_minutes) : null,
+      }
+    : {};
 
 /** DB numbers -> form strings. */
 export const gigTicketFieldDefaults = (gig?: {
