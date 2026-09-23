@@ -49,6 +49,8 @@ export type Gig = {
   address_locality: string;
   address_country: string;
   gig_group_id?: string;
+  ticket_price?: number | null;
+  duration_minutes?: number | null;
 };
 
 export type GigInsert = Omit<Gig, "id" | "created_at">;

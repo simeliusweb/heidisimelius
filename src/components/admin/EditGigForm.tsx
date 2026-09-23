@@ -42,6 +42,12 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon, ExternalLink } from "lucide-react";
 import { uploadGigImage } from "@/lib/storage";
 import { Gig } from "./GigsManager";
+import GigTicketFields from "./GigTicketFields";
+import {
+  gigTicketFieldDefaults,
+  gigTicketFieldsSchema,
+  parseGigTicketFields,
+} from "./gigTicketFieldsSchema";
 
 const editGigFormSchema = z.object({
   title: z.string().min(2, { message: "Otsikko on pakollinen." }),
@@ -69,6 +75,7 @@ const editGigFormSchema = z.object({
     .or(z.literal("")),
   address_locality: z.string().min(2, { message: "Kaupunki on pakollinen." }),
   gig_type: z.enum(["Musiikki", "Teatteri"]),
+  ...gigTicketFieldsSchema,
   performance_date: z.date({ required_error: "Päivämäärä on pakollinen." }),
   performance_time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
     message: "Anna aika muodossa HH:MM.",
@@ -95,6 +102,7 @@ const EditGigForm = ({ isOpen, onOpenChange, gig }: EditGigFormProps) => {
     if (gig) {
       form.reset({
         ...gig,
+        ...gigTicketFieldDefaults(gig),
         performance_date: new Date(gig.performance_date),
         performance_time: format(new Date(gig.performance_date), "HH:mm"),
         image_file: undefined,
@@ -143,6 +151,7 @@ const EditGigForm = ({ isOpen, onOpenChange, gig }: EditGigFormProps) => {
         address_country: "FI",
         image_url: imageUrl,
         performance_date: performanceDate.toISOString(),
+        ...parseGigTicketFields(data),
       };
 
       delete updatedGigData.image_file;
@@ -491,6 +500,7 @@ const EditGigForm = ({ isOpen, onOpenChange, gig }: EditGigFormProps) => {
                   </FormItem>
                 )}
               />
+              <GigTicketFields control={form.control} />
               <FormField
                 name="organizer_name"
                 control={form.control}

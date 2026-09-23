@@ -43,6 +43,12 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon, ExternalLink, PlusCircle, Trash2 } from "lucide-react";
 import { uploadGigImage } from "@/lib/storage";
 import { Gig, GigInsert } from "./GigsManager";
+import GigTicketFields from "./GigTicketFields";
+import {
+  gigTicketFieldDefaults,
+  gigTicketFieldsSchema,
+  parseGigTicketFields,
+} from "./gigTicketFieldsSchema";
 
 // Zod schema for validation
 const gigFormSchema = z.object({
@@ -71,6 +77,7 @@ const gigFormSchema = z.object({
     .or(z.literal("")),
   address_locality: z.string().min(2, { message: "Kaupunki on pakollinen." }),
   gig_type: z.enum(["Musiikki", "Teatteri"]),
+  ...gigTicketFieldsSchema,
   performances: z
     .array(
       z.object({
@@ -113,6 +120,7 @@ const AddGigForm = ({
     if (gigToCopy) {
       form.reset({
         ...gigToCopy,
+        ...gigTicketFieldDefaults(gigToCopy),
         performances: [{ date: new Date(), time: "19:00" }],
       });
     } else {
@@ -127,6 +135,7 @@ const AddGigForm = ({
         organizer_url: "",
         address_locality: "",
         gig_type: "Musiikki",
+        ...gigTicketFieldDefaults(),
         performances: [{ date: new Date(), time: "19:00" }],
       });
     }
@@ -191,6 +200,7 @@ const AddGigForm = ({
           gig_type: data.gig_type,
           gig_group_id: gigGroupId,
           performance_date: performanceDate.toISOString(),
+          ...parseGigTicketFields(data),
         };
 
         return gigData;
@@ -590,6 +600,7 @@ const AddGigForm = ({
                   </FormItem>
                 )}
               />
+              <GigTicketFields control={form.control} />
               <FormField
                 name="organizer_name"
                 control={form.control}
