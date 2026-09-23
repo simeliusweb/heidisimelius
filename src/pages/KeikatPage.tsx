@@ -65,13 +65,13 @@ const KeikatPage = () => {
   const [visibleCount, setVisibleCount] = useState(2);
 
   // Fetch page images content
-  const { data: pageImagesContent } = useQuery({
+  const { data: pageImagesContent, isError: pageImagesFailed } = useQuery({
     queryKey: ["page_content", "page_images"],
     queryFn: fetchPageImagesContent,
   });
 
   const heroImageSrc = pageImagesContent?.keikat_hero?.src;
-  const heroImageLoaded = useImagePreload(heroImageSrc);
+  const heroImageLoaded = useImagePreload(heroImageSrc, pageImagesFailed);
 
   // Fetch past gigs
   const {
@@ -243,7 +243,7 @@ const KeikatPage = () => {
               </div>
             ))}
           </div>
-        ) : upcomingGigsError ? (
+        ) : upcomingGigsError && !upcomingGigsData ? (
           <div className="text-center py-8">
             <p className="text-lg text-destructive">
               Virhe haettaessa musiikkikeikkoja: {upcomingGigsError.message}
@@ -308,7 +308,7 @@ const KeikatPage = () => {
               </div>
             ))}
           </div>
-        ) : upcomingGigsError ? (
+        ) : upcomingGigsError && !upcomingGigsData ? (
           <div className="text-center py-8">
             <p className="text-lg text-destructive">
               Virhe haettaessa teatteriesityksiä: {upcomingGigsError.message}
@@ -374,7 +374,7 @@ const KeikatPage = () => {
                 </div>
               ))}
             </div>
-          ) : pastGigsError ? (
+          ) : pastGigsError && !pastGigsData ? (
             <div className="text-center py-8">
               <p className="text-lg text-destructive">
                 Virhe haettaessa menneitä keikkoja: {pastGigsError.message}

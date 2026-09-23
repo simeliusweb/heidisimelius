@@ -61,7 +61,7 @@ const LaulunopetusPage = () => {
     );
   }
 
-  if (error || !content) {
+  if (!content) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-destructive">

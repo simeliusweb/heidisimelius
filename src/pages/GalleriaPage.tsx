@@ -84,13 +84,13 @@ const GalleriaPage = () => {
   const isSm = useBreakpoint("sm");
 
   // Fetch page images content
-  const { data: pageImagesContent } = useQuery({
+  const { data: pageImagesContent, isError: pageImagesFailed } = useQuery({
     queryKey: ["page_content", "page_images"],
     queryFn: fetchPageImagesContent,
   });
 
   const heroImageSrc = pageImagesContent?.galleria_hero?.src;
-  const heroImageLoaded = useImagePreload(heroImageSrc);
+  const heroImageLoaded = useImagePreload(heroImageSrc, pageImagesFailed);
 
   // Fetch data from Supabase
   const {
@@ -231,7 +231,8 @@ const GalleriaPage = () => {
     );
   }
 
-  if (photoSetsError || videosError) {
+  // A failed refetch keeps showing the data that already loaded.
+  if ((photoSetsError && !photoSets) || (videosError && !videos)) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <p>

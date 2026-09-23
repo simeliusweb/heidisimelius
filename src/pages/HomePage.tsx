@@ -176,7 +176,7 @@ const HomePage = () => {
                     </div>
                   ))}
                 </>
-              ) : error ? (
+              ) : error && !upcomingGigs ? (
                 <div className="text-center py-8">
                   <p className="text-lg text-destructive">
                     Virhe haettaessa keikkoja: {error.message}
@@ -272,7 +272,7 @@ const HomePage = () => {
               <Skeleton className="h-10 sm:h-12 w-48 sm:w-64 mx-auto mb-8" />
               <Skeleton className="max-w-3xl mx-auto w-full aspect-video rounded-lg" />
             </section>
-          ) : videosError ? (
+          ) : videosError && !videosData ? (
             <section className="container mx-auto px-6 py-16">
               <div className="text-center">
                 <p className="text-lg text-destructive">

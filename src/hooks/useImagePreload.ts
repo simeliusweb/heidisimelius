@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 
-const useImagePreload = (src: string | undefined): boolean => {
+/**
+ * true once `src` has loaded (or failed). Pass `giveUp` when the src itself can't be
+ * known (its query failed), so callers stop showing a spinner forever.
+ */
+const useImagePreload = (src: string | undefined, giveUp = false): boolean => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -18,7 +22,7 @@ const useImagePreload = (src: string | undefined): boolean => {
     }
   }, [src]);
 
-  return loaded;
+  return loaded || giveUp;
 };
 
 export default useImagePreload;

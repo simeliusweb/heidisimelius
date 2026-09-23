@@ -76,13 +76,13 @@ const BioPage = () => {
   };
 
   // Fetch page images content
-  const { data: pageImagesContent } = useQuery({
+  const { data: pageImagesContent, isError: pageImagesFailed } = useQuery({
     queryKey: ["page_content", "page_images"],
     queryFn: fetchPageImagesContent,
   });
 
   const heroImageSrc = pageImagesContent?.bio_hero?.mobile?.src;
-  const heroImageLoaded = useImagePreload(heroImageSrc);
+  const heroImageLoaded = useImagePreload(heroImageSrc, pageImagesFailed);
   const santoriniLoaded = useFontLoaded("Santorini");
 
   const heidiSchema = {
@@ -264,8 +264,8 @@ const BioPage = () => {
     );
   }
 
-  // Handle error state
-  if (bioError) {
+  // Handle error state (content from an earlier successful fetch is still shown)
+  if (bioError && !bioContent) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-destructive">

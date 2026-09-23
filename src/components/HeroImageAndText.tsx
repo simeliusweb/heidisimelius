@@ -31,6 +31,7 @@ const HeroImageAndText = () => {
   const {
     data: pageImagesContent,
     isLoading: isDataLoading,
+    isError: isDataError,
   } = useQuery({
     queryKey: ["page_content", "page_images"],
     queryFn: fetchPageImagesContent,
@@ -67,7 +68,15 @@ const HeroImageAndText = () => {
 
   // Wait for image + font, then fade in
   useEffect(() => {
-    if (isDataLoading || !pageImagesContent) return;
+    if (isDataLoading) return;
+    if (!pageImagesContent) {
+      // page_images failed: show the name without the photo instead of an empty hero.
+      if (isDataError) {
+        setIsReady(true);
+        if (contentRef.current) gsap.set(contentRef.current, { opacity: 1 });
+      }
+      return;
+    }
 
     let cancelled = false;
     let heroScrollAnimation: gsap.core.Tween;
@@ -140,7 +149,7 @@ const HeroImageAndText = () => {
       clearTimeout(spinnerTimeout);
       if (heroScrollAnimation) heroScrollAnimation.scrollTrigger?.kill();
     };
-  }, [isDataLoading, pageImagesContent]);
+  }, [isDataLoading, isDataError, pageImagesContent]);
 
   return (
     <div
@@ -204,11 +213,15 @@ const HeroImageAndText = () => {
           </div>
 
           {/* --- Central Image --- */}
-          <img
-            src={pageImagesContent?.home_hero?.src}
-            alt={pageImagesContent?.home_hero?.alt}
-            className="relative z-30 h-auto w-[370px] shadow-lg image-glow-home-hero"
-          />
+          {pageImagesContent?.home_hero?.src ? (
+            <img
+              src={pageImagesContent.home_hero.src}
+              alt={pageImagesContent.home_hero.alt}
+              className="relative z-30 h-auto w-[370px] shadow-lg image-glow-home-hero"
+            />
+          ) : (
+            <div className="relative z-30 h-[480px] w-[370px]" aria-hidden="true" />
+          )}
 
           {/* --- "Simelius" Word Group --- */}
           <div className="absolute bottom-[-118px] left-[-106px] lg:left-[182px] xl:left-[240px] lg:bottom-[-58px] lg:z-[31]">
