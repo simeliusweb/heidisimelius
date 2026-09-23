@@ -142,7 +142,14 @@ const KeikatPage = () => {
   const scrolledHash = useRef<string | null>(null);
   useEffect(() => {
     if (!hash || !upcomingGigsData || scrolledHash.current === hash) return;
-    const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    let id = hash.slice(1);
+    try {
+      id = decodeURIComponent(id);
+    } catch {
+      // A malformed escape (e.g. a link cut off after "%"): look the raw id up instead
+      // of throwing, which would unmount the whole app.
+    }
+    const target = document.getElementById(id);
     if (!target) return;
     scrolledHash.current = hash;
     target.scrollIntoView({ block: "start" });
