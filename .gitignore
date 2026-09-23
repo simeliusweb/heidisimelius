@@ -15,8 +15,7 @@ dist-ssr
 # Environment files are local-only. Production gets its values from the Vercel
 # project's environment variables, NOT from a committed file.
 .env
-.env.local
-.env.*.local
+.env.*
 !.env.example
 
 # Vercel CLI link and test artefacts

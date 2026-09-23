@@ -140,6 +140,8 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    // The e2e suite stores the test admin's session here; never serve it to the LAN.
+    fs: { deny: [".env", ".env.*", "*.{crt,pem}", "e2e/.auth/**"] },
   },
   plugins: [
     react(),
