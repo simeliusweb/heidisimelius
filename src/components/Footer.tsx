@@ -21,17 +21,29 @@ import {
 } from "react-icons/fa";
 import { toast } from "@/hooks/use-toast";
 import useSpamGuard from "@/hooks/useSpamGuard";
+import { sendForm, sendFormFailedMessage } from "@/lib/sendForm";
 import { ExternalLink } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
+// Shown in the error toast when sending fails.
+const CONTACT_FALLBACK_EMAIL = "simelius.heidi@gmail.com";
+
 const contactSchema = z.object({
-  name: z.string().trim().min(1, { message: "Aihe vaaditaan" }).max(100),
+  name: z
+    .string()
+    .trim()
+    .min(1, { message: "Aihe vaaditaan" })
+    .max(100, { message: "Aihe on liian pitkä (enintään 100 merkkiä)" }),
   email: z
     .string()
     .trim()
     .email({ message: "Syötä kelvollinen sähköpostiosoite" })
-    .max(255),
-  message: z.string().trim().min(1, { message: "Viesti vaaditaan" }).max(1000),
+    .max(255, { message: "Sähköpostiosoite on liian pitkä" }),
+  message: z
+    .string()
+    .trim()
+    .min(1, { message: "Viesti vaaditaan" })
+    .max(1000, { message: "Viesti on liian pitkä (enintään 1000 merkkiä)" }),
 });
 
 const Footer = () => {
@@ -80,26 +92,17 @@ const Footer = () => {
 
   const onSubmit = async (data: z.infer<typeof contactSchema>) => {
     try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      await sendForm(
+        {
           formType: "contact",
           name: data.name,
           email: data.email,
           phone: "",
           message: data.message,
           ...getSpamFields(),
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        throw new Error(result.error || "Failed to send email");
-      }
+        },
+        CONTACT_FALLBACK_EMAIL
+      );
 
       toast({
         title: "Viesti lähetetty!",
@@ -111,7 +114,9 @@ const Footer = () => {
       toast({
         title: "Virhe lähetyksessä",
         description:
-          error instanceof Error ? error.message : "Yritä uudelleen myöhemmin.",
+          error instanceof Error
+            ? error.message
+            : sendFormFailedMessage(CONTACT_FALLBACK_EMAIL),
         variant: "destructive",
       });
     }
@@ -227,9 +232,10 @@ const Footer = () => {
 
                 <Button
                   type="submit"
+                  disabled={form.formState.isSubmitting}
                   className="w-full element-embedded-effect"
                 >
-                  Lähetä
+                  {form.formState.isSubmitting ? "Lähetetään..." : "Lähetä"}
                 </Button>
               </form>
             </Form>

@@ -33,15 +33,44 @@ import { useEffect } from "react";
 import { gsap } from "gsap";
 import { toast } from "@/hooks/use-toast";
 import useSpamGuard from "@/hooks/useSpamGuard";
+import { sendForm, sendFormFailedMessage } from "@/lib/sendForm";
 
+// The address the page shows for bookings; also offered when sending fails.
+const BOOKING_FALLBACK_EMAIL = "heidiandthehotstuff@gmail.com";
+
+// Limits match api/send-email.ts, so the server never has to reject a form in English.
 const bookingFormSchema = z.object({
-  name: z.string().min(2, { message: "Nimi on pakollinen" }),
-  phone: z.string().min(5, { message: "Puhelinnumero on pakollinen" }),
-  email: z.string().email({ message: "Virheellinen sähköpostiosoite" }),
+  name: z
+    .string()
+    .trim()
+    .min(2, { message: "Nimi on pakollinen" })
+    .max(100, { message: "Nimi on liian pitkä (enintään 100 merkkiä)" }),
+  phone: z
+    .string()
+    .trim()
+    .min(5, { message: "Puhelinnumero on pakollinen" })
+    .max(50, { message: "Puhelinnumero on liian pitkä" }),
+  email: z
+    .string()
+    .trim()
+    .email({ message: "Virheellinen sähköpostiosoite" })
+    .max(255, { message: "Sähköpostiosoite on liian pitkä" }),
   date: z.date({ required_error: "Päivämäärä on pakollinen" }),
-  location: z.string().min(2, { message: "Sijainti on pakollinen" }),
-  eventType: z.string().min(2, { message: "Tilaisuus on pakollinen" }),
-  message: z.string().min(10, { message: "Viesti on liian lyhyt" }),
+  location: z
+    .string()
+    .trim()
+    .min(2, { message: "Sijainti on pakollinen" })
+    .max(200, { message: "Sijainti on liian pitkä (enintään 200 merkkiä)" }),
+  eventType: z
+    .string()
+    .trim()
+    .min(2, { message: "Tilaisuus on pakollinen" })
+    .max(200, { message: "Tilaisuus on liian pitkä (enintään 200 merkkiä)" }),
+  message: z
+    .string()
+    .trim()
+    .min(10, { message: "Viesti on liian lyhyt" })
+    .max(2000, { message: "Viesti on liian pitkä (enintään 2000 merkkiä)" }),
 });
 
 type BookingFormValues = z.infer<typeof bookingFormSchema>;
@@ -64,12 +93,8 @@ const BilebandiPage = () => {
 
   const onSubmit = async (data: BookingFormValues) => {
     try {
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      await sendForm(
+        {
           formType: "booking",
           name: data.name,
           email: data.email,
@@ -79,14 +104,9 @@ const BilebandiPage = () => {
           location: data.location,
           eventType: data.eventType,
           ...getSpamFields(),
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        throw new Error(result.error || "Failed to send booking request");
-      }
+        },
+        BOOKING_FALLBACK_EMAIL
+      );
 
       toast({
         title: "Viestisi lähetetty!",
@@ -98,7 +118,9 @@ const BilebandiPage = () => {
       toast({
         title: "Virhe lähetyksessä",
         description:
-          error instanceof Error ? error.message : "Yritä uudelleen myöhemmin.",
+          error instanceof Error
+            ? error.message
+            : sendFormFailedMessage(BOOKING_FALLBACK_EMAIL),
         variant: "destructive",
       });
     }
@@ -534,10 +556,11 @@ const BilebandiPage = () => {
 
               <Button
                 type="submit"
+                disabled={form.formState.isSubmitting}
                 className="w-fit flex mx-auto element-embedded-effect"
                 size="lg"
               >
-                Lähetä
+                {form.formState.isSubmitting ? "Lähetetään..." : "Lähetä"}
               </Button>
             </form>
           </Form>
