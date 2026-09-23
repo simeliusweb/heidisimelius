@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { assertRowsChanged } from "@/lib/dbWrite";
 import { Tables } from "@/integrations/supabase/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -82,11 +83,13 @@ const GalleryManager = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (photoSetId: string) => {
-      const { error } = await supabase
+      const { data: changedRows, error } = await supabase
         .from("photo_sets")
         .delete()
-        .eq("id", photoSetId);
+        .eq("id", photoSetId)
+        .select("id");
       if (error) throw error;
+      assertRowsChanged(changedRows);
     },
     onSuccess: () => {
       toast({
@@ -112,11 +115,13 @@ const GalleryManager = () => {
     mutationFn: async (updates: Array<{ id: string; order_index: number }>) => {
       // Update each gallery's order_index
       for (const update of updates) {
-        const { error } = await supabase
+        const { data: changedRows, error } = await supabase
           .from("photo_sets")
           .update({ order_index: update.order_index })
-          .eq("id", update.id);
+          .eq("id", update.id)
+          .select("id");
         if (error) throw error;
+        assertRowsChanged(changedRows);
       }
     },
     onSuccess: () => {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { assertRowsChanged } from "@/lib/dbWrite";
 import { Video, VideoInsert, VideoUpdate } from "./VideosManager";
 import {
   Dialog,
@@ -117,11 +118,13 @@ const VideoForm = ({
       }
 
       // Then update the selected video
-      const { error } = await supabase
+      const { data: changedRows, error } = await supabase
         .from("videos")
         .update(videoData)
-        .eq("id", videoId);
+        .eq("id", videoId)
+        .select("id");
       if (error) throw error;
+      assertRowsChanged(changedRows);
     },
     onSuccess: () => {
       toast({

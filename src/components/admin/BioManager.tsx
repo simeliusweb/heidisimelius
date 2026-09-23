@@ -2,6 +2,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { assertRowsChanged } from "@/lib/dbWrite";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import type { Json } from "@/integrations/supabase/types";
@@ -323,12 +324,16 @@ const BioManager = () => {
 
   const mutation = useMutation({
     mutationFn: async (content: BioContent) => {
-      const { error } = await supabase.from("page_content").upsert({
-        page_name: "bio",
-        content: content as unknown as Json,
-        updated_at: new Date().toISOString(),
-      });
+      const { data: changedRows, error } = await supabase
+        .from("page_content")
+        .upsert({
+          page_name: "bio",
+          content: content as unknown as Json,
+          updated_at: new Date().toISOString(),
+        })
+        .select("page_name");
       if (error) throw error;
+      assertRowsChanged(changedRows);
     },
     onSuccess: () => {
       toast({

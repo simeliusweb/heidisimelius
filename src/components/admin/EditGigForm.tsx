@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { assertRowsChanged } from "@/lib/dbWrite";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { format } from "date-fns";
@@ -114,11 +115,13 @@ const EditGigForm = ({ isOpen, onOpenChange, gig }: EditGigFormProps) => {
   const mutation = useMutation({
     mutationFn: async (updatedGig: Partial<Gig>) => {
       if (!gig) throw new Error("No gig selected for update.");
-      const { error } = await supabase
+      const { data: changedRows, error } = await supabase
         .from("gigs")
         .update(updatedGig)
-        .eq("id", gig.id);
+        .eq("id", gig.id)
+        .select("id");
       if (error) throw error;
+      assertRowsChanged(changedRows);
     },
     onSuccess: () => {
       toast({ title: "Onnistui!", description: "Keikan tiedot päivitetty." });

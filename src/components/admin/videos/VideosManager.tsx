@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { assertRowsChanged } from "@/lib/dbWrite";
 import {
   Tables,
   TablesInsert,
@@ -88,11 +89,13 @@ const VideosManager = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (videoId: string) => {
-      const { error } = await supabase
+      const { data: changedRows, error } = await supabase
         .from("videos")
         .delete()
-        .eq("id", videoId);
+        .eq("id", videoId)
+        .select("id");
       if (error) throw error;
+      assertRowsChanged(changedRows);
     },
     onSuccess: (_, deletedVideoId) => {
       // Re-index remaining videos in the same section
@@ -154,11 +157,13 @@ const VideosManager = () => {
       }
 
       // Then update the selected video
-      const { error } = await supabase
+      const { data: changedRows, error } = await supabase
         .from("videos")
         .update({ is_featured: isFeatured })
-        .eq("id", videoId);
+        .eq("id", videoId)
+        .select("id");
       if (error) throw error;
+      assertRowsChanged(changedRows);
     },
     onSuccess: () => {
       toast({
@@ -180,11 +185,13 @@ const VideosManager = () => {
     mutationFn: async (updates: { id: string; order_index: number }[]) => {
       // Update each video's order_index individually
       for (const update of updates) {
-        const { error } = await supabase
+        const { data: changedRows, error } = await supabase
           .from("videos")
           .update({ order_index: update.order_index })
-          .eq("id", update.id);
+          .eq("id", update.id)
+          .select("id");
         if (error) throw error;
+        assertRowsChanged(changedRows);
       }
     },
     onSuccess: () => {

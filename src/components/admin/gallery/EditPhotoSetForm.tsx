@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { assertRowsChanged } from "@/lib/dbWrite";
 import { Tables, TablesUpdate } from "@/integrations/supabase/types";
 import { uploadPhotoSetImage, uploadPressKitZip } from "@/lib/storage";
 import { Button } from "@/components/ui/button";
@@ -351,12 +352,13 @@ const EditPhotoSetForm = ({
         ...(photoSet.is_press_kit && zipUrl && { press_kit_zip_url: zipUrl }),
       };
 
-      const { error } = await supabase
+      const { data: changedRows, error } = await supabase
         .from("photo_sets")
         .update(updateData)
-        .eq("id", photoSet.id);
-
+        .eq("id", photoSet.id)
+        .select("id");
       if (error) throw error;
+      assertRowsChanged(changedRows);
     },
     onSuccess: () => {
       toast({

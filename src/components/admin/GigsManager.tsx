@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { assertRowsChanged } from "@/lib/dbWrite";
 import {
   Table,
   TableBody,
@@ -95,8 +96,13 @@ const GigsManager = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (gigId: string) => {
-      const { error } = await supabase.from("gigs").delete().eq("id", gigId);
+      const { data: changedRows, error } = await supabase
+        .from("gigs")
+        .delete()
+        .eq("id", gigId)
+        .select("id");
       if (error) throw error;
+      assertRowsChanged(changedRows);
     },
     onSuccess: () => {
       toast({
