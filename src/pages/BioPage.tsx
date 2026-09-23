@@ -220,6 +220,8 @@ const BioPage = () => {
 
   // Title, canonical and the Person JSON-LD don't depend on the database, so they are
   // rendered in the loading and error states too (crawlers may snapshot either).
+  // Each state's root element has its own key: with the head as the first child in every
+  // state, React would otherwise morph the skeleton into the page, which shifts the layout.
   const head = (
     <>
       <PageMeta
@@ -233,7 +235,7 @@ const BioPage = () => {
   // Handle loading state
   if (isBioLoading) {
     return (
-      <div style={{
+      <div key="loading" style={{
         backgroundImage: `linear-gradient(12deg, hsl(234deg 24% 8%) 0%, hsl(234deg 23% 8%) 10%, hsl(234deg 23% 11%) 20%, hsl(239deg 23% 9%) 32%, hsl(238deg 23% 12%) 46%, hsl(236deg 23% 8%) 62%, hsl(234deg 24% 8%) 75%, hsl(234deg 24% 11%) 84%, hsl(234deg 24% 10%) 89%, hsl(234deg 24% 8%) 93%, hsl(235deg 23% 9%) 96%, hsl(235deg 23% 10%) 98%, hsl(234deg 23% 8%) 100%)`,
         backgroundBlendMode: "overlay",
         imageRendering: "pixelated" as const,
@@ -280,7 +282,7 @@ const BioPage = () => {
   // Handle error state (content from an earlier successful fetch is still shown)
   if (bioError && !bioContent) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div key="error" className="min-h-screen flex items-center justify-center">
         {head}
         <div className="text-destructive">
           Virhe bion sisällön lataamisessa: {bioError.message}
@@ -299,7 +301,7 @@ const BioPage = () => {
   };
 
   return (
-    <div
+    <div key="loaded"
       style={{
         backgroundImage: `  
         linear-gradient(

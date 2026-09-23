@@ -39,6 +39,8 @@ const LaulunopetusPage = () => {
 
   // Title and canonical don't depend on the database, so the loading and error states
   // render them too. The Service JSON-LD needs the prices, so it waits for the content.
+  // Each state's root element has its own key: with the head as the first child in every
+  // state, React would otherwise morph the skeleton into the page, which shifts the layout.
   const head = (
     <PageMeta
       title={pageMetadata.laulunopetus.title}
@@ -48,7 +50,7 @@ const LaulunopetusPage = () => {
 
   if (isLoading) {
     return (
-      <div style={{
+      <div key="loading" style={{
         backgroundImage: `linear-gradient(12deg, hsl(234deg 24% 8%) 0%, hsl(234deg 23% 8%) 10%, hsl(234deg 23% 11%) 20%, hsl(239deg 23% 9%) 32%, hsl(238deg 23% 12%) 46%, hsl(236deg 23% 8%) 62%, hsl(234deg 24% 8%) 75%, hsl(234deg 24% 11%) 84%, hsl(234deg 24% 10%) 89%, hsl(234deg 24% 8%) 93%, hsl(235deg 23% 9%) 96%, hsl(235deg 23% 10%) 98%, hsl(234deg 23% 8%) 100%)`,
         backgroundBlendMode: "overlay",
       }}>
@@ -73,7 +75,7 @@ const LaulunopetusPage = () => {
 
   if (!content) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div key="error" className="min-h-screen flex items-center justify-center">
         {head}
         <div className="text-destructive">
           Virhe sisällön lataamisessa: {error?.message}
@@ -143,7 +145,7 @@ const LaulunopetusPage = () => {
   const remainingTestimonials = content.testimonials?.slice(1) || [];
 
   return (
-    <div
+    <div key="loaded"
       style={{
         backgroundImage: `
         linear-gradient(

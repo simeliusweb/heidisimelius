@@ -200,6 +200,8 @@ const GalleriaPage = () => {
 
   // Title and canonical don't depend on the database, so the loading and error states
   // render them too.
+  // Each state's root element has its own key: with the head as the first child in every
+  // state, React would otherwise morph the skeleton into the page, which shifts the layout.
   const head = (
     <PageMeta
       title={pageMetadata.galleria.title}
@@ -209,7 +211,7 @@ const GalleriaPage = () => {
 
   if (photoSetsLoading || videosLoading) {
     return (
-      <div style={{
+      <div key="loading" style={{
         backgroundImage: `linear-gradient(12deg, hsl(234deg 24% 8%) 0%, hsl(234deg 23% 8%) 10%, hsl(234deg 23% 11%) 20%, hsl(239deg 23% 9%) 32%, hsl(238deg 23% 12%) 46%, hsl(236deg 23% 8%) 62%, hsl(234deg 24% 8%) 75%, hsl(234deg 24% 11%) 84%, hsl(234deg 24% 10%) 89%, hsl(234deg 24% 8%) 93%, hsl(235deg 23% 9%) 96%, hsl(235deg 23% 10%) 98%, hsl(234deg 23% 8%) 100%)`,
         backgroundBlendMode: "overlay",
       }}>
@@ -244,7 +246,7 @@ const GalleriaPage = () => {
   // A failed refetch keeps showing the data that already loaded.
   if ((photoSetsError && !photoSets) || (videosError && !videos)) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div key="error" className="flex items-center justify-center min-h-screen">
         {head}
         <p>
           Virhe haettaessa tietoja: {(photoSetsError || videosError)?.message}
@@ -254,7 +256,7 @@ const GalleriaPage = () => {
   }
 
   return (
-    <div
+    <div key="loaded"
       style={{
         backgroundImage: ` 
         linear-gradient(
@@ -291,7 +293,7 @@ const GalleriaPage = () => {
         <div
           className={`absolute inset-0 bg-cover bg-[40%_top] transition-opacity duration-700 ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
           style={{
-            backgroundImage: `url(${heroImageSrc})`,
+            backgroundImage: heroImageSrc ? `url(${heroImageSrc})` : undefined,
           }}
         />
         {/* Dark Gradient Overlay */}
