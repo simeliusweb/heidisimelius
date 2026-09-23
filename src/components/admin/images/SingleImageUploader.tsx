@@ -21,8 +21,9 @@ import {
 import { PageImage, PageImagesContent } from "@/types/content";
 import { Loader2 } from "lucide-react";
 
-// Zod schema for validation
-const imageFormSchema = z.object({
+// Zod schema for validation. The photographer is only asked for (and required) where the
+// field is shown; the home hero has no credit, and a hidden required field blocked saving.
+const baseImageFormSchema = z.object({
   imageFile: z
     .instanceof(File, { message: "Kuva on pakollinen." })
     .refine((file) => file.size > 0, { message: "Kuva on pakollinen." })
@@ -34,12 +35,19 @@ const imageFormSchema = z.object({
       { message: "Tuetut tiedostotyypit: JPG, PNG, WEBP." }
     ),
   alt: z.string().min(1, { message: "Alt-teksti on pakollinen." }),
-  photographer_name: z
-    .string()
-    .min(1, { message: "Kuvaajan nimi on pakollinen." }),
+  photographer_name: z.string().optional(),
 });
 
-type ImageFormValues = z.infer<typeof imageFormSchema>;
+const imageFormSchema = (requirePhotographer: boolean) =>
+  requirePhotographer
+    ? baseImageFormSchema.extend({
+        photographer_name: z
+          .string()
+          .min(1, { message: "Kuvaajan nimi on pakollinen." }),
+      })
+    : baseImageFormSchema;
+
+type ImageFormValues = z.infer<typeof baseImageFormSchema>;
 
 interface SingleImageUploaderProps {
   title: string;
@@ -66,10 +74,11 @@ const SingleImageUploader = ({
 }: SingleImageUploaderProps) => {
   // Form setup
   const form = useForm<ImageFormValues>({
-    resolver: zodResolver(imageFormSchema),
+    resolver: zodResolver(imageFormSchema(showPhotographerField)),
     defaultValues: {
       imageFile: undefined,
       alt: "",
+      photographer_name: "",
     },
   });
 
@@ -79,7 +88,9 @@ const SingleImageUploader = ({
       {
         src: "", // Will be set by parent after upload
         alt: data.alt,
-        photographer_name: data.photographer_name,
+        ...(showPhotographerField && {
+          photographer_name: data.photographer_name,
+        }),
       },
       data.imageFile
     );
