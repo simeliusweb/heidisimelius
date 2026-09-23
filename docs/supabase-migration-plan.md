@@ -13,7 +13,7 @@
 
 ## 0. Resume here (for a fresh session)
 
-> **After go-live (2026-09-23):** follow-up work starts from `~/.heidisimelius-migration/FOLLOWUPS.md` (dated checklist, commands, what changed after GL). §0's steps below describe the pre-GL flow.
+> **After go-live (2026-09-23):** follow-up work starts from `docs/migration-followups.md` (dated checklist, commands, what changed after GL). §0's steps below describe the pre-GL flow.
 
 1. Read §4 (operating model) and §5 (safety rails). These rules apply to everything below.
 2. Run state lives **outside the repo**, in `~/.heidisimelius-migration/` (called `$STATE` below):
