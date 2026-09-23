@@ -4,7 +4,13 @@ import path from "path";
 import fs from "fs";
 import { componentTagger } from "lovable-tagger";
 import sitemap from "vite-plugin-sitemap";
-import { pageMetadata, routeMetadata, SITE_URL } from "./src/config/metadata";
+import {
+  canonicalUrl,
+  notFoundMeta,
+  pageMetadata,
+  routeMetadata,
+  SITE_URL,
+} from "./src/config/metadata";
 
 const ROUTES = Object.keys(routeMetadata);
 
@@ -23,9 +29,13 @@ const escapeAttr = (value: string) =>
  * they never see the tags PageMeta sets at runtime — they read whatever HTML the server
  * returns. Without this, every shared link showed the site-wide default text.
  *
- * Vercel resolves static files before applying the SPA rewrite in vercel.json, so
- * /laulunopetus is served by dist/laulunopetus/index.html while React Router still takes
- * over once the bundle loads.
+ * Vercel resolves static files first, so /laulunopetus is served by
+ * dist/laulunopetus/index.html while React Router still takes over once the bundle loads.
+ *
+ * It also emits dist/404.html. vercel.json only rewrites /admin and /login to the SPA, so
+ * every other unknown path (old WordPress URLs, typos) gets Vercel's real 404 status with
+ * this file as the body — the SPA still boots and renders the branded NotFound page. A
+ * 200 here would make Google treat dead URLs as live duplicates of the home page.
  */
 const perRouteMeta = (): Plugin => ({
   name: "per-route-meta-html",
@@ -74,10 +84,20 @@ const perRouteMeta = (): Plugin => ({
         .replace(
           /(<meta\s+data-rh="true"\s+property="twitter:url"\s+content=")[\s\S]*?(")/,
           `$1${escapeAttr(url)}$2`,
+        )
+        .replace(
+          /(<link\s+data-rh="true"\s+rel="canonical"\s+href=")[\s\S]*?(")/,
+          `$1${escapeAttr(canonicalUrl(route))}$2`,
         );
 
       // Fail the build rather than silently shipping generic tags if index.html's
       // markup drifts and the replacements above stop matching.
+      if (!html.includes(`rel="canonical" href="${escapeAttr(canonicalUrl(route))}"`)) {
+        this.error(
+          `per-route-meta-html: could not inject the canonical for ${route}. ` +
+            `Check that index.html still has the data-rh canonical link.`,
+        );
+      }
       if (route !== "/" && !html.includes(escapeAttr(meta.description))) {
         this.error(
           `per-route-meta-html: could not inject meta for ${route}. ` +
@@ -93,6 +113,25 @@ const perRouteMeta = (): Plugin => ({
         fs.writeFileSync(path.join(dir, "index.html"), html);
       }
     }
+
+    // 404 body: no canonical (the URL does not exist) and explicitly noindex.
+    const notFoundHtml = template
+      .replace(
+        /<title>[\s\S]*?<\/title>/,
+        `<title>${escapeAttr(notFoundMeta.title)}</title>`,
+      )
+      .replace(/<link\s+data-rh="true"\s+rel="canonical"[^>]*>\s*/, "")
+      // data-rh lets Helmet swap it for NotFound's own tag instead of duplicating it,
+      // and drop it if the visitor then navigates client-side to a real page.
+      .replace(
+        "</head>",
+        `  <meta data-rh="true" name="robots" content="noindex, follow" />\n  </head>`,
+      );
+
+    if (notFoundHtml.includes('rel="canonical"')) {
+      this.error("per-route-meta-html: could not strip the canonical from 404.html.");
+    }
+    fs.writeFileSync(path.join(outDir, "404.html"), notFoundHtml);
   },
 });
 

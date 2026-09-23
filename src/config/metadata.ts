@@ -1,5 +1,13 @@
 export const SITE_URL = "https://www.heidisimelius.fi";
 
+/**
+ * The one URL Google should index for a path: always www, never a trailing slash
+ * (vercel.json redirects /keikat/ -> /keikat). Without a canonical, Google indexed
+ * heidisimelius.fi/keikat/ and www.heidisimelius.fi/keikat as separate duplicates.
+ */
+export const canonicalUrl = (pathname: string) =>
+  `${SITE_URL}${pathname === "/" ? "/" : pathname.replace(/\/+$/, "")}`;
+
 // Site-wide fallback for routes that do not render <PageMeta> (login, admin).
 // Must stay in sync with the static tags in index.html so the initial markup and the
 // Helmet-managed tag are identical and no swap happens on mount.
@@ -44,6 +52,12 @@ export const pageMetadata = {
     description:
       "Heidi Simelius opettaa yksilöllistä pop/jazz-laulua Tampereen laulukoululla Hämeenpuistossa. Laulutunnit sopivat sekä aloittelijoille että kokeneemmille laulajille.",
   },
+};
+
+export const notFoundMeta = {
+  title: "Sivua ei löytynyt | Heidi Simelius",
+  description:
+    "Etsimääsi sivua ei löytynyt. Palaa etusivulle tai tutustu Heidi Simeliuksen keikkoihin, musiikkiin ja laulunopetukseen.",
 };
 
 /**

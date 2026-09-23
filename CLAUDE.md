@@ -86,7 +86,10 @@ Forms use react-hook-form with zod schemas. When fields are conditionally render
 Uses @dnd-kit for sortable items (videos, photos). Maintains `order_index` in database.
 
 ### Structured Data
-SEO structured data (JSON-LD) is generated for events using proper MusicEvent schema. Define interfaces for complex nested structures rather than using `any`.
+SEO structured data (JSON-LD) for gigs is built in `src/lib/eventStructuredData.ts` (MusicEvent / TheaterEvent by `gig_type`) following Google's Event guidelines — Search Console flags missing `endDate` and `offers` fields. Never emit guessed values such as prices. Define interfaces for complex nested structures rather than using `any`.
+
+### Indexing
+Only the routes in `routeMetadata` (`src/config/metadata.ts`) get prebuilt HTML with their own title and canonical; `vercel.json` rewrites just `/admin` and `/login` to the SPA, so any other path returns a real 404 (`dist/404.html`, noindex). A new public route must be added to `routeMetadata`, or it will 404 on a hard load.
 
 ### Finnish Language
 The site is in Finnish. UI text, labels, and content are in Finnish.

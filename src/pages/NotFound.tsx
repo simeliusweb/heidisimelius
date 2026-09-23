@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import PageMeta from "@/components/PageMeta";
+import { notFoundMeta } from "@/config/metadata";
 import { Button } from "@/components/ui/button";
 import useFontLoaded from "@/hooks/useFontLoaded";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -51,14 +51,12 @@ const NotFound = () => {
         backgroundBlendMode: "overlay",
       }}
     >
-      <PageMeta
-        title="Sivua ei löytynyt | Heidi Simelius"
-        description="Etsimääsi sivua ei löytynyt. Palaa etusivulle tai tutustu Heidi Simeliuksen keikkoihin, musiikkiin ja laulunopetukseen."
-      />
       {/* A 404 should never be indexed */}
-      <Helmet>
-        <meta name="robots" content="noindex, follow" />
-      </Helmet>
+      <PageMeta
+        title={notFoundMeta.title}
+        description={notFoundMeta.description}
+        noindex
+      />
 
       <main className="min-h-screen flex flex-col items-center justify-center px-6 pt-32 pb-24 text-center">
         {/* 404 */}

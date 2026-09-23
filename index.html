@@ -17,6 +17,11 @@
       content="Heidi Simelius - Laulaja, lauluntekijä ja esiintyjä"
     />
     <meta name="author" content="Heidi Simelius" />
+    <!--
+      Rewritten per route at build time (vite.config.ts) and by PageMeta at runtime.
+      Removed from 404.html, and Helmet drops it on /admin and /login.
+    -->
+    <link data-rh="true" rel="canonical" href="https://www.heidisimelius.fi/" />
 
     <!-- Favicon and Manifest Links -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />

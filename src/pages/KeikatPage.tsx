@@ -13,41 +13,9 @@ import ShadowHeading from "@/components/ShadowHeading";
 import { PageImagesContent } from "@/types/content";
 import { Gig } from "@/components/admin/GigsManager";
 import useImagePreload from "@/hooks/useImagePreload";
+import { buildEventSchema } from "@/lib/eventStructuredData";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { Skeleton } from "@/components/ui/skeleton";
-
-interface MusicEvent {
-  "@context": string;
-  "@type": string;
-  eventStatus: string;
-  name: string;
-  startDate: string;
-  location: {
-    "@type": string;
-    name: string;
-    address: {
-      "@type": string;
-      addressLocality: string;
-      addressCountry: string;
-    };
-  };
-  image: string;
-  description: string;
-  performer: {
-    "@type": string;
-    name: string;
-  };
-  offers?: {
-    "@type": string;
-    url: string;
-    availability: string;
-  };
-  organizer?: {
-    "@type": string;
-    name: string;
-    url?: string;
-  };
-}
 
 const fetchPastGigs = async (): Promise<Gig[]> => {
   const now = new Date().toISOString();
@@ -176,56 +144,7 @@ const KeikatPage = () => {
     (group) => group.gig.gig_type === "Teatteri"
   );
 
-  // Generate MusicEvent structured data for all upcoming gigs
-  const musicEventsSchema = upcomingGigsData
-    ? upcomingGigsData.map((gig) => {
-        const performanceDate = new Date(gig.performance_date);
-        const isoDate = performanceDate.toISOString();
-
-        const event: MusicEvent = {
-          "@context": "https://schema.org",
-          "@type": "MusicEvent",
-          eventStatus: "https://schema.org/EventScheduled",
-          name: gig.title,
-          startDate: isoDate,
-          location: {
-            "@type": "Place",
-            name: gig.venue,
-            address: {
-              "@type": "PostalAddress",
-              addressLocality: gig.address_locality,
-              addressCountry: gig.address_country,
-            },
-          },
-          image: gig.image_url,
-          description: gig.description,
-          performer: {
-            "@type": "Person",
-            name: "Heidi Simelius",
-          },
-        };
-
-        // Add conditional offers field
-        if (gig.tickets_url) {
-          event.offers = {
-            "@type": "Offer",
-            url: gig.tickets_url,
-            availability: "https://schema.org/InStock",
-          };
-        }
-
-        // Add conditional organizer field
-        if (gig.organizer_name) {
-          event.organizer = {
-            "@type": "Organization",
-            name: gig.organizer_name,
-            ...(gig.organizer_url && { url: gig.organizer_url }),
-          };
-        }
-
-        return event;
-      })
-    : [];
+  const eventsSchema = (upcomingGigsData ?? []).map(buildEventSchema);
 
   return (
     <div
@@ -255,7 +174,7 @@ const KeikatPage = () => {
         title={pageMetadata.keikat.title}
         description={pageMetadata.keikat.description}
       />
-      <StructuredData data={musicEventsSchema} />
+      <StructuredData data={eventsSchema} />
 
       {/* Page Header with Background Image */}
       <section className="relative z-1 w-full h-[50vh] sm:h-[60vh] md:h-[90vh] flex items-end justify-center">
