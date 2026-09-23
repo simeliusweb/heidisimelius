@@ -33,6 +33,8 @@ The site's database, storage and auth run on **Lovable Cloud**: a Supabase proje
 1. **🔴 Any logged-in user is an admin.** Every table has a FOR ALL policy with `auth.uid() IS NOT NULL`, and the storage write policies use `TO authenticated`. Right now the only thing protecting the CMS is `disable_signup: true`. **New Supabase projects allow signups by default.** So the first thing we do on the new project, before any data goes in, is turn off "Allow new users to sign up" and anonymous sign-ins. We keep the policies as they are during the migration, and tighten them afterwards (§11).
 2. **🔴 Production doesn't run the current code.** Production is `main` at `fd4ce94`. The GSC/SEO work (the fixed keep-alive cron — production's cron has hit a 404 for about 11 months — the real 404s, canonicals, redirects and `noindex` headers) is committed on `main` but **not pushed yet**, so it isn't deployed. A new free-tier project pauses after 7 idle days, so **`main` must be live in production before cutover**. That also makes production a clean "before" baseline.
 3. **🟠 Lovable still pushes to `main`.** It has made 320 bot commits, the last on 2025-10-15. `main` deploys straight to production, and there's no branch protection. If anyone prompts the Lovable agent (for example to help export), it can commit a regenerated `client.ts` or `.env`. **Disconnect Lovable's GitHub access before doing anything in Lovable.**
+
+   **Workflow rule: `main` only.** All work, this migration included, is committed straight to `main`. No feature branches and no PRs. Pushing `main` deploys to production, so a push is always a deliberate step. Anything that must not go live yet stays behind a code flag on `main` (like `GIG_TICKET_FIELDS_ENABLED`, §6.2a). The rehearsal against the new DB runs on a **CLI preview deployment of `main`** (§7), not on a branch.
 4. **🟠 API key format.** New Supabase projects only issue `sb_publishable_…` / `sb_secret_…` keys. Supabase's docs say these go in the `apikey` header and are **not** valid as `Authorization: Bearer`. Two places send the key as Bearer: `api/keep-db-alive.ts:29`, and supabase-js 2.75 on anonymous requests (this needs checking). **Mitigation:** upgrade supabase-js, send only `apikey` from keep-alive, and treat "the preview loads its data with the new key" as a hard pass/fail check before cutover (§8, test A1).
 5. **🟠 Old-host URLs are stored in the DB.** Without a rewrite, the site would *look* fine after cutover but still load all its media from Lovable, and break the day Lovable is removed. The rewrite plus a zero-match check is mandatory (§6.4).
 6. **🟠 The Lovable credit balance.** If the workspace runs out of credits, Lovable **pauses the backend**, and the live site stops loading data. Check the balance before starting (§5).
@@ -59,7 +61,7 @@ The site's database, storage and auth run on **Lovable Cloud**: a Supabase proje
 - [ ] **0.4 Lock Lovable out of `main`:**
   - In Lovable: Project settings → GitHub → **Disconnect**. The Lovable project and Cloud stay.
   - On GitHub: remove the Lovable (gpt-engineer) app's access to the repo on the `simeliusweb` account, at github.com/settings/installations.
-  - Add branch protection on `main` that requires a PR.
+  - Add a branch protection rule on `main` that **blocks force pushes and deletion**. (Restricting who can push is only offered for organization repos, and `simeliusweb` is a personal account; only the owner and invited collaborators can push anyway.) Do **not** require PRs: all work is committed straight to `main` (finding 3).
 - [ ] **0.5 Check Lovable's workspace plan and credit balance** (Settings → Plans & credits). There must be enough to keep Cloud running through the whole fallback window (about 4 weeks after cutover).
 - [ ] **0.6 Answer the decisions in §12.**
 
@@ -261,9 +263,9 @@ select (select count(*) from gigs where image_url like '%yctdrwogilljanzxcgow%')
 - The only visible change: the gig Event JSON-LD `image` field gets the new host on the next crawl.
 - The real exposure is **outside deep links** to the old press-kit zip or CV URL. Those break when Lovable is removed, which is another reason for the 4-week fallback window. The optional `/media` proxy (decision D5) would stop this happening again in any future move.
 
-## 7. Phase 4: migration branch and preview rehearsal
+## 7. Phase 4: migration code and preview rehearsal
 
-**Branch `chore/supabase-migration`** (from `main` after 0.1). The code changes:
+**All of this is committed to `main`** (after 0.1), and pushed as soon as it passes lint and build. None of it depends on which database the site points at, so production keeps running on Lovable with it. That's deliberate: production then *is* the B1 baseline for exactly the code that will switch over. The code changes:
 
 | File | Change |
 |---|---|
@@ -274,13 +276,35 @@ select (select count(*) from gigs where image_url like '%yctdrwogilljanzxcgow%')
 | `.env.example` | remove `SUPABASE_FUNCTION_URL`; add `CRON_SECRET=` |
 | `e2e/`, `playwright.config.ts`, `scripts/baseline/` | the test suite (§8.4) |
 | `CLAUDE.md` | env list (`VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `BREVO_API_KEY`, `CRON_SECRET`); project ownership; "Lovable disconnected"; how to run the CLI with the owner token |
+| `.gitignore` | add `.vercel` (the CLI may create it; it must never be committed) |
 | optional | remove `lovable-tagger` (`vite.config.ts:5,146`, `package.json`, both lockfiles) |
 
 - **No app code changes** are needed for the switch itself. `client.ts` reads the env vars.
 - Nothing in `index.html`, `public/`, `vercel.json` or the build (sitemap, per-route meta) refers to Supabase.
 - There's no service worker, and React Query's cache is in-memory only, so no cache will pin the old backend.
+- The step 1–3 code changes above (`api/keep-db-alive.ts` header, the supabase-js upgrade) must also work against the **old** Lovable DB with its legacy key. Production running them before cutover proves that.
 
-**Preview env:** set Vercel **Preview** variables `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` **scoped to the branch** `chore/supabase-migration`. Production and other previews stay on Lovable. Branch scoping needs to be confirmed on Hobby. If it doesn't work, use a `vercel deploy` with `--build-env`.
+**Rehearsal preview (no branch).** The Vercel project's env vars stay on Lovable for Production *and* Preview until cutover. The new-DB preview is a one-off CLI deployment of `main` with the new values injected:
+
+```bash
+# From a clean checkout of main at the pushed commit (git status clean, HEAD = origin/main),
+# so B2 is built from exactly the code production (B1) runs.
+# Use an owner Vercel token inline; never rely on this machine's default CLI login.
+# VERCEL_ORG_ID + VERCEL_PROJECT_ID target the project without `vercel link` (so no .vercel dir).
+VERCEL_ORG_ID=<team id: Team Settings → General> \
+VERCEL_PROJECT_ID=prj_3mg2MBtS9MvFk7xdffx2Hezirz6c \
+vercel deploy --token "$VERCEL_TOKEN" \
+  --build-env VITE_SUPABASE_URL=https://<newref>.supabase.co \
+  --build-env VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_... \
+  --env VITE_SUPABASE_URL=https://<newref>.supabase.co \
+  --env VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
+```
+
+- `--build-env` is what switches the site: `VITE_*` values are inlined into the bundle at build time.
+- `--env` is needed too, because `api/keep-db-alive.ts` reads the same variables at **runtime**.
+- Without `--prod` this is a **preview**: it gets its own URL and never touches the production domain.
+- The preview is behind Vercel Authentication. Tests use the protection-bypass header (§8.4).
+- Redeploy the same way after any code change on `main` during the rehearsal, so B2 stays on the same commit as B1.
 
 Run the whole **PRE** test matrix (§8.3) on this preview, including the B1-vs-B2 diff. Nothing moves to Phase 5 until it's all green.
 
@@ -288,7 +312,7 @@ Run the whole **PRE** test matrix (§8.3) on this preview, including the B1-vs-B
 
 ### 8.1 Principle: compare like with like
 - Baseline B1 = production (the release code, old DB) after 0.1.
-- B2 = the migration preview (the same code plus the migration-branch changes, new DB).
+- B2 = the rehearsal preview: the same `main` commit as B1, built with the new DB's values (§7).
 - B3 = production after cutover.
 
 **Gates:** B1 ≡ B2 after normalisation, and B2 ≡ B3. Normalisation means:
@@ -457,15 +481,15 @@ Visitors see no downtime: the old deployment keeps serving until the new build i
    - Run the copy script, then `--verify-only`. The CV is always re-copied.
    - Re-run the §6.4 URL rewrite and the zero check, plus the 54 HEAD checks.
 3. Note the **current production deployment ID**. It's the rollback target.
-4. In Vercel **Production**: set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` to the new values, and delete `SUPABASE_FUNCTION_URL` and `VITE_SUPABASE_PROJECT_ID`.
-5. Merge `chore/supabase-migration` → `main` through a PR. That triggers the production build. `VITE_*` values are inlined at build time, so this rebuild is what switches the site.
+4. In Vercel **Production**: set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` to the new values, and delete `SUPABASE_FUNCTION_URL` and `VITE_SUPABASE_PROJECT_ID`. Changing env vars doesn't touch the running deployment. **From here on, any push to `main` builds against the new DB**, so the code freeze (0.2) matters.
+5. Rebuild production from the **same commit** B2 was tested on: Vercel → Deployments → the current production deployment (step 3) → **Redeploy**, with "Use existing Build Cache" **unchecked**. No code change and no merge is needed. `VITE_*` values are inlined at build time, so this rebuild is what switches the site. Check that the new deployment's commit SHA equals B2's.
 6. Run the **POST** tests:
    - capture B3 and diff it against B2
    - A1–A3, A10, A14–A16, B1, B3, B16, C7, D-POST and E1/E2
    - grep the live bundle: the new ref must be present and the old one absent
 7. End the freeze. Heidi hard-reloads, logs in again (the session key changed), and makes one real edit.
-8. Point the Preview and Development scopes at the new values, and remove the branch-scoped overrides.
-9. Switch on the gig ticket fields (their columns already exist): follow §6.2a "Switching it on", then run tests G1–G6.
+8. Point the Preview and Development scopes at the new values. (The rehearsal preview's values were passed on the CLI, so there are no overrides to clean up.)
+9. Switch on the gig ticket fields (their columns already exist): follow §6.2a "Switching it on" (a commit on `main`, then push), then run tests G1–G6.
 
 **Rollback:**
 - **Fast:** Vercel → Deployments → the step-3 deployment → **Instant Rollback**. Its bundle and runtime env still point at Lovable, so no rebuild is needed. On Hobby you can only roll back to the previous production deployment, so do it before any other production deploy.
