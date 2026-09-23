@@ -208,7 +208,7 @@ const KeikatPage = () => {
         <div
           className={`absolute inset-0 bg-cover bg-bottom bg-no-repeat transition-opacity duration-700 ${heroImageLoaded ? "opacity-100" : "opacity-0"}`}
           style={{
-            backgroundImage: `url(${heroImageSrc})`,
+            backgroundImage: heroImageSrc ? `url(${heroImageSrc})` : undefined,
           }}
         />
 
