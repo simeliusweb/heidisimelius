@@ -325,7 +325,7 @@ const DualImageUploader = ({
 
             <Button
               type="submit"
-              disabled={isUpdating}
+              disabled={isUpdating || form.formState.isSubmitting}
               className="flex w-fit ml-auto"
             >
               {isUpdating ? (
