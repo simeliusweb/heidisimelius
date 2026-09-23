@@ -21,8 +21,12 @@ const load = (l, f) => { const p = path.join(dir(l), f); return fs.existsSync(p)
 const metaA = load(A, "meta.json"), metaB = load(B, "meta.json");
 if (!metaA || !metaB) throw new Error("missing meta.json in one of the baselines");
 
+// Each capture's own deployment origin (every preview has its own hostname) becomes ORIGIN.
+const origins = [metaA.base, metaB.base].map((b) => new URL(b).host.replace(/[.]/g, "\\."));
+const originRe = new RegExp(`(https?://)?(${origins.join("|")})`, "g");
 const norm = (s) =>
   String(s)
+    .replace(originRe, (m, scheme) => (scheme ? "https://ORIGIN" : "ORIGIN"))
     .replace(/[a-z0-9]{20}\.supabase\.co/g, "REF.supabase.co")
     .replace(/\/assets\/(index|[A-Za-z]+)-[A-Za-z0-9_-]{8}\.(js|css)/g, "/assets/$1-H.$2")
     .replace(/sb_publishable_[A-Za-z0-9_-]+/g, "KEY")
@@ -30,6 +34,7 @@ const norm = (s) =>
     .replace(/<lastmod>[^<]*<\/lastmod>/g, "<lastmod/>");
 const deep = (v) => (Array.isArray(v) ? v.map(deep) : v && typeof v === "object" ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, deep(v[k])])) : typeof v === "string" ? norm(v) : v);
 const diffs = [];
+const warnings = [];
 const cmp = (where, a, b) => { const x = JSON.stringify(deep(a)), y = JSON.stringify(deep(b)); if (x !== y) diffs.push({ where, a: x.slice(0, 400), b: y.slice(0, 400) }); };
 const onVercel = (m) => m.env === "P" || m.env === "prod";
 const skipped = [];
@@ -99,7 +104,9 @@ if ([...layers].some((l) => l.startsWith("rendered"))) {
         cmp(`rendered ${r} counts`, a.counts, b.counts);
         cmp(`rendered ${r} images`, a.images.map((i) => ({ src: i.src, alt: i.alt, loaded: i.w > 0 })), b.images.map((i) => ({ src: i.src, alt: i.alt, loaded: i.w > 0 })));
         cmp(`rendered ${r} iframes`, a.iframes, b.iframes);
-        cmp(`rendered ${r} hosts`, [...a.requestHosts].sort(), [...b.requestHosts].sort());
+        // First-party and Supabase hosts only: third-party CDN/ad hosts vary by edge and by run.
+        const hosts = (l) => [...new Set(l.map(norm))].filter((h) => /^(ORIGIN|REF\.supabase\.co|fonts\.(googleapis|gstatic)\.com)$/.test(h)).sort();
+        cmp(`rendered ${r} hosts`, hosts(a.requestHosts), hosts(b.requestHosts));
         cmp(`rendered ${r} console`, a.consoleErrors.filter((c) => !/spotify|youtube|lightwidget/i.test(c)), b.consoleErrors.filter((c) => !/spotify|youtube|lightwidget/i.test(c)));
       }
       if (layers.has("rendered-text")) {
@@ -111,13 +118,15 @@ if ([...layers].some((l) => l.startsWith("rendered"))) {
         }
       }
       if (layers.has("rendered-perf")) {
-        if (b.supabaseTiming.median > a.supabaseTiming.median + 100) diffs.push({ where: `perf ${r} supabase median`, a: a.supabaseTiming.median, b: b.supabaseTiming.median });
-        if (a.lcp?.ms > 0 && b.lcp?.ms > a.lcp.ms * 1.3) diffs.push({ where: `perf ${r} LCP`, a: a.lcp, b: b.lcp });
+        // Single samples: reported as warnings, not gate failures (F1/F5 gate performance with medians).
+        if (b.supabaseTiming.median > a.supabaseTiming.median + 100) warnings.push({ where: `perf ${r} supabase median`, a: a.supabaseTiming.median, b: b.supabaseTiming.median });
+        if (a.lcp?.ms > 0 && b.lcp?.ms > a.lcp.ms * 1.3) warnings.push({ where: `perf ${r} LCP`, a: JSON.stringify(a.lcp), b: JSON.stringify(b.lcp) });
       }
     }
   }
 }
 
-console.log(JSON.stringify({ A, B, envs: [metaA.env, metaB.env], layers: [...layers], skipped, drift, differences: diffs.length }, null, 1));
+console.log(JSON.stringify({ A, B, envs: [metaA.env, metaB.env], layers: [...layers], skipped, drift, differences: diffs.length, warnings: warnings.length }, null, 1));
 for (const d of diffs.slice(0, 60)) console.log(`- ${d.where}\n    A: ${d.a}\n    B: ${d.b}`);
+for (const w of warnings) console.log(`~ warning ${w.where}\n    A: ${w.a}\n    B: ${w.b}`);
 process.exit(drift ? 3 : diffs.length ? 1 : 0);
