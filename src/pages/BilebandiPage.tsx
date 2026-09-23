@@ -32,6 +32,7 @@ import {
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { toast } from "@/hooks/use-toast";
+import useSpamGuard from "@/hooks/useSpamGuard";
 
 const bookingFormSchema = z.object({
   name: z.string().min(2, { message: "Nimi on pakollinen" }),
@@ -57,6 +58,7 @@ const BilebandiPage = () => {
       message: "",
     },
   });
+  const { honeypotProps, getSpamFields, resetSpamGuard } = useSpamGuard();
 
   const heroImageLoaded = useImagePreload("/images/Heidi-and-the-hot-stuff/bilebandi-Heidi-Simelius-hot-stuff.jpg");
 
@@ -76,6 +78,7 @@ const BilebandiPage = () => {
           date: format(data.date, "d.M.yyyy"),
           location: data.location,
           eventType: data.eventType,
+          ...getSpamFields(),
         }),
       });
 
@@ -90,6 +93,7 @@ const BilebandiPage = () => {
         description: "Olemme yhteydessä sinuun pian.",
       });
       form.reset();
+      resetSpamGuard();
     } catch (error) {
       toast({
         title: "Virhe lähetyksessä",
@@ -522,16 +526,10 @@ const BilebandiPage = () => {
                 )}
               />
 
-              {/* Honeypot field - invisible to humans */}
-              <div className="sr-only">
-                <label htmlFor="website">Website</label>
-                <input
-                  type="text"
-                  name="website"
-                  id="website"
-                  tabIndex={-1}
-                  autoComplete="off"
-                />
+              {/* Honeypot field - invisible to humans, sent as `website` */}
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor={honeypotProps.id}>Jätä tyhjäksi</label>
+                <input {...honeypotProps} />
               </div>
 
               <Button

@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import * as Brevo from "@getbrevo/brevo";
+import { assessSpam, type SpamAssessment } from "./_lib/spamCheck.js";
 
 // CORS headers
 const corsHeaders = {
@@ -12,6 +13,11 @@ const corsHeaders = {
 const RECIPIENT_EMAIL = "simelius.heidi@gmail.com";
 const SENDER_EMAIL = "heidi@heidisimelius.fi";
 const SENDER_NAME = "HeidiSimelius.fi";
+// Submissions classified as spam go to the tech inbox instead of Heidi, so a
+// misclassified customer message is never lost, only rerouted.
+const SPAM_REVIEW_EMAIL = "simeliusweb@gmail.com";
+const SPAM_SUBJECT_PREFIX = "[ROSKAPOSTI]";
+const SUSPECT_SUBJECT_PREFIX = "[Mahdollinen roskaposti]";
 
 interface EmailRequest {
   formType: "contact" | "booking";
@@ -103,14 +109,23 @@ function validateRequest(body: unknown): ValidationResult {
   return { valid: true, data: validatedData };
 }
 
-function generateEmailContent(data: EmailRequest): {
+function generateEmailContent(
+  data: EmailRequest,
+  spam: SpamAssessment
+): {
   subject: string;
   html: string;
 } {
-  const subject =
+  const baseSubject =
     data.formType === "contact"
       ? `HeidiSimelius.fi - yhteydenotto: ${data.name}`
       : `Heidi & The Hot Stuff -yhteydenotto: ${data.name}`;
+  const subject =
+    spam.verdict === "spam"
+      ? `${SPAM_SUBJECT_PREFIX} ${baseSubject}`
+      : spam.verdict === "suspect"
+        ? `${SUSPECT_SUBJECT_PREFIX} ${baseSubject}`
+        : baseSubject;
 
   const html = `
     <!DOCTYPE html>
@@ -193,8 +208,25 @@ function generateEmailContent(data: EmailRequest): {
             }</h1>
           </div>
           <div class="content">
+            ${
+              spam.verdict !== "ham"
+                ? `
             <div class="field">
-              <div class="label">Nimi</div>
+              <div class="label">Roskapostisuodatin: ${escapeHtml(
+                spam.verdict
+              )} (pisteet ${spam.score})</div>
+              <div class="value">${spam.reasons
+                .map((reason) => escapeHtml(reason))
+                .join("<br>")}</div>
+            </div>
+            `
+                : ""
+            }
+            <div class="field">
+              <div class="label">${
+                // The contact form labels this field "Aihe" (subject) for visitors
+                data.formType === "contact" ? "Aihe" : "Nimi"
+              }</div>
               <div class="value highlight">${escapeHtml(data.name)}</div>
             </div>
             <div class="field">
@@ -297,18 +329,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 
-  // 🍯 Honeypot Check
-  // If the 'website' field (our honeypot) is filled, it's a bot.
-  if (req.body.website) {
-    console.log("Honeypot triggered. Silently ignoring submission.");
-    // We send a success response to trick the bot into thinking it worked.
-    return res.status(200).json({
-      success: true,
-      message: "Email sent successfully",
-      ...corsHeaders,
-    });
-  }
-
   try {
     const apiKey = process.env.BREVO_API_KEY;
     if (!apiKey) {
@@ -335,18 +355,43 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // TypeScript now knows that validation.valid === true, so validation.data exists
     const emailData = validation.data;
 
+    // 🍯 Spam check: honeypot, submit speed and content heuristics.
+    // Spam is rerouted to the tech inbox (never dropped) and the bot still gets
+    // a normal success response, so it can't tell it was caught.
+    const body = req.body as Record<string, unknown>;
+    const spam = assessSpam({
+      ...emailData,
+      website: typeof body.website === "string" ? body.website : undefined,
+      elapsedMs:
+        typeof body.elapsedMs === "number" ? body.elapsedMs : undefined,
+    });
+    if (spam.verdict !== "ham") {
+      console.log(
+        `Spam check: ${spam.verdict} (score ${spam.score}): ${spam.reasons.join("; ")}`
+      );
+    }
+
     // NEW: Configure Brevo API with the new package
     const apiInstance = new Brevo.TransactionalEmailsApi();
     apiInstance.setApiKey(Brevo.TransactionalEmailsApiApiKeys.apiKey, apiKey);
 
-    const { subject, html } = generateEmailContent(emailData);
+    const { subject, html } = generateEmailContent(emailData, spam);
 
     // Create email instance (uses 'Brevo' instead of 'SibApiV3Sdk')
     const sendSmtpEmail = new Brevo.SendSmtpEmail();
 
     sendSmtpEmail.sender = { name: SENDER_NAME, email: SENDER_EMAIL };
-    sendSmtpEmail.to = [{ email: RECIPIENT_EMAIL }];
-    sendSmtpEmail.replyTo = { email: emailData.email, name: emailData.name };
+    sendSmtpEmail.to = [
+      {
+        email:
+          spam.verdict === "spam" ? SPAM_REVIEW_EMAIL : RECIPIENT_EMAIL,
+      },
+    ];
+    // The contact form's "name" field is a subject line, not a person's name
+    sendSmtpEmail.replyTo =
+      emailData.formType === "booking"
+        ? { email: emailData.email, name: emailData.name }
+        : { email: emailData.email };
     sendSmtpEmail.subject = subject;
     sendSmtpEmail.htmlContent = html;
 

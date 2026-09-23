@@ -20,6 +20,7 @@ import {
   FaTiktok,
 } from "react-icons/fa";
 import { toast } from "@/hooks/use-toast";
+import useSpamGuard from "@/hooks/useSpamGuard";
 import { ExternalLink } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
@@ -75,6 +76,7 @@ const Footer = () => {
       message: "",
     },
   });
+  const { honeypotProps, getSpamFields, resetSpamGuard } = useSpamGuard();
 
   const onSubmit = async (data: z.infer<typeof contactSchema>) => {
     try {
@@ -89,6 +91,7 @@ const Footer = () => {
           email: data.email,
           phone: "",
           message: data.message,
+          ...getSpamFields(),
         }),
       });
 
@@ -103,6 +106,7 @@ const Footer = () => {
         description: "Palaan sinulle mahdollisimman pian.",
       });
       form.reset();
+      resetSpamGuard();
     } catch (error) {
       toast({
         title: "Virhe lähetyksessä",
@@ -215,16 +219,10 @@ const Footer = () => {
                   )}
                 />
 
-                {/* Honeypot field - invisible to humans */}
-                <div className="sr-only">
-                  <label htmlFor="website">Website</label>
-                  <input
-                    type="text"
-                    name="website"
-                    id="website"
-                    tabIndex={-1}
-                    autoComplete="off"
-                  />
+                {/* Honeypot field - invisible to humans, sent as `website` */}
+                <div className="sr-only" aria-hidden="true">
+                  <label htmlFor={honeypotProps.id}>Jätä tyhjäksi</label>
+                  <input {...honeypotProps} />
                 </div>
 
                 <Button
