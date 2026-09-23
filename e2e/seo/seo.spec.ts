@@ -103,7 +103,9 @@ const UAS: Record<string, string> = {
   "python-requests": "python-requests/2.32.3",
   empty: "",
 };
-const bodyHash = (s: string) => crypto.createHash("sha256").update(s.replace(/index-[A-Za-z0-9_-]+\.(js|css)/g, "index-H.$1").replace(/[a-z0-9]{20}\.supabase\.co/g, "REF")).digest("hex").slice(0, 16);
+// Vercel injects its feedback-toolbar script into preview HTML for browser user agents only.
+const stripPreviewToolbar = (s: string) => s.replace(/<script[^>]*vercel\.live\/_next-live\/feedback[^>]*><\/script>/g, "");
+const bodyHash = (s: string) => crypto.createHash("sha256").update(stripPreviewToolbar(s).replace(/index-[A-Za-z0-9_-]+\.(js|css)/g, "index-H.$1").replace(/[a-z0-9]{20}\.supabase\.co/g, "REF")).digest("hex").slice(0, 16);
 
 spec({ id: "D8", title: "crawler UAs get the same status and body as a browser", tier: "gate", env: ["prod", "P"], data: "read", post: false, extraTags: ["@post-gate"] }, async (_args, info) => {
   test.setTimeout(300_000);

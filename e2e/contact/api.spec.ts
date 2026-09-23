@@ -53,7 +53,7 @@ spec({ id: "C8", title: "validation matrix, exact limits, methods", tier: "regre
   const bad: Record<string, unknown>[] = [
     {}, { ...base, name: "" }, { ...base, name: "   " }, { ...base, name: 5 }, { ...base, email: "nope" }, { ...base, email: 1 },
     { ...base, message: "" }, { ...base, message: " " }, { ...base, formType: undefined }, { ...base, formType: "booking" },
-    { ...base, formType: "booking", phone: "  " }, { ...base, name: "n".repeat(101) }, { ...base, email: `${"a".repeat(250)}@b.fi` }, { ...base, message: "m".repeat(2001) },
+    { ...base, formType: "booking", phone: "  " }, { ...base, name: "n".repeat(101) }, { ...base, email: `${"a".repeat(251)}@b.fi` } /* 256 chars: over the 255 limit */, { ...base, message: "m".repeat(2001) },
   ];
   for (const b of bad) expect((await postSendEmail(request, b)).status(), JSON.stringify(b).slice(0, 80)).toBe(400);
   // Exact limits pass validation: honeypot only.
