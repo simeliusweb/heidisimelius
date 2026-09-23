@@ -269,7 +269,8 @@ ADMIN_2_EMAIL=             # only if P8 names more admins
 LOVABLE_PLAN=  LOVABLE_CREDITS=  LOVABLE_CLOUD_BILLED_FROM=   # P4
 LOVABLE_EDITOR_CAN_REVOKE=  # P4: yes|no
 # decisions (§6.2) and pre-authorisations (§6.3)
-D1=  D3=eu-north-1  D4=keep  D6=all75  D7=4w/6w  D-SEC=yes  D-FIX=yes  D-LOCK=delete-bun  D-SUITE=keep
+D1=  D3=eu-north-1  D4=keep  D6=all75  D7=4w/6w  D_SEC=yes  D_FIX=yes  D_LOCK=delete-bun  D_SUITE=keep
+# (the file uses D_SEC/D_FIX/D_LOCK/D_SUITE: hyphens aren't valid in shell variable names; the plan text says D-SEC etc.)
 PA_LOVABLE_EXPORT=yes  PA_OLD_DB_FREEZE=yes  PA_PROD_ENV_SWITCH=yes  PA_PREVIEW_ENV_SWITCH=yes
 PA_AUTO_ROLLBACK=yes  PA_PROD_TEST_WRITES=yes  PA_SPAM_PATH_EMAIL=yes  PA_BREW_LIBPQ=yes
 PREP_DONE_AT=
@@ -327,7 +328,7 @@ PREP_DONE_AT=
    - D4 = keep the passwords during the migration. Rotating is a follow-up, so Heidi's password doesn't change at go-live.
 9. **P9 Decisions and pre-authorisations:** fill in §6.2 and §6.3.
 10. **P10 Preflight (agent, about 5 min; stay at the keyboard until it's green):**
-    - Supabase: `GET /v1/organizations` is exactly `simeliusweb`. The project is `ACTIVE_HEALTHY` in eu-north-1. `GET /v1/projects/$NEW_REF/config/auth` shows `disable_signup=true`.
+    - Supabase: the project's `organization_id` = `SUPABASE_ORG_SLUG`. The project is `ACTIVE_HEALTHY` in eu-north-1. (Verified 2026-09-23: project `heidisimeliusfi`, PG 17.6, Free plan, 0 users/tables/buckets.) `GET /v1/projects/$NEW_REF/config/auth` shows `disable_signup=true`.
     - Vercel: `GET /v9/projects/$VERCEL_PROJECT_ID` returns 200.
     - `vercel env ls --format json`: names and targets only. Record whether `VITE_SUPABASE_*` are **shared records** across targets, and whether `BREVO_API_KEY` and `CRON_SECRET` are in Preview.
     - Bypass: a GET on the latest preview with the header returns 200 (without it: 302 to the SSO page).
@@ -414,7 +415,7 @@ Nothing in the data path depends on 2A.
 
 | ID | Action | Success | Halt |
 |---|---|---|---|
-| 2B.0 | `GET /v1/organizations` → exactly `simeliusweb`; `GET /v1/projects/$NEW_REF` → org matches | yes | **STOP-ALL** if not |
+| 2B.0 | `GET /v1/projects/$NEW_REF` → `organization_id` = `SUPABASE_ORG_SLUG` (the owner copied it from the simeliusweb org page), name `heidisimeliusfi`, region eu-north-1. The PAT can't list organisations (`GET /v1/organizations` returns `[]`), so don't rely on that. | yes | **STOP-ALL** if not |
 | 2B.1 | **Auth lockdown.** `PATCH /v1/projects/$NEW_REF/config/auth` with: `disable_signup:true, external_anonymous_users_enabled:false, external_email_enabled:true, mailer_autoconfirm:false, security_manual_linking_enabled:false, site_url:"https://www.heidisimelius.fi", uri_allow_list:"https://www.heidisimelius.fi/**,https://heidisimelius.fi/**,http://localhost:8080/**,http://localhost:4173/**", refresh_token_rotation_enabled:true, jwt_exp:3600, password_min_length:<min(12, len(current admin pw))>`, plus `password_hibp_enabled:true` if D1=Pro. Then GET to verify. | GET matches | STOP-ALL on mismatch |
 | 2B.2 | **User gate #1:** `GET $NEW_URL/auth/v1/admin/users` (secret key) → 0 users | 0 | STOP-ALL |
 | 2B.2k | **Keys:** `GET …/api-keys?reveal=true` → `NEW_PUB`. `POST …/api-keys` `{type:"secret",name:"migration_agent"}` → `NEW_SECRET`, `NEW_SECRET_ID`, written straight into `.env.generated` with `jq` and never echoed. If legacy keys are listed: `PUT …/api-keys/legacy?enabled=false`. | keys present | — |
