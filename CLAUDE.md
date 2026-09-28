@@ -76,7 +76,7 @@ const { data } = useQuery({ queryKey: ["gigs"], queryFn: fetchGigs });
 - `CRON_SECRET` — runtime only; `api/keep-db-alive.ts` refuses every call without it
 
 ### Backend (Supabase)
-The database, storage and auth live in our own Supabase project `neqprqqhiifqemphpwhu` (eu-north-1) in the **simeliusweb** organisation. It replaced Lovable Cloud (`yctdrwogilljanzxcgow`) in September 2026; Lovable is disconnected from the repo, so don't reconnect it or use its AI.
+The database, storage and auth live in our own Supabase project `neqprqqhiifqemphpwhu` (eu-north-1) in the **simeliusweb** organisation. It replaced Lovable Cloud (`yctdrwogilljanzxcgow`) in September 2026; the Lovable account was deleted on 2026-09-28, so that project no longer exists. Off-platform backups go to Cloudflare R2 (`docs/migration-followups.md` → "Backups").
 
 - **Never use this machine's Supabase CLI or Supabase MCP**: they are logged in to another client's account. Use the Management API (`https://api.supabase.com/v1/projects/neqprqqhiifqemphpwhu/...`) with the owner's personal access token.
 - Schema changes go in `supabase/migrations/` and are applied through the Management API. The public tables need explicit grants (`20260923120100_grant_data_api_roles.sql`), and CMS writes require the `app_metadata.cms_admin` claim (`20260923120200_cms_admin_claim.sql`), which only the service role can set.
