@@ -58,13 +58,34 @@ It stays useful only for R-C (listing the rows changed since `artifacts/8/q4-fin
 | after the horizon | **Gig ticket fields on** (separate owner-pushed commit): apply the `types.ts` hunk from `git show 6959434 -- src/integrations/supabase/types.ts` (2 columns), set `GIG_TICKET_FIELDS_ENABLED = true` in `src/components/admin/gigTicketFieldsSchema.ts`, `npx tsc --noEmit -p tsconfig.app.json && npm run lint && npm run build && npm run test:unit`, pre-check G1–G11 on a local build against the new DB (plan Appendix C "Ticket fields"; CMS writes need a recreated test admin: `users.mjs` + a temp key, delete both after). Owner pushes. Then G1–G11 on prod with `ALLOW_PROD_WRITES=1`, E2E-TESTI rows only. | |
 | after the horizon | Delete the dead env vars `SUPABASE_FUNCTION_URL` (all targets) and `VITE_SUPABASE_PROJECT_ID` (preview+production) in Vercel: nothing reads them | Vercel API with the token (names in `prod-env.mjs --show`) | |
 | after the horizon | The owner / Heidi enter real ticket prices and durations; fix the tour gigs' combined venue data (K-DATA) | CMS | |
-| Week 1 (by 30.9) | **Backups** (Free has none): owner decision — Pro ($25/mo, 7-day backups) or a daily GitHub Action in a PRIVATE repo running `pg_dump` (v17 client) through the session pooler + a weekly storage mirror. Then **E22 restore drill**. Meanwhile the local archive exists: `exports/*-old-H_old0/` + `exports/storage-mirror/` (as of GL). | | |
+| Week 1 (by 30.9) | **Backups**: decided 28.9 = daily GitHub Action → Cloudflare R2 (see "Backups" below). Then **E22 restore drill**. The local archive from GL also exists: `exports/*-old-H_old0/` + `exports/storage-mirror/`. | first manual run 28.9: db + media in R2 | **done 28.9; E22 passed** (restored the R2 dump into `postgres:17`: 4 tables md5 = live; media 75/75 files = GL mirror sha256) |
 | Week 1 and 4 | E23: usage/egress < 50 % of the Free limits | Supabase dashboard → Usage (or the Management API) | **wk 1 done 28.9:** DB 12 MB / 500, storage 40 MB / 1 GB, <120 REST req/day |
 | G+14 d (7.10) | GSC: Coverage + Events clean; Rich Results Test (D4, D7) | GSC property `sc-domain:heidisimelius.fi` (MCP browser) | |
 | G+28 d (21.10) | F3: PSI/CrUX field data vs before | PSI API | |
 | ~23.10 | PAT + Vercel token expire | Let them expire, or the owner revokes them | |
 | Week 4 (≈21.10) | Final Lovable check: `copy-storage --verify-only` (old ⊆ new), a last Q4. Then the **owner Pauses Lovable Cloud** | | |
 | Week 6+ (≥4.11) | The **owner Removes Lovable Cloud / deletes the Lovable project** (not before: it's the fallback). Cancel/downgrade the plan. Revoke the Vercel bypass secret "migration-e2e". Rotate both CMS passwords (and set `password_min_length` back to 12 if it changes). Move `READY.md` + exports to the vault, then delete them here. Update the memory note. | | |
+
+## Backups (set up 2026-09-28)
+- Private repo `simeliusweb/heidisimelius-backup` (only `simeliusweb` can open it), workflow `.github/workflows/db-backup.yml`
+  (source copy: `../heidisimelius-backup/` next to this repo). Daily 03:00 UTC `pg_dump --schema=public -Fc` → `db/` (30 days);
+  Mondays 03:30 UTC every Storage object + `manifest.tsv` as a tar.gz → `media/` (90 days). Run by hand: Actions → Backup → Run workflow (runs both).
+- Destination: Cloudflare account simeliusweb@gmail.com, R2 bucket `heidisimelius-backups` (EU jurisdiction, private), endpoint
+  `https://df8b5349b8573e0ed1f4909aaf5cd520.eu.r2.cloudflarestorage.com`. Account API token `heidisimelius-backup-github-actions`
+  (Object Read & Write, this bucket only). The token's `cfat…` value is not used.
+- DB login: role `backup_ro` (`supabase/migrations/20260928100000_backup_ro_role.sql`: SELECT on public + `storage.objects`, BYPASSRLS,
+  no writes) through the session pooler `aws-0-eu-north-1.pooler.supabase.com:5432`, user `backup_ro.neqprqqhiifqemphpwhu`. The URL is in
+  the repo secret `SUPABASE_DB_URL` and in `~/.heidisimelius-migration/backup_ro.env`. New password: `alter role backup_ro with password …`
+  via `sbq()`, then update both.
+- Not in the backup: the auth schema (the 2 CMS admins; recreate with `users.mjs`).
+- Drill notes (E22, 28.9): the dump contains `CREATE SCHEMA public` and policies that use role `authenticated` and `auth.jwt()`. On a plain
+  Postgres, `drop schema public cascade`, create roles `anon`/`authenticated`/`service_role` and a stub `auth.jwt()` first. Download from the
+  dashboard (object → Download) or with the R2 keys. The first scheduled run failed its upload with an SSL handshake error because the new
+  account's R2 certificate wasn't ready yet; a re-run minutes later passed.
+- **Restore** (into a fresh Supabase project, or a local `postgres:17` for the drill): apply `supabase/migrations/*` in order, then
+  `pg_restore --data-only --no-owner --disable-triggers -d "$TARGET" heidisimelius-db-….dump` (on a plain local Postgres, which has none of
+  Supabase's roles, use `--no-owner --no-privileges` without `--data-only` instead). Storage: untar `media/`, upload each file to
+  `<bucket>/<name>` from `manifest.tsv` (`copy-storage.mjs` has the upload code), recreate the admins, point the Vercel env at the project.
 
 ## Rollback (only while the horizon lasts, and only for a broken site)
 Plan §15. Summary: `vercel rollback dpl_6yobH7Aoj6QAVcdUeWrhLXcbcoda` (owner token), `node scripts/migration/prod-env.mjs --to old`
